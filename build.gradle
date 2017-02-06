@@ -1,0 +1,104 @@
+plugins {
+   id 'us.ihmc.gradle.ihmc-build' version '0.0.9'
+}
+
+apply plugin: 'java'
+apply plugin: 'maven-publish'
+apply plugin: 'application'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+version = '0.1'
+
+project.ext.fullVersion = version
+project.ext.vcsUrl = "https://stash.ihmc.us/projects/LIBS/repos/ihmcjavartps"
+project.ext.licenseURL = "http://www.apache.org/licenses/LICENSE-2.0.txt"
+project.ext.licenseName = "Apache License, Version 2.0"
+project.ext.bintrayLicenseName = "Apache-2.0"
+
+sourceSets {
+	main {
+		java {
+		}
+	}
+}
+
+repositories {
+  jcenter()
+  mavenCentral()
+  maven {
+      url  "http://dl.bintray.com/ihmcrobotics/maven-release"
+  }
+}
+
+dependencies {
+	compile group: 'junit', name: 'junit', version: '4.11'
+}
+
+
+
+task sourceJar(type: Jar) {
+	from sourceSets.main.allJava
+}
+
+jar {
+   manifest {
+      attributes(
+      "Created-By": "IHMC Gradle Build Script",
+      "Implementation-Title": project.name,
+      "Implementation-Version": project.version,
+      "Implementation-Vendor": "IHMC",
+
+      "Bundle-Name": project.name,
+      "Bundle-Version": project.version,
+      "Bundle-License": "http://www.apache.org/licenses/LICENSE-2.0.txt",
+      "Bundle-Vendor": "IHMC")
+   }
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.8'
+}
+
+publishing {
+	publications {
+		mavenJava(MavenPublication) {
+
+			groupId 'us.ihmc'
+			artifactId project.name
+			version "$version"
+			from components.java
+
+			pom.withXml {
+                            asNode().children().last() + {
+                                resolveStrategy = Closure.DELEGATE_FIRST
+                                name project.name
+                                url 'https://stash.ihmc.us/projects/LIBS/repos/ihmcjavartps'
+                                licenses {
+                                    license {
+                                        name 'The Apache Software License, Version 2.0'
+                                        url 'http://www.apache.org/license/LICENSE-2.0.txt'
+                                        distribution 'repo'
+                                    }
+                                }
+                                developers {
+                                    developer {
+                                        id 'jsmith'
+                                        name 'Jesper Smith'
+                                        email 'jsmith@ihmc.us'
+                                    }
+                                }
+                            }
+
+                            }
+
+
+			artifact sourceJar {
+				classifier "sources"
+			}
+		}
+	}
+}
+
+def labels = ['ihmc', 'java', 'rtps', 'dds', 'net']
+ihmc.configureForIHMCOpenSourceBintrayPublish(false, "mavenJava", "maven-release", labels)
