@@ -689,6 +689,20 @@ SWIGINTERN void std_vector_Sl_unsigned_SS_char_Sg__set(std::vector< unsigned cha
                 else
                     throw std::out_of_range("vector index out of range");
             }
+SWIGINTERN std::vector< std::string >::const_reference std_vector_Sl_std_string_Sg__get(std::vector< std::string > *self,int i){
+                int size = int(self->size());
+                if (i>=0 && i<size)
+                    return (*self)[i];
+                else
+                    throw std::out_of_range("vector index out of range");
+            }
+SWIGINTERN void std_vector_Sl_std_string_Sg__set(std::vector< std::string > *self,int i,std::vector< std::string >::value_type const &val){
+                int size = int(self->size());
+                if (i>=0 && i<size)
+                    (*self)[i] = val;
+                else
+                    throw std::out_of_range("vector index out of range");
+            }
 
 static unsigned char *new_octetArray(int nelements) { 
   return new unsigned char[nelements](); 
@@ -706,13 +720,19 @@ static void octetArray_setitem(unsigned char *ary, int index, unsigned char valu
 }
 
 
+#include "nativeparticipantimpl.h"
+
+
+
 #include <fastrtps/rtps/common/Locator.h>
 #include <fastrtps/rtps/common/Time_t.h>
 #include <fastrtps/rtps/flowcontrol/ThroughputController.h>
 #include <fastrtps/rtps/attributes/RTPSParticipantAttributes.h>
 
-#include "nativeparticipantimpl.h"
 
+
+
+#include <fastrtps/attributes/PublisherAttributes.h>
 
 
 
@@ -958,6 +978,186 @@ SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_delete_1octe
   (void)jenv;
   (void)jcls;
   arg1 = *(std::vector< unsigned char > **)&jarg1; 
+  delete arg1;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_new_1stringVector_1_1SWIG_10(JNIEnv *jenv, jclass jcls) {
+  jlong jresult = 0 ;
+  std::vector< std::string > *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  result = (std::vector< std::string > *)new std::vector< std::string >();
+  *(std::vector< std::string > **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_new_1stringVector_1_1SWIG_11(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+  jlong jresult = 0 ;
+  std::vector< std::string >::size_type arg1 ;
+  std::vector< std::string > *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = (std::vector< std::string >::size_type)jarg1; 
+  result = (std::vector< std::string > *)new std::vector< std::string >(arg1);
+  *(std::vector< std::string > **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_stringVector_1size(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  std::vector< std::string > *arg1 = (std::vector< std::string > *) 0 ;
+  std::vector< std::string >::size_type result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(std::vector< std::string > **)&jarg1; 
+  result = ((std::vector< std::string > const *)arg1)->size();
+  jresult = (jlong)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_stringVector_1capacity(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  std::vector< std::string > *arg1 = (std::vector< std::string > *) 0 ;
+  std::vector< std::string >::size_type result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(std::vector< std::string > **)&jarg1; 
+  result = ((std::vector< std::string > const *)arg1)->capacity();
+  jresult = (jlong)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_stringVector_1reserve(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2) {
+  std::vector< std::string > *arg1 = (std::vector< std::string > *) 0 ;
+  std::vector< std::string >::size_type arg2 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(std::vector< std::string > **)&jarg1; 
+  arg2 = (std::vector< std::string >::size_type)jarg2; 
+  (arg1)->reserve(arg2);
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_stringVector_1isEmpty(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jboolean jresult = 0 ;
+  std::vector< std::string > *arg1 = (std::vector< std::string > *) 0 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(std::vector< std::string > **)&jarg1; 
+  result = (bool)((std::vector< std::string > const *)arg1)->empty();
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_stringVector_1clear(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  std::vector< std::string > *arg1 = (std::vector< std::string > *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(std::vector< std::string > **)&jarg1; 
+  (arg1)->clear();
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_stringVector_1add(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jstring jarg2) {
+  std::vector< std::string > *arg1 = (std::vector< std::string > *) 0 ;
+  std::vector< std::string >::value_type *arg2 = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(std::vector< std::string > **)&jarg1; 
+  if(!jarg2) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null string");
+    return ;
+  }
+  const char *arg2_pstr = (const char *)jenv->GetStringUTFChars(jarg2, 0); 
+  if (!arg2_pstr) return ;
+  std::vector< std::string >::value_type arg2_str(arg2_pstr);
+  arg2 = &arg2_str;
+  jenv->ReleaseStringUTFChars(jarg2, arg2_pstr); 
+  (arg1)->push_back((std::vector< std::string >::value_type const &)*arg2);
+}
+
+
+SWIGEXPORT jstring JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_stringVector_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2) {
+  jstring jresult = 0 ;
+  std::vector< std::string > *arg1 = (std::vector< std::string > *) 0 ;
+  int arg2 ;
+  std::vector< std::string >::value_type *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(std::vector< std::string > **)&jarg1; 
+  arg2 = (int)jarg2; 
+  try {
+    result = (std::vector< std::string >::value_type *) &std_vector_Sl_std_string_Sg__get(arg1,arg2);
+  }
+  catch(std::out_of_range &_e) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaIndexOutOfBoundsException, (&_e)->what());
+    return 0;
+  }
+  
+  jresult = jenv->NewStringUTF(result->c_str()); 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_stringVector_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2, jstring jarg3) {
+  std::vector< std::string > *arg1 = (std::vector< std::string > *) 0 ;
+  int arg2 ;
+  std::vector< std::string >::value_type *arg3 = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(std::vector< std::string > **)&jarg1; 
+  arg2 = (int)jarg2; 
+  if(!jarg3) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null string");
+    return ;
+  }
+  const char *arg3_pstr = (const char *)jenv->GetStringUTFChars(jarg3, 0); 
+  if (!arg3_pstr) return ;
+  std::vector< std::string >::value_type arg3_str(arg3_pstr);
+  arg3 = &arg3_str;
+  jenv->ReleaseStringUTFChars(jarg3, arg3_pstr); 
+  try {
+    std_vector_Sl_std_string_Sg__set(arg1,arg2,(std::string const &)*arg3);
+  }
+  catch(std::out_of_range &_e) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaIndexOutOfBoundsException, (&_e)->what());
+    return ;
+  }
+  
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_delete_1stringVector(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+  std::vector< std::string > *arg1 = (std::vector< std::string > *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = *(std::vector< std::string > **)&jarg1; 
   delete arg1;
 }
 
@@ -2748,6 +2948,3850 @@ SWIGEXPORT jboolean JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_RTPSPart
 }
 
 
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_ThroughputControllerDescriptor_1bytesPerPeriod_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2) {
+  eprosima::fastrtps::rtps::ThroughputControllerDescriptor *arg1 = (eprosima::fastrtps::rtps::ThroughputControllerDescriptor *) 0 ;
+  uint32_t arg2 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::rtps::ThroughputControllerDescriptor **)&jarg1; 
+  arg2 = (uint32_t)jarg2; 
+  if (arg1) (arg1)->bytesPerPeriod = arg2;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_ThroughputControllerDescriptor_1bytesPerPeriod_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  eprosima::fastrtps::rtps::ThroughputControllerDescriptor *arg1 = (eprosima::fastrtps::rtps::ThroughputControllerDescriptor *) 0 ;
+  uint32_t result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::rtps::ThroughputControllerDescriptor **)&jarg1; 
+  result = (uint32_t) ((arg1)->bytesPerPeriod);
+  jresult = (jlong)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_ThroughputControllerDescriptor_1periodMillisecs_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2) {
+  eprosima::fastrtps::rtps::ThroughputControllerDescriptor *arg1 = (eprosima::fastrtps::rtps::ThroughputControllerDescriptor *) 0 ;
+  uint32_t arg2 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::rtps::ThroughputControllerDescriptor **)&jarg1; 
+  arg2 = (uint32_t)jarg2; 
+  if (arg1) (arg1)->periodMillisecs = arg2;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_ThroughputControllerDescriptor_1periodMillisecs_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  eprosima::fastrtps::rtps::ThroughputControllerDescriptor *arg1 = (eprosima::fastrtps::rtps::ThroughputControllerDescriptor *) 0 ;
+  uint32_t result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::rtps::ThroughputControllerDescriptor **)&jarg1; 
+  result = (uint32_t) ((arg1)->periodMillisecs);
+  jresult = (jlong)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_new_1ThroughputControllerDescriptor_1_1SWIG_10(JNIEnv *jenv, jclass jcls) {
+  jlong jresult = 0 ;
+  eprosima::fastrtps::rtps::ThroughputControllerDescriptor *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  result = (eprosima::fastrtps::rtps::ThroughputControllerDescriptor *)new eprosima::fastrtps::rtps::ThroughputControllerDescriptor();
+  *(eprosima::fastrtps::rtps::ThroughputControllerDescriptor **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_new_1ThroughputControllerDescriptor_1_1SWIG_11(JNIEnv *jenv, jclass jcls, jlong jarg1, jlong jarg2) {
+  jlong jresult = 0 ;
+  uint32_t arg1 ;
+  uint32_t arg2 ;
+  eprosima::fastrtps::rtps::ThroughputControllerDescriptor *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = (uint32_t)jarg1; 
+  arg2 = (uint32_t)jarg2; 
+  result = (eprosima::fastrtps::rtps::ThroughputControllerDescriptor *)new eprosima::fastrtps::rtps::ThroughputControllerDescriptor(arg1,arg2);
+  *(eprosima::fastrtps::rtps::ThroughputControllerDescriptor **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_delete_1ThroughputControllerDescriptor(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+  eprosima::fastrtps::rtps::ThroughputControllerDescriptor *arg1 = (eprosima::fastrtps::rtps::ThroughputControllerDescriptor *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = *(eprosima::fastrtps::rtps::ThroughputControllerDescriptor **)&jarg1; 
+  delete arg1;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_new_1ThroughputController_1_1SWIG_10(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2) {
+  jlong jresult = 0 ;
+  eprosima::fastrtps::rtps::ThroughputControllerDescriptor *arg1 = 0 ;
+  eprosima::fastrtps::rtps::RTPSWriter *arg2 = (eprosima::fastrtps::rtps::RTPSWriter *) 0 ;
+  eprosima::fastrtps::rtps::ThroughputController *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::rtps::ThroughputControllerDescriptor **)&jarg1;
+  if (!arg1) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "eprosima::fastrtps::rtps::ThroughputControllerDescriptor const & reference is null");
+    return 0;
+  } 
+  arg2 = *(eprosima::fastrtps::rtps::RTPSWriter **)&jarg2; 
+  result = (eprosima::fastrtps::rtps::ThroughputController *)new eprosima::fastrtps::rtps::ThroughputController((eprosima::fastrtps::rtps::ThroughputControllerDescriptor const &)*arg1,(eprosima::fastrtps::rtps::RTPSWriter const *)arg2);
+  *(eprosima::fastrtps::rtps::ThroughputController **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_new_1ThroughputController_1_1SWIG_11(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2) {
+  jlong jresult = 0 ;
+  eprosima::fastrtps::rtps::ThroughputControllerDescriptor *arg1 = 0 ;
+  eprosima::fastrtps::rtps::RTPSParticipantImpl *arg2 = (eprosima::fastrtps::rtps::RTPSParticipantImpl *) 0 ;
+  eprosima::fastrtps::rtps::ThroughputController *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::rtps::ThroughputControllerDescriptor **)&jarg1;
+  if (!arg1) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "eprosima::fastrtps::rtps::ThroughputControllerDescriptor const & reference is null");
+    return 0;
+  } 
+  arg2 = *(eprosima::fastrtps::rtps::RTPSParticipantImpl **)&jarg2; 
+  result = (eprosima::fastrtps::rtps::ThroughputController *)new eprosima::fastrtps::rtps::ThroughputController((eprosima::fastrtps::rtps::ThroughputControllerDescriptor const &)*arg1,(eprosima::fastrtps::rtps::RTPSParticipantImpl const *)arg2);
+  *(eprosima::fastrtps::rtps::ThroughputController **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_delete_1ThroughputController(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+  eprosima::fastrtps::rtps::ThroughputController *arg1 = (eprosima::fastrtps::rtps::ThroughputController *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = *(eprosima::fastrtps::rtps::ThroughputController **)&jarg1; 
+  delete arg1;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_new_1QosPolicy_1_1SWIG_10(JNIEnv *jenv, jclass jcls) {
+  jlong jresult = 0 ;
+  eprosima::fastrtps::QosPolicy *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  result = (eprosima::fastrtps::QosPolicy *)new eprosima::fastrtps::QosPolicy();
+  *(eprosima::fastrtps::QosPolicy **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_new_1QosPolicy_1_1SWIG_11(JNIEnv *jenv, jclass jcls, jboolean jarg1) {
+  jlong jresult = 0 ;
+  bool arg1 ;
+  eprosima::fastrtps::QosPolicy *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = jarg1 ? true : false; 
+  result = (eprosima::fastrtps::QosPolicy *)new eprosima::fastrtps::QosPolicy(arg1);
+  *(eprosima::fastrtps::QosPolicy **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_delete_1QosPolicy(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+  eprosima::fastrtps::QosPolicy *arg1 = (eprosima::fastrtps::QosPolicy *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = *(eprosima::fastrtps::QosPolicy **)&jarg1; 
+  delete arg1;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_QosPolicy_1hasChanged_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jboolean jarg2) {
+  eprosima::fastrtps::QosPolicy *arg1 = (eprosima::fastrtps::QosPolicy *) 0 ;
+  bool arg2 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::QosPolicy **)&jarg1; 
+  arg2 = jarg2 ? true : false; 
+  if (arg1) (arg1)->hasChanged = arg2;
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_QosPolicy_1hasChanged_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jboolean jresult = 0 ;
+  eprosima::fastrtps::QosPolicy *arg1 = (eprosima::fastrtps::QosPolicy *) 0 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::QosPolicy **)&jarg1; 
+  result = (bool) ((arg1)->hasChanged);
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_QosPolicy_1sendAlways(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jboolean jresult = 0 ;
+  eprosima::fastrtps::QosPolicy *arg1 = (eprosima::fastrtps::QosPolicy *) 0 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::QosPolicy **)&jarg1; 
+  result = (bool)(arg1)->sendAlways();
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_new_1DurabilityQosPolicy(JNIEnv *jenv, jclass jcls) {
+  jlong jresult = 0 ;
+  eprosima::fastrtps::DurabilityQosPolicy *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  result = (eprosima::fastrtps::DurabilityQosPolicy *)new eprosima::fastrtps::DurabilityQosPolicy();
+  *(eprosima::fastrtps::DurabilityQosPolicy **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_delete_1DurabilityQosPolicy(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+  eprosima::fastrtps::DurabilityQosPolicy *arg1 = (eprosima::fastrtps::DurabilityQosPolicy *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = *(eprosima::fastrtps::DurabilityQosPolicy **)&jarg1; 
+  delete arg1;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_DurabilityQosPolicy_1kind_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2) {
+  eprosima::fastrtps::DurabilityQosPolicy *arg1 = (eprosima::fastrtps::DurabilityQosPolicy *) 0 ;
+  eprosima::fastrtps::DurabilityQosPolicyKind_t arg2 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::DurabilityQosPolicy **)&jarg1; 
+  arg2 = (eprosima::fastrtps::DurabilityQosPolicyKind_t)jarg2; 
+  if (arg1) (arg1)->kind = arg2;
+}
+
+
+SWIGEXPORT jint JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_DurabilityQosPolicy_1kind_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jint jresult = 0 ;
+  eprosima::fastrtps::DurabilityQosPolicy *arg1 = (eprosima::fastrtps::DurabilityQosPolicy *) 0 ;
+  eprosima::fastrtps::DurabilityQosPolicyKind_t result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::DurabilityQosPolicy **)&jarg1; 
+  result = (eprosima::fastrtps::DurabilityQosPolicyKind_t) ((arg1)->kind);
+  jresult = (jint)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_DurabilityQosPolicy_1addToCDRMessage(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2) {
+  jboolean jresult = 0 ;
+  eprosima::fastrtps::DurabilityQosPolicy *arg1 = (eprosima::fastrtps::DurabilityQosPolicy *) 0 ;
+  CDRMessage_t *arg2 = (CDRMessage_t *) 0 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::DurabilityQosPolicy **)&jarg1; 
+  arg2 = *(CDRMessage_t **)&jarg2; 
+  result = (bool)(arg1)->addToCDRMessage(arg2);
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_new_1DeadlineQosPolicy(JNIEnv *jenv, jclass jcls) {
+  jlong jresult = 0 ;
+  eprosima::fastrtps::DeadlineQosPolicy *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  result = (eprosima::fastrtps::DeadlineQosPolicy *)new eprosima::fastrtps::DeadlineQosPolicy();
+  *(eprosima::fastrtps::DeadlineQosPolicy **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_delete_1DeadlineQosPolicy(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+  eprosima::fastrtps::DeadlineQosPolicy *arg1 = (eprosima::fastrtps::DeadlineQosPolicy *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = *(eprosima::fastrtps::DeadlineQosPolicy **)&jarg1; 
+  delete arg1;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_DeadlineQosPolicy_1period_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  eprosima::fastrtps::DeadlineQosPolicy *arg1 = (eprosima::fastrtps::DeadlineQosPolicy *) 0 ;
+  Duration_t *arg2 = (Duration_t *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  arg1 = *(eprosima::fastrtps::DeadlineQosPolicy **)&jarg1; 
+  arg2 = *(Duration_t **)&jarg2; 
+  if (arg1) (arg1)->period = *arg2;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_DeadlineQosPolicy_1period_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  eprosima::fastrtps::DeadlineQosPolicy *arg1 = (eprosima::fastrtps::DeadlineQosPolicy *) 0 ;
+  Duration_t *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::DeadlineQosPolicy **)&jarg1; 
+  result = (Duration_t *)& ((arg1)->period);
+  *(Duration_t **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_DeadlineQosPolicy_1addToCDRMessage(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2) {
+  jboolean jresult = 0 ;
+  eprosima::fastrtps::DeadlineQosPolicy *arg1 = (eprosima::fastrtps::DeadlineQosPolicy *) 0 ;
+  CDRMessage_t *arg2 = (CDRMessage_t *) 0 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::DeadlineQosPolicy **)&jarg1; 
+  arg2 = *(CDRMessage_t **)&jarg2; 
+  result = (bool)(arg1)->addToCDRMessage(arg2);
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_new_1LatencyBudgetQosPolicy(JNIEnv *jenv, jclass jcls) {
+  jlong jresult = 0 ;
+  eprosima::fastrtps::LatencyBudgetQosPolicy *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  result = (eprosima::fastrtps::LatencyBudgetQosPolicy *)new eprosima::fastrtps::LatencyBudgetQosPolicy();
+  *(eprosima::fastrtps::LatencyBudgetQosPolicy **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_delete_1LatencyBudgetQosPolicy(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+  eprosima::fastrtps::LatencyBudgetQosPolicy *arg1 = (eprosima::fastrtps::LatencyBudgetQosPolicy *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = *(eprosima::fastrtps::LatencyBudgetQosPolicy **)&jarg1; 
+  delete arg1;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_LatencyBudgetQosPolicy_1duration_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  eprosima::fastrtps::LatencyBudgetQosPolicy *arg1 = (eprosima::fastrtps::LatencyBudgetQosPolicy *) 0 ;
+  Duration_t *arg2 = (Duration_t *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  arg1 = *(eprosima::fastrtps::LatencyBudgetQosPolicy **)&jarg1; 
+  arg2 = *(Duration_t **)&jarg2; 
+  if (arg1) (arg1)->duration = *arg2;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_LatencyBudgetQosPolicy_1duration_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  eprosima::fastrtps::LatencyBudgetQosPolicy *arg1 = (eprosima::fastrtps::LatencyBudgetQosPolicy *) 0 ;
+  Duration_t *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::LatencyBudgetQosPolicy **)&jarg1; 
+  result = (Duration_t *)& ((arg1)->duration);
+  *(Duration_t **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_LatencyBudgetQosPolicy_1addToCDRMessage(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2) {
+  jboolean jresult = 0 ;
+  eprosima::fastrtps::LatencyBudgetQosPolicy *arg1 = (eprosima::fastrtps::LatencyBudgetQosPolicy *) 0 ;
+  CDRMessage_t *arg2 = (CDRMessage_t *) 0 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::LatencyBudgetQosPolicy **)&jarg1; 
+  arg2 = *(CDRMessage_t **)&jarg2; 
+  result = (bool)(arg1)->addToCDRMessage(arg2);
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_new_1LivelinessQosPolicy(JNIEnv *jenv, jclass jcls) {
+  jlong jresult = 0 ;
+  eprosima::fastrtps::LivelinessQosPolicy *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  result = (eprosima::fastrtps::LivelinessQosPolicy *)new eprosima::fastrtps::LivelinessQosPolicy();
+  *(eprosima::fastrtps::LivelinessQosPolicy **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_delete_1LivelinessQosPolicy(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+  eprosima::fastrtps::LivelinessQosPolicy *arg1 = (eprosima::fastrtps::LivelinessQosPolicy *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = *(eprosima::fastrtps::LivelinessQosPolicy **)&jarg1; 
+  delete arg1;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_LivelinessQosPolicy_1kind_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2) {
+  eprosima::fastrtps::LivelinessQosPolicy *arg1 = (eprosima::fastrtps::LivelinessQosPolicy *) 0 ;
+  eprosima::fastrtps::LivelinessQosPolicyKind arg2 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::LivelinessQosPolicy **)&jarg1; 
+  arg2 = (eprosima::fastrtps::LivelinessQosPolicyKind)jarg2; 
+  if (arg1) (arg1)->kind = arg2;
+}
+
+
+SWIGEXPORT jint JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_LivelinessQosPolicy_1kind_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jint jresult = 0 ;
+  eprosima::fastrtps::LivelinessQosPolicy *arg1 = (eprosima::fastrtps::LivelinessQosPolicy *) 0 ;
+  eprosima::fastrtps::LivelinessQosPolicyKind result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::LivelinessQosPolicy **)&jarg1; 
+  result = (eprosima::fastrtps::LivelinessQosPolicyKind) ((arg1)->kind);
+  jresult = (jint)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_LivelinessQosPolicy_1lease_1duration_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  eprosima::fastrtps::LivelinessQosPolicy *arg1 = (eprosima::fastrtps::LivelinessQosPolicy *) 0 ;
+  Duration_t *arg2 = (Duration_t *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  arg1 = *(eprosima::fastrtps::LivelinessQosPolicy **)&jarg1; 
+  arg2 = *(Duration_t **)&jarg2; 
+  if (arg1) (arg1)->lease_duration = *arg2;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_LivelinessQosPolicy_1lease_1duration_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  eprosima::fastrtps::LivelinessQosPolicy *arg1 = (eprosima::fastrtps::LivelinessQosPolicy *) 0 ;
+  Duration_t *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::LivelinessQosPolicy **)&jarg1; 
+  result = (Duration_t *)& ((arg1)->lease_duration);
+  *(Duration_t **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_LivelinessQosPolicy_1announcement_1period_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  eprosima::fastrtps::LivelinessQosPolicy *arg1 = (eprosima::fastrtps::LivelinessQosPolicy *) 0 ;
+  Duration_t *arg2 = (Duration_t *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  arg1 = *(eprosima::fastrtps::LivelinessQosPolicy **)&jarg1; 
+  arg2 = *(Duration_t **)&jarg2; 
+  if (arg1) (arg1)->announcement_period = *arg2;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_LivelinessQosPolicy_1announcement_1period_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  eprosima::fastrtps::LivelinessQosPolicy *arg1 = (eprosima::fastrtps::LivelinessQosPolicy *) 0 ;
+  Duration_t *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::LivelinessQosPolicy **)&jarg1; 
+  result = (Duration_t *)& ((arg1)->announcement_period);
+  *(Duration_t **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_LivelinessQosPolicy_1addToCDRMessage(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2) {
+  jboolean jresult = 0 ;
+  eprosima::fastrtps::LivelinessQosPolicy *arg1 = (eprosima::fastrtps::LivelinessQosPolicy *) 0 ;
+  CDRMessage_t *arg2 = (CDRMessage_t *) 0 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::LivelinessQosPolicy **)&jarg1; 
+  arg2 = *(CDRMessage_t **)&jarg2; 
+  result = (bool)(arg1)->addToCDRMessage(arg2);
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_new_1ReliabilityQosPolicy(JNIEnv *jenv, jclass jcls) {
+  jlong jresult = 0 ;
+  eprosima::fastrtps::ReliabilityQosPolicy *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  result = (eprosima::fastrtps::ReliabilityQosPolicy *)new eprosima::fastrtps::ReliabilityQosPolicy();
+  *(eprosima::fastrtps::ReliabilityQosPolicy **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_delete_1ReliabilityQosPolicy(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+  eprosima::fastrtps::ReliabilityQosPolicy *arg1 = (eprosima::fastrtps::ReliabilityQosPolicy *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = *(eprosima::fastrtps::ReliabilityQosPolicy **)&jarg1; 
+  delete arg1;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_ReliabilityQosPolicy_1kind_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2) {
+  eprosima::fastrtps::ReliabilityQosPolicy *arg1 = (eprosima::fastrtps::ReliabilityQosPolicy *) 0 ;
+  eprosima::fastrtps::ReliabilityQosPolicyKind arg2 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::ReliabilityQosPolicy **)&jarg1; 
+  arg2 = (eprosima::fastrtps::ReliabilityQosPolicyKind)jarg2; 
+  if (arg1) (arg1)->kind = arg2;
+}
+
+
+SWIGEXPORT jint JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_ReliabilityQosPolicy_1kind_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jint jresult = 0 ;
+  eprosima::fastrtps::ReliabilityQosPolicy *arg1 = (eprosima::fastrtps::ReliabilityQosPolicy *) 0 ;
+  eprosima::fastrtps::ReliabilityQosPolicyKind result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::ReliabilityQosPolicy **)&jarg1; 
+  result = (eprosima::fastrtps::ReliabilityQosPolicyKind) ((arg1)->kind);
+  jresult = (jint)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_ReliabilityQosPolicy_1max_1blocking_1time_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  eprosima::fastrtps::ReliabilityQosPolicy *arg1 = (eprosima::fastrtps::ReliabilityQosPolicy *) 0 ;
+  Duration_t *arg2 = (Duration_t *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  arg1 = *(eprosima::fastrtps::ReliabilityQosPolicy **)&jarg1; 
+  arg2 = *(Duration_t **)&jarg2; 
+  if (arg1) (arg1)->max_blocking_time = *arg2;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_ReliabilityQosPolicy_1max_1blocking_1time_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  eprosima::fastrtps::ReliabilityQosPolicy *arg1 = (eprosima::fastrtps::ReliabilityQosPolicy *) 0 ;
+  Duration_t *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::ReliabilityQosPolicy **)&jarg1; 
+  result = (Duration_t *)& ((arg1)->max_blocking_time);
+  *(Duration_t **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_ReliabilityQosPolicy_1addToCDRMessage(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2) {
+  jboolean jresult = 0 ;
+  eprosima::fastrtps::ReliabilityQosPolicy *arg1 = (eprosima::fastrtps::ReliabilityQosPolicy *) 0 ;
+  CDRMessage_t *arg2 = (CDRMessage_t *) 0 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::ReliabilityQosPolicy **)&jarg1; 
+  arg2 = *(CDRMessage_t **)&jarg2; 
+  result = (bool)(arg1)->addToCDRMessage(arg2);
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_new_1OwnershipQosPolicy(JNIEnv *jenv, jclass jcls) {
+  jlong jresult = 0 ;
+  eprosima::fastrtps::OwnershipQosPolicy *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  result = (eprosima::fastrtps::OwnershipQosPolicy *)new eprosima::fastrtps::OwnershipQosPolicy();
+  *(eprosima::fastrtps::OwnershipQosPolicy **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_delete_1OwnershipQosPolicy(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+  eprosima::fastrtps::OwnershipQosPolicy *arg1 = (eprosima::fastrtps::OwnershipQosPolicy *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = *(eprosima::fastrtps::OwnershipQosPolicy **)&jarg1; 
+  delete arg1;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_OwnershipQosPolicy_1kind_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2) {
+  eprosima::fastrtps::OwnershipQosPolicy *arg1 = (eprosima::fastrtps::OwnershipQosPolicy *) 0 ;
+  eprosima::fastrtps::OwnershipQosPolicyKind arg2 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::OwnershipQosPolicy **)&jarg1; 
+  arg2 = (eprosima::fastrtps::OwnershipQosPolicyKind)jarg2; 
+  if (arg1) (arg1)->kind = arg2;
+}
+
+
+SWIGEXPORT jint JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_OwnershipQosPolicy_1kind_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jint jresult = 0 ;
+  eprosima::fastrtps::OwnershipQosPolicy *arg1 = (eprosima::fastrtps::OwnershipQosPolicy *) 0 ;
+  eprosima::fastrtps::OwnershipQosPolicyKind result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::OwnershipQosPolicy **)&jarg1; 
+  result = (eprosima::fastrtps::OwnershipQosPolicyKind) ((arg1)->kind);
+  jresult = (jint)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_OwnershipQosPolicy_1addToCDRMessage(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2) {
+  jboolean jresult = 0 ;
+  eprosima::fastrtps::OwnershipQosPolicy *arg1 = (eprosima::fastrtps::OwnershipQosPolicy *) 0 ;
+  CDRMessage_t *arg2 = (CDRMessage_t *) 0 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::OwnershipQosPolicy **)&jarg1; 
+  arg2 = *(CDRMessage_t **)&jarg2; 
+  result = (bool)(arg1)->addToCDRMessage(arg2);
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_DestinationOrderQosPolicy_1kind_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2) {
+  eprosima::fastrtps::DestinationOrderQosPolicy *arg1 = (eprosima::fastrtps::DestinationOrderQosPolicy *) 0 ;
+  eprosima::fastrtps::DestinationOrderQosPolicyKind arg2 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::DestinationOrderQosPolicy **)&jarg1; 
+  arg2 = (eprosima::fastrtps::DestinationOrderQosPolicyKind)jarg2; 
+  if (arg1) (arg1)->kind = arg2;
+}
+
+
+SWIGEXPORT jint JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_DestinationOrderQosPolicy_1kind_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jint jresult = 0 ;
+  eprosima::fastrtps::DestinationOrderQosPolicy *arg1 = (eprosima::fastrtps::DestinationOrderQosPolicy *) 0 ;
+  eprosima::fastrtps::DestinationOrderQosPolicyKind result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::DestinationOrderQosPolicy **)&jarg1; 
+  result = (eprosima::fastrtps::DestinationOrderQosPolicyKind) ((arg1)->kind);
+  jresult = (jint)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_new_1DestinationOrderQosPolicy(JNIEnv *jenv, jclass jcls) {
+  jlong jresult = 0 ;
+  eprosima::fastrtps::DestinationOrderQosPolicy *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  result = (eprosima::fastrtps::DestinationOrderQosPolicy *)new eprosima::fastrtps::DestinationOrderQosPolicy();
+  *(eprosima::fastrtps::DestinationOrderQosPolicy **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_delete_1DestinationOrderQosPolicy(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+  eprosima::fastrtps::DestinationOrderQosPolicy *arg1 = (eprosima::fastrtps::DestinationOrderQosPolicy *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = *(eprosima::fastrtps::DestinationOrderQosPolicy **)&jarg1; 
+  delete arg1;
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_DestinationOrderQosPolicy_1addToCDRMessage(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2) {
+  jboolean jresult = 0 ;
+  eprosima::fastrtps::DestinationOrderQosPolicy *arg1 = (eprosima::fastrtps::DestinationOrderQosPolicy *) 0 ;
+  CDRMessage_t *arg2 = (CDRMessage_t *) 0 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::DestinationOrderQosPolicy **)&jarg1; 
+  arg2 = *(CDRMessage_t **)&jarg2; 
+  result = (bool)(arg1)->addToCDRMessage(arg2);
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_new_1UserDataQosPolicy(JNIEnv *jenv, jclass jcls) {
+  jlong jresult = 0 ;
+  eprosima::fastrtps::UserDataQosPolicy *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  result = (eprosima::fastrtps::UserDataQosPolicy *)new eprosima::fastrtps::UserDataQosPolicy();
+  *(eprosima::fastrtps::UserDataQosPolicy **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_delete_1UserDataQosPolicy(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+  eprosima::fastrtps::UserDataQosPolicy *arg1 = (eprosima::fastrtps::UserDataQosPolicy *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = *(eprosima::fastrtps::UserDataQosPolicy **)&jarg1; 
+  delete arg1;
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_UserDataQosPolicy_1addToCDRMessage(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2) {
+  jboolean jresult = 0 ;
+  eprosima::fastrtps::UserDataQosPolicy *arg1 = (eprosima::fastrtps::UserDataQosPolicy *) 0 ;
+  CDRMessage_t *arg2 = (CDRMessage_t *) 0 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::UserDataQosPolicy **)&jarg1; 
+  arg2 = *(CDRMessage_t **)&jarg2; 
+  result = (bool)(arg1)->addToCDRMessage(arg2);
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_UserDataQosPolicy_1getDataVec(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  eprosima::fastrtps::UserDataQosPolicy *arg1 = (eprosima::fastrtps::UserDataQosPolicy *) 0 ;
+  std::vector< octet > result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::UserDataQosPolicy **)&jarg1; 
+  result = (arg1)->getDataVec();
+  *(std::vector< octet > **)&jresult = new std::vector< octet >((const std::vector< octet > &)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_UserDataQosPolicy_1setDataVec(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  eprosima::fastrtps::UserDataQosPolicy *arg1 = (eprosima::fastrtps::UserDataQosPolicy *) 0 ;
+  std::vector< octet > *arg2 = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  arg1 = *(eprosima::fastrtps::UserDataQosPolicy **)&jarg1; 
+  arg2 = *(std::vector< octet > **)&jarg2;
+  if (!arg2) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "std::vector< octet > const & reference is null");
+    return ;
+  } 
+  (arg1)->setDataVec((std::vector< octet > const &)*arg2);
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_new_1TimeBasedFilterQosPolicy(JNIEnv *jenv, jclass jcls) {
+  jlong jresult = 0 ;
+  eprosima::fastrtps::TimeBasedFilterQosPolicy *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  result = (eprosima::fastrtps::TimeBasedFilterQosPolicy *)new eprosima::fastrtps::TimeBasedFilterQosPolicy();
+  *(eprosima::fastrtps::TimeBasedFilterQosPolicy **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_delete_1TimeBasedFilterQosPolicy(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+  eprosima::fastrtps::TimeBasedFilterQosPolicy *arg1 = (eprosima::fastrtps::TimeBasedFilterQosPolicy *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = *(eprosima::fastrtps::TimeBasedFilterQosPolicy **)&jarg1; 
+  delete arg1;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_TimeBasedFilterQosPolicy_1minimum_1separation_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  eprosima::fastrtps::TimeBasedFilterQosPolicy *arg1 = (eprosima::fastrtps::TimeBasedFilterQosPolicy *) 0 ;
+  Duration_t *arg2 = (Duration_t *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  arg1 = *(eprosima::fastrtps::TimeBasedFilterQosPolicy **)&jarg1; 
+  arg2 = *(Duration_t **)&jarg2; 
+  if (arg1) (arg1)->minimum_separation = *arg2;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_TimeBasedFilterQosPolicy_1minimum_1separation_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  eprosima::fastrtps::TimeBasedFilterQosPolicy *arg1 = (eprosima::fastrtps::TimeBasedFilterQosPolicy *) 0 ;
+  Duration_t *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::TimeBasedFilterQosPolicy **)&jarg1; 
+  result = (Duration_t *)& ((arg1)->minimum_separation);
+  *(Duration_t **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_TimeBasedFilterQosPolicy_1addToCDRMessage(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2) {
+  jboolean jresult = 0 ;
+  eprosima::fastrtps::TimeBasedFilterQosPolicy *arg1 = (eprosima::fastrtps::TimeBasedFilterQosPolicy *) 0 ;
+  CDRMessage_t *arg2 = (CDRMessage_t *) 0 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::TimeBasedFilterQosPolicy **)&jarg1; 
+  arg2 = *(CDRMessage_t **)&jarg2; 
+  result = (bool)(arg1)->addToCDRMessage(arg2);
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_PresentationQosPolicy_1access_1scope_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2) {
+  eprosima::fastrtps::PresentationQosPolicy *arg1 = (eprosima::fastrtps::PresentationQosPolicy *) 0 ;
+  eprosima::fastrtps::PresentationQosPolicyAccessScopeKind arg2 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::PresentationQosPolicy **)&jarg1; 
+  arg2 = (eprosima::fastrtps::PresentationQosPolicyAccessScopeKind)jarg2; 
+  if (arg1) (arg1)->access_scope = arg2;
+}
+
+
+SWIGEXPORT jint JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_PresentationQosPolicy_1access_1scope_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jint jresult = 0 ;
+  eprosima::fastrtps::PresentationQosPolicy *arg1 = (eprosima::fastrtps::PresentationQosPolicy *) 0 ;
+  eprosima::fastrtps::PresentationQosPolicyAccessScopeKind result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::PresentationQosPolicy **)&jarg1; 
+  result = (eprosima::fastrtps::PresentationQosPolicyAccessScopeKind) ((arg1)->access_scope);
+  jresult = (jint)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_PresentationQosPolicy_1coherent_1access_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jboolean jarg2) {
+  eprosima::fastrtps::PresentationQosPolicy *arg1 = (eprosima::fastrtps::PresentationQosPolicy *) 0 ;
+  bool arg2 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::PresentationQosPolicy **)&jarg1; 
+  arg2 = jarg2 ? true : false; 
+  if (arg1) (arg1)->coherent_access = arg2;
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_PresentationQosPolicy_1coherent_1access_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jboolean jresult = 0 ;
+  eprosima::fastrtps::PresentationQosPolicy *arg1 = (eprosima::fastrtps::PresentationQosPolicy *) 0 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::PresentationQosPolicy **)&jarg1; 
+  result = (bool) ((arg1)->coherent_access);
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_PresentationQosPolicy_1ordered_1access_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jboolean jarg2) {
+  eprosima::fastrtps::PresentationQosPolicy *arg1 = (eprosima::fastrtps::PresentationQosPolicy *) 0 ;
+  bool arg2 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::PresentationQosPolicy **)&jarg1; 
+  arg2 = jarg2 ? true : false; 
+  if (arg1) (arg1)->ordered_access = arg2;
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_PresentationQosPolicy_1ordered_1access_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jboolean jresult = 0 ;
+  eprosima::fastrtps::PresentationQosPolicy *arg1 = (eprosima::fastrtps::PresentationQosPolicy *) 0 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::PresentationQosPolicy **)&jarg1; 
+  result = (bool) ((arg1)->ordered_access);
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_new_1PresentationQosPolicy(JNIEnv *jenv, jclass jcls) {
+  jlong jresult = 0 ;
+  eprosima::fastrtps::PresentationQosPolicy *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  result = (eprosima::fastrtps::PresentationQosPolicy *)new eprosima::fastrtps::PresentationQosPolicy();
+  *(eprosima::fastrtps::PresentationQosPolicy **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_delete_1PresentationQosPolicy(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+  eprosima::fastrtps::PresentationQosPolicy *arg1 = (eprosima::fastrtps::PresentationQosPolicy *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = *(eprosima::fastrtps::PresentationQosPolicy **)&jarg1; 
+  delete arg1;
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_PresentationQosPolicy_1addToCDRMessage(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2) {
+  jboolean jresult = 0 ;
+  eprosima::fastrtps::PresentationQosPolicy *arg1 = (eprosima::fastrtps::PresentationQosPolicy *) 0 ;
+  CDRMessage_t *arg2 = (CDRMessage_t *) 0 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::PresentationQosPolicy **)&jarg1; 
+  arg2 = *(CDRMessage_t **)&jarg2; 
+  result = (bool)(arg1)->addToCDRMessage(arg2);
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_new_1PartitionQosPolicy(JNIEnv *jenv, jclass jcls) {
+  jlong jresult = 0 ;
+  eprosima::fastrtps::PartitionQosPolicy *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  result = (eprosima::fastrtps::PartitionQosPolicy *)new eprosima::fastrtps::PartitionQosPolicy();
+  *(eprosima::fastrtps::PartitionQosPolicy **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_delete_1PartitionQosPolicy(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+  eprosima::fastrtps::PartitionQosPolicy *arg1 = (eprosima::fastrtps::PartitionQosPolicy *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = *(eprosima::fastrtps::PartitionQosPolicy **)&jarg1; 
+  delete arg1;
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_PartitionQosPolicy_1addToCDRMessage(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2) {
+  jboolean jresult = 0 ;
+  eprosima::fastrtps::PartitionQosPolicy *arg1 = (eprosima::fastrtps::PartitionQosPolicy *) 0 ;
+  CDRMessage_t *arg2 = (CDRMessage_t *) 0 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::PartitionQosPolicy **)&jarg1; 
+  arg2 = *(CDRMessage_t **)&jarg2; 
+  result = (bool)(arg1)->addToCDRMessage(arg2);
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_PartitionQosPolicy_1push_1back(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jstring jarg2) {
+  eprosima::fastrtps::PartitionQosPolicy *arg1 = (eprosima::fastrtps::PartitionQosPolicy *) 0 ;
+  char *arg2 = (char *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::PartitionQosPolicy **)&jarg1; 
+  arg2 = 0;
+  if (jarg2) {
+    arg2 = (char *)jenv->GetStringUTFChars(jarg2, 0);
+    if (!arg2) return ;
+  }
+  (arg1)->push_back((char const *)arg2);
+  if (arg2) jenv->ReleaseStringUTFChars(jarg2, (const char *)arg2);
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_PartitionQosPolicy_1clear(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  eprosima::fastrtps::PartitionQosPolicy *arg1 = (eprosima::fastrtps::PartitionQosPolicy *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::PartitionQosPolicy **)&jarg1; 
+  (arg1)->clear();
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_PartitionQosPolicy_1getNames(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  eprosima::fastrtps::PartitionQosPolicy *arg1 = (eprosima::fastrtps::PartitionQosPolicy *) 0 ;
+  std::vector< std::string > result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::PartitionQosPolicy **)&jarg1; 
+  result = (arg1)->getNames();
+  *(std::vector< std::string > **)&jresult = new std::vector< std::string >((const std::vector< std::string > &)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_PartitionQosPolicy_1setNames(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  eprosima::fastrtps::PartitionQosPolicy *arg1 = (eprosima::fastrtps::PartitionQosPolicy *) 0 ;
+  std::vector< std::string > *arg2 = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  arg1 = *(eprosima::fastrtps::PartitionQosPolicy **)&jarg1; 
+  arg2 = *(std::vector< std::string > **)&jarg2;
+  if (!arg2) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "std::vector< std::string > & reference is null");
+    return ;
+  } 
+  (arg1)->setNames(*arg2);
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_new_1TopicDataQosPolicy(JNIEnv *jenv, jclass jcls) {
+  jlong jresult = 0 ;
+  eprosima::fastrtps::TopicDataQosPolicy *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  result = (eprosima::fastrtps::TopicDataQosPolicy *)new eprosima::fastrtps::TopicDataQosPolicy();
+  *(eprosima::fastrtps::TopicDataQosPolicy **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_delete_1TopicDataQosPolicy(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+  eprosima::fastrtps::TopicDataQosPolicy *arg1 = (eprosima::fastrtps::TopicDataQosPolicy *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = *(eprosima::fastrtps::TopicDataQosPolicy **)&jarg1; 
+  delete arg1;
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_TopicDataQosPolicy_1addToCDRMessage(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2) {
+  jboolean jresult = 0 ;
+  eprosima::fastrtps::TopicDataQosPolicy *arg1 = (eprosima::fastrtps::TopicDataQosPolicy *) 0 ;
+  CDRMessage_t *arg2 = (CDRMessage_t *) 0 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::TopicDataQosPolicy **)&jarg1; 
+  arg2 = *(CDRMessage_t **)&jarg2; 
+  result = (bool)(arg1)->addToCDRMessage(arg2);
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_TopicDataQosPolicy_1push_1back(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jshort jarg2) {
+  eprosima::fastrtps::TopicDataQosPolicy *arg1 = (eprosima::fastrtps::TopicDataQosPolicy *) 0 ;
+  octet arg2 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::TopicDataQosPolicy **)&jarg1; 
+  arg2 = (octet)jarg2; 
+  (arg1)->push_back(arg2);
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_TopicDataQosPolicy_1clear(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  eprosima::fastrtps::TopicDataQosPolicy *arg1 = (eprosima::fastrtps::TopicDataQosPolicy *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::TopicDataQosPolicy **)&jarg1; 
+  (arg1)->clear();
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_TopicDataQosPolicy_1setValue(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  eprosima::fastrtps::TopicDataQosPolicy *arg1 = (eprosima::fastrtps::TopicDataQosPolicy *) 0 ;
+  std::vector< octet > arg2 ;
+  std::vector< octet > *argp2 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  arg1 = *(eprosima::fastrtps::TopicDataQosPolicy **)&jarg1; 
+  argp2 = *(std::vector< octet > **)&jarg2; 
+  if (!argp2) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "Attempt to dereference null std::vector< octet >");
+    return ;
+  }
+  arg2 = *argp2; 
+  (arg1)->setValue(arg2);
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_TopicDataQosPolicy_1getValue(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  eprosima::fastrtps::TopicDataQosPolicy *arg1 = (eprosima::fastrtps::TopicDataQosPolicy *) 0 ;
+  std::vector< octet > result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::TopicDataQosPolicy **)&jarg1; 
+  result = (arg1)->getValue();
+  *(std::vector< octet > **)&jresult = new std::vector< octet >((const std::vector< octet > &)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_new_1GroupDataQosPolicy(JNIEnv *jenv, jclass jcls) {
+  jlong jresult = 0 ;
+  eprosima::fastrtps::GroupDataQosPolicy *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  result = (eprosima::fastrtps::GroupDataQosPolicy *)new eprosima::fastrtps::GroupDataQosPolicy();
+  *(eprosima::fastrtps::GroupDataQosPolicy **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_delete_1GroupDataQosPolicy(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+  eprosima::fastrtps::GroupDataQosPolicy *arg1 = (eprosima::fastrtps::GroupDataQosPolicy *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = *(eprosima::fastrtps::GroupDataQosPolicy **)&jarg1; 
+  delete arg1;
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_GroupDataQosPolicy_1addToCDRMessage(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2) {
+  jboolean jresult = 0 ;
+  eprosima::fastrtps::GroupDataQosPolicy *arg1 = (eprosima::fastrtps::GroupDataQosPolicy *) 0 ;
+  CDRMessage_t *arg2 = (CDRMessage_t *) 0 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::GroupDataQosPolicy **)&jarg1; 
+  arg2 = *(CDRMessage_t **)&jarg2; 
+  result = (bool)(arg1)->addToCDRMessage(arg2);
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_GroupDataQosPolicy_1push_1back(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jshort jarg2) {
+  eprosima::fastrtps::GroupDataQosPolicy *arg1 = (eprosima::fastrtps::GroupDataQosPolicy *) 0 ;
+  octet arg2 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::GroupDataQosPolicy **)&jarg1; 
+  arg2 = (octet)jarg2; 
+  (arg1)->push_back(arg2);
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_GroupDataQosPolicy_1clear(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  eprosima::fastrtps::GroupDataQosPolicy *arg1 = (eprosima::fastrtps::GroupDataQosPolicy *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::GroupDataQosPolicy **)&jarg1; 
+  (arg1)->clear();
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_GroupDataQosPolicy_1setValue(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  eprosima::fastrtps::GroupDataQosPolicy *arg1 = (eprosima::fastrtps::GroupDataQosPolicy *) 0 ;
+  std::vector< octet > arg2 ;
+  std::vector< octet > *argp2 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  arg1 = *(eprosima::fastrtps::GroupDataQosPolicy **)&jarg1; 
+  argp2 = *(std::vector< octet > **)&jarg2; 
+  if (!argp2) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "Attempt to dereference null std::vector< octet >");
+    return ;
+  }
+  arg2 = *argp2; 
+  (arg1)->setValue(arg2);
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_GroupDataQosPolicy_1getValue(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  eprosima::fastrtps::GroupDataQosPolicy *arg1 = (eprosima::fastrtps::GroupDataQosPolicy *) 0 ;
+  std::vector< octet > result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::GroupDataQosPolicy **)&jarg1; 
+  result = (arg1)->getValue();
+  *(std::vector< octet > **)&jresult = new std::vector< octet >((const std::vector< octet > &)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_HistoryQosPolicy_1kind_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2) {
+  eprosima::fastrtps::HistoryQosPolicy *arg1 = (eprosima::fastrtps::HistoryQosPolicy *) 0 ;
+  eprosima::fastrtps::HistoryQosPolicyKind arg2 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::HistoryQosPolicy **)&jarg1; 
+  arg2 = (eprosima::fastrtps::HistoryQosPolicyKind)jarg2; 
+  if (arg1) (arg1)->kind = arg2;
+}
+
+
+SWIGEXPORT jint JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_HistoryQosPolicy_1kind_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jint jresult = 0 ;
+  eprosima::fastrtps::HistoryQosPolicy *arg1 = (eprosima::fastrtps::HistoryQosPolicy *) 0 ;
+  eprosima::fastrtps::HistoryQosPolicyKind result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::HistoryQosPolicy **)&jarg1; 
+  result = (eprosima::fastrtps::HistoryQosPolicyKind) ((arg1)->kind);
+  jresult = (jint)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_HistoryQosPolicy_1depth_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2) {
+  eprosima::fastrtps::HistoryQosPolicy *arg1 = (eprosima::fastrtps::HistoryQosPolicy *) 0 ;
+  int32_t arg2 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::HistoryQosPolicy **)&jarg1; 
+  arg2 = (int32_t)jarg2; 
+  if (arg1) (arg1)->depth = arg2;
+}
+
+
+SWIGEXPORT jint JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_HistoryQosPolicy_1depth_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jint jresult = 0 ;
+  eprosima::fastrtps::HistoryQosPolicy *arg1 = (eprosima::fastrtps::HistoryQosPolicy *) 0 ;
+  int32_t result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::HistoryQosPolicy **)&jarg1; 
+  result = (int32_t) ((arg1)->depth);
+  jresult = (jint)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_new_1HistoryQosPolicy(JNIEnv *jenv, jclass jcls) {
+  jlong jresult = 0 ;
+  eprosima::fastrtps::HistoryQosPolicy *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  result = (eprosima::fastrtps::HistoryQosPolicy *)new eprosima::fastrtps::HistoryQosPolicy();
+  *(eprosima::fastrtps::HistoryQosPolicy **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_delete_1HistoryQosPolicy(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+  eprosima::fastrtps::HistoryQosPolicy *arg1 = (eprosima::fastrtps::HistoryQosPolicy *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = *(eprosima::fastrtps::HistoryQosPolicy **)&jarg1; 
+  delete arg1;
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_HistoryQosPolicy_1addToCDRMessage(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2) {
+  jboolean jresult = 0 ;
+  eprosima::fastrtps::HistoryQosPolicy *arg1 = (eprosima::fastrtps::HistoryQosPolicy *) 0 ;
+  CDRMessage_t *arg2 = (CDRMessage_t *) 0 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::HistoryQosPolicy **)&jarg1; 
+  arg2 = *(CDRMessage_t **)&jarg2; 
+  result = (bool)(arg1)->addToCDRMessage(arg2);
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_ResourceLimitsQosPolicy_1max_1samples_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2) {
+  eprosima::fastrtps::ResourceLimitsQosPolicy *arg1 = (eprosima::fastrtps::ResourceLimitsQosPolicy *) 0 ;
+  int32_t arg2 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::ResourceLimitsQosPolicy **)&jarg1; 
+  arg2 = (int32_t)jarg2; 
+  if (arg1) (arg1)->max_samples = arg2;
+}
+
+
+SWIGEXPORT jint JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_ResourceLimitsQosPolicy_1max_1samples_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jint jresult = 0 ;
+  eprosima::fastrtps::ResourceLimitsQosPolicy *arg1 = (eprosima::fastrtps::ResourceLimitsQosPolicy *) 0 ;
+  int32_t result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::ResourceLimitsQosPolicy **)&jarg1; 
+  result = (int32_t) ((arg1)->max_samples);
+  jresult = (jint)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_ResourceLimitsQosPolicy_1max_1instances_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2) {
+  eprosima::fastrtps::ResourceLimitsQosPolicy *arg1 = (eprosima::fastrtps::ResourceLimitsQosPolicy *) 0 ;
+  int32_t arg2 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::ResourceLimitsQosPolicy **)&jarg1; 
+  arg2 = (int32_t)jarg2; 
+  if (arg1) (arg1)->max_instances = arg2;
+}
+
+
+SWIGEXPORT jint JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_ResourceLimitsQosPolicy_1max_1instances_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jint jresult = 0 ;
+  eprosima::fastrtps::ResourceLimitsQosPolicy *arg1 = (eprosima::fastrtps::ResourceLimitsQosPolicy *) 0 ;
+  int32_t result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::ResourceLimitsQosPolicy **)&jarg1; 
+  result = (int32_t) ((arg1)->max_instances);
+  jresult = (jint)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_ResourceLimitsQosPolicy_1max_1samples_1per_1instance_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2) {
+  eprosima::fastrtps::ResourceLimitsQosPolicy *arg1 = (eprosima::fastrtps::ResourceLimitsQosPolicy *) 0 ;
+  int32_t arg2 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::ResourceLimitsQosPolicy **)&jarg1; 
+  arg2 = (int32_t)jarg2; 
+  if (arg1) (arg1)->max_samples_per_instance = arg2;
+}
+
+
+SWIGEXPORT jint JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_ResourceLimitsQosPolicy_1max_1samples_1per_1instance_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jint jresult = 0 ;
+  eprosima::fastrtps::ResourceLimitsQosPolicy *arg1 = (eprosima::fastrtps::ResourceLimitsQosPolicy *) 0 ;
+  int32_t result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::ResourceLimitsQosPolicy **)&jarg1; 
+  result = (int32_t) ((arg1)->max_samples_per_instance);
+  jresult = (jint)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_ResourceLimitsQosPolicy_1allocated_1samples_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2) {
+  eprosima::fastrtps::ResourceLimitsQosPolicy *arg1 = (eprosima::fastrtps::ResourceLimitsQosPolicy *) 0 ;
+  int32_t arg2 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::ResourceLimitsQosPolicy **)&jarg1; 
+  arg2 = (int32_t)jarg2; 
+  if (arg1) (arg1)->allocated_samples = arg2;
+}
+
+
+SWIGEXPORT jint JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_ResourceLimitsQosPolicy_1allocated_1samples_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jint jresult = 0 ;
+  eprosima::fastrtps::ResourceLimitsQosPolicy *arg1 = (eprosima::fastrtps::ResourceLimitsQosPolicy *) 0 ;
+  int32_t result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::ResourceLimitsQosPolicy **)&jarg1; 
+  result = (int32_t) ((arg1)->allocated_samples);
+  jresult = (jint)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_new_1ResourceLimitsQosPolicy(JNIEnv *jenv, jclass jcls) {
+  jlong jresult = 0 ;
+  eprosima::fastrtps::ResourceLimitsQosPolicy *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  result = (eprosima::fastrtps::ResourceLimitsQosPolicy *)new eprosima::fastrtps::ResourceLimitsQosPolicy();
+  *(eprosima::fastrtps::ResourceLimitsQosPolicy **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_delete_1ResourceLimitsQosPolicy(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+  eprosima::fastrtps::ResourceLimitsQosPolicy *arg1 = (eprosima::fastrtps::ResourceLimitsQosPolicy *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = *(eprosima::fastrtps::ResourceLimitsQosPolicy **)&jarg1; 
+  delete arg1;
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_ResourceLimitsQosPolicy_1addToCDRMessage(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2) {
+  jboolean jresult = 0 ;
+  eprosima::fastrtps::ResourceLimitsQosPolicy *arg1 = (eprosima::fastrtps::ResourceLimitsQosPolicy *) 0 ;
+  CDRMessage_t *arg2 = (CDRMessage_t *) 0 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::ResourceLimitsQosPolicy **)&jarg1; 
+  arg2 = *(CDRMessage_t **)&jarg2; 
+  result = (bool)(arg1)->addToCDRMessage(arg2);
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_DurabilityServiceQosPolicy_1service_1cleanup_1delay_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  eprosima::fastrtps::DurabilityServiceQosPolicy *arg1 = (eprosima::fastrtps::DurabilityServiceQosPolicy *) 0 ;
+  Duration_t *arg2 = (Duration_t *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  arg1 = *(eprosima::fastrtps::DurabilityServiceQosPolicy **)&jarg1; 
+  arg2 = *(Duration_t **)&jarg2; 
+  if (arg1) (arg1)->service_cleanup_delay = *arg2;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_DurabilityServiceQosPolicy_1service_1cleanup_1delay_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  eprosima::fastrtps::DurabilityServiceQosPolicy *arg1 = (eprosima::fastrtps::DurabilityServiceQosPolicy *) 0 ;
+  Duration_t *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::DurabilityServiceQosPolicy **)&jarg1; 
+  result = (Duration_t *)& ((arg1)->service_cleanup_delay);
+  *(Duration_t **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_DurabilityServiceQosPolicy_1history_1kind_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2) {
+  eprosima::fastrtps::DurabilityServiceQosPolicy *arg1 = (eprosima::fastrtps::DurabilityServiceQosPolicy *) 0 ;
+  eprosima::fastrtps::HistoryQosPolicyKind arg2 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::DurabilityServiceQosPolicy **)&jarg1; 
+  arg2 = (eprosima::fastrtps::HistoryQosPolicyKind)jarg2; 
+  if (arg1) (arg1)->history_kind = arg2;
+}
+
+
+SWIGEXPORT jint JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_DurabilityServiceQosPolicy_1history_1kind_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jint jresult = 0 ;
+  eprosima::fastrtps::DurabilityServiceQosPolicy *arg1 = (eprosima::fastrtps::DurabilityServiceQosPolicy *) 0 ;
+  eprosima::fastrtps::HistoryQosPolicyKind result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::DurabilityServiceQosPolicy **)&jarg1; 
+  result = (eprosima::fastrtps::HistoryQosPolicyKind) ((arg1)->history_kind);
+  jresult = (jint)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_DurabilityServiceQosPolicy_1history_1depth_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2) {
+  eprosima::fastrtps::DurabilityServiceQosPolicy *arg1 = (eprosima::fastrtps::DurabilityServiceQosPolicy *) 0 ;
+  int32_t arg2 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::DurabilityServiceQosPolicy **)&jarg1; 
+  arg2 = (int32_t)jarg2; 
+  if (arg1) (arg1)->history_depth = arg2;
+}
+
+
+SWIGEXPORT jint JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_DurabilityServiceQosPolicy_1history_1depth_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jint jresult = 0 ;
+  eprosima::fastrtps::DurabilityServiceQosPolicy *arg1 = (eprosima::fastrtps::DurabilityServiceQosPolicy *) 0 ;
+  int32_t result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::DurabilityServiceQosPolicy **)&jarg1; 
+  result = (int32_t) ((arg1)->history_depth);
+  jresult = (jint)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_DurabilityServiceQosPolicy_1max_1samples_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2) {
+  eprosima::fastrtps::DurabilityServiceQosPolicy *arg1 = (eprosima::fastrtps::DurabilityServiceQosPolicy *) 0 ;
+  int32_t arg2 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::DurabilityServiceQosPolicy **)&jarg1; 
+  arg2 = (int32_t)jarg2; 
+  if (arg1) (arg1)->max_samples = arg2;
+}
+
+
+SWIGEXPORT jint JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_DurabilityServiceQosPolicy_1max_1samples_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jint jresult = 0 ;
+  eprosima::fastrtps::DurabilityServiceQosPolicy *arg1 = (eprosima::fastrtps::DurabilityServiceQosPolicy *) 0 ;
+  int32_t result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::DurabilityServiceQosPolicy **)&jarg1; 
+  result = (int32_t) ((arg1)->max_samples);
+  jresult = (jint)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_DurabilityServiceQosPolicy_1max_1instances_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2) {
+  eprosima::fastrtps::DurabilityServiceQosPolicy *arg1 = (eprosima::fastrtps::DurabilityServiceQosPolicy *) 0 ;
+  int32_t arg2 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::DurabilityServiceQosPolicy **)&jarg1; 
+  arg2 = (int32_t)jarg2; 
+  if (arg1) (arg1)->max_instances = arg2;
+}
+
+
+SWIGEXPORT jint JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_DurabilityServiceQosPolicy_1max_1instances_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jint jresult = 0 ;
+  eprosima::fastrtps::DurabilityServiceQosPolicy *arg1 = (eprosima::fastrtps::DurabilityServiceQosPolicy *) 0 ;
+  int32_t result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::DurabilityServiceQosPolicy **)&jarg1; 
+  result = (int32_t) ((arg1)->max_instances);
+  jresult = (jint)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_DurabilityServiceQosPolicy_1max_1samples_1per_1instance_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2) {
+  eprosima::fastrtps::DurabilityServiceQosPolicy *arg1 = (eprosima::fastrtps::DurabilityServiceQosPolicy *) 0 ;
+  int32_t arg2 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::DurabilityServiceQosPolicy **)&jarg1; 
+  arg2 = (int32_t)jarg2; 
+  if (arg1) (arg1)->max_samples_per_instance = arg2;
+}
+
+
+SWIGEXPORT jint JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_DurabilityServiceQosPolicy_1max_1samples_1per_1instance_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jint jresult = 0 ;
+  eprosima::fastrtps::DurabilityServiceQosPolicy *arg1 = (eprosima::fastrtps::DurabilityServiceQosPolicy *) 0 ;
+  int32_t result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::DurabilityServiceQosPolicy **)&jarg1; 
+  result = (int32_t) ((arg1)->max_samples_per_instance);
+  jresult = (jint)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_new_1DurabilityServiceQosPolicy(JNIEnv *jenv, jclass jcls) {
+  jlong jresult = 0 ;
+  eprosima::fastrtps::DurabilityServiceQosPolicy *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  result = (eprosima::fastrtps::DurabilityServiceQosPolicy *)new eprosima::fastrtps::DurabilityServiceQosPolicy();
+  *(eprosima::fastrtps::DurabilityServiceQosPolicy **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_delete_1DurabilityServiceQosPolicy(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+  eprosima::fastrtps::DurabilityServiceQosPolicy *arg1 = (eprosima::fastrtps::DurabilityServiceQosPolicy *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = *(eprosima::fastrtps::DurabilityServiceQosPolicy **)&jarg1; 
+  delete arg1;
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_DurabilityServiceQosPolicy_1addToCDRMessage(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2) {
+  jboolean jresult = 0 ;
+  eprosima::fastrtps::DurabilityServiceQosPolicy *arg1 = (eprosima::fastrtps::DurabilityServiceQosPolicy *) 0 ;
+  CDRMessage_t *arg2 = (CDRMessage_t *) 0 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::DurabilityServiceQosPolicy **)&jarg1; 
+  arg2 = *(CDRMessage_t **)&jarg2; 
+  result = (bool)(arg1)->addToCDRMessage(arg2);
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_new_1LifespanQosPolicy(JNIEnv *jenv, jclass jcls) {
+  jlong jresult = 0 ;
+  eprosima::fastrtps::LifespanQosPolicy *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  result = (eprosima::fastrtps::LifespanQosPolicy *)new eprosima::fastrtps::LifespanQosPolicy();
+  *(eprosima::fastrtps::LifespanQosPolicy **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_delete_1LifespanQosPolicy(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+  eprosima::fastrtps::LifespanQosPolicy *arg1 = (eprosima::fastrtps::LifespanQosPolicy *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = *(eprosima::fastrtps::LifespanQosPolicy **)&jarg1; 
+  delete arg1;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_LifespanQosPolicy_1duration_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  eprosima::fastrtps::LifespanQosPolicy *arg1 = (eprosima::fastrtps::LifespanQosPolicy *) 0 ;
+  Duration_t *arg2 = (Duration_t *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  arg1 = *(eprosima::fastrtps::LifespanQosPolicy **)&jarg1; 
+  arg2 = *(Duration_t **)&jarg2; 
+  if (arg1) (arg1)->duration = *arg2;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_LifespanQosPolicy_1duration_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  eprosima::fastrtps::LifespanQosPolicy *arg1 = (eprosima::fastrtps::LifespanQosPolicy *) 0 ;
+  Duration_t *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::LifespanQosPolicy **)&jarg1; 
+  result = (Duration_t *)& ((arg1)->duration);
+  *(Duration_t **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_LifespanQosPolicy_1addToCDRMessage(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2) {
+  jboolean jresult = 0 ;
+  eprosima::fastrtps::LifespanQosPolicy *arg1 = (eprosima::fastrtps::LifespanQosPolicy *) 0 ;
+  CDRMessage_t *arg2 = (CDRMessage_t *) 0 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::LifespanQosPolicy **)&jarg1; 
+  arg2 = *(CDRMessage_t **)&jarg2; 
+  result = (bool)(arg1)->addToCDRMessage(arg2);
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_OwnershipStrengthQosPolicy_1value_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2) {
+  eprosima::fastrtps::OwnershipStrengthQosPolicy *arg1 = (eprosima::fastrtps::OwnershipStrengthQosPolicy *) 0 ;
+  uint32_t arg2 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::OwnershipStrengthQosPolicy **)&jarg1; 
+  arg2 = (uint32_t)jarg2; 
+  if (arg1) (arg1)->value = arg2;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_OwnershipStrengthQosPolicy_1value_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  eprosima::fastrtps::OwnershipStrengthQosPolicy *arg1 = (eprosima::fastrtps::OwnershipStrengthQosPolicy *) 0 ;
+  uint32_t result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::OwnershipStrengthQosPolicy **)&jarg1; 
+  result = (uint32_t) ((arg1)->value);
+  jresult = (jlong)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_new_1OwnershipStrengthQosPolicy(JNIEnv *jenv, jclass jcls) {
+  jlong jresult = 0 ;
+  eprosima::fastrtps::OwnershipStrengthQosPolicy *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  result = (eprosima::fastrtps::OwnershipStrengthQosPolicy *)new eprosima::fastrtps::OwnershipStrengthQosPolicy();
+  *(eprosima::fastrtps::OwnershipStrengthQosPolicy **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_delete_1OwnershipStrengthQosPolicy(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+  eprosima::fastrtps::OwnershipStrengthQosPolicy *arg1 = (eprosima::fastrtps::OwnershipStrengthQosPolicy *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = *(eprosima::fastrtps::OwnershipStrengthQosPolicy **)&jarg1; 
+  delete arg1;
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_OwnershipStrengthQosPolicy_1addToCDRMessage(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2) {
+  jboolean jresult = 0 ;
+  eprosima::fastrtps::OwnershipStrengthQosPolicy *arg1 = (eprosima::fastrtps::OwnershipStrengthQosPolicy *) 0 ;
+  CDRMessage_t *arg2 = (CDRMessage_t *) 0 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::OwnershipStrengthQosPolicy **)&jarg1; 
+  arg2 = *(CDRMessage_t **)&jarg2; 
+  result = (bool)(arg1)->addToCDRMessage(arg2);
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_TransportPriorityQosPolicy_1value_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2) {
+  eprosima::fastrtps::TransportPriorityQosPolicy *arg1 = (eprosima::fastrtps::TransportPriorityQosPolicy *) 0 ;
+  uint32_t arg2 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::TransportPriorityQosPolicy **)&jarg1; 
+  arg2 = (uint32_t)jarg2; 
+  if (arg1) (arg1)->value = arg2;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_TransportPriorityQosPolicy_1value_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  eprosima::fastrtps::TransportPriorityQosPolicy *arg1 = (eprosima::fastrtps::TransportPriorityQosPolicy *) 0 ;
+  uint32_t result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::TransportPriorityQosPolicy **)&jarg1; 
+  result = (uint32_t) ((arg1)->value);
+  jresult = (jlong)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_new_1TransportPriorityQosPolicy(JNIEnv *jenv, jclass jcls) {
+  jlong jresult = 0 ;
+  eprosima::fastrtps::TransportPriorityQosPolicy *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  result = (eprosima::fastrtps::TransportPriorityQosPolicy *)new eprosima::fastrtps::TransportPriorityQosPolicy();
+  *(eprosima::fastrtps::TransportPriorityQosPolicy **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_delete_1TransportPriorityQosPolicy(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+  eprosima::fastrtps::TransportPriorityQosPolicy *arg1 = (eprosima::fastrtps::TransportPriorityQosPolicy *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = *(eprosima::fastrtps::TransportPriorityQosPolicy **)&jarg1; 
+  delete arg1;
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_TransportPriorityQosPolicy_1addToCDRMessage(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2) {
+  jboolean jresult = 0 ;
+  eprosima::fastrtps::TransportPriorityQosPolicy *arg1 = (eprosima::fastrtps::TransportPriorityQosPolicy *) 0 ;
+  CDRMessage_t *arg2 = (CDRMessage_t *) 0 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::TransportPriorityQosPolicy **)&jarg1; 
+  arg2 = *(CDRMessage_t **)&jarg2; 
+  result = (bool)(arg1)->addToCDRMessage(arg2);
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_PublishModeQosPolicy_1kind_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2) {
+  eprosima::fastrtps::PublishModeQosPolicy *arg1 = (eprosima::fastrtps::PublishModeQosPolicy *) 0 ;
+  eprosima::fastrtps::PublishModeQosPolicyKind arg2 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::PublishModeQosPolicy **)&jarg1; 
+  arg2 = (eprosima::fastrtps::PublishModeQosPolicyKind)jarg2; 
+  if (arg1) (arg1)->kind = arg2;
+}
+
+
+SWIGEXPORT jint JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_PublishModeQosPolicy_1kind_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jint jresult = 0 ;
+  eprosima::fastrtps::PublishModeQosPolicy *arg1 = (eprosima::fastrtps::PublishModeQosPolicy *) 0 ;
+  eprosima::fastrtps::PublishModeQosPolicyKind result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::PublishModeQosPolicy **)&jarg1; 
+  result = (eprosima::fastrtps::PublishModeQosPolicyKind) ((arg1)->kind);
+  jresult = (jint)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_new_1PublishModeQosPolicy(JNIEnv *jenv, jclass jcls) {
+  jlong jresult = 0 ;
+  eprosima::fastrtps::PublishModeQosPolicy *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  result = (eprosima::fastrtps::PublishModeQosPolicy *)new eprosima::fastrtps::PublishModeQosPolicy();
+  *(eprosima::fastrtps::PublishModeQosPolicy **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_delete_1PublishModeQosPolicy(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+  eprosima::fastrtps::PublishModeQosPolicy *arg1 = (eprosima::fastrtps::PublishModeQosPolicy *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = *(eprosima::fastrtps::PublishModeQosPolicy **)&jarg1; 
+  delete arg1;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_new_1WriterQos(JNIEnv *jenv, jclass jcls) {
+  jlong jresult = 0 ;
+  eprosima::fastrtps::WriterQos *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  result = (eprosima::fastrtps::WriterQos *)new eprosima::fastrtps::WriterQos();
+  *(eprosima::fastrtps::WriterQos **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_delete_1WriterQos(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+  eprosima::fastrtps::WriterQos *arg1 = (eprosima::fastrtps::WriterQos *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = *(eprosima::fastrtps::WriterQos **)&jarg1; 
+  delete arg1;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_WriterQos_1m_1durability_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  eprosima::fastrtps::WriterQos *arg1 = (eprosima::fastrtps::WriterQos *) 0 ;
+  eprosima::fastrtps::DurabilityQosPolicy *arg2 = (eprosima::fastrtps::DurabilityQosPolicy *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  arg1 = *(eprosima::fastrtps::WriterQos **)&jarg1; 
+  arg2 = *(eprosima::fastrtps::DurabilityQosPolicy **)&jarg2; 
+  if (arg1) (arg1)->m_durability = *arg2;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_WriterQos_1m_1durability_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  eprosima::fastrtps::WriterQos *arg1 = (eprosima::fastrtps::WriterQos *) 0 ;
+  eprosima::fastrtps::DurabilityQosPolicy *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::WriterQos **)&jarg1; 
+  result = (eprosima::fastrtps::DurabilityQosPolicy *)& ((arg1)->m_durability);
+  *(eprosima::fastrtps::DurabilityQosPolicy **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_WriterQos_1m_1durabilityService_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  eprosima::fastrtps::WriterQos *arg1 = (eprosima::fastrtps::WriterQos *) 0 ;
+  eprosima::fastrtps::DurabilityServiceQosPolicy *arg2 = (eprosima::fastrtps::DurabilityServiceQosPolicy *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  arg1 = *(eprosima::fastrtps::WriterQos **)&jarg1; 
+  arg2 = *(eprosima::fastrtps::DurabilityServiceQosPolicy **)&jarg2; 
+  if (arg1) (arg1)->m_durabilityService = *arg2;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_WriterQos_1m_1durabilityService_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  eprosima::fastrtps::WriterQos *arg1 = (eprosima::fastrtps::WriterQos *) 0 ;
+  eprosima::fastrtps::DurabilityServiceQosPolicy *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::WriterQos **)&jarg1; 
+  result = (eprosima::fastrtps::DurabilityServiceQosPolicy *)& ((arg1)->m_durabilityService);
+  *(eprosima::fastrtps::DurabilityServiceQosPolicy **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_WriterQos_1m_1deadline_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  eprosima::fastrtps::WriterQos *arg1 = (eprosima::fastrtps::WriterQos *) 0 ;
+  eprosima::fastrtps::DeadlineQosPolicy *arg2 = (eprosima::fastrtps::DeadlineQosPolicy *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  arg1 = *(eprosima::fastrtps::WriterQos **)&jarg1; 
+  arg2 = *(eprosima::fastrtps::DeadlineQosPolicy **)&jarg2; 
+  if (arg1) (arg1)->m_deadline = *arg2;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_WriterQos_1m_1deadline_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  eprosima::fastrtps::WriterQos *arg1 = (eprosima::fastrtps::WriterQos *) 0 ;
+  eprosima::fastrtps::DeadlineQosPolicy *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::WriterQos **)&jarg1; 
+  result = (eprosima::fastrtps::DeadlineQosPolicy *)& ((arg1)->m_deadline);
+  *(eprosima::fastrtps::DeadlineQosPolicy **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_WriterQos_1m_1latencyBudget_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  eprosima::fastrtps::WriterQos *arg1 = (eprosima::fastrtps::WriterQos *) 0 ;
+  eprosima::fastrtps::LatencyBudgetQosPolicy *arg2 = (eprosima::fastrtps::LatencyBudgetQosPolicy *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  arg1 = *(eprosima::fastrtps::WriterQos **)&jarg1; 
+  arg2 = *(eprosima::fastrtps::LatencyBudgetQosPolicy **)&jarg2; 
+  if (arg1) (arg1)->m_latencyBudget = *arg2;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_WriterQos_1m_1latencyBudget_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  eprosima::fastrtps::WriterQos *arg1 = (eprosima::fastrtps::WriterQos *) 0 ;
+  eprosima::fastrtps::LatencyBudgetQosPolicy *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::WriterQos **)&jarg1; 
+  result = (eprosima::fastrtps::LatencyBudgetQosPolicy *)& ((arg1)->m_latencyBudget);
+  *(eprosima::fastrtps::LatencyBudgetQosPolicy **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_WriterQos_1m_1liveliness_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  eprosima::fastrtps::WriterQos *arg1 = (eprosima::fastrtps::WriterQos *) 0 ;
+  eprosima::fastrtps::LivelinessQosPolicy *arg2 = (eprosima::fastrtps::LivelinessQosPolicy *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  arg1 = *(eprosima::fastrtps::WriterQos **)&jarg1; 
+  arg2 = *(eprosima::fastrtps::LivelinessQosPolicy **)&jarg2; 
+  if (arg1) (arg1)->m_liveliness = *arg2;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_WriterQos_1m_1liveliness_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  eprosima::fastrtps::WriterQos *arg1 = (eprosima::fastrtps::WriterQos *) 0 ;
+  eprosima::fastrtps::LivelinessQosPolicy *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::WriterQos **)&jarg1; 
+  result = (eprosima::fastrtps::LivelinessQosPolicy *)& ((arg1)->m_liveliness);
+  *(eprosima::fastrtps::LivelinessQosPolicy **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_WriterQos_1m_1reliability_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  eprosima::fastrtps::WriterQos *arg1 = (eprosima::fastrtps::WriterQos *) 0 ;
+  eprosima::fastrtps::ReliabilityQosPolicy *arg2 = (eprosima::fastrtps::ReliabilityQosPolicy *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  arg1 = *(eprosima::fastrtps::WriterQos **)&jarg1; 
+  arg2 = *(eprosima::fastrtps::ReliabilityQosPolicy **)&jarg2; 
+  if (arg1) (arg1)->m_reliability = *arg2;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_WriterQos_1m_1reliability_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  eprosima::fastrtps::WriterQos *arg1 = (eprosima::fastrtps::WriterQos *) 0 ;
+  eprosima::fastrtps::ReliabilityQosPolicy *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::WriterQos **)&jarg1; 
+  result = (eprosima::fastrtps::ReliabilityQosPolicy *)& ((arg1)->m_reliability);
+  *(eprosima::fastrtps::ReliabilityQosPolicy **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_WriterQos_1m_1lifespan_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  eprosima::fastrtps::WriterQos *arg1 = (eprosima::fastrtps::WriterQos *) 0 ;
+  eprosima::fastrtps::LifespanQosPolicy *arg2 = (eprosima::fastrtps::LifespanQosPolicy *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  arg1 = *(eprosima::fastrtps::WriterQos **)&jarg1; 
+  arg2 = *(eprosima::fastrtps::LifespanQosPolicy **)&jarg2; 
+  if (arg1) (arg1)->m_lifespan = *arg2;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_WriterQos_1m_1lifespan_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  eprosima::fastrtps::WriterQos *arg1 = (eprosima::fastrtps::WriterQos *) 0 ;
+  eprosima::fastrtps::LifespanQosPolicy *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::WriterQos **)&jarg1; 
+  result = (eprosima::fastrtps::LifespanQosPolicy *)& ((arg1)->m_lifespan);
+  *(eprosima::fastrtps::LifespanQosPolicy **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_WriterQos_1m_1userData_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  eprosima::fastrtps::WriterQos *arg1 = (eprosima::fastrtps::WriterQos *) 0 ;
+  eprosima::fastrtps::UserDataQosPolicy *arg2 = (eprosima::fastrtps::UserDataQosPolicy *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  arg1 = *(eprosima::fastrtps::WriterQos **)&jarg1; 
+  arg2 = *(eprosima::fastrtps::UserDataQosPolicy **)&jarg2; 
+  if (arg1) (arg1)->m_userData = *arg2;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_WriterQos_1m_1userData_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  eprosima::fastrtps::WriterQos *arg1 = (eprosima::fastrtps::WriterQos *) 0 ;
+  eprosima::fastrtps::UserDataQosPolicy *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::WriterQos **)&jarg1; 
+  result = (eprosima::fastrtps::UserDataQosPolicy *)& ((arg1)->m_userData);
+  *(eprosima::fastrtps::UserDataQosPolicy **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_WriterQos_1m_1timeBasedFilter_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  eprosima::fastrtps::WriterQos *arg1 = (eprosima::fastrtps::WriterQos *) 0 ;
+  eprosima::fastrtps::TimeBasedFilterQosPolicy *arg2 = (eprosima::fastrtps::TimeBasedFilterQosPolicy *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  arg1 = *(eprosima::fastrtps::WriterQos **)&jarg1; 
+  arg2 = *(eprosima::fastrtps::TimeBasedFilterQosPolicy **)&jarg2; 
+  if (arg1) (arg1)->m_timeBasedFilter = *arg2;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_WriterQos_1m_1timeBasedFilter_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  eprosima::fastrtps::WriterQos *arg1 = (eprosima::fastrtps::WriterQos *) 0 ;
+  eprosima::fastrtps::TimeBasedFilterQosPolicy *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::WriterQos **)&jarg1; 
+  result = (eprosima::fastrtps::TimeBasedFilterQosPolicy *)& ((arg1)->m_timeBasedFilter);
+  *(eprosima::fastrtps::TimeBasedFilterQosPolicy **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_WriterQos_1m_1ownership_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  eprosima::fastrtps::WriterQos *arg1 = (eprosima::fastrtps::WriterQos *) 0 ;
+  eprosima::fastrtps::OwnershipQosPolicy *arg2 = (eprosima::fastrtps::OwnershipQosPolicy *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  arg1 = *(eprosima::fastrtps::WriterQos **)&jarg1; 
+  arg2 = *(eprosima::fastrtps::OwnershipQosPolicy **)&jarg2; 
+  if (arg1) (arg1)->m_ownership = *arg2;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_WriterQos_1m_1ownership_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  eprosima::fastrtps::WriterQos *arg1 = (eprosima::fastrtps::WriterQos *) 0 ;
+  eprosima::fastrtps::OwnershipQosPolicy *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::WriterQos **)&jarg1; 
+  result = (eprosima::fastrtps::OwnershipQosPolicy *)& ((arg1)->m_ownership);
+  *(eprosima::fastrtps::OwnershipQosPolicy **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_WriterQos_1m_1ownershipStrength_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  eprosima::fastrtps::WriterQos *arg1 = (eprosima::fastrtps::WriterQos *) 0 ;
+  eprosima::fastrtps::OwnershipStrengthQosPolicy *arg2 = (eprosima::fastrtps::OwnershipStrengthQosPolicy *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  arg1 = *(eprosima::fastrtps::WriterQos **)&jarg1; 
+  arg2 = *(eprosima::fastrtps::OwnershipStrengthQosPolicy **)&jarg2; 
+  if (arg1) (arg1)->m_ownershipStrength = *arg2;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_WriterQos_1m_1ownershipStrength_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  eprosima::fastrtps::WriterQos *arg1 = (eprosima::fastrtps::WriterQos *) 0 ;
+  eprosima::fastrtps::OwnershipStrengthQosPolicy *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::WriterQos **)&jarg1; 
+  result = (eprosima::fastrtps::OwnershipStrengthQosPolicy *)& ((arg1)->m_ownershipStrength);
+  *(eprosima::fastrtps::OwnershipStrengthQosPolicy **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_WriterQos_1m_1destinationOrder_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  eprosima::fastrtps::WriterQos *arg1 = (eprosima::fastrtps::WriterQos *) 0 ;
+  eprosima::fastrtps::DestinationOrderQosPolicy *arg2 = (eprosima::fastrtps::DestinationOrderQosPolicy *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  arg1 = *(eprosima::fastrtps::WriterQos **)&jarg1; 
+  arg2 = *(eprosima::fastrtps::DestinationOrderQosPolicy **)&jarg2; 
+  if (arg1) (arg1)->m_destinationOrder = *arg2;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_WriterQos_1m_1destinationOrder_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  eprosima::fastrtps::WriterQos *arg1 = (eprosima::fastrtps::WriterQos *) 0 ;
+  eprosima::fastrtps::DestinationOrderQosPolicy *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::WriterQos **)&jarg1; 
+  result = (eprosima::fastrtps::DestinationOrderQosPolicy *)& ((arg1)->m_destinationOrder);
+  *(eprosima::fastrtps::DestinationOrderQosPolicy **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_WriterQos_1m_1presentation_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  eprosima::fastrtps::WriterQos *arg1 = (eprosima::fastrtps::WriterQos *) 0 ;
+  eprosima::fastrtps::PresentationQosPolicy *arg2 = (eprosima::fastrtps::PresentationQosPolicy *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  arg1 = *(eprosima::fastrtps::WriterQos **)&jarg1; 
+  arg2 = *(eprosima::fastrtps::PresentationQosPolicy **)&jarg2; 
+  if (arg1) (arg1)->m_presentation = *arg2;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_WriterQos_1m_1presentation_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  eprosima::fastrtps::WriterQos *arg1 = (eprosima::fastrtps::WriterQos *) 0 ;
+  eprosima::fastrtps::PresentationQosPolicy *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::WriterQos **)&jarg1; 
+  result = (eprosima::fastrtps::PresentationQosPolicy *)& ((arg1)->m_presentation);
+  *(eprosima::fastrtps::PresentationQosPolicy **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_WriterQos_1m_1partition_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  eprosima::fastrtps::WriterQos *arg1 = (eprosima::fastrtps::WriterQos *) 0 ;
+  eprosima::fastrtps::PartitionQosPolicy *arg2 = (eprosima::fastrtps::PartitionQosPolicy *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  arg1 = *(eprosima::fastrtps::WriterQos **)&jarg1; 
+  arg2 = *(eprosima::fastrtps::PartitionQosPolicy **)&jarg2; 
+  if (arg1) (arg1)->m_partition = *arg2;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_WriterQos_1m_1partition_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  eprosima::fastrtps::WriterQos *arg1 = (eprosima::fastrtps::WriterQos *) 0 ;
+  eprosima::fastrtps::PartitionQosPolicy *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::WriterQos **)&jarg1; 
+  result = (eprosima::fastrtps::PartitionQosPolicy *)& ((arg1)->m_partition);
+  *(eprosima::fastrtps::PartitionQosPolicy **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_WriterQos_1m_1topicData_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  eprosima::fastrtps::WriterQos *arg1 = (eprosima::fastrtps::WriterQos *) 0 ;
+  eprosima::fastrtps::TopicDataQosPolicy *arg2 = (eprosima::fastrtps::TopicDataQosPolicy *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  arg1 = *(eprosima::fastrtps::WriterQos **)&jarg1; 
+  arg2 = *(eprosima::fastrtps::TopicDataQosPolicy **)&jarg2; 
+  if (arg1) (arg1)->m_topicData = *arg2;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_WriterQos_1m_1topicData_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  eprosima::fastrtps::WriterQos *arg1 = (eprosima::fastrtps::WriterQos *) 0 ;
+  eprosima::fastrtps::TopicDataQosPolicy *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::WriterQos **)&jarg1; 
+  result = (eprosima::fastrtps::TopicDataQosPolicy *)& ((arg1)->m_topicData);
+  *(eprosima::fastrtps::TopicDataQosPolicy **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_WriterQos_1m_1groupData_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  eprosima::fastrtps::WriterQos *arg1 = (eprosima::fastrtps::WriterQos *) 0 ;
+  eprosima::fastrtps::GroupDataQosPolicy *arg2 = (eprosima::fastrtps::GroupDataQosPolicy *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  arg1 = *(eprosima::fastrtps::WriterQos **)&jarg1; 
+  arg2 = *(eprosima::fastrtps::GroupDataQosPolicy **)&jarg2; 
+  if (arg1) (arg1)->m_groupData = *arg2;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_WriterQos_1m_1groupData_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  eprosima::fastrtps::WriterQos *arg1 = (eprosima::fastrtps::WriterQos *) 0 ;
+  eprosima::fastrtps::GroupDataQosPolicy *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::WriterQos **)&jarg1; 
+  result = (eprosima::fastrtps::GroupDataQosPolicy *)& ((arg1)->m_groupData);
+  *(eprosima::fastrtps::GroupDataQosPolicy **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_WriterQos_1m_1publishMode_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  eprosima::fastrtps::WriterQos *arg1 = (eprosima::fastrtps::WriterQos *) 0 ;
+  eprosima::fastrtps::PublishModeQosPolicy *arg2 = (eprosima::fastrtps::PublishModeQosPolicy *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  arg1 = *(eprosima::fastrtps::WriterQos **)&jarg1; 
+  arg2 = *(eprosima::fastrtps::PublishModeQosPolicy **)&jarg2; 
+  if (arg1) (arg1)->m_publishMode = *arg2;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_WriterQos_1m_1publishMode_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  eprosima::fastrtps::WriterQos *arg1 = (eprosima::fastrtps::WriterQos *) 0 ;
+  eprosima::fastrtps::PublishModeQosPolicy *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::WriterQos **)&jarg1; 
+  result = (eprosima::fastrtps::PublishModeQosPolicy *)& ((arg1)->m_publishMode);
+  *(eprosima::fastrtps::PublishModeQosPolicy **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_WriterQos_1setQos(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_, jboolean jarg3) {
+  eprosima::fastrtps::WriterQos *arg1 = (eprosima::fastrtps::WriterQos *) 0 ;
+  eprosima::fastrtps::WriterQos *arg2 = 0 ;
+  bool arg3 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  arg1 = *(eprosima::fastrtps::WriterQos **)&jarg1; 
+  arg2 = *(eprosima::fastrtps::WriterQos **)&jarg2;
+  if (!arg2) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "eprosima::fastrtps::WriterQos & reference is null");
+    return ;
+  } 
+  arg3 = jarg3 ? true : false; 
+  (arg1)->setQos(*arg2,arg3);
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_WriterQos_1checkQos(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jboolean jresult = 0 ;
+  eprosima::fastrtps::WriterQos *arg1 = (eprosima::fastrtps::WriterQos *) 0 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::WriterQos **)&jarg1; 
+  result = (bool)(arg1)->checkQos();
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_WriterQos_1canQosBeUpdated(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  jboolean jresult = 0 ;
+  eprosima::fastrtps::WriterQos *arg1 = (eprosima::fastrtps::WriterQos *) 0 ;
+  eprosima::fastrtps::WriterQos *arg2 = 0 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  arg1 = *(eprosima::fastrtps::WriterQos **)&jarg1; 
+  arg2 = *(eprosima::fastrtps::WriterQos **)&jarg2;
+  if (!arg2) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "eprosima::fastrtps::WriterQos & reference is null");
+    return 0;
+  } 
+  result = (bool)(arg1)->canQosBeUpdated(*arg2);
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_new_1TopicAttributes_1_1SWIG_10(JNIEnv *jenv, jclass jcls) {
+  jlong jresult = 0 ;
+  eprosima::fastrtps::TopicAttributes *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  result = (eprosima::fastrtps::TopicAttributes *)new eprosima::fastrtps::TopicAttributes();
+  *(eprosima::fastrtps::TopicAttributes **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_new_1TopicAttributes_1_1SWIG_11(JNIEnv *jenv, jclass jcls, jstring jarg1, jstring jarg2, jint jarg3) {
+  jlong jresult = 0 ;
+  char *arg1 = (char *) 0 ;
+  char *arg2 = (char *) 0 ;
+  TopicKind_t arg3 ;
+  eprosima::fastrtps::TopicAttributes *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = 0;
+  if (jarg1) {
+    arg1 = (char *)jenv->GetStringUTFChars(jarg1, 0);
+    if (!arg1) return 0;
+  }
+  arg2 = 0;
+  if (jarg2) {
+    arg2 = (char *)jenv->GetStringUTFChars(jarg2, 0);
+    if (!arg2) return 0;
+  }
+  arg3 = (TopicKind_t)jarg3; 
+  result = (eprosima::fastrtps::TopicAttributes *)new eprosima::fastrtps::TopicAttributes((char const *)arg1,(char const *)arg2,arg3);
+  *(eprosima::fastrtps::TopicAttributes **)&jresult = result; 
+  if (arg1) jenv->ReleaseStringUTFChars(jarg1, (const char *)arg1);
+  if (arg2) jenv->ReleaseStringUTFChars(jarg2, (const char *)arg2);
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_new_1TopicAttributes_1_1SWIG_12(JNIEnv *jenv, jclass jcls, jstring jarg1, jstring jarg2) {
+  jlong jresult = 0 ;
+  char *arg1 = (char *) 0 ;
+  char *arg2 = (char *) 0 ;
+  eprosima::fastrtps::TopicAttributes *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = 0;
+  if (jarg1) {
+    arg1 = (char *)jenv->GetStringUTFChars(jarg1, 0);
+    if (!arg1) return 0;
+  }
+  arg2 = 0;
+  if (jarg2) {
+    arg2 = (char *)jenv->GetStringUTFChars(jarg2, 0);
+    if (!arg2) return 0;
+  }
+  result = (eprosima::fastrtps::TopicAttributes *)new eprosima::fastrtps::TopicAttributes((char const *)arg1,(char const *)arg2);
+  *(eprosima::fastrtps::TopicAttributes **)&jresult = result; 
+  if (arg1) jenv->ReleaseStringUTFChars(jarg1, (const char *)arg1);
+  if (arg2) jenv->ReleaseStringUTFChars(jarg2, (const char *)arg2);
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_delete_1TopicAttributes(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+  eprosima::fastrtps::TopicAttributes *arg1 = (eprosima::fastrtps::TopicAttributes *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = *(eprosima::fastrtps::TopicAttributes **)&jarg1; 
+  delete arg1;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_TopicAttributes_1topicKind_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2) {
+  eprosima::fastrtps::TopicAttributes *arg1 = (eprosima::fastrtps::TopicAttributes *) 0 ;
+  TopicKind_t arg2 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::TopicAttributes **)&jarg1; 
+  arg2 = (TopicKind_t)jarg2; 
+  if (arg1) (arg1)->topicKind = arg2;
+}
+
+
+SWIGEXPORT jint JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_TopicAttributes_1topicKind_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jint jresult = 0 ;
+  eprosima::fastrtps::TopicAttributes *arg1 = (eprosima::fastrtps::TopicAttributes *) 0 ;
+  TopicKind_t result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::TopicAttributes **)&jarg1; 
+  result = (TopicKind_t) ((arg1)->topicKind);
+  jresult = (jint)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_TopicAttributes_1topicName_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jstring jarg2) {
+  eprosima::fastrtps::TopicAttributes *arg1 = (eprosima::fastrtps::TopicAttributes *) 0 ;
+  std::string *arg2 = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::TopicAttributes **)&jarg1; 
+  if(!jarg2) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null string");
+    return ;
+  }
+  const char *arg2_pstr = (const char *)jenv->GetStringUTFChars(jarg2, 0); 
+  if (!arg2_pstr) return ;
+  std::string arg2_str(arg2_pstr);
+  arg2 = &arg2_str;
+  jenv->ReleaseStringUTFChars(jarg2, arg2_pstr); 
+  if (arg1) (arg1)->topicName = *arg2;
+}
+
+
+SWIGEXPORT jstring JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_TopicAttributes_1topicName_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jstring jresult = 0 ;
+  eprosima::fastrtps::TopicAttributes *arg1 = (eprosima::fastrtps::TopicAttributes *) 0 ;
+  std::string *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::TopicAttributes **)&jarg1; 
+  result = (std::string *) & ((arg1)->topicName);
+  jresult = jenv->NewStringUTF(result->c_str()); 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_TopicAttributes_1topicDataType_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jstring jarg2) {
+  eprosima::fastrtps::TopicAttributes *arg1 = (eprosima::fastrtps::TopicAttributes *) 0 ;
+  std::string *arg2 = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::TopicAttributes **)&jarg1; 
+  if(!jarg2) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null string");
+    return ;
+  }
+  const char *arg2_pstr = (const char *)jenv->GetStringUTFChars(jarg2, 0); 
+  if (!arg2_pstr) return ;
+  std::string arg2_str(arg2_pstr);
+  arg2 = &arg2_str;
+  jenv->ReleaseStringUTFChars(jarg2, arg2_pstr); 
+  if (arg1) (arg1)->topicDataType = *arg2;
+}
+
+
+SWIGEXPORT jstring JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_TopicAttributes_1topicDataType_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jstring jresult = 0 ;
+  eprosima::fastrtps::TopicAttributes *arg1 = (eprosima::fastrtps::TopicAttributes *) 0 ;
+  std::string *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::TopicAttributes **)&jarg1; 
+  result = (std::string *) & ((arg1)->topicDataType);
+  jresult = jenv->NewStringUTF(result->c_str()); 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_TopicAttributes_1historyQos_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  eprosima::fastrtps::TopicAttributes *arg1 = (eprosima::fastrtps::TopicAttributes *) 0 ;
+  eprosima::fastrtps::HistoryQosPolicy *arg2 = (eprosima::fastrtps::HistoryQosPolicy *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  arg1 = *(eprosima::fastrtps::TopicAttributes **)&jarg1; 
+  arg2 = *(eprosima::fastrtps::HistoryQosPolicy **)&jarg2; 
+  if (arg1) (arg1)->historyQos = *arg2;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_TopicAttributes_1historyQos_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  eprosima::fastrtps::TopicAttributes *arg1 = (eprosima::fastrtps::TopicAttributes *) 0 ;
+  eprosima::fastrtps::HistoryQosPolicy *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::TopicAttributes **)&jarg1; 
+  result = (eprosima::fastrtps::HistoryQosPolicy *)& ((arg1)->historyQos);
+  *(eprosima::fastrtps::HistoryQosPolicy **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_TopicAttributes_1resourceLimitsQos_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  eprosima::fastrtps::TopicAttributes *arg1 = (eprosima::fastrtps::TopicAttributes *) 0 ;
+  eprosima::fastrtps::ResourceLimitsQosPolicy *arg2 = (eprosima::fastrtps::ResourceLimitsQosPolicy *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  arg1 = *(eprosima::fastrtps::TopicAttributes **)&jarg1; 
+  arg2 = *(eprosima::fastrtps::ResourceLimitsQosPolicy **)&jarg2; 
+  if (arg1) (arg1)->resourceLimitsQos = *arg2;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_TopicAttributes_1resourceLimitsQos_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  eprosima::fastrtps::TopicAttributes *arg1 = (eprosima::fastrtps::TopicAttributes *) 0 ;
+  eprosima::fastrtps::ResourceLimitsQosPolicy *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::TopicAttributes **)&jarg1; 
+  result = (eprosima::fastrtps::ResourceLimitsQosPolicy *)& ((arg1)->resourceLimitsQos);
+  *(eprosima::fastrtps::ResourceLimitsQosPolicy **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_TopicAttributes_1checkQos(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jboolean jresult = 0 ;
+  eprosima::fastrtps::TopicAttributes *arg1 = (eprosima::fastrtps::TopicAttributes *) 0 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::TopicAttributes **)&jarg1; 
+  result = (bool)(arg1)->checkQos();
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_new_1EndpointAttributes(JNIEnv *jenv, jclass jcls) {
+  jlong jresult = 0 ;
+  eprosima::fastrtps::rtps::EndpointAttributes *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  result = (eprosima::fastrtps::rtps::EndpointAttributes *)new eprosima::fastrtps::rtps::EndpointAttributes();
+  *(eprosima::fastrtps::rtps::EndpointAttributes **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_delete_1EndpointAttributes(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+  eprosima::fastrtps::rtps::EndpointAttributes *arg1 = (eprosima::fastrtps::rtps::EndpointAttributes *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = *(eprosima::fastrtps::rtps::EndpointAttributes **)&jarg1; 
+  delete arg1;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_EndpointAttributes_1endpointKind_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2) {
+  eprosima::fastrtps::rtps::EndpointAttributes *arg1 = (eprosima::fastrtps::rtps::EndpointAttributes *) 0 ;
+  EndpointKind_t arg2 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::rtps::EndpointAttributes **)&jarg1; 
+  arg2 = (EndpointKind_t)jarg2; 
+  if (arg1) (arg1)->endpointKind = arg2;
+}
+
+
+SWIGEXPORT jint JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_EndpointAttributes_1endpointKind_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jint jresult = 0 ;
+  eprosima::fastrtps::rtps::EndpointAttributes *arg1 = (eprosima::fastrtps::rtps::EndpointAttributes *) 0 ;
+  EndpointKind_t result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::rtps::EndpointAttributes **)&jarg1; 
+  result = (EndpointKind_t) ((arg1)->endpointKind);
+  jresult = (jint)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_EndpointAttributes_1topicKind_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2) {
+  eprosima::fastrtps::rtps::EndpointAttributes *arg1 = (eprosima::fastrtps::rtps::EndpointAttributes *) 0 ;
+  TopicKind_t arg2 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::rtps::EndpointAttributes **)&jarg1; 
+  arg2 = (TopicKind_t)jarg2; 
+  if (arg1) (arg1)->topicKind = arg2;
+}
+
+
+SWIGEXPORT jint JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_EndpointAttributes_1topicKind_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jint jresult = 0 ;
+  eprosima::fastrtps::rtps::EndpointAttributes *arg1 = (eprosima::fastrtps::rtps::EndpointAttributes *) 0 ;
+  TopicKind_t result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::rtps::EndpointAttributes **)&jarg1; 
+  result = (TopicKind_t) ((arg1)->topicKind);
+  jresult = (jint)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_EndpointAttributes_1reliabilityKind_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2) {
+  eprosima::fastrtps::rtps::EndpointAttributes *arg1 = (eprosima::fastrtps::rtps::EndpointAttributes *) 0 ;
+  ReliabilityKind_t arg2 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::rtps::EndpointAttributes **)&jarg1; 
+  arg2 = (ReliabilityKind_t)jarg2; 
+  if (arg1) (arg1)->reliabilityKind = arg2;
+}
+
+
+SWIGEXPORT jint JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_EndpointAttributes_1reliabilityKind_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jint jresult = 0 ;
+  eprosima::fastrtps::rtps::EndpointAttributes *arg1 = (eprosima::fastrtps::rtps::EndpointAttributes *) 0 ;
+  ReliabilityKind_t result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::rtps::EndpointAttributes **)&jarg1; 
+  result = (ReliabilityKind_t) ((arg1)->reliabilityKind);
+  jresult = (jint)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_EndpointAttributes_1durabilityKind_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2) {
+  eprosima::fastrtps::rtps::EndpointAttributes *arg1 = (eprosima::fastrtps::rtps::EndpointAttributes *) 0 ;
+  DurabilityKind_t arg2 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::rtps::EndpointAttributes **)&jarg1; 
+  arg2 = (DurabilityKind_t)jarg2; 
+  if (arg1) (arg1)->durabilityKind = arg2;
+}
+
+
+SWIGEXPORT jint JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_EndpointAttributes_1durabilityKind_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jint jresult = 0 ;
+  eprosima::fastrtps::rtps::EndpointAttributes *arg1 = (eprosima::fastrtps::rtps::EndpointAttributes *) 0 ;
+  DurabilityKind_t result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::rtps::EndpointAttributes **)&jarg1; 
+  result = (DurabilityKind_t) ((arg1)->durabilityKind);
+  jresult = (jint)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_EndpointAttributes_1unicastLocatorList_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  eprosima::fastrtps::rtps::EndpointAttributes *arg1 = (eprosima::fastrtps::rtps::EndpointAttributes *) 0 ;
+  eprosima::fastrtps::rtps::LocatorList_t *arg2 = (eprosima::fastrtps::rtps::LocatorList_t *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  arg1 = *(eprosima::fastrtps::rtps::EndpointAttributes **)&jarg1; 
+  arg2 = *(eprosima::fastrtps::rtps::LocatorList_t **)&jarg2; 
+  if (arg1) (arg1)->unicastLocatorList = *arg2;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_EndpointAttributes_1unicastLocatorList_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  eprosima::fastrtps::rtps::EndpointAttributes *arg1 = (eprosima::fastrtps::rtps::EndpointAttributes *) 0 ;
+  eprosima::fastrtps::rtps::LocatorList_t *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::rtps::EndpointAttributes **)&jarg1; 
+  result = (eprosima::fastrtps::rtps::LocatorList_t *)& ((arg1)->unicastLocatorList);
+  *(eprosima::fastrtps::rtps::LocatorList_t **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_EndpointAttributes_1multicastLocatorList_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  eprosima::fastrtps::rtps::EndpointAttributes *arg1 = (eprosima::fastrtps::rtps::EndpointAttributes *) 0 ;
+  eprosima::fastrtps::rtps::LocatorList_t *arg2 = (eprosima::fastrtps::rtps::LocatorList_t *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  arg1 = *(eprosima::fastrtps::rtps::EndpointAttributes **)&jarg1; 
+  arg2 = *(eprosima::fastrtps::rtps::LocatorList_t **)&jarg2; 
+  if (arg1) (arg1)->multicastLocatorList = *arg2;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_EndpointAttributes_1multicastLocatorList_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  eprosima::fastrtps::rtps::EndpointAttributes *arg1 = (eprosima::fastrtps::rtps::EndpointAttributes *) 0 ;
+  eprosima::fastrtps::rtps::LocatorList_t *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::rtps::EndpointAttributes **)&jarg1; 
+  result = (eprosima::fastrtps::rtps::LocatorList_t *)& ((arg1)->multicastLocatorList);
+  *(eprosima::fastrtps::rtps::LocatorList_t **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_EndpointAttributes_1outLocatorList_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  eprosima::fastrtps::rtps::EndpointAttributes *arg1 = (eprosima::fastrtps::rtps::EndpointAttributes *) 0 ;
+  eprosima::fastrtps::rtps::LocatorList_t *arg2 = (eprosima::fastrtps::rtps::LocatorList_t *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  arg1 = *(eprosima::fastrtps::rtps::EndpointAttributes **)&jarg1; 
+  arg2 = *(eprosima::fastrtps::rtps::LocatorList_t **)&jarg2; 
+  if (arg1) (arg1)->outLocatorList = *arg2;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_EndpointAttributes_1outLocatorList_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  eprosima::fastrtps::rtps::EndpointAttributes *arg1 = (eprosima::fastrtps::rtps::EndpointAttributes *) 0 ;
+  eprosima::fastrtps::rtps::LocatorList_t *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::rtps::EndpointAttributes **)&jarg1; 
+  result = (eprosima::fastrtps::rtps::LocatorList_t *)& ((arg1)->outLocatorList);
+  *(eprosima::fastrtps::rtps::LocatorList_t **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jshort JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_EndpointAttributes_1getUserDefinedID(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jshort jresult = 0 ;
+  eprosima::fastrtps::rtps::EndpointAttributes *arg1 = (eprosima::fastrtps::rtps::EndpointAttributes *) 0 ;
+  int16_t result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::rtps::EndpointAttributes **)&jarg1; 
+  result = (int16_t)((eprosima::fastrtps::rtps::EndpointAttributes const *)arg1)->getUserDefinedID();
+  jresult = (jshort)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jshort JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_EndpointAttributes_1getEntityID(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jshort jresult = 0 ;
+  eprosima::fastrtps::rtps::EndpointAttributes *arg1 = (eprosima::fastrtps::rtps::EndpointAttributes *) 0 ;
+  int16_t result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::rtps::EndpointAttributes **)&jarg1; 
+  result = (int16_t)((eprosima::fastrtps::rtps::EndpointAttributes const *)arg1)->getEntityID();
+  jresult = (jshort)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_EndpointAttributes_1setUserDefinedID(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jshort jarg2) {
+  eprosima::fastrtps::rtps::EndpointAttributes *arg1 = (eprosima::fastrtps::rtps::EndpointAttributes *) 0 ;
+  uint8_t arg2 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::rtps::EndpointAttributes **)&jarg1; 
+  arg2 = (uint8_t)jarg2; 
+  (arg1)->setUserDefinedID(arg2);
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_EndpointAttributes_1setEntityID(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jshort jarg2) {
+  eprosima::fastrtps::rtps::EndpointAttributes *arg1 = (eprosima::fastrtps::rtps::EndpointAttributes *) 0 ;
+  uint8_t arg2 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::rtps::EndpointAttributes **)&jarg1; 
+  arg2 = (uint8_t)jarg2; 
+  (arg1)->setEntityID(arg2);
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_new_1WriterTimes(JNIEnv *jenv, jclass jcls) {
+  jlong jresult = 0 ;
+  eprosima::fastrtps::rtps::WriterTimes *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  result = (eprosima::fastrtps::rtps::WriterTimes *)new eprosima::fastrtps::rtps::WriterTimes();
+  *(eprosima::fastrtps::rtps::WriterTimes **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_delete_1WriterTimes(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+  eprosima::fastrtps::rtps::WriterTimes *arg1 = (eprosima::fastrtps::rtps::WriterTimes *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = *(eprosima::fastrtps::rtps::WriterTimes **)&jarg1; 
+  delete arg1;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_WriterTimes_1initialHeartbeatDelay_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  eprosima::fastrtps::rtps::WriterTimes *arg1 = (eprosima::fastrtps::rtps::WriterTimes *) 0 ;
+  Duration_t *arg2 = (Duration_t *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  arg1 = *(eprosima::fastrtps::rtps::WriterTimes **)&jarg1; 
+  arg2 = *(Duration_t **)&jarg2; 
+  if (arg1) (arg1)->initialHeartbeatDelay = *arg2;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_WriterTimes_1initialHeartbeatDelay_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  eprosima::fastrtps::rtps::WriterTimes *arg1 = (eprosima::fastrtps::rtps::WriterTimes *) 0 ;
+  Duration_t *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::rtps::WriterTimes **)&jarg1; 
+  result = (Duration_t *)& ((arg1)->initialHeartbeatDelay);
+  *(Duration_t **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_WriterTimes_1heartbeatPeriod_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  eprosima::fastrtps::rtps::WriterTimes *arg1 = (eprosima::fastrtps::rtps::WriterTimes *) 0 ;
+  Duration_t *arg2 = (Duration_t *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  arg1 = *(eprosima::fastrtps::rtps::WriterTimes **)&jarg1; 
+  arg2 = *(Duration_t **)&jarg2; 
+  if (arg1) (arg1)->heartbeatPeriod = *arg2;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_WriterTimes_1heartbeatPeriod_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  eprosima::fastrtps::rtps::WriterTimes *arg1 = (eprosima::fastrtps::rtps::WriterTimes *) 0 ;
+  Duration_t *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::rtps::WriterTimes **)&jarg1; 
+  result = (Duration_t *)& ((arg1)->heartbeatPeriod);
+  *(Duration_t **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_WriterTimes_1nackResponseDelay_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  eprosima::fastrtps::rtps::WriterTimes *arg1 = (eprosima::fastrtps::rtps::WriterTimes *) 0 ;
+  Duration_t *arg2 = (Duration_t *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  arg1 = *(eprosima::fastrtps::rtps::WriterTimes **)&jarg1; 
+  arg2 = *(Duration_t **)&jarg2; 
+  if (arg1) (arg1)->nackResponseDelay = *arg2;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_WriterTimes_1nackResponseDelay_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  eprosima::fastrtps::rtps::WriterTimes *arg1 = (eprosima::fastrtps::rtps::WriterTimes *) 0 ;
+  Duration_t *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::rtps::WriterTimes **)&jarg1; 
+  result = (Duration_t *)& ((arg1)->nackResponseDelay);
+  *(Duration_t **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_WriterTimes_1nackSupressionDuration_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  eprosima::fastrtps::rtps::WriterTimes *arg1 = (eprosima::fastrtps::rtps::WriterTimes *) 0 ;
+  Duration_t *arg2 = (Duration_t *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  arg1 = *(eprosima::fastrtps::rtps::WriterTimes **)&jarg1; 
+  arg2 = *(Duration_t **)&jarg2; 
+  if (arg1) (arg1)->nackSupressionDuration = *arg2;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_WriterTimes_1nackSupressionDuration_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  eprosima::fastrtps::rtps::WriterTimes *arg1 = (eprosima::fastrtps::rtps::WriterTimes *) 0 ;
+  Duration_t *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::rtps::WriterTimes **)&jarg1; 
+  result = (Duration_t *)& ((arg1)->nackSupressionDuration);
+  *(Duration_t **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_new_1WriterAttributes(JNIEnv *jenv, jclass jcls) {
+  jlong jresult = 0 ;
+  eprosima::fastrtps::rtps::WriterAttributes *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  result = (eprosima::fastrtps::rtps::WriterAttributes *)new eprosima::fastrtps::rtps::WriterAttributes();
+  *(eprosima::fastrtps::rtps::WriterAttributes **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_delete_1WriterAttributes(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+  eprosima::fastrtps::rtps::WriterAttributes *arg1 = (eprosima::fastrtps::rtps::WriterAttributes *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = *(eprosima::fastrtps::rtps::WriterAttributes **)&jarg1; 
+  delete arg1;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_WriterAttributes_1endpoint_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  eprosima::fastrtps::rtps::WriterAttributes *arg1 = (eprosima::fastrtps::rtps::WriterAttributes *) 0 ;
+  eprosima::fastrtps::rtps::EndpointAttributes *arg2 = (eprosima::fastrtps::rtps::EndpointAttributes *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  arg1 = *(eprosima::fastrtps::rtps::WriterAttributes **)&jarg1; 
+  arg2 = *(eprosima::fastrtps::rtps::EndpointAttributes **)&jarg2; 
+  if (arg1) (arg1)->endpoint = *arg2;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_WriterAttributes_1endpoint_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  eprosima::fastrtps::rtps::WriterAttributes *arg1 = (eprosima::fastrtps::rtps::WriterAttributes *) 0 ;
+  eprosima::fastrtps::rtps::EndpointAttributes *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::rtps::WriterAttributes **)&jarg1; 
+  result = (eprosima::fastrtps::rtps::EndpointAttributes *)& ((arg1)->endpoint);
+  *(eprosima::fastrtps::rtps::EndpointAttributes **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_WriterAttributes_1times_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  eprosima::fastrtps::rtps::WriterAttributes *arg1 = (eprosima::fastrtps::rtps::WriterAttributes *) 0 ;
+  eprosima::fastrtps::rtps::WriterTimes *arg2 = (eprosima::fastrtps::rtps::WriterTimes *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  arg1 = *(eprosima::fastrtps::rtps::WriterAttributes **)&jarg1; 
+  arg2 = *(eprosima::fastrtps::rtps::WriterTimes **)&jarg2; 
+  if (arg1) (arg1)->times = *arg2;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_WriterAttributes_1times_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  eprosima::fastrtps::rtps::WriterAttributes *arg1 = (eprosima::fastrtps::rtps::WriterAttributes *) 0 ;
+  eprosima::fastrtps::rtps::WriterTimes *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::rtps::WriterAttributes **)&jarg1; 
+  result = (eprosima::fastrtps::rtps::WriterTimes *)& ((arg1)->times);
+  *(eprosima::fastrtps::rtps::WriterTimes **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_WriterAttributes_1mode_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2) {
+  eprosima::fastrtps::rtps::WriterAttributes *arg1 = (eprosima::fastrtps::rtps::WriterAttributes *) 0 ;
+  eprosima::fastrtps::rtps::RTPSWriterPublishMode arg2 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::rtps::WriterAttributes **)&jarg1; 
+  arg2 = (eprosima::fastrtps::rtps::RTPSWriterPublishMode)jarg2; 
+  if (arg1) (arg1)->mode = arg2;
+}
+
+
+SWIGEXPORT jint JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_WriterAttributes_1mode_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jint jresult = 0 ;
+  eprosima::fastrtps::rtps::WriterAttributes *arg1 = (eprosima::fastrtps::rtps::WriterAttributes *) 0 ;
+  eprosima::fastrtps::rtps::RTPSWriterPublishMode result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::rtps::WriterAttributes **)&jarg1; 
+  result = (eprosima::fastrtps::rtps::RTPSWriterPublishMode) ((arg1)->mode);
+  jresult = (jint)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_WriterAttributes_1throughputController_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  eprosima::fastrtps::rtps::WriterAttributes *arg1 = (eprosima::fastrtps::rtps::WriterAttributes *) 0 ;
+  eprosima::fastrtps::rtps::ThroughputControllerDescriptor *arg2 = (eprosima::fastrtps::rtps::ThroughputControllerDescriptor *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  arg1 = *(eprosima::fastrtps::rtps::WriterAttributes **)&jarg1; 
+  arg2 = *(eprosima::fastrtps::rtps::ThroughputControllerDescriptor **)&jarg2; 
+  if (arg1) (arg1)->throughputController = *arg2;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_WriterAttributes_1throughputController_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  eprosima::fastrtps::rtps::WriterAttributes *arg1 = (eprosima::fastrtps::rtps::WriterAttributes *) 0 ;
+  eprosima::fastrtps::rtps::ThroughputControllerDescriptor *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::rtps::WriterAttributes **)&jarg1; 
+  result = (eprosima::fastrtps::rtps::ThroughputControllerDescriptor *)& ((arg1)->throughputController);
+  *(eprosima::fastrtps::rtps::ThroughputControllerDescriptor **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_new_1RemoteReaderAttributes(JNIEnv *jenv, jclass jcls) {
+  jlong jresult = 0 ;
+  eprosima::fastrtps::rtps::RemoteReaderAttributes *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  result = (eprosima::fastrtps::rtps::RemoteReaderAttributes *)new eprosima::fastrtps::rtps::RemoteReaderAttributes();
+  *(eprosima::fastrtps::rtps::RemoteReaderAttributes **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_delete_1RemoteReaderAttributes(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+  eprosima::fastrtps::rtps::RemoteReaderAttributes *arg1 = (eprosima::fastrtps::rtps::RemoteReaderAttributes *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = *(eprosima::fastrtps::rtps::RemoteReaderAttributes **)&jarg1; 
+  delete arg1;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_RemoteReaderAttributes_1endpoint_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  eprosima::fastrtps::rtps::RemoteReaderAttributes *arg1 = (eprosima::fastrtps::rtps::RemoteReaderAttributes *) 0 ;
+  eprosima::fastrtps::rtps::EndpointAttributes *arg2 = (eprosima::fastrtps::rtps::EndpointAttributes *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  arg1 = *(eprosima::fastrtps::rtps::RemoteReaderAttributes **)&jarg1; 
+  arg2 = *(eprosima::fastrtps::rtps::EndpointAttributes **)&jarg2; 
+  if (arg1) (arg1)->endpoint = *arg2;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_RemoteReaderAttributes_1endpoint_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  eprosima::fastrtps::rtps::RemoteReaderAttributes *arg1 = (eprosima::fastrtps::rtps::RemoteReaderAttributes *) 0 ;
+  eprosima::fastrtps::rtps::EndpointAttributes *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::rtps::RemoteReaderAttributes **)&jarg1; 
+  result = (eprosima::fastrtps::rtps::EndpointAttributes *)& ((arg1)->endpoint);
+  *(eprosima::fastrtps::rtps::EndpointAttributes **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_RemoteReaderAttributes_1guid_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2) {
+  eprosima::fastrtps::rtps::RemoteReaderAttributes *arg1 = (eprosima::fastrtps::rtps::RemoteReaderAttributes *) 0 ;
+  GUID_t arg2 ;
+  GUID_t *argp2 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::rtps::RemoteReaderAttributes **)&jarg1; 
+  argp2 = *(GUID_t **)&jarg2; 
+  if (!argp2) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "Attempt to dereference null GUID_t");
+    return ;
+  }
+  arg2 = *argp2; 
+  if (arg1) (arg1)->guid = arg2;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_RemoteReaderAttributes_1guid_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  eprosima::fastrtps::rtps::RemoteReaderAttributes *arg1 = (eprosima::fastrtps::rtps::RemoteReaderAttributes *) 0 ;
+  GUID_t result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::rtps::RemoteReaderAttributes **)&jarg1; 
+  result =  ((arg1)->guid);
+  *(GUID_t **)&jresult = new GUID_t((const GUID_t &)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_RemoteReaderAttributes_1expectsInlineQos_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jboolean jarg2) {
+  eprosima::fastrtps::rtps::RemoteReaderAttributes *arg1 = (eprosima::fastrtps::rtps::RemoteReaderAttributes *) 0 ;
+  bool arg2 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::rtps::RemoteReaderAttributes **)&jarg1; 
+  arg2 = jarg2 ? true : false; 
+  if (arg1) (arg1)->expectsInlineQos = arg2;
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_RemoteReaderAttributes_1expectsInlineQos_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jboolean jresult = 0 ;
+  eprosima::fastrtps::rtps::RemoteReaderAttributes *arg1 = (eprosima::fastrtps::rtps::RemoteReaderAttributes *) 0 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::rtps::RemoteReaderAttributes **)&jarg1; 
+  result = (bool) ((arg1)->expectsInlineQos);
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_new_1PublisherAttributes(JNIEnv *jenv, jclass jcls) {
+  jlong jresult = 0 ;
+  eprosima::fastrtps::PublisherAttributes *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  result = (eprosima::fastrtps::PublisherAttributes *)new eprosima::fastrtps::PublisherAttributes();
+  *(eprosima::fastrtps::PublisherAttributes **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_delete_1PublisherAttributes(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+  eprosima::fastrtps::PublisherAttributes *arg1 = (eprosima::fastrtps::PublisherAttributes *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = *(eprosima::fastrtps::PublisherAttributes **)&jarg1; 
+  delete arg1;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_PublisherAttributes_1topic_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  eprosima::fastrtps::PublisherAttributes *arg1 = (eprosima::fastrtps::PublisherAttributes *) 0 ;
+  eprosima::fastrtps::TopicAttributes *arg2 = (eprosima::fastrtps::TopicAttributes *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  arg1 = *(eprosima::fastrtps::PublisherAttributes **)&jarg1; 
+  arg2 = *(eprosima::fastrtps::TopicAttributes **)&jarg2; 
+  if (arg1) (arg1)->topic = *arg2;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_PublisherAttributes_1topic_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  eprosima::fastrtps::PublisherAttributes *arg1 = (eprosima::fastrtps::PublisherAttributes *) 0 ;
+  eprosima::fastrtps::TopicAttributes *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::PublisherAttributes **)&jarg1; 
+  result = (eprosima::fastrtps::TopicAttributes *)& ((arg1)->topic);
+  *(eprosima::fastrtps::TopicAttributes **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_PublisherAttributes_1qos_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  eprosima::fastrtps::PublisherAttributes *arg1 = (eprosima::fastrtps::PublisherAttributes *) 0 ;
+  eprosima::fastrtps::WriterQos *arg2 = (eprosima::fastrtps::WriterQos *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  arg1 = *(eprosima::fastrtps::PublisherAttributes **)&jarg1; 
+  arg2 = *(eprosima::fastrtps::WriterQos **)&jarg2; 
+  if (arg1) (arg1)->qos = *arg2;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_PublisherAttributes_1qos_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  eprosima::fastrtps::PublisherAttributes *arg1 = (eprosima::fastrtps::PublisherAttributes *) 0 ;
+  eprosima::fastrtps::WriterQos *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::PublisherAttributes **)&jarg1; 
+  result = (eprosima::fastrtps::WriterQos *)& ((arg1)->qos);
+  *(eprosima::fastrtps::WriterQos **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_PublisherAttributes_1times_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  eprosima::fastrtps::PublisherAttributes *arg1 = (eprosima::fastrtps::PublisherAttributes *) 0 ;
+  eprosima::fastrtps::rtps::WriterTimes *arg2 = (eprosima::fastrtps::rtps::WriterTimes *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  arg1 = *(eprosima::fastrtps::PublisherAttributes **)&jarg1; 
+  arg2 = *(eprosima::fastrtps::rtps::WriterTimes **)&jarg2; 
+  if (arg1) (arg1)->times = *arg2;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_PublisherAttributes_1times_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  eprosima::fastrtps::PublisherAttributes *arg1 = (eprosima::fastrtps::PublisherAttributes *) 0 ;
+  eprosima::fastrtps::rtps::WriterTimes *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::PublisherAttributes **)&jarg1; 
+  result = (eprosima::fastrtps::rtps::WriterTimes *)& ((arg1)->times);
+  *(eprosima::fastrtps::rtps::WriterTimes **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_PublisherAttributes_1unicastLocatorList_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  eprosima::fastrtps::PublisherAttributes *arg1 = (eprosima::fastrtps::PublisherAttributes *) 0 ;
+  eprosima::fastrtps::rtps::LocatorList_t *arg2 = (eprosima::fastrtps::rtps::LocatorList_t *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  arg1 = *(eprosima::fastrtps::PublisherAttributes **)&jarg1; 
+  arg2 = *(eprosima::fastrtps::rtps::LocatorList_t **)&jarg2; 
+  if (arg1) (arg1)->unicastLocatorList = *arg2;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_PublisherAttributes_1unicastLocatorList_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  eprosima::fastrtps::PublisherAttributes *arg1 = (eprosima::fastrtps::PublisherAttributes *) 0 ;
+  eprosima::fastrtps::rtps::LocatorList_t *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::PublisherAttributes **)&jarg1; 
+  result = (eprosima::fastrtps::rtps::LocatorList_t *)& ((arg1)->unicastLocatorList);
+  *(eprosima::fastrtps::rtps::LocatorList_t **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_PublisherAttributes_1multicastLocatorList_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  eprosima::fastrtps::PublisherAttributes *arg1 = (eprosima::fastrtps::PublisherAttributes *) 0 ;
+  eprosima::fastrtps::rtps::LocatorList_t *arg2 = (eprosima::fastrtps::rtps::LocatorList_t *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  arg1 = *(eprosima::fastrtps::PublisherAttributes **)&jarg1; 
+  arg2 = *(eprosima::fastrtps::rtps::LocatorList_t **)&jarg2; 
+  if (arg1) (arg1)->multicastLocatorList = *arg2;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_PublisherAttributes_1multicastLocatorList_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  eprosima::fastrtps::PublisherAttributes *arg1 = (eprosima::fastrtps::PublisherAttributes *) 0 ;
+  eprosima::fastrtps::rtps::LocatorList_t *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::PublisherAttributes **)&jarg1; 
+  result = (eprosima::fastrtps::rtps::LocatorList_t *)& ((arg1)->multicastLocatorList);
+  *(eprosima::fastrtps::rtps::LocatorList_t **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_PublisherAttributes_1outLocatorList_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  eprosima::fastrtps::PublisherAttributes *arg1 = (eprosima::fastrtps::PublisherAttributes *) 0 ;
+  eprosima::fastrtps::rtps::LocatorList_t *arg2 = (eprosima::fastrtps::rtps::LocatorList_t *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  arg1 = *(eprosima::fastrtps::PublisherAttributes **)&jarg1; 
+  arg2 = *(eprosima::fastrtps::rtps::LocatorList_t **)&jarg2; 
+  if (arg1) (arg1)->outLocatorList = *arg2;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_PublisherAttributes_1outLocatorList_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  eprosima::fastrtps::PublisherAttributes *arg1 = (eprosima::fastrtps::PublisherAttributes *) 0 ;
+  eprosima::fastrtps::rtps::LocatorList_t *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::PublisherAttributes **)&jarg1; 
+  result = (eprosima::fastrtps::rtps::LocatorList_t *)& ((arg1)->outLocatorList);
+  *(eprosima::fastrtps::rtps::LocatorList_t **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_PublisherAttributes_1throughputController_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  eprosima::fastrtps::PublisherAttributes *arg1 = (eprosima::fastrtps::PublisherAttributes *) 0 ;
+  eprosima::fastrtps::rtps::ThroughputControllerDescriptor *arg2 = (eprosima::fastrtps::rtps::ThroughputControllerDescriptor *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  arg1 = *(eprosima::fastrtps::PublisherAttributes **)&jarg1; 
+  arg2 = *(eprosima::fastrtps::rtps::ThroughputControllerDescriptor **)&jarg2; 
+  if (arg1) (arg1)->throughputController = *arg2;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_PublisherAttributes_1throughputController_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  eprosima::fastrtps::PublisherAttributes *arg1 = (eprosima::fastrtps::PublisherAttributes *) 0 ;
+  eprosima::fastrtps::rtps::ThroughputControllerDescriptor *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::PublisherAttributes **)&jarg1; 
+  result = (eprosima::fastrtps::rtps::ThroughputControllerDescriptor *)& ((arg1)->throughputController);
+  *(eprosima::fastrtps::rtps::ThroughputControllerDescriptor **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_PublisherAttributes_1historyMemoryPolicy_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2) {
+  eprosima::fastrtps::PublisherAttributes *arg1 = (eprosima::fastrtps::PublisherAttributes *) 0 ;
+  eprosima::fastrtps::rtps::MemoryManagementPolicy_t arg2 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::PublisherAttributes **)&jarg1; 
+  arg2 = (eprosima::fastrtps::rtps::MemoryManagementPolicy_t)jarg2; 
+  if (arg1) (arg1)->historyMemoryPolicy = arg2;
+}
+
+
+SWIGEXPORT jint JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_PublisherAttributes_1historyMemoryPolicy_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jint jresult = 0 ;
+  eprosima::fastrtps::PublisherAttributes *arg1 = (eprosima::fastrtps::PublisherAttributes *) 0 ;
+  eprosima::fastrtps::rtps::MemoryManagementPolicy_t result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::PublisherAttributes **)&jarg1; 
+  result = (eprosima::fastrtps::rtps::MemoryManagementPolicy_t) ((arg1)->historyMemoryPolicy);
+  jresult = (jint)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jshort JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_PublisherAttributes_1getUserDefinedID(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jshort jresult = 0 ;
+  eprosima::fastrtps::PublisherAttributes *arg1 = (eprosima::fastrtps::PublisherAttributes *) 0 ;
+  int16_t result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::PublisherAttributes **)&jarg1; 
+  result = (int16_t)((eprosima::fastrtps::PublisherAttributes const *)arg1)->getUserDefinedID();
+  jresult = (jshort)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jshort JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_PublisherAttributes_1getEntityID(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jshort jresult = 0 ;
+  eprosima::fastrtps::PublisherAttributes *arg1 = (eprosima::fastrtps::PublisherAttributes *) 0 ;
+  int16_t result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::PublisherAttributes **)&jarg1; 
+  result = (int16_t)((eprosima::fastrtps::PublisherAttributes const *)arg1)->getEntityID();
+  jresult = (jshort)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_PublisherAttributes_1setUserDefinedID(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jshort jarg2) {
+  eprosima::fastrtps::PublisherAttributes *arg1 = (eprosima::fastrtps::PublisherAttributes *) 0 ;
+  uint8_t arg2 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::PublisherAttributes **)&jarg1; 
+  arg2 = (uint8_t)jarg2; 
+  (arg1)->setUserDefinedID(arg2);
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_PublisherAttributes_1setEntityID(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jshort jarg2) {
+  eprosima::fastrtps::PublisherAttributes *arg1 = (eprosima::fastrtps::PublisherAttributes *) 0 ;
+  uint8_t arg2 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::PublisherAttributes **)&jarg1; 
+  arg2 = (uint8_t)jarg2; 
+  (arg1)->setEntityID(arg2);
+}
+
+
 SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_NativeParticipantListener_1onParticipantDiscovery(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jint jarg3) {
   NativeParticipantListener *arg1 = (NativeParticipantListener *) 0 ;
   int64_t arg2 ;
@@ -2919,6 +6963,166 @@ SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_delete_1Nati
   delete arg1;
 }
 
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_DurabilityQosPolicy_1SWIGUpcast(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+    jlong baseptr = 0;
+    (void)jenv;
+    (void)jcls;
+    *(eprosima::fastrtps::QosPolicy **)&baseptr = *(eprosima::fastrtps::DurabilityQosPolicy **)&jarg1;
+    return baseptr;
+}
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_DeadlineQosPolicy_1SWIGUpcast(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+    jlong baseptr = 0;
+    (void)jenv;
+    (void)jcls;
+    *(eprosima::fastrtps::QosPolicy **)&baseptr = *(eprosima::fastrtps::DeadlineQosPolicy **)&jarg1;
+    return baseptr;
+}
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_LatencyBudgetQosPolicy_1SWIGUpcast(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+    jlong baseptr = 0;
+    (void)jenv;
+    (void)jcls;
+    *(eprosima::fastrtps::QosPolicy **)&baseptr = *(eprosima::fastrtps::LatencyBudgetQosPolicy **)&jarg1;
+    return baseptr;
+}
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_LivelinessQosPolicy_1SWIGUpcast(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+    jlong baseptr = 0;
+    (void)jenv;
+    (void)jcls;
+    *(eprosima::fastrtps::QosPolicy **)&baseptr = *(eprosima::fastrtps::LivelinessQosPolicy **)&jarg1;
+    return baseptr;
+}
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_ReliabilityQosPolicy_1SWIGUpcast(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+    jlong baseptr = 0;
+    (void)jenv;
+    (void)jcls;
+    *(eprosima::fastrtps::QosPolicy **)&baseptr = *(eprosima::fastrtps::ReliabilityQosPolicy **)&jarg1;
+    return baseptr;
+}
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_OwnershipQosPolicy_1SWIGUpcast(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+    jlong baseptr = 0;
+    (void)jenv;
+    (void)jcls;
+    *(eprosima::fastrtps::QosPolicy **)&baseptr = *(eprosima::fastrtps::OwnershipQosPolicy **)&jarg1;
+    return baseptr;
+}
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_DestinationOrderQosPolicy_1SWIGUpcast(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+    jlong baseptr = 0;
+    (void)jenv;
+    (void)jcls;
+    *(eprosima::fastrtps::QosPolicy **)&baseptr = *(eprosima::fastrtps::DestinationOrderQosPolicy **)&jarg1;
+    return baseptr;
+}
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_UserDataQosPolicy_1SWIGUpcast(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+    jlong baseptr = 0;
+    (void)jenv;
+    (void)jcls;
+    *(eprosima::fastrtps::QosPolicy **)&baseptr = *(eprosima::fastrtps::UserDataQosPolicy **)&jarg1;
+    return baseptr;
+}
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_TimeBasedFilterQosPolicy_1SWIGUpcast(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+    jlong baseptr = 0;
+    (void)jenv;
+    (void)jcls;
+    *(eprosima::fastrtps::QosPolicy **)&baseptr = *(eprosima::fastrtps::TimeBasedFilterQosPolicy **)&jarg1;
+    return baseptr;
+}
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_PresentationQosPolicy_1SWIGUpcast(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+    jlong baseptr = 0;
+    (void)jenv;
+    (void)jcls;
+    *(eprosima::fastrtps::QosPolicy **)&baseptr = *(eprosima::fastrtps::PresentationQosPolicy **)&jarg1;
+    return baseptr;
+}
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_PartitionQosPolicy_1SWIGUpcast(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+    jlong baseptr = 0;
+    (void)jenv;
+    (void)jcls;
+    *(eprosima::fastrtps::QosPolicy **)&baseptr = *(eprosima::fastrtps::PartitionQosPolicy **)&jarg1;
+    return baseptr;
+}
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_TopicDataQosPolicy_1SWIGUpcast(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+    jlong baseptr = 0;
+    (void)jenv;
+    (void)jcls;
+    *(eprosima::fastrtps::QosPolicy **)&baseptr = *(eprosima::fastrtps::TopicDataQosPolicy **)&jarg1;
+    return baseptr;
+}
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_GroupDataQosPolicy_1SWIGUpcast(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+    jlong baseptr = 0;
+    (void)jenv;
+    (void)jcls;
+    *(eprosima::fastrtps::QosPolicy **)&baseptr = *(eprosima::fastrtps::GroupDataQosPolicy **)&jarg1;
+    return baseptr;
+}
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_HistoryQosPolicy_1SWIGUpcast(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+    jlong baseptr = 0;
+    (void)jenv;
+    (void)jcls;
+    *(eprosima::fastrtps::QosPolicy **)&baseptr = *(eprosima::fastrtps::HistoryQosPolicy **)&jarg1;
+    return baseptr;
+}
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_ResourceLimitsQosPolicy_1SWIGUpcast(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+    jlong baseptr = 0;
+    (void)jenv;
+    (void)jcls;
+    *(eprosima::fastrtps::QosPolicy **)&baseptr = *(eprosima::fastrtps::ResourceLimitsQosPolicy **)&jarg1;
+    return baseptr;
+}
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_DurabilityServiceQosPolicy_1SWIGUpcast(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+    jlong baseptr = 0;
+    (void)jenv;
+    (void)jcls;
+    *(eprosima::fastrtps::QosPolicy **)&baseptr = *(eprosima::fastrtps::DurabilityServiceQosPolicy **)&jarg1;
+    return baseptr;
+}
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_LifespanQosPolicy_1SWIGUpcast(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+    jlong baseptr = 0;
+    (void)jenv;
+    (void)jcls;
+    *(eprosima::fastrtps::QosPolicy **)&baseptr = *(eprosima::fastrtps::LifespanQosPolicy **)&jarg1;
+    return baseptr;
+}
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_OwnershipStrengthQosPolicy_1SWIGUpcast(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+    jlong baseptr = 0;
+    (void)jenv;
+    (void)jcls;
+    *(eprosima::fastrtps::QosPolicy **)&baseptr = *(eprosima::fastrtps::OwnershipStrengthQosPolicy **)&jarg1;
+    return baseptr;
+}
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_TransportPriorityQosPolicy_1SWIGUpcast(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+    jlong baseptr = 0;
+    (void)jenv;
+    (void)jcls;
+    *(eprosima::fastrtps::QosPolicy **)&baseptr = *(eprosima::fastrtps::TransportPriorityQosPolicy **)&jarg1;
+    return baseptr;
+}
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_PublishModeQosPolicy_1SWIGUpcast(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+    jlong baseptr = 0;
+    (void)jenv;
+    (void)jcls;
+    *(eprosima::fastrtps::QosPolicy **)&baseptr = *(eprosima::fastrtps::PublishModeQosPolicy **)&jarg1;
+    return baseptr;
+}
 
 SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_swig_1module_1init(JNIEnv *jenv, jclass jcls) {
   int i;

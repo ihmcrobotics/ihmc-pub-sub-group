@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import us.ihmc.rtps.TopicDataType;
 import us.ihmc.rtps.attributes.ParticipantAttributes;
+import us.ihmc.rtps.attributes.PublisherAttributes;
 import us.ihmc.rtps.common.Guid;
 import us.ihmc.rtps.impl.fastRTPS.DISCOVERY_STATUS;
 import us.ihmc.rtps.impl.fastRTPS.NativeParticipantImpl;
@@ -13,6 +14,7 @@ import us.ihmc.rtps.impl.fastRTPS.NativeParticipantListener;
 import us.ihmc.rtps.impl.fastRTPS.attributes.FastRTPSParticipantAttributes;
 import us.ihmc.rtps.participant.Participant;
 import us.ihmc.rtps.participant.ParticipantListener;
+import us.ihmc.rtps.publisher.PublisherListener;
 
 public class FastRTPSParticipant implements Participant
 {
@@ -129,6 +131,12 @@ public class FastRTPSParticipant implements Participant
          }
       }
       return null;
+   }
+
+   public void createPublisher(PublisherAttributes publisherAttributes, PublisherListener listener)
+   {
+      // TODO Auto-generated method stub
+      
    }
    
 }

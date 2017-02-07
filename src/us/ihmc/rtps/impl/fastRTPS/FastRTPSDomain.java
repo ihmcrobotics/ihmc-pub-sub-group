@@ -6,10 +6,12 @@ import java.util.ArrayList;
 import us.ihmc.rtps.Domain;
 import us.ihmc.rtps.TopicDataType;
 import us.ihmc.rtps.attributes.ParticipantAttributes;
+import us.ihmc.rtps.attributes.PublisherAttributes;
 import us.ihmc.rtps.impl.fastRTPS.participant.FastRTPSParticipant;
 import us.ihmc.rtps.participant.Participant;
 import us.ihmc.rtps.participant.ParticipantListener;
 import us.ihmc.rtps.publisher.Publisher;
+import us.ihmc.rtps.publisher.PublisherListener;
 import us.ihmc.rtps.subscriber.Subscriber;
 import us.ihmc.tools.nativelibraries.NativeLibraryLoader;
 
@@ -24,18 +26,25 @@ public class FastRTPSDomain implements Domain
    
 
    @Override
-   public synchronized Participant createParticipant(ParticipantAttributes<?> att, ParticipantListener participantListener) throws IOException
+   public synchronized Participant createParticipant(ParticipantAttributes<?> participantAttributes, ParticipantListener participantListener) throws IOException
    {
-      FastRTPSParticipant participant =  new FastRTPSParticipant(att, participantListener);
+      FastRTPSParticipant participant =  new FastRTPSParticipant(participantAttributes, participantListener);
       participants.add(participant);
       return participant;
    }
 
    @Override
-   public synchronized Publisher createPublisher(Participant participant)
+   public synchronized Publisher createPublisher(Participant participant, PublisherAttributes publisherAttributes, PublisherListener listener) throws IOException, IllegalArgumentException
    {
-      // TODO Auto-generated method stub
-      return null;
+      for(int i = 0; i < participants.size(); i++)
+      {
+         if(participants.get(i) == participant)
+         {
+            participants.get(i).createPublisher(publisherAttributes, listener);
+         }
+      }
+      throw new IllegalArgumentException("Participant is not part of this domain.");
+      
    }
 
    @Override

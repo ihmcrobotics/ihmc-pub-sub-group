@@ -12,17 +12,9 @@
 
 namespace std {
     %template(octetVector) vector<unsigned char>;
+    %template(stringVector) vector<std::string>;
 }
 
-
-namespace eprosima{
-namespace fastrtps{
-namespace rtps{
-    %ignore LocatorList_t::begin;
-    %ignore LocatorList_t::end;
-    %ignore RTPSParticipantAttributes::throughputController;
-    %ignore RTPSParticipantAttributes::userTransports;
-}}}
 
 
 %array_functions(unsigned char, octetArray)
@@ -36,6 +28,29 @@ namespace rtps{
 
 %feature("director") NativeParticipantListener;
 
+%{
+#include "nativeparticipantimpl.h"
+
+%}
+
+// Support for RTPSParticipantAttribuges
+namespace eprosima{
+namespace fastrtps{
+namespace rtps{
+    %ignore LocatorList_t::begin;
+    %ignore LocatorList_t::end;
+    %ignore RTPSParticipantAttributes::throughputController;
+    %ignore RTPSParticipantAttributes::userTransports;
+
+    %ignore ThroughputController::mAssociatedParticipant;
+    %ignore ThroughputController::mAssociatedWriter;
+}
+    %ignore TopicAttributes::getTopicKind;
+    %ignore TopicAttributes::getTopicName;
+    %ignore TopicAttributes::getTopicDataType;
+}}
+
+
 
 %{
 #include <fastrtps/rtps/common/Locator.h>
@@ -43,7 +58,6 @@ namespace rtps{
 #include <fastrtps/rtps/flowcontrol/ThroughputController.h>
 #include <fastrtps/rtps/attributes/RTPSParticipantAttributes.h>
 
-#include "nativeparticipantimpl.h"
 
 %}
 
@@ -78,6 +92,52 @@ enum  DISCOVERY_STATUS
 
 %include <fastrtps/rtps/common/Locator.h>
 %include <fastrtps/rtps/attributes/RTPSParticipantAttributes.h>
+
+
+// Support for PublisherAttributes
+%{
+#include <fastrtps/attributes/PublisherAttributes.h>
+%}
+
+//!Reliability enum used for internal purposes
+//!@ingroup COMMON_MODULE
+typedef enum ReliabilityKind_t{
+    RELIABLE,
+    BEST_EFFORT
+}ReliabilityKind_t;
+
+//!Durability kind
+//!@ingroup COMMON_MODULE
+typedef enum DurabilityKind_t
+{
+    VOLATILE,
+    TRANSIENT_LOCAL
+}DurabilityKind_t;
+
+//!Endpoint kind
+//!@ingroup COMMON_MODULE
+typedef enum EndpointKind_t{
+    READER,
+    WRITER
+}EndpointKind_t;
+
+//!Topic kind
+typedef enum TopicKind_t{
+    NO_KEY,
+    WITH_KEY
+}TopicKind_t;
+
+
+%include <fastrtps/rtps/flowcontrol/ThroughputController.h>
+%include <fastrtps/qos/QosPolicies.h>
+%include <fastrtps/qos/WriterQos.h>
+%include <fastrtps/rtps/resources/ResourceManagement.h>
+%include <fastrtps/attributes/TopicAttributes.h>
+%include <fastrtps/rtps/attributes/EndpointAttributes.h>
+%include <fastrtps/rtps/attributes/WriterAttributes.h>
+%include <fastrtps/attributes/PublisherAttributes.h>
+
+
 
 %include "nativeparticipantimpl.h"
 
