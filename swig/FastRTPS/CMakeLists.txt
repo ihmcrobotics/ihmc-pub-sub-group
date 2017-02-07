@@ -1,0 +1,20 @@
+cmake_minimum_required(VERSION 3.1)
+project(IHMCJavaRTPS)
+
+FIND_PACKAGE(SWIG REQUIRED)
+INCLUDE(${SWIG_USE_FILE})
+SET(CMAKE_SWIG_OUTDIR "${CMAKE_CURRENT_SOURCE_DIR}/generated/us/ihmc/rtps/impl/fastRTPS")
+
+INCLUDE_DIRECTORIES("/usr/include/")
+
+INCLUDE_DIRECTORIES("${CMAKE_CURRENT_SOURCE_DIR}/../../cppsrc/FastRTPS")
+
+
+SET_SOURCE_FILES_PROPERTIES(FastRTPS.i PROPERTIES CPLUSPLUS ON)
+SET_PROPERTY(SOURCE FastRTPS.i PROPERTY SWIG_FLAGS "-package" "us.ihmc.rtps.impl.fastRTPS")
+
+
+SWIG_ADD_MODULE(FastRTPSWrapper java FastRTPS.i)
+ADD_DEPENDENCIES(FastRTPSWrapper FastRTPSNativeImpl)
+SWIG_LINK_LIBRARIES(FastRTPSWrapper FastRTPSNativeImpl)
+INSTALL(TARGETS FastRTPSWrapper RUNTIME DESTINATION resources/us/ihmc/rtps/impl/fastRTPS LIBRARY DESTINATION resources/us/ihmc/rtps/impl/fastRTPS)
