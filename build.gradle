@@ -19,6 +19,7 @@ project.ext.bintrayLicenseName = "Apache-2.0"
 sourceSets {
 	main {
 		java {
+			srcDirs += ['swig/FastRTPS/generated']
 		}
 	}
 }
@@ -33,6 +34,8 @@ repositories {
 
 dependencies {
 	compile group: 'junit', name: 'junit', version: '4.11'
+    compile group: 'us.ihmc', name: 'IHMCNativeLibraryLoader', version: '1.0'
+	
 }
 
 
