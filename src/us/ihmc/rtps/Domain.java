@@ -20,7 +20,7 @@ public interface Domain
    /**
     * Create a Participant.
     * 
-    * This method may allocate memory
+    * This method may allocate memory and is thread-safe
     * 
     * @param att Participant Attributes. Implementation specific. Not null.
     * @param participantListener. Listener for newly discovered participants. Can be null
@@ -39,7 +39,7 @@ public interface Domain
    /**
     * Remove a Participant and all associated publishers and subscribers.
     * 
-    * This method may allocate memory
+    * This method may allocate memory and is thread-safe
     * 
     * @param participant to remove
     * 
@@ -51,9 +51,29 @@ public interface Domain
    
    public boolean removeSubscriber(Subscriber subscriber);
    
+   /**
+    * Return a registered type.
+    * 
+    * This method does not allocate memory and is thread-safe
+    * 
+    * @param participant
+    * @param typeName
+    * 
+    * @return Registered type or null if not found
+    */
    public TopicDataType<?> getRegisteredType(Participant participant, String typeName);
    
-   public boolean registerType(Participant participant, TopicDataType<?> topicDataType);
+   /**
+    * Register a type in a participant.
+    * 
+    * This method may allocate memory and is thread-safe
+    * 
+    * @param participant
+    * @param topicDataType
+    * 
+    * @throws IllegalArgumentException 
+    */
+   public void registerType(Participant participant, TopicDataType<?> topicDataType) throws IllegalArgumentException;
    
    public boolean unregisterType(Participant participant, String typeName);
    
