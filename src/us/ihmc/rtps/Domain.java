@@ -3,9 +3,11 @@ package us.ihmc.rtps;
 import java.io.IOException;
 
 import us.ihmc.rtps.attributes.ParticipantAttributes;
+import us.ihmc.rtps.attributes.PublisherAttributes;
 import us.ihmc.rtps.participant.Participant;
 import us.ihmc.rtps.participant.ParticipantListener;
 import us.ihmc.rtps.publisher.Publisher;
+import us.ihmc.rtps.publisher.PublisherListener;
 import us.ihmc.rtps.subscriber.Subscriber;
 
 /**
@@ -32,7 +34,7 @@ public interface Domain
     */
    public Participant createParticipant(ParticipantAttributes<?> att, ParticipantListener participantListener) throws IOException;
 
-   public Publisher createPublisher(Participant participant) throws IOException;
+   public Publisher createPublisher(Participant participant, PublisherAttributes publisherAttributes, PublisherListener listener) throws IOException, IllegalArgumentException;
    
    public Subscriber createSubscriber(Participant participant) throws IOException;
 

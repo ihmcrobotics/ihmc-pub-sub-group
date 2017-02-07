@@ -5,7 +5,9 @@ import java.io.IOException;
 import us.ihmc.rtps.Domain;
 import us.ihmc.rtps.impl.fastRTPS.FastRTPSDomain;
 import us.ihmc.rtps.impl.fastRTPS.FastRTPSTime;
+import us.ihmc.rtps.impl.fastRTPS.TopicKind_t;
 import us.ihmc.rtps.impl.fastRTPS.attributes.FastRTPSParticipantAttributes;
+import us.ihmc.rtps.impl.fastRTPS.attributes.FastRTPSPublisherAttributes;
 import us.ihmc.rtps.participant.Participant;
 import us.ihmc.rtps.participant.ParticipantListener;
 import us.ihmc.rtps.participant.ParticipantDiscoveryInfo;
@@ -36,6 +38,14 @@ public class Publisher
       attributes.rtps().setName("ChatBox");
 
       Participant participant = domain.createParticipant(attributes, new ParticipantListenerImpl());
+      
+      
+      FastRTPSPublisherAttributes publisherAttributes = new FastRTPSPublisherAttributes();
+      publisherAttributes.getAttributes().getTopic().setTopicKind(TopicKind_t.NO_KEY);
+      publisherAttributes.getAttributes().getTopic().setTopicDataType("");
+      publisherAttributes.getAttributes().getTopic().setTopicName("ChatBox");
+      
+      domain.createPublisher(participant, publisherAttributes, null);
       
       while(true)
       {
