@@ -2,7 +2,9 @@ package us.ihmc.rtps.impl.fastRTPS.participant;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
 
+import us.ihmc.rtps.TopicDataType;
 import us.ihmc.rtps.attributes.ParticipantAttributes;
 import us.ihmc.rtps.common.Guid;
 import us.ihmc.rtps.impl.fastRTPS.DISCOVERY_STATUS;
@@ -12,23 +14,38 @@ import us.ihmc.rtps.impl.fastRTPS.attributes.FastRTPSParticipantAttributes;
 import us.ihmc.rtps.participant.Participant;
 import us.ihmc.rtps.participant.ParticipantListener;
 
-public class FastRTPSParticipant extends NativeParticipantListener implements Participant
+public class FastRTPSParticipant implements Participant
 {
    private final NativeParticipantImpl impl;
 
+   private final ArrayList<TopicDataType<?>> types = new ArrayList<>();
+   
    private final FastRTPSParticipantAttributes attributes;
-   private final Guid guid = new Guid();
-   
    private final ParticipantListener participantListener;
-   
+
+   private final Guid guid = new Guid();
    private final FastRTPSParticipantDiscoveryInfo discoveryInfo = new FastRTPSParticipantDiscoveryInfo();
+
+   private class NativeParticipantListenerImpl extends NativeParticipantListener
+   {
+
+      @Override
+      public void onParticipantDiscovery(long infoPtr, DISCOVERY_STATUS status)
+      {
+         if (participantListener != null)
+         {
+            discoveryInfo.updateInfo(status, this, infoPtr);
+            participantListener.onParticipantDiscovery(FastRTPSParticipant.this, discoveryInfo);
+         }
+      }
+   }
 
    public FastRTPSParticipant(ParticipantAttributes<?> att, ParticipantListener participantListener) throws IOException
    {
       if (att instanceof FastRTPSParticipantAttributes)
       {
          this.attributes = (FastRTPSParticipantAttributes) att;
-         impl = new NativeParticipantImpl(attributes.rtps(), this);
+         impl = new NativeParticipantImpl(attributes.rtps(), new NativeParticipantListenerImpl());
       }
       else
       {
@@ -79,13 +96,12 @@ public class FastRTPSParticipant extends NativeParticipantListener implements Pa
       return 0;
    }
 
-   @Override
-   public void onParticipantDiscovery(long infoPtr, DISCOVERY_STATUS status)
+   public boolean registerType(TopicDataType<?> topicDataType)
    {
-      if(participantListener != null)
+      if(topicDataType.getTypeSize() <= 0)
       {
-         discoveryInfo.updateInfo(status, this, infoPtr);
-         participantListener.onParticipantDiscovery(this, discoveryInfo);
+         
       }
+      return false;
    }
 }

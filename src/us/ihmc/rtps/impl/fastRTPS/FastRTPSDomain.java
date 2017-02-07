@@ -76,16 +76,22 @@ public class FastRTPSDomain implements Domain
    }
 
    @Override
-   public synchronized TopicDataType getRegisteredType(Participant participant, String typeName)
+   public synchronized TopicDataType<?> getRegisteredType(Participant participant, String typeName)
    {
       // TODO Auto-generated method stub
       return null;
    }
 
    @Override
-   public synchronized boolean registerType(Participant participant, TopicDataType topicDataType)
+   public synchronized boolean registerType(Participant participant, TopicDataType<?> topicDataType)
    {
-      // TODO Auto-generated method stub
+      for(int i = 0; i < participants.size(); i++)
+      {
+         if(participants.get(i) == participant)
+         {
+            return participants.get(i).registerType(topicDataType);
+         }
+      }
       return false;
    }
 

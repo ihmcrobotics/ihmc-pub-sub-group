@@ -2,6 +2,12 @@ package us.ihmc.rtps.common;
 
 import java.nio.ByteBuffer;
 
+/**
+ * Structure GUID_t, entity identifier, unique in DDS-RTPS Domain.
+ * 
+ * @author Jesper Smith
+ *
+ */
 public class Guid
 {
    public class GuidPrefix
