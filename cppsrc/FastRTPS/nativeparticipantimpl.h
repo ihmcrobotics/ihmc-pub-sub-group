@@ -14,8 +14,10 @@ using namespace eprosima::fastrtps::rtps;
 
 class NativeParticipantListener
 {
-    public:
-        virtual void onParticipantDiscovery() {}
+public:
+    virtual void onParticipantDiscovery(int64_t infoPtr, DISCOVERY_STATUS status) {}
+    std::string getName(int64_t infoPtr);
+    void getGuid(int64_t infoPtr, octet* ret);
 };
 
 class NativeParticipantImpl
@@ -23,6 +25,8 @@ class NativeParticipantImpl
 public:
     NativeParticipantImpl(RTPSParticipantAttributes& rtps, NativeParticipantListener* listener) throw(FastRTPSException);
     void getGuid(octet* ret);
+
+    virtual ~NativeParticipantImpl();
 
 private:
     RTPSParticipant* part;
@@ -37,6 +41,8 @@ private:
             void onRTPSParticipantDiscovery(RTPSParticipant* part, RTPSParticipantDiscoveryInfo info);
             NativeParticipantImpl* mp_participantimpl;
     } m_rtps_listener;
+
+
 
 };
 

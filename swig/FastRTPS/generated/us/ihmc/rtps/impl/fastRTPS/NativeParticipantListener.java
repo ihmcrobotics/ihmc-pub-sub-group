@@ -50,8 +50,19 @@ public class NativeParticipantListener {
     FastRTPSJNI.NativeParticipantListener_change_ownership(this, swigCPtr, true);
   }
 
-  public void onParticipantDiscovery() {
-    if (getClass() == NativeParticipantListener.class) FastRTPSJNI.NativeParticipantListener_onParticipantDiscovery(swigCPtr, this); else FastRTPSJNI.NativeParticipantListener_onParticipantDiscoverySwigExplicitNativeParticipantListener(swigCPtr, this);
+  public void onParticipantDiscovery(long infoPtr, DISCOVERY_STATUS status) {
+    if (getClass() == NativeParticipantListener.class) FastRTPSJNI.NativeParticipantListener_onParticipantDiscovery(swigCPtr, this, infoPtr, status.swigValue()); else FastRTPSJNI.NativeParticipantListener_onParticipantDiscoverySwigExplicitNativeParticipantListener(swigCPtr, this, infoPtr, status.swigValue());
+  }
+
+  public String getName(long infoPtr) {
+    return FastRTPSJNI.NativeParticipantListener_getName(swigCPtr, this, infoPtr);
+  }
+
+  public void getGuid(long infoPtr, java.nio.ByteBuffer ret) {
+  assert ret.isDirect() : "Buffer must be allocated direct.";
+    {
+      FastRTPSJNI.NativeParticipantListener_getGuid(swigCPtr, this, infoPtr, ret);
+    }
   }
 
   public NativeParticipantListener() {

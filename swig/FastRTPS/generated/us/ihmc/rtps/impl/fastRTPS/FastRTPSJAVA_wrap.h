@@ -16,7 +16,7 @@ class SwigDirector_NativeParticipantListener : public NativeParticipantListener,
 public:
     void swig_connect_director(JNIEnv *jenv, jobject jself, jclass jcls, bool swig_mem_own, bool weak_global);
     SwigDirector_NativeParticipantListener(JNIEnv *jenv);
-    virtual void onParticipantDiscovery();
+    virtual void onParticipantDiscovery(int64_t infoPtr, DISCOVERY_STATUS status);
 public:
     bool swig_overrides(int n) {
       return (n < 1 ? swig_override[n] : false);
