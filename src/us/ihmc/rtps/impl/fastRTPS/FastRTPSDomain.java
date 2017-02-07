@@ -78,21 +78,27 @@ public class FastRTPSDomain implements Domain
    @Override
    public synchronized TopicDataType<?> getRegisteredType(Participant participant, String typeName)
    {
-      // TODO Auto-generated method stub
+      for(int i = 0; i < participants.size(); i++)
+      {
+         if(participants.get(i) == participant)
+         {
+            return participants.get(i).getRegisteredType(typeName);
+         }
+      }
       return null;
    }
 
    @Override
-   public synchronized boolean registerType(Participant participant, TopicDataType<?> topicDataType)
+   public synchronized void registerType(Participant participant, TopicDataType<?> topicDataType) throws IllegalArgumentException
    {
       for(int i = 0; i < participants.size(); i++)
       {
          if(participants.get(i) == participant)
          {
-            return participants.get(i).registerType(topicDataType);
+            participants.get(i).registerType(topicDataType);
          }
       }
-      return false;
+      throw new IllegalArgumentException("Participant is not part of this domain.");
    }
 
    @Override

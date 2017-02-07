@@ -96,12 +96,39 @@ public class FastRTPSParticipant implements Participant
       return 0;
    }
 
-   public boolean registerType(TopicDataType<?> topicDataType)
+   public void registerType(TopicDataType<?> topicDataType) throws IllegalArgumentException
    {
       if(topicDataType.getTypeSize() <= 0)
       {
-         
+         throw new IllegalArgumentException("Registered type must have maximum byte size > 0");
       }
-      return false;
+      
+      if(topicDataType.getName().isEmpty())
+      {
+         throw new IllegalArgumentException("Registered type must have a name");
+      }
+      
+      for(int i = 0; i < types.size(); i++)
+      {
+         if(types.get(i).getName().equals(topicDataType.getName()))
+         {
+            throw new IllegalArgumentException("Type with the same name already exists: " + topicDataType.getName());
+         }
+      }
+      
+      types.add(topicDataType);
    }
+   
+   public TopicDataType<?> getRegisteredType(String name)
+   {
+      for(int i = 0; i < types.size(); i++)
+      {
+         if(types.get(i).getName().equals(name))
+         {
+            return types.get(i);
+         }
+      }
+      return null;
+   }
+   
 }
