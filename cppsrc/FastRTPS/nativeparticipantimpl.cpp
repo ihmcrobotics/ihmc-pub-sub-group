@@ -1,4 +1,5 @@
 #include "nativeparticipantimpl.h"
+#include "commonfunctions.h"
 
 NativeParticipantImpl::NativeParticipantImpl(RTPSParticipantAttributes& rtps, NativeParticipantListener* listener) throw(FastRTPSException) :
     listener(listener),
@@ -10,21 +11,14 @@ NativeParticipantImpl::NativeParticipantImpl(RTPSParticipantAttributes& rtps, Na
     {
         throw FastRTPSException("Problem creating RTPSParticipant");
     }
-
-    GUID_t rtps_guid = part->getGuid();
-
-    for(int g_c = 0; g_c < GuidPrefix_t::size; g_c++)
-    {
-        guid[g_c] = rtps_guid.guidPrefix.value[g_c];
-    }
-
-    for(int g_c = 0; g_c < EntityId_t::size; g_c++)
-    {
-        guid[g_c] = rtps_guid.guidPrefix.value[GuidPrefix_t::size + g_c];
-    }
+    CommonFunctions::guidcpy(part->getGuid(), guid);
 
 }
 
+NativeParticipantImpl::~NativeParticipantImpl()
+{
+    RTPSDomain::removeRTPSParticipant(part);
+}
 
 void NativeParticipantImpl::getGuid(octet* ret)
 {
@@ -32,10 +26,23 @@ void NativeParticipantImpl::getGuid(octet* ret)
 }
 
 
-void NativeParticipantImpl::MyRTPSParticipantListener::onRTPSParticipantDiscovery(RTPSParticipant* part,RTPSParticipantDiscoveryInfo rtpsinfo)
+void NativeParticipantImpl::MyRTPSParticipantListener::onRTPSParticipantDiscovery(RTPSParticipant* part, RTPSParticipantDiscoveryInfo rtpsinfo)
 {
     if(this->mp_participantimpl->listener!=nullptr)
     {
-        this->mp_participantimpl->listener->onParticipantDiscovery();
+        this->mp_participantimpl->listener->onParticipantDiscovery((int64_t)&rtpsinfo, rtpsinfo.m_status);
     }
 }
+
+void NativeParticipantListener::getGuid(int64_t infoPtr, octet* ret)
+{
+    CommonFunctions::guidcpy(((RTPSParticipantDiscoveryInfo*) infoPtr)->m_guid, ret);
+}
+
+
+std::string NativeParticipantListener::getName(int64_t infoPtr)
+{
+    return ((RTPSParticipantDiscoveryInfo*) infoPtr)->m_RTPSParticipantName;
+}
+
+
