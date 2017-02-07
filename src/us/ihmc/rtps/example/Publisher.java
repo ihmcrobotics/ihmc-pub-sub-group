@@ -8,7 +8,7 @@ import us.ihmc.rtps.impl.fastRTPS.FastRTPSTime;
 import us.ihmc.rtps.impl.fastRTPS.attributes.FastRTPSParticipantAttributes;
 import us.ihmc.rtps.participant.Participant;
 import us.ihmc.rtps.participant.ParticipantListener;
-import us.ihmc.rtps.participant.ParticpantDiscorveryInfo;
+import us.ihmc.rtps.participant.ParticipantDiscoveryInfo;
 
 public class Publisher
 {
@@ -16,9 +16,12 @@ public class Publisher
    {
 
       @Override
-      public void onParticipantDiscovery(Participant participant, ParticpantDiscorveryInfo info)
+      public void onParticipantDiscovery(Participant participant, ParticipantDiscoveryInfo info)
       {
          System.out.println("New participant discovered");
+         System.out.println(info.getStatus());
+         System.out.println(info.getGuid().toString());
+         System.out.println(info.getName());
       }
 
    }

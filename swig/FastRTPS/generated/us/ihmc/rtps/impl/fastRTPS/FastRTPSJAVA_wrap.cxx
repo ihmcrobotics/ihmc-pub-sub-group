@@ -725,18 +725,22 @@ static void octetArray_setitem(unsigned char *ary, int index, unsigned char valu
 SwigDirector_NativeParticipantListener::SwigDirector_NativeParticipantListener(JNIEnv *jenv) : NativeParticipantListener(), Swig::Director(jenv) {
 }
 
-void SwigDirector_NativeParticipantListener::onParticipantDiscovery() {
+void SwigDirector_NativeParticipantListener::onParticipantDiscovery(int64_t infoPtr, DISCOVERY_STATUS status) {
   JNIEnvWrapper swigjnienv(this) ;
   JNIEnv * jenv = swigjnienv.getJNIEnv() ;
   jobject swigjobj = (jobject) NULL ;
+  jlong jinfoPtr  ;
+  jint jstatus  ;
   
   if (!swig_override[0]) {
-    NativeParticipantListener::onParticipantDiscovery();
+    NativeParticipantListener::onParticipantDiscovery(infoPtr,status);
     return;
   }
   swigjobj = swig_get_self(jenv);
   if (swigjobj && jenv->IsSameObject(swigjobj, NULL) == JNI_FALSE) {
-    jenv->CallStaticVoidMethod(Swig::jclass_FastRTPSJNI, Swig::director_method_ids[0], swigjobj);
+    jinfoPtr = (jlong) infoPtr;
+    jstatus = (jint) status;
+    jenv->CallStaticVoidMethod(Swig::jclass_FastRTPSJNI, Swig::director_method_ids[0], swigjobj, jinfoPtr, jstatus);
     jthrowable swigerror = jenv->ExceptionOccurred();
     if (swigerror) {
       jenv->ExceptionClear();
@@ -756,7 +760,7 @@ void SwigDirector_NativeParticipantListener::swig_connect_director(JNIEnv *jenv,
     jmethodID base_methid;
   } methods[] = {
     {
-      "onParticipantDiscovery", "()V", NULL 
+      "onParticipantDiscovery", "(JLus/ihmc/rtps/impl/fastRTPS/DISCOVERY_STATUS;)V", NULL 
     }
   };
   
@@ -2744,25 +2748,71 @@ SWIGEXPORT jboolean JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_RTPSPart
 }
 
 
-SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_NativeParticipantListener_1onParticipantDiscovery(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_NativeParticipantListener_1onParticipantDiscovery(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jint jarg3) {
   NativeParticipantListener *arg1 = (NativeParticipantListener *) 0 ;
+  int64_t arg2 ;
+  DISCOVERY_STATUS arg3 ;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
   arg1 = *(NativeParticipantListener **)&jarg1; 
-  (arg1)->onParticipantDiscovery();
+  arg2 = (int64_t)jarg2; 
+  arg3 = (DISCOVERY_STATUS)jarg3; 
+  (arg1)->onParticipantDiscovery(arg2,arg3);
 }
 
 
-SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_NativeParticipantListener_1onParticipantDiscoverySwigExplicitNativeParticipantListener(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_NativeParticipantListener_1onParticipantDiscoverySwigExplicitNativeParticipantListener(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jint jarg3) {
   NativeParticipantListener *arg1 = (NativeParticipantListener *) 0 ;
+  int64_t arg2 ;
+  DISCOVERY_STATUS arg3 ;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
   arg1 = *(NativeParticipantListener **)&jarg1; 
-  (arg1)->NativeParticipantListener::onParticipantDiscovery();
+  arg2 = (int64_t)jarg2; 
+  arg3 = (DISCOVERY_STATUS)jarg3; 
+  (arg1)->NativeParticipantListener::onParticipantDiscovery(arg2,arg3);
+}
+
+
+SWIGEXPORT jstring JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_NativeParticipantListener_1getName(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2) {
+  jstring jresult = 0 ;
+  NativeParticipantListener *arg1 = (NativeParticipantListener *) 0 ;
+  int64_t arg2 ;
+  std::string result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(NativeParticipantListener **)&jarg1; 
+  arg2 = (int64_t)jarg2; 
+  result = (arg1)->getName(arg2);
+  jresult = jenv->NewStringUTF((&result)->c_str()); 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_NativeParticipantListener_1getGuid(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg3) {
+  NativeParticipantListener *arg1 = (NativeParticipantListener *) 0 ;
+  int64_t arg2 ;
+  octet *arg3 = (octet *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(NativeParticipantListener **)&jarg1; 
+  arg2 = (int64_t)jarg2; 
+  {
+    arg3 = (unsigned char *) jenv->GetDirectBufferAddress(jarg3); 
+    if (arg3 == NULL) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, "Unable to get address of a java.nio.ByteBuffer direct byte buffer. Buffer must be a direct buffer and not a non-direct buffer.");  
+    }  
+  }
+  (arg1)->getGuid(arg2,arg3);
+  
 }
 
 
@@ -2878,7 +2928,7 @@ SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_swig_1module
     const char *signature;
   } methods[1] = {
     {
-      "SwigDirector_NativeParticipantListener_onParticipantDiscovery", "(Lus/ihmc/rtps/impl/fastRTPS/NativeParticipantListener;)V" 
+      "SwigDirector_NativeParticipantListener_onParticipantDiscovery", "(Lus/ihmc/rtps/impl/fastRTPS/NativeParticipantListener;JI)V" 
     }
   };
   Swig::jclass_FastRTPSJNI = (jclass) jenv->NewGlobalRef(jcls);

@@ -141,8 +141,10 @@ public class FastRTPSJNI {
   public final static native String RTPSParticipantAttributes_getName(long jarg1, RTPSParticipantAttributes jarg1_);
   public final static native void RTPSParticipantAttributes_useBuiltinTransports_set(long jarg1, RTPSParticipantAttributes jarg1_, boolean jarg2);
   public final static native boolean RTPSParticipantAttributes_useBuiltinTransports_get(long jarg1, RTPSParticipantAttributes jarg1_);
-  public final static native void NativeParticipantListener_onParticipantDiscovery(long jarg1, NativeParticipantListener jarg1_);
-  public final static native void NativeParticipantListener_onParticipantDiscoverySwigExplicitNativeParticipantListener(long jarg1, NativeParticipantListener jarg1_);
+  public final static native void NativeParticipantListener_onParticipantDiscovery(long jarg1, NativeParticipantListener jarg1_, long jarg2, int jarg3);
+  public final static native void NativeParticipantListener_onParticipantDiscoverySwigExplicitNativeParticipantListener(long jarg1, NativeParticipantListener jarg1_, long jarg2, int jarg3);
+  public final static native String NativeParticipantListener_getName(long jarg1, NativeParticipantListener jarg1_, long jarg2);
+  public final static native void NativeParticipantListener_getGuid(long jarg1, NativeParticipantListener jarg1_, long jarg2, java.nio.ByteBuffer jarg3);
   public final static native long new_NativeParticipantListener();
   public final static native void delete_NativeParticipantListener(long jarg1);
   public final static native void NativeParticipantListener_director_connect(NativeParticipantListener obj, long cptr, boolean mem_own, boolean weak_global);
@@ -151,8 +153,8 @@ public class FastRTPSJNI {
   public final static native void NativeParticipantImpl_getGuid(long jarg1, NativeParticipantImpl jarg1_, java.nio.ByteBuffer jarg2);
   public final static native void delete_NativeParticipantImpl(long jarg1);
 
-  public static void SwigDirector_NativeParticipantListener_onParticipantDiscovery(NativeParticipantListener jself) {
-    jself.onParticipantDiscovery();
+  public static void SwigDirector_NativeParticipantListener_onParticipantDiscovery(NativeParticipantListener jself, long infoPtr, int status) {
+    jself.onParticipantDiscovery(infoPtr, DISCOVERY_STATUS.swigToEnum(status));
   }
 
   private final static native void swig_module_init();

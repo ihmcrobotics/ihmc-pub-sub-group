@@ -68,6 +68,12 @@ struct Time_t{
 };
 typedef Time_t Duration_t;
 
+enum  DISCOVERY_STATUS
+{
+    DISCOVERED_RTPSPARTICIPANT,
+    CHANGED_QOS_RTPSPARTICIPANT,
+    REMOVED_RTPSPARTICIPANT
+};
 
 
 %include <fastrtps/rtps/common/Locator.h>

@@ -5,6 +5,7 @@ import java.nio.ByteBuffer;
 
 import us.ihmc.rtps.attributes.ParticipantAttributes;
 import us.ihmc.rtps.common.Guid;
+import us.ihmc.rtps.impl.fastRTPS.DISCOVERY_STATUS;
 import us.ihmc.rtps.impl.fastRTPS.NativeParticipantImpl;
 import us.ihmc.rtps.impl.fastRTPS.NativeParticipantListener;
 import us.ihmc.rtps.impl.fastRTPS.attributes.FastRTPSParticipantAttributes;
@@ -19,6 +20,8 @@ public class FastRTPSParticipant extends NativeParticipantListener implements Pa
    private final Guid guid = new Guid();
    
    private final ParticipantListener participantListener;
+   
+   private final FastRTPSParticipantDiscoveryInfo discoveryInfo = new FastRTPSParticipantDiscoveryInfo();
 
    public FastRTPSParticipant(ParticipantAttributes<?> att, ParticipantListener participantListener) throws IOException
    {
@@ -47,8 +50,7 @@ public class FastRTPSParticipant extends NativeParticipantListener implements Pa
       ByteBuffer guidBuffer = ByteBuffer.allocateDirect(Guid.GuidPrefix.size + Guid.Entity.size);
       impl.getGuid(guidBuffer);
       guidBuffer.clear();
-      guidBuffer.get(guid.guidPrefix.value, 0, Guid.GuidPrefix.size);
-      guidBuffer.get(guid.entity.value, 0, Guid.Entity.size);
+      guid.fromByteBuffer(guidBuffer);
    }
 
    @Override
@@ -78,11 +80,12 @@ public class FastRTPSParticipant extends NativeParticipantListener implements Pa
    }
 
    @Override
-   public void onParticipantDiscovery()
+   public void onParticipantDiscovery(long infoPtr, DISCOVERY_STATUS status)
    {
       if(participantListener != null)
       {
-         participantListener.onParticipantDiscovery(this, null);
+         discoveryInfo.updateInfo(status, this, infoPtr);
+         participantListener.onParticipantDiscovery(this, discoveryInfo);
       }
    }
 }
