@@ -1,4 +1,4 @@
-package us.ihmc.rtps.impl.fastRTPS.participant;
+package us.ihmc.rtps.impl.fastRTPS;
 
 import java.nio.ByteBuffer;
 
