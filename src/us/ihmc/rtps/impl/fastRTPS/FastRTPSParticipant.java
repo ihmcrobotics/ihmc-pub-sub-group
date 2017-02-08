@@ -1,4 +1,4 @@
-package us.ihmc.rtps.impl.fastRTPS.participant;
+package us.ihmc.rtps.impl.fastRTPS;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -11,12 +11,11 @@ import us.ihmc.rtps.common.Guid;
 import us.ihmc.rtps.impl.fastRTPS.DISCOVERY_STATUS;
 import us.ihmc.rtps.impl.fastRTPS.NativeParticipantImpl;
 import us.ihmc.rtps.impl.fastRTPS.NativeParticipantListener;
-import us.ihmc.rtps.impl.fastRTPS.attributes.FastRTPSParticipantAttributes;
 import us.ihmc.rtps.participant.Participant;
 import us.ihmc.rtps.participant.ParticipantListener;
 import us.ihmc.rtps.publisher.PublisherListener;
 
-public class FastRTPSParticipant implements Participant
+class FastRTPSParticipant implements Participant
 {
    private final NativeParticipantImpl impl;
 
@@ -42,7 +41,7 @@ public class FastRTPSParticipant implements Participant
       }
    }
 
-   public FastRTPSParticipant(ParticipantAttributes<?> att, ParticipantListener participantListener) throws IOException
+   public FastRTPSParticipant(ParticipantAttributes<?> att, ParticipantListener participantListener) throws IOException, IllegalArgumentException
    {
       if (att instanceof FastRTPSParticipantAttributes)
       {
@@ -51,7 +50,7 @@ public class FastRTPSParticipant implements Participant
       }
       else
       {
-         throw new IOException("ParticipantAttributes<?> is not of base class FastRTPSParticipantAttributes");
+         throw new IllegalArgumentException("ParticipantAttributes<?> is not of base class FastRTPSParticipantAttributes");
       }
 
       this.participantListener = participantListener;
@@ -59,7 +58,7 @@ public class FastRTPSParticipant implements Participant
 
    }
 
-   public void delete()
+   void delete()
    {
       impl.delete();
    }
@@ -98,7 +97,7 @@ public class FastRTPSParticipant implements Participant
       return 0;
    }
 
-   public void registerType(TopicDataType<?> topicDataType) throws IllegalArgumentException
+   void registerType(TopicDataType<?> topicDataType) throws IllegalArgumentException
    {
       if(topicDataType.getTypeSize() <= 0)
       {
@@ -121,7 +120,7 @@ public class FastRTPSParticipant implements Participant
       types.add(topicDataType);
    }
    
-   public TopicDataType<?> getRegisteredType(String name)
+   TopicDataType<?> getRegisteredType(String name)
    {
       for(int i = 0; i < types.size(); i++)
       {
@@ -133,7 +132,7 @@ public class FastRTPSParticipant implements Participant
       return null;
    }
 
-   public void createPublisher(PublisherAttributes publisherAttributes, PublisherListener listener)
+   void createPublisher(PublisherAttributes<?, ?, ?> publisherAttributes, PublisherListener listener) throws IOException
    {
       // TODO Auto-generated method stub
       

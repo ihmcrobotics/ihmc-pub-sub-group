@@ -1,4 +1,4 @@
-package us.ihmc.rtps.impl.fastRTPS.attributes;
+package us.ihmc.rtps.impl.fastRTPS;
 
 import us.ihmc.rtps.attributes.ParticipantAttributes;
 import us.ihmc.rtps.impl.fastRTPS.RTPSParticipantAttributes;

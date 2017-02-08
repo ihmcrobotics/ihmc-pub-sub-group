@@ -7,7 +7,6 @@ import us.ihmc.rtps.Domain;
 import us.ihmc.rtps.TopicDataType;
 import us.ihmc.rtps.attributes.ParticipantAttributes;
 import us.ihmc.rtps.attributes.PublisherAttributes;
-import us.ihmc.rtps.impl.fastRTPS.participant.FastRTPSParticipant;
 import us.ihmc.rtps.participant.Participant;
 import us.ihmc.rtps.participant.ParticipantListener;
 import us.ihmc.rtps.publisher.Publisher;
@@ -34,7 +33,7 @@ public class FastRTPSDomain implements Domain
    }
 
    @Override
-   public synchronized Publisher createPublisher(Participant participant, PublisherAttributes publisherAttributes, PublisherListener listener) throws IOException, IllegalArgumentException
+   public synchronized Publisher createPublisher(Participant participant, PublisherAttributes<?,?,?> publisherAttributes, PublisherListener listener) throws IOException, IllegalArgumentException
    {
       for(int i = 0; i < participants.size(); i++)
       {
@@ -122,6 +121,13 @@ public class FastRTPSDomain implements Domain
    {
       // TODO Auto-generated method stub
       
+   }
+
+
+   @Override
+   public FastRTPSPublisherAttributes createPublisherAttributes()
+   {
+      return new FastRTPSPublisherAttributes();
    }
 
 }
