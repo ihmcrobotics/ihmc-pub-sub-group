@@ -101,6 +101,9 @@ public class PublisherAttributes<WriterQos_t, WriterTimes_t, LocatorList_t>
       return throughputController;
    }
    
-   
+   public void delete()
+   {
+      
+   }
 
 }

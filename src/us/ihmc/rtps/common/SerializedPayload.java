@@ -10,12 +10,17 @@ import java.nio.ByteBuffer;
  */
 public class SerializedPayload
 {
-   private short encapsulation;
+   public static final short CDR_BE = 0x0000;
+   public static final short CDR_LE = 0x0001;
+   public static final short PL_CDR_BE = 0x0002;
+   public static final short PL_CDR_LE = 0x0003;
+
+   private short encapsulation = CDR_BE;
    private int length;
    private final ByteBuffer data;
    private int max_size;
    private int pos;
-   
+
    /**
     * Constructor 
     * 
@@ -85,7 +90,5 @@ public class SerializedPayload
    {
       return data;
    }
-   
-   
 
 }

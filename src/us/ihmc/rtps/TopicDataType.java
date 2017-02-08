@@ -21,7 +21,7 @@ public interface TopicDataType<T>
     * @return true if serialized correctly
     */
    public boolean serialize(T data, SerializedPayload serializedPayload);
-   
+
    /**
     * Deserialize method, it should be implemented by the user
     * 
@@ -31,7 +31,7 @@ public interface TopicDataType<T>
     * @return true if deserialized correctly
     */
    public boolean deserialize(SerializedPayload serializedPayload, T data);
-   
+
    /**
     * Maximum serialized size of the type in bytes.
     * 
@@ -40,11 +40,27 @@ public interface TopicDataType<T>
     * @return maximum size in bytes
     */
    public int getTypeSize();
-   
+
    /**
     * 
     * @return Topic data type name
     */
    public String getName();
-   
+
+   /**
+    * Get the key associated with the data. 
+    */
+   default byte[] getKey(T data)
+   {
+      return null;
+   }
+
+   /**
+    * Indicates whether the method to obtain the key has been implemented
+    * @return true when implemented
+    */
+   default boolean isGetKeyDefined()
+   {
+      return false;
+   }
 }

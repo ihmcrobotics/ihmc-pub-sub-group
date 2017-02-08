@@ -19,19 +19,7 @@ namespace std {
 
 %array_functions(unsigned char, octetArray)
 
-%typemap(throws, throws="java.io.IOException") FastRTPSException {
-  jclass excep = jenv->FindClass("java/io/IOException");
-  if (excep)
-    jenv->ThrowNew(excep, $1.what());
-  return $null;
-}
 
-%feature("director") NativeParticipantListener;
-
-%{
-#include "nativeparticipantimpl.h"
-
-%}
 
 // Support for RTPSParticipantAttribuges
 namespace eprosima{
@@ -138,8 +126,22 @@ typedef enum TopicKind_t{
 %include <fastrtps/attributes/PublisherAttributes.h>
 
 
+%typemap(throws, throws="java.io.IOException") FastRTPSException {
+  jclass excep = jenv->FindClass("java/io/IOException");
+  if (excep)
+    jenv->ThrowNew(excep, $1.what());
+  return $null;
+}
+
+%feature("director") NativeParticipantListener;
+
+
+%ignore NativeParticipantImpl::getParticipant;
+%{
+#include "nativeparticipantimpl.h"
+#include "nativepublisherimpl.h"
+%}
 
 %include "nativeparticipantimpl.h"
-
-
+%include "nativepublisherimpl.h"
 
