@@ -7,10 +7,8 @@ import java.util.ArrayList;
 import us.ihmc.rtps.TopicDataType;
 import us.ihmc.rtps.attributes.ParticipantAttributes;
 import us.ihmc.rtps.attributes.PublisherAttributes;
+import us.ihmc.rtps.attributes.TopicAttributes.TopicKind;
 import us.ihmc.rtps.common.Guid;
-import us.ihmc.rtps.impl.fastRTPS.DISCOVERY_STATUS;
-import us.ihmc.rtps.impl.fastRTPS.NativeParticipantImpl;
-import us.ihmc.rtps.impl.fastRTPS.NativeParticipantListener;
 import us.ihmc.rtps.participant.Participant;
 import us.ihmc.rtps.participant.ParticipantListener;
 import us.ihmc.rtps.publisher.PublisherListener;
@@ -20,6 +18,7 @@ class FastRTPSParticipant implements Participant
    private final NativeParticipantImpl impl;
 
    private final ArrayList<TopicDataType<?>> types = new ArrayList<>();
+   private final ArrayList<FastRTPSPublisher> publishers = new ArrayList<>();
    
    private final FastRTPSParticipantAttributes attributes;
    private final ParticipantListener participantListener;
@@ -132,10 +131,37 @@ class FastRTPSParticipant implements Participant
       return null;
    }
 
-   void createPublisher(PublisherAttributes<?, ?, ?> publisherAttributes, PublisherListener listener) throws IOException
+   FastRTPSPublisher createPublisher(PublisherAttributes<?, ?, ?> publisherAttributes, PublisherListener listener) throws IOException, IllegalArgumentException
    {
-      // TODO Auto-generated method stub
+      TopicDataType<?> topicDataType = getRegisteredType(publisherAttributes.getTopic().getTopicDataType());
+      if(topicDataType == null)
+      {
+         throw new IllegalArgumentException("Type: " + publisherAttributes.getTopic().getTopicDataType() + " is not registered");
+      }
       
+      if(publisherAttributes.getTopic().getTopicKind() == TopicKind.WITH_KEY && !topicDataType.isGetKeyDefined())
+      {
+         throw new IllegalArgumentException("Keyed topic needs getKey function");
+      }
+      
+      if(attributes.rtps().getBuiltin().getUse_STATIC_EndpointDiscoveryProtocol())
+      {
+         if(publisherAttributes.getUserDefinedID() <= 0)
+         {
+            throw new IllegalArgumentException("Static EDP requires user defined EDP");
+         }
+      }
+      
+      if(publisherAttributes instanceof FastRTPSPublisherAttributes)
+      {
+         FastRTPSPublisher publisher = new FastRTPSPublisher(topicDataType, (FastRTPSPublisherAttributes) publisherAttributes, listener, impl);
+         publishers.add(publisher);
+         return publisher;
+      }
+      else
+      {
+         throw new IllegalArgumentException("publisherAttributes are not an instance of FastRTPSPublisherAttributes");
+      }
    }
    
 }
