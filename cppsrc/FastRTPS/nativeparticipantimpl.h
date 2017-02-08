@@ -25,7 +25,7 @@ class NativeParticipantImpl
 public:
     NativeParticipantImpl(RTPSParticipantAttributes& rtps, NativeParticipantListener* listener) throw(FastRTPSException);
     void getGuid(octet* ret);
-
+    RTPSParticipant* getParticipant();
     virtual ~NativeParticipantImpl();
 
 private:

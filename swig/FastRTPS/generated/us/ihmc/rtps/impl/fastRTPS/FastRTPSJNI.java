@@ -436,6 +436,12 @@ public class FastRTPSJNI {
   public final static native long new_NativeParticipantImpl(long jarg1, RTPSParticipantAttributes jarg1_, long jarg2, NativeParticipantListener jarg2_) throws java.io.IOException;
   public final static native void NativeParticipantImpl_getGuid(long jarg1, NativeParticipantImpl jarg1_, java.nio.ByteBuffer jarg2);
   public final static native void delete_NativeParticipantImpl(long jarg1);
+  public final static native long new_NativePublisherImpl(int jarg1, int jarg2, int jarg3, int jarg4, long jarg5, TopicAttributes jarg5_, long jarg6, WriterQos jarg6_, long jarg7, WriterTimes jarg7_, long jarg8, LocatorList_t jarg8_, long jarg9, LocatorList_t jarg9_, long jarg10, LocatorList_t jarg10_, long jarg11, ThroughputControllerDescriptor jarg11_, long jarg12, NativeParticipantImpl jarg12_) throws java.io.IOException;
+  public final static native void NativePublisherImpl_create_new_change(long jarg1, NativePublisherImpl jarg1_, long jarg2, java.nio.ByteBuffer jarg3, int jarg4, short jarg5, java.nio.ByteBuffer jarg6) throws java.io.IOException;
+  public final static native int NativePublisherImpl_getTopicKind(long jarg1, NativePublisherImpl jarg1_);
+  public final static native long NativePublisherImpl_getGuid(long jarg1, NativePublisherImpl jarg1_);
+  public final static native boolean NativePublisherImpl_clean_history(long jarg1, NativePublisherImpl jarg1_, long jarg2);
+  public final static native void delete_NativePublisherImpl(long jarg1);
   public final static native long DurabilityQosPolicy_SWIGUpcast(long jarg1);
   public final static native long DeadlineQosPolicy_SWIGUpcast(long jarg1);
   public final static native long LatencyBudgetQosPolicy_SWIGUpcast(long jarg1);
