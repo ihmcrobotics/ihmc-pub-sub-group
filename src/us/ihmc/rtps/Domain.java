@@ -34,7 +34,7 @@ public interface Domain
     */
    public Participant createParticipant(ParticipantAttributes<?> att, ParticipantListener participantListener) throws IOException;
 
-   public Publisher createPublisher(Participant participant, PublisherAttributes publisherAttributes, PublisherListener listener) throws IOException, IllegalArgumentException;
+   public Publisher createPublisher(Participant participant, PublisherAttributes<?,?,?> publisherAttributes, PublisherListener listener) throws IOException, IllegalArgumentException;
    
    public Subscriber createSubscriber(Participant participant) throws IOException;
 
@@ -80,4 +80,13 @@ public interface Domain
    public boolean unregisterType(Participant participant, String typeName);
    
    public void stopAll();
+   
+   /**
+    * Generate an implementation specific version of PublisherAttributes
+    * 
+    * This method allocates memory
+    * 
+    * @return Implementation specific version of PublisherAttributes
+    */
+   public PublisherAttributes<?, ?, ?> createPublisherAttributes();
 }

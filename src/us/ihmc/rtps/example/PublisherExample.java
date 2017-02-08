@@ -3,16 +3,16 @@ package us.ihmc.rtps.example;
 import java.io.IOException;
 
 import us.ihmc.rtps.Domain;
+import us.ihmc.rtps.attributes.PublisherAttributes;
+import us.ihmc.rtps.attributes.TopicAttributes.TopicKind;
 import us.ihmc.rtps.impl.fastRTPS.FastRTPSDomain;
+import us.ihmc.rtps.impl.fastRTPS.FastRTPSParticipantAttributes;
 import us.ihmc.rtps.impl.fastRTPS.FastRTPSTime;
-import us.ihmc.rtps.impl.fastRTPS.TopicKind_t;
-import us.ihmc.rtps.impl.fastRTPS.attributes.FastRTPSParticipantAttributes;
-import us.ihmc.rtps.impl.fastRTPS.attributes.FastRTPSPublisherAttributes;
 import us.ihmc.rtps.participant.Participant;
-import us.ihmc.rtps.participant.ParticipantListener;
 import us.ihmc.rtps.participant.ParticipantDiscoveryInfo;
+import us.ihmc.rtps.participant.ParticipantListener;
 
-public class Publisher
+public class PublisherExample
 {
    private class ParticipantListenerImpl implements ParticipantListener
    {
@@ -28,7 +28,7 @@ public class Publisher
 
    }
 
-   public Publisher() throws IOException
+   public PublisherExample() throws IOException
    {
       Domain domain = new FastRTPSDomain();
 
@@ -40,10 +40,10 @@ public class Publisher
       Participant participant = domain.createParticipant(attributes, new ParticipantListenerImpl());
       
       
-      FastRTPSPublisherAttributes publisherAttributes = new FastRTPSPublisherAttributes();
-      publisherAttributes.getAttributes().getTopic().setTopicKind(TopicKind_t.NO_KEY);
-      publisherAttributes.getAttributes().getTopic().setTopicDataType("");
-      publisherAttributes.getAttributes().getTopic().setTopicName("ChatBox");
+      PublisherAttributes<?,?,?> publisherAttributes = domain.createPublisherAttributes();
+      publisherAttributes.getTopic().setTopicKind(TopicKind.NO_KEY);
+      publisherAttributes.getTopic().setTopicDataType("");
+      publisherAttributes.getTopic().setTopicName("ChatBox");
       
       domain.createPublisher(participant, publisherAttributes, null);
       
@@ -63,6 +63,6 @@ public class Publisher
    
    public static void main(String[] args) throws IOException
    {
-      new Publisher();
+      new PublisherExample();
    }
 }
