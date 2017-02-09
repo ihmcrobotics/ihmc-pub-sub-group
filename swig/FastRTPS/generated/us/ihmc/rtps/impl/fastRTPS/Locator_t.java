@@ -69,7 +69,7 @@ public class Locator_t {
   }
 
   public Locator_t(long portin) {
-    this(FastRTPSJNI.new_Locator_t__SWIG_3(portin), true);
+    this(FastRTPSJNI.new_Locator_t__SWIG_2(portin), true);
   }
 
   public boolean set_IP4_address(short o1, short o2, short o3, short o4) {

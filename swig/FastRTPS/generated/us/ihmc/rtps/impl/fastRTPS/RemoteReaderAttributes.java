@@ -48,14 +48,6 @@ public class RemoteReaderAttributes {
     return (cPtr == 0) ? null : new EndpointAttributes(cPtr, false);
   }
 
-  public void setGuid(SWIGTYPE_p_GUID_t value) {
-    FastRTPSJNI.RemoteReaderAttributes_guid_set(swigCPtr, this, SWIGTYPE_p_GUID_t.getCPtr(value));
-  }
-
-  public SWIGTYPE_p_GUID_t getGuid() {
-    return new SWIGTYPE_p_GUID_t(FastRTPSJNI.RemoteReaderAttributes_guid_get(swigCPtr, this), true);
-  }
-
   public void setExpectsInlineQos(boolean value) {
     FastRTPSJNI.RemoteReaderAttributes_expectsInlineQos_set(swigCPtr, this, value);
   }

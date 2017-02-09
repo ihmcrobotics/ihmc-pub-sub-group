@@ -1,4 +1,5 @@
 #include "nativepublisherimpl.h"
+#include "commonfunctions.h"
 #include <fastrtps/rtps/RTPSDomain.h>
 
 using namespace eprosima::fastrtps::rtps;
@@ -15,7 +16,8 @@ NativePublisherImpl::NativePublisherImpl(
         LocatorList_t* multicastLocatorList,
         LocatorList_t* outLocatorList,
         ThroughputControllerDescriptor* throughputController,
-        NativeParticipantImpl* participant) throw(FastRTPSException) :
+        NativeParticipantImpl* participant,
+        NativePublisherListener* listener) throw(FastRTPSException) :
         throughputController(throughputController),
         rtpsParticipant(participant->getParticipant()),
         writerListener(this),
@@ -23,7 +25,8 @@ NativePublisherImpl::NativePublisherImpl(
         topicKind(topic->topicKind),
         publishModeKind(qos->m_publishMode.kind),
         historyQosKind(topic->historyQos.kind),
-        high_mark_for_frag_(0)
+        high_mark_for_frag_(0),
+        listener(listener)
 {
     WriterAttributes watt;
     watt.throughputController = *throughputController;
@@ -42,12 +45,22 @@ NativePublisherImpl::NativePublisherImpl(
     watt.times = *times;
 
     mp_writer = RTPSDomain::createRTPSWriter(participant->getParticipant(), watt, &publisherhistory, &writerListener);
-
+    CommonFunctions::guidcpy(mp_writer->getGuid(), &guid);
 }
 
 NativePublisherImpl::~NativePublisherImpl()
 {
     RTPSDomain::removeRTPSWriter(mp_writer);
+}
+
+int64_t NativePublisherImpl::getGuidLow()
+{
+    return guid.primitive.low;
+}
+
+int64_t NativePublisherImpl::getGuidHigh()
+{
+    return guid.primitive.high;
 }
 
 TopicKind_t NativePublisherImpl::getTopicKind()
@@ -60,9 +73,18 @@ const GUID_t& NativePublisherImpl::getGuid()
     return mp_writer->getGuid();
 }
 
-bool NativePublisherImpl::removeAllChange(size_t* removed)
+int32_t NativePublisherImpl::removeAllChange()
 {
-    return publisherhistory.removeAllChange(removed);
+    size_t removed;
+
+    if(publisherhistory.removeAllChange(&removed))
+    {
+        return removed;
+    }
+    else
+    {
+        return -1;
+    }
 }
 
 bool NativePublisherImpl::wait_for_all_acked(const Time_t& max_wait)
@@ -80,6 +102,7 @@ bool NativePublisherImpl::clean_history(unsigned int max)
 
 void NativePublisherImpl::create_new_change(ChangeKind_t changeKind, unsigned char* data, int32_t dataLength, int16_t encapsulation, octet* key) throw(FastRTPSException)
 {
+    std::cout << "A" << std::endl;
     if(changeKind == NOT_ALIVE_UNREGISTERED || changeKind == NOT_ALIVE_DISPOSED ||
             changeKind == NOT_ALIVE_DISPOSED_UNREGISTERED)
     {
@@ -88,7 +111,6 @@ void NativePublisherImpl::create_new_change(ChangeKind_t changeKind, unsigned ch
             throw FastRTPSException("Topic is NO_KEY, operation not permitted");
         }
     }
-
     InstanceHandle_t handle;
     if(topicKind == WITH_KEY)
     {
@@ -98,6 +120,7 @@ void NativePublisherImpl::create_new_change(ChangeKind_t changeKind, unsigned ch
     CacheChange_t* ch = mp_writer->new_change([dataLength]() -> uint32_t {return (uint32_t)dataLength;} ,changeKind, handle);
     if(ch != nullptr)
     {
+        std::cout << "A" << std::endl;
         if(changeKind == ALIVE)
         {
             if(dataLength > ch->serializedPayload.max_size)
@@ -146,4 +169,11 @@ void NativePublisherImpl::create_new_change(ChangeKind_t changeKind, unsigned ch
     {
         throw FastRTPSException("Cannot create change");
     }
+}
+
+void NativePublisherImpl::PublisherWriterListener::onWriterMatched(RTPSWriter *writer, MatchingInfo &info)
+{
+    GuidUnion retGuid;
+    CommonFunctions::guidcpy(info.remoteEndpointGuid, &retGuid);
+    publisherImpl->listener->onWriterMatched(info.status, retGuid.primitive.high, retGuid.primitive.low);
 }

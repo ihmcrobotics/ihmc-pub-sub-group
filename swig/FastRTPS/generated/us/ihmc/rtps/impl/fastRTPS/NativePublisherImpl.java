@@ -35,28 +35,36 @@ public class NativePublisherImpl {
     }
   }
 
-  public NativePublisherImpl(int entityId, int userDefinedID, int maximumPayloadSize, MemoryManagementPolicy_t memoryManagementPolicy, TopicAttributes topic, WriterQos qos, WriterTimes times, LocatorList_t unicastLocatorList, LocatorList_t multicastLocatorList, LocatorList_t outLocatorList, ThroughputControllerDescriptor throughputController, NativeParticipantImpl participant) throws java.io.IOException {
-    this(FastRTPSJNI.new_NativePublisherImpl(entityId, userDefinedID, maximumPayloadSize, memoryManagementPolicy.swigValue(), TopicAttributes.getCPtr(topic), topic, WriterQos.getCPtr(qos), qos, WriterTimes.getCPtr(times), times, LocatorList_t.getCPtr(unicastLocatorList), unicastLocatorList, LocatorList_t.getCPtr(multicastLocatorList), multicastLocatorList, LocatorList_t.getCPtr(outLocatorList), outLocatorList, ThroughputControllerDescriptor.getCPtr(throughputController), throughputController, NativeParticipantImpl.getCPtr(participant), participant), true);
+  public NativePublisherImpl(int entityId, int userDefinedID, int maximumPayloadSize, MemoryManagementPolicy_t memoryManagementPolicy, TopicAttributes topic, WriterQos qos, WriterTimes times, LocatorList_t unicastLocatorList, LocatorList_t multicastLocatorList, LocatorList_t outLocatorList, ThroughputControllerDescriptor throughputController, NativeParticipantImpl participant, NativePublisherListener listener) throws java.io.IOException {
+    this(FastRTPSJNI.new_NativePublisherImpl(entityId, userDefinedID, maximumPayloadSize, memoryManagementPolicy.swigValue(), TopicAttributes.getCPtr(topic), topic, WriterQos.getCPtr(qos), qos, WriterTimes.getCPtr(times), times, LocatorList_t.getCPtr(unicastLocatorList), unicastLocatorList, LocatorList_t.getCPtr(multicastLocatorList), multicastLocatorList, LocatorList_t.getCPtr(outLocatorList), outLocatorList, ThroughputControllerDescriptor.getCPtr(throughputController), throughputController, NativeParticipantImpl.getCPtr(participant), participant, NativePublisherListener.getCPtr(listener), listener), true);
   }
 
-  public void create_new_change(SWIGTYPE_p_ChangeKind_t changeKind, java.nio.ByteBuffer data, int dataLength, short encapsulation, java.nio.ByteBuffer key) throws java.io.IOException {
+  public void create_new_change(ChangeKind_t changeKind, java.nio.ByteBuffer data, int dataLength, short encapsulation, java.nio.ByteBuffer key) throws java.io.IOException {
   assert data.isDirect() : "Buffer must be allocated direct.";
   assert key.isDirect() : "Buffer must be allocated direct.";
     {
-      FastRTPSJNI.NativePublisherImpl_create_new_change(swigCPtr, this, SWIGTYPE_p_ChangeKind_t.getCPtr(changeKind), data, dataLength, encapsulation, key);
+      FastRTPSJNI.NativePublisherImpl_create_new_change(swigCPtr, this, changeKind.swigValue(), data, dataLength, encapsulation, key);
     }
-  }
-
-  public TopicKind_t getTopicKind() {
-    return TopicKind_t.swigToEnum(FastRTPSJNI.NativePublisherImpl_getTopicKind(swigCPtr, this));
-  }
-
-  public SWIGTYPE_p_GUID_t getGuid() {
-    return new SWIGTYPE_p_GUID_t(FastRTPSJNI.NativePublisherImpl_getGuid(swigCPtr, this), false);
   }
 
   public boolean clean_history(long max) {
     return FastRTPSJNI.NativePublisherImpl_clean_history(swigCPtr, this, max);
+  }
+
+  public int removeAllChange() {
+    return FastRTPSJNI.NativePublisherImpl_removeAllChange(swigCPtr, this);
+  }
+
+  public boolean wait_for_all_acked(Time_t max_wait) {
+    return FastRTPSJNI.NativePublisherImpl_wait_for_all_acked(swigCPtr, this, Time_t.getCPtr(max_wait), max_wait);
+  }
+
+  public long getGuidLow() {
+    return FastRTPSJNI.NativePublisherImpl_getGuidLow(swigCPtr, this);
+  }
+
+  public long getGuidHigh() {
+    return FastRTPSJNI.NativePublisherImpl_getGuidHigh(swigCPtr, this);
   }
 
 }

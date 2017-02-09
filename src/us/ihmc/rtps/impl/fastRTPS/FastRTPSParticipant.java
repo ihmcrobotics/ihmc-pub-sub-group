@@ -1,7 +1,6 @@
 package us.ihmc.rtps.impl.fastRTPS;
 
 import java.io.IOException;
-import java.nio.ByteBuffer;
 import java.util.ArrayList;
 
 import us.ihmc.rtps.TopicDataType;
@@ -11,6 +10,7 @@ import us.ihmc.rtps.attributes.TopicAttributes.TopicKind;
 import us.ihmc.rtps.common.Guid;
 import us.ihmc.rtps.participant.Participant;
 import us.ihmc.rtps.participant.ParticipantListener;
+import us.ihmc.rtps.publisher.Publisher;
 import us.ihmc.rtps.publisher.PublisherListener;
 
 class FastRTPSParticipant implements Participant
@@ -24,23 +24,23 @@ class FastRTPSParticipant implements Participant
    private final ParticipantListener participantListener;
 
    private final Guid guid = new Guid();
-   private final FastRTPSParticipantDiscoveryInfo discoveryInfo = new FastRTPSParticipantDiscoveryInfo();
 
    private class NativeParticipantListenerImpl extends NativeParticipantListener
    {
+      private final FastRTPSParticipantDiscoveryInfo discoveryInfo = new FastRTPSParticipantDiscoveryInfo();
 
       @Override
-      public void onParticipantDiscovery(long infoPtr, DISCOVERY_STATUS status)
+      public void onParticipantDiscovery(long infoPtr, long guidHigh, long guidLow, DISCOVERY_STATUS status)
       {
          if (participantListener != null)
          {
-            discoveryInfo.updateInfo(status, this, infoPtr);
+            discoveryInfo.updateInfo(status, this, infoPtr, guidHigh, guidLow);
             participantListener.onParticipantDiscovery(FastRTPSParticipant.this, discoveryInfo);
          }
       }
    }
 
-   public FastRTPSParticipant(ParticipantAttributes<?> att, ParticipantListener participantListener) throws IOException, IllegalArgumentException
+   FastRTPSParticipant(ParticipantAttributes<?> att, ParticipantListener participantListener) throws IOException, IllegalArgumentException
    {
       if (att instanceof FastRTPSParticipantAttributes)
       {
@@ -57,17 +57,18 @@ class FastRTPSParticipant implements Participant
 
    }
 
-   void delete()
+   synchronized void delete()
    {
+      for(int i = 0; i < publishers.size(); i++)
+      {
+         publishers.get(i).delete();
+      }
       impl.delete();
    }
 
    private void getGuid(Guid guid)
    {
-      ByteBuffer guidBuffer = ByteBuffer.allocateDirect(Guid.GuidPrefix.size + Guid.Entity.size);
-      impl.getGuid(guidBuffer);
-      guidBuffer.clear();
-      guid.fromByteBuffer(guidBuffer);
+      guid.fromPrimitives(impl.getGuidHigh(), impl.getGuidLow());
    }
 
    @Override
@@ -83,20 +84,19 @@ class FastRTPSParticipant implements Participant
    }
 
    @Override
-   public int get_no_publisher(String target_topic)
+   public synchronized int get_no_publisher(String target_topic)
    {
-      // TODO Auto-generated method stub
-      return 0;
+      return publishers.size();
    }
 
    @Override
-   public int get_no_subscribers(String target_topic)
+   public synchronized int get_no_subscribers(String target_topic)
    {
       // TODO Auto-generated method stub
       return 0;
    }
 
-   void registerType(TopicDataType<?> topicDataType) throws IllegalArgumentException
+   synchronized void registerType(TopicDataType<?> topicDataType) throws IllegalArgumentException
    {
       if(topicDataType.getTypeSize() <= 0)
       {
@@ -119,7 +119,7 @@ class FastRTPSParticipant implements Participant
       types.add(topicDataType);
    }
    
-   TopicDataType<?> getRegisteredType(String name)
+   synchronized TopicDataType<?> getRegisteredType(String name)
    {
       for(int i = 0; i < types.size(); i++)
       {
@@ -131,7 +131,7 @@ class FastRTPSParticipant implements Participant
       return null;
    }
 
-   FastRTPSPublisher createPublisher(PublisherAttributes<?, ?, ?> publisherAttributes, PublisherListener listener) throws IOException, IllegalArgumentException
+   synchronized FastRTPSPublisher createPublisher(PublisherAttributes<?, ?, ?> publisherAttributes, PublisherListener listener) throws IOException, IllegalArgumentException
    {
       TopicDataType<?> topicDataType = getRegisteredType(publisherAttributes.getTopic().getTopicDataType());
       if(topicDataType == null)
@@ -161,6 +161,43 @@ class FastRTPSParticipant implements Participant
       else
       {
          throw new IllegalArgumentException("publisherAttributes are not an instance of FastRTPSPublisherAttributes");
+      }
+   }
+
+   synchronized boolean removePublisher(Publisher publisher)
+   {
+      for(int i = 0; i < publishers.size(); i++)
+      {
+         if(publishers.get(i) == publisher)
+         {
+            publishers.get(i).delete();
+         }
+      }
+      return false;
+   }
+
+   public void unregisterType(String typeName) throws IOException
+   {
+      TopicDataType<?> type = null;
+      for(int i = 0; i < types.size(); i++)
+      {
+         if(types.get(i).getName().equals(typeName))
+         {
+            type = types.get(i);
+            continue;
+         }
+      }
+      if(type == null)
+      {
+         throw new IllegalArgumentException(typeName + " is not registered with participant");
+      }
+      
+      for(int i = 0; i < publishers.size(); i++)
+      {
+         if(publishers.get(i).getTopicDataType().equals(type))
+         {
+            throw new IOException("TopicDataType in use by publisher " + publishers.get(i).getAttributes().getTopic().getTopicName());
+         }
       }
    }
    

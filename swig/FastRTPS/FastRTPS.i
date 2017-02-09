@@ -32,11 +32,24 @@ namespace rtps{
 
     %ignore ThroughputController::mAssociatedParticipant;
     %ignore ThroughputController::mAssociatedWriter;
+
+    %ignore Locator_t::Locator_t(const Locator_t& loc);
+    %ignore LocatorList_t::LocatorList_t(const LocatorList_t& list);
+
+    %ignore ThroughputController;
+    %ignore FlowController;
+    %ignore RemoteReaderAttributes::guid;
+    %ignore GUID_t;
 }
     %ignore TopicAttributes::getTopicKind;
     %ignore TopicAttributes::getTopicName;
     %ignore TopicAttributes::getTopicDataType;
+
 }}
+
+%ignore operator=;
+%ignore operator==;
+%ignore operator<<;
 
 
 
@@ -116,6 +129,20 @@ typedef enum TopicKind_t{
 }TopicKind_t;
 
 
+enum ChangeKind_t{
+    ALIVE,                //!< ALIVE
+    NOT_ALIVE_DISPOSED,   //!< NOT_ALIVE_DISPOSED
+    NOT_ALIVE_UNREGISTERED,//!< NOT_ALIVE_UNREGISTERED
+    NOT_ALIVE_DISPOSED_UNREGISTERED //!<NOT_ALIVE_DISPOSED_UNREGISTERED
+};
+
+enum MatchingStatus{
+MATCHED_MATCHING,//!< MATCHED_MATCHING, new publisher/subscriber found
+REMOVED_MATCHING //!< REMOVED_MATCHING, publisher/subscriber removed
+
+};
+
+%include <fastrtps/rtps/flowcontrol/FlowController.h>
 %include <fastrtps/rtps/flowcontrol/ThroughputController.h>
 %include <fastrtps/qos/QosPolicies.h>
 %include <fastrtps/qos/WriterQos.h>
@@ -134,9 +161,12 @@ typedef enum TopicKind_t{
 }
 
 %feature("director") NativeParticipantListener;
+%feature("director") NativePublisherListener;
 
 
 %ignore NativeParticipantImpl::getParticipant;
+%ignore NativePublisherImpl::getGuid();
+%ignore NativePublisherImpl::getTopicKind;
 %{
 #include "nativeparticipantimpl.h"
 #include "nativepublisherimpl.h"
