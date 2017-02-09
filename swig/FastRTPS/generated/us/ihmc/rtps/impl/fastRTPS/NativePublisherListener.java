@@ -50,7 +50,7 @@ public class NativePublisherListener {
     FastRTPSJNI.NativePublisherListener_change_ownership(this, swigCPtr, true);
   }
 
-  public void onWriterMatched(MatchingStatus status, int guidHigh, int guidLow) {
+  public void onWriterMatched(MatchingStatus status, long guidHigh, long guidLow) {
     if (getClass() == NativePublisherListener.class) FastRTPSJNI.NativePublisherListener_onWriterMatched(swigCPtr, this, status.swigValue(), guidHigh, guidLow); else FastRTPSJNI.NativePublisherListener_onWriterMatchedSwigExplicitNativePublisherListener(swigCPtr, this, status.swigValue(), guidHigh, guidLow);
   }
 

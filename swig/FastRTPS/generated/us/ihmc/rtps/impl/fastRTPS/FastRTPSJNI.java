@@ -431,8 +431,8 @@ public class FastRTPSJNI {
   public final static native long NativeParticipantImpl_getGuidLow(long jarg1, NativeParticipantImpl jarg1_);
   public final static native long NativeParticipantImpl_getGuidHigh(long jarg1, NativeParticipantImpl jarg1_);
   public final static native void delete_NativeParticipantImpl(long jarg1);
-  public final static native void NativePublisherListener_onWriterMatched(long jarg1, NativePublisherListener jarg1_, int jarg2, int jarg3, int jarg4);
-  public final static native void NativePublisherListener_onWriterMatchedSwigExplicitNativePublisherListener(long jarg1, NativePublisherListener jarg1_, int jarg2, int jarg3, int jarg4);
+  public final static native void NativePublisherListener_onWriterMatched(long jarg1, NativePublisherListener jarg1_, int jarg2, long jarg3, long jarg4);
+  public final static native void NativePublisherListener_onWriterMatchedSwigExplicitNativePublisherListener(long jarg1, NativePublisherListener jarg1_, int jarg2, long jarg3, long jarg4);
   public final static native void delete_NativePublisherListener(long jarg1);
   public final static native long new_NativePublisherListener();
   public final static native void NativePublisherListener_director_connect(NativePublisherListener obj, long cptr, boolean mem_own, boolean weak_global);
@@ -472,7 +472,7 @@ public class FastRTPSJNI {
   public static void SwigDirector_NativeParticipantListener_onParticipantDiscovery(NativeParticipantListener jself, long infoPtr, long guidHigh, long guidLow, int status) {
     jself.onParticipantDiscovery(infoPtr, guidHigh, guidLow, DISCOVERY_STATUS.swigToEnum(status));
   }
-  public static void SwigDirector_NativePublisherListener_onWriterMatched(NativePublisherListener jself, int status, int guidHigh, int guidLow) {
+  public static void SwigDirector_NativePublisherListener_onWriterMatched(NativePublisherListener jself, int status, long guidHigh, long guidLow) {
     jself.onWriterMatched(MatchingStatus.swigToEnum(status), guidHigh, guidLow);
   }
 

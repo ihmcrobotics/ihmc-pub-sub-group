@@ -51,7 +51,7 @@ public class PublisherExample
    {
       Domain domain = DomainFactory.getDomain(PubSubImplementation.FAST_RTPS);
       
-      domain.setLogLevel(LogLevel.WARNING);
+      domain.setLogLevel(LogLevel.INFO);
 
       ParticipantAttributes<?> attributes = domain.createParticipantAttributes();
       attributes.setDomainId(1);
@@ -59,6 +59,7 @@ public class PublisherExample
       attributes.setName("ChatApp");
 
       Participant participant = domain.createParticipant(attributes, new ParticipantListenerImpl());
+      System.out.println("Participant GUID: " + participant.getGuid());
       
       ByteArrayTopicDataType dataType = new ByteArrayTopicDataType(500, "Chat::ChatMessage", ByteOrder.nativeOrder());
       domain.registerType(participant, dataType);
@@ -69,6 +70,7 @@ public class PublisherExample
       publisherAttributes.getTopic().setTopicName("ChatBox");
       
       Publisher publisher = domain.createPublisher(participant, publisherAttributes, new PublisherListenerImpl());
+      System.out.println("Publisher GUID: " + publisher.getGuid());
       
       
       byte[] javaHelloWorld = { 0x05, 0x00, 0x00, 0x00, 0x4a, 0x61, 0x76, 0x61, 0x00, 0x00, 0x00, 0x00, 0x0c, 0x00, 0x00, 0x00, 0x48, 0x65, 0x6c, 0x6c, 0x6f, 0x20, 0x57, 0x6f, 0x72, 0x6c, 0x64, 0x00 };
