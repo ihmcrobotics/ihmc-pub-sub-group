@@ -7,6 +7,7 @@
 #include <fastrtps/rtps/RTPSDomain.h>
 
 #include "fastrtpsexception.h"
+#include "commonfunctions.h"
 
 
 using namespace eprosima::fastrtps::rtps;
@@ -15,23 +16,24 @@ using namespace eprosima::fastrtps::rtps;
 class NativeParticipantListener
 {
 public:
-    virtual void onParticipantDiscovery(int64_t infoPtr, DISCOVERY_STATUS status) {}
+    virtual void onParticipantDiscovery(int64_t infoPtr, int64_t guidHigh, int64_t guidLow, DISCOVERY_STATUS status) {}
     std::string getName(int64_t infoPtr);
-    void getGuid(int64_t infoPtr, octet* ret);
+    virtual ~NativeParticipantListener() {};
 };
 
 class NativeParticipantImpl
 {
 public:
     NativeParticipantImpl(RTPSParticipantAttributes& rtps, NativeParticipantListener* listener) throw(FastRTPSException);
-    void getGuid(octet* ret);
+    int64_t getGuidLow();
+    int64_t getGuidHigh();
     RTPSParticipant* getParticipant();
     virtual ~NativeParticipantImpl();
 
 private:
     RTPSParticipant* part;
     NativeParticipantListener* listener;
-    octet guid[GuidPrefix_t::size + EntityId_t::size];
+    GuidUnion guid;
 
     class MyRTPSParticipantListener : public RTPSParticipantListener
     {

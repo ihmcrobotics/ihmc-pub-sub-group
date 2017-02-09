@@ -21,7 +21,9 @@ public class MatchingInfo
       /**
        * REMOVED_MATCHING, publisher/subscriber removed.
        */
-      REMOVED_MATCHING
+      REMOVED_MATCHING;
+      
+      public static final MatchingStatus[] values = values();
    }
    
    private MatchingStatus status;

@@ -5,6 +5,7 @@
 #include "fastrtpsexception.h"
 #include "nativeparticipantimpl.h"
 #include "publisherhistory.h"
+#include "commonfunctions.h"
 
 #include <fastrtps/rtps/writer/RTPSWriter.h>
 #include <fastrtps/rtps/writer/WriterListener.h>
@@ -12,6 +13,13 @@
 
 using namespace eprosima::fastrtps;
 using namespace eprosima::fastrtps::rtps;
+
+class NativePublisherListener
+{
+public:
+    virtual void onWriterMatched(MatchingStatus status, long guidHigh, long guidLow) {};
+    virtual ~NativePublisherListener() {};
+};
 
 class NativePublisherImpl
 {
@@ -28,7 +36,8 @@ public:
             LocatorList_t* multicastLocatorList,
             LocatorList_t* outLocatorList,
             ThroughputControllerDescriptor* throughputController,
-            NativeParticipantImpl* participant) throw(FastRTPSException);
+            NativeParticipantImpl* participant,
+            NativePublisherListener* listener) throw(FastRTPSException);
 
     virtual ~NativePublisherImpl();
 
@@ -36,9 +45,10 @@ public:
     TopicKind_t getTopicKind();
     const GUID_t& getGuid();
     bool clean_history(unsigned int max);
-    bool removeAllChange(size_t* removed);
+    int32_t removeAllChange();
     bool wait_for_all_acked(const Time_t& max_wait);
-
+    int64_t getGuidLow();
+    int64_t getGuidHigh();
 
 private:
     RTPSWriter* mp_writer;
@@ -62,6 +72,9 @@ private:
     HistoryQosPolicyKind historyQosKind;
 
     uint32_t high_mark_for_frag_;
+    NativePublisherListener* listener;
+
+    GuidUnion guid;
 };
 
 #endif // NATIVEPUBLISHERIMPL_H

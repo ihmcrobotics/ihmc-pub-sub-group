@@ -6,3 +6,4 @@ build
 classes
 .gradle
 CMakeLists.txt.user
+hs_err_*

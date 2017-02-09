@@ -39,11 +39,12 @@ public class NativeParticipantImpl {
     this(FastRTPSJNI.new_NativeParticipantImpl(RTPSParticipantAttributes.getCPtr(rtps), rtps, NativeParticipantListener.getCPtr(listener), listener), true);
   }
 
-  public void getGuid(java.nio.ByteBuffer ret) {
-  assert ret.isDirect() : "Buffer must be allocated direct.";
-    {
-      FastRTPSJNI.NativeParticipantImpl_getGuid(swigCPtr, this, ret);
-    }
+  public long getGuidLow() {
+    return FastRTPSJNI.NativeParticipantImpl_getGuidLow(swigCPtr, this);
+  }
+
+  public long getGuidHigh() {
+    return FastRTPSJNI.NativeParticipantImpl_getGuidHigh(swigCPtr, this);
   }
 
 }

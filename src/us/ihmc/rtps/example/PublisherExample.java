@@ -1,16 +1,19 @@
 package us.ihmc.rtps.example;
 
 import java.io.IOException;
+import java.nio.ByteOrder;
 
 import us.ihmc.rtps.Domain;
+import us.ihmc.rtps.DomainFactory;
+import us.ihmc.rtps.DomainFactory.PubSubImplementation;
+import us.ihmc.rtps.attributes.ParticipantAttributes;
 import us.ihmc.rtps.attributes.PublisherAttributes;
 import us.ihmc.rtps.attributes.TopicAttributes.TopicKind;
-import us.ihmc.rtps.impl.fastRTPS.FastRTPSDomain;
-import us.ihmc.rtps.impl.fastRTPS.FastRTPSParticipantAttributes;
-import us.ihmc.rtps.impl.fastRTPS.FastRTPSTime;
+import us.ihmc.rtps.common.Time;
 import us.ihmc.rtps.participant.Participant;
 import us.ihmc.rtps.participant.ParticipantDiscoveryInfo;
 import us.ihmc.rtps.participant.ParticipantListener;
+import us.ihmc.rtps.publisher.Publisher;
 
 public class PublisherExample
 {
@@ -30,28 +33,38 @@ public class PublisherExample
 
    public PublisherExample() throws IOException
    {
-      Domain domain = new FastRTPSDomain();
+      Domain domain = DomainFactory.getDomain(PubSubImplementation.FAST_RTPS);
 
-      FastRTPSParticipantAttributes attributes = new FastRTPSParticipantAttributes();
-      attributes.rtps().getBuiltin().setDomainId(1);
-      attributes.rtps().getBuiltin().setLeaseDuration(FastRTPSTime.c_TimeInfinite);
-      attributes.rtps().setName("ChatBox");
+      ParticipantAttributes<?> attributes = domain.createParticipantAttributes();
+      attributes.setDomainId(1);
+      attributes.setLeaseDuration(Time.Infinite);
+      attributes.setName("ChatBox");
 
       Participant participant = domain.createParticipant(attributes, new ParticipantListenerImpl());
       
+      ByteArrayTopicDataType dataType = new ByteArrayTopicDataType(500, "Chat::ChatMessage", ByteOrder.nativeOrder());
+      domain.registerType(participant, dataType);
       
       PublisherAttributes<?,?,?> publisherAttributes = domain.createPublisherAttributes();
       publisherAttributes.getTopic().setTopicKind(TopicKind.NO_KEY);
-      publisherAttributes.getTopic().setTopicDataType("");
+      publisherAttributes.getTopic().setTopicDataType(dataType.getName());
       publisherAttributes.getTopic().setTopicName("ChatBox");
       
-      domain.createPublisher(participant, publisherAttributes, null);
+      Publisher publisher = domain.createPublisher(participant, publisherAttributes, null);
+      
+      
+      byte[] javaHelloWorld = { 0x05, 0x00, 0x00, 0x00, 0x4a, 0x61, 0x76, 0x61, 0x00, 0x00, 0x00, 0x00, 0x0c, 0x00, 0x00, 0x00, 0x48, 0x65, 0x6c, 0x6c, 0x6f, 0x20, 0x57, 0x6f, 0x72, 0x6c, 0x64, 0x00 };
+      
+      
+      
       
       while(true)
       {
          try
          {
             Thread.sleep(1000);
+            publisher.write(javaHelloWorld);
+
          }
          catch (InterruptedException e)
          {

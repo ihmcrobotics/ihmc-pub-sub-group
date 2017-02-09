@@ -77,7 +77,16 @@ public interface Domain
     */
    public void registerType(Participant participant, TopicDataType<?> topicDataType) throws IllegalArgumentException;
    
-   public boolean unregisterType(Participant participant, String typeName);
+   /**
+    * Unregister a type in a participant
+    * 
+    * This method may allocate memory and is thread-safe
+    * 
+    * @param participant
+    * @param typeName
+    * @throws IOException
+    */
+   public void unregisterType(Participant participant, String typeName) throws IOException;
    
    public void stopAll();
    
@@ -89,4 +98,14 @@ public interface Domain
     * @return Implementation specific version of PublisherAttributes
     */
    public PublisherAttributes<?, ?, ?> createPublisherAttributes();
+   
+   
+   /**
+    * Generate an implementation specific version of ParticipantAttributes
+    * 
+    * This method allocates memory
+    * 
+    * @return Implementation specific version of ParticipantAttributes
+    */
+   public ParticipantAttributes<?> createParticipantAttributes();
 }
