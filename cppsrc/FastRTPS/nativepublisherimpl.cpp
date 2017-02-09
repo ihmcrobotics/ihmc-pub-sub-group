@@ -102,7 +102,6 @@ bool NativePublisherImpl::clean_history(unsigned int max)
 
 void NativePublisherImpl::create_new_change(ChangeKind_t changeKind, unsigned char* data, int32_t dataLength, int16_t encapsulation, octet* key) throw(FastRTPSException)
 {
-    std::cout << "A" << std::endl;
     if(changeKind == NOT_ALIVE_UNREGISTERED || changeKind == NOT_ALIVE_DISPOSED ||
             changeKind == NOT_ALIVE_DISPOSED_UNREGISTERED)
     {
@@ -120,7 +119,6 @@ void NativePublisherImpl::create_new_change(ChangeKind_t changeKind, unsigned ch
     CacheChange_t* ch = mp_writer->new_change([dataLength]() -> uint32_t {return (uint32_t)dataLength;} ,changeKind, handle);
     if(ch != nullptr)
     {
-        std::cout << "A" << std::endl;
         if(changeKind == ALIVE)
         {
             if(dataLength > ch->serializedPayload.max_size)
