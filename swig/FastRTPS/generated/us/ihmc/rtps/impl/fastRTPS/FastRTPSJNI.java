@@ -445,6 +445,9 @@ public class FastRTPSJNI {
   public final static native boolean NativePublisherImpl_wait_for_all_acked(long jarg1, NativePublisherImpl jarg1_, long jarg2, Time_t jarg2_);
   public final static native long NativePublisherImpl_getGuidLow(long jarg1, NativePublisherImpl jarg1_);
   public final static native long NativePublisherImpl_getGuidHigh(long jarg1, NativePublisherImpl jarg1_);
+  public final static native void LogLevel_setLogLevel(int jarg1);
+  public final static native long new_LogLevel();
+  public final static native void delete_LogLevel(long jarg1);
   public final static native long DurabilityQosPolicy_SWIGUpcast(long jarg1);
   public final static native long DeadlineQosPolicy_SWIGUpcast(long jarg1);
   public final static native long LatencyBudgetQosPolicy_SWIGUpcast(long jarg1);

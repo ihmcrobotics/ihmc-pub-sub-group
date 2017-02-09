@@ -733,6 +733,7 @@ static void octetArray_setitem(unsigned char *ary, int index, unsigned char valu
 
 #include "nativeparticipantimpl.h"
 #include "nativepublisherimpl.h"
+#include "loglevel.h"
 
 
 
@@ -7228,6 +7229,38 @@ SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_NativePubli
   result = (int64_t)(arg1)->getGuidHigh();
   jresult = (jlong)result; 
   return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_LogLevel_1setLogLevel(JNIEnv *jenv, jclass jcls, jint jarg1) {
+  int arg1 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = (int)jarg1; 
+  LogLevel::setLogLevel(arg1);
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_new_1LogLevel(JNIEnv *jenv, jclass jcls) {
+  jlong jresult = 0 ;
+  LogLevel *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  result = (LogLevel *)new LogLevel();
+  *(LogLevel **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_delete_1LogLevel(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+  LogLevel *arg1 = (LogLevel *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = *(LogLevel **)&jarg1; 
+  delete arg1;
 }
 
 
