@@ -33,7 +33,7 @@ public class FastRTPSPublisher implements Publisher
       private final MatchingInfo matchingInfo = new MatchingInfo();
       
       @Override
-      public void onWriterMatched(MatchingStatus status, int guidHigh, int guidLow) 
+      public void onWriterMatched(MatchingStatus status, long guidHigh, long guidLow) 
       {
          if(listener != null)
          {
