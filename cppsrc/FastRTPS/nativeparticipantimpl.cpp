@@ -4,6 +4,7 @@ NativeParticipantImpl::NativeParticipantImpl(RTPSParticipantAttributes& rtps, Na
     listener(listener),
     m_rtps_listener(this)
 {
+
     part = RTPSDomain::createParticipant(rtps, &m_rtps_listener);
 
     if(part == nullptr)

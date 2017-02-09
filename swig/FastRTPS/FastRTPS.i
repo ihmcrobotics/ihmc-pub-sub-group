@@ -170,8 +170,11 @@ REMOVED_MATCHING //!< REMOVED_MATCHING, publisher/subscriber removed
 %{
 #include "nativeparticipantimpl.h"
 #include "nativepublisherimpl.h"
+#include "loglevel.h"
 %}
 
 %include "nativeparticipantimpl.h"
 %include "nativepublisherimpl.h"
+%include "loglevel.h"
+
 

@@ -46,6 +46,8 @@ NativePublisherImpl::NativePublisherImpl(
 
     mp_writer = RTPSDomain::createRTPSWriter(participant->getParticipant(), watt, &publisherhistory, &writerListener);
     CommonFunctions::guidcpy(mp_writer->getGuid(), &guid);
+    this->rtpsParticipant->registerWriter(mp_writer,*topic,*qos);
+
 }
 
 NativePublisherImpl::~NativePublisherImpl()
@@ -129,7 +131,7 @@ void NativePublisherImpl::create_new_change(ChangeKind_t changeKind, unsigned ch
 
             ch->serializedPayload.encapsulation = (uint16_t) encapsulation;
             ch->serializedPayload.length = dataLength;
-            memcpy(ch->serializedPayload.data, key, dataLength);
+            memcpy(ch->serializedPayload.data, data, dataLength);
         }
 
         if(high_mark_for_frag_ == 0)
