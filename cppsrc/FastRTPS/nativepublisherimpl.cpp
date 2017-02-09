@@ -4,6 +4,7 @@
 #include <fastrtps/log/Log.h>
 
 using namespace eprosima::fastrtps::rtps;
+using namespace us::ihmc::rtps::impl::fastRTPS;
 
 NativePublisherImpl::NativePublisherImpl(
         int32_t entityId,

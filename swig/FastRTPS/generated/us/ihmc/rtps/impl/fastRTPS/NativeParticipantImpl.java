@@ -47,4 +47,9 @@ public class NativeParticipantImpl {
     return FastRTPSJNI.NativeParticipantImpl_getGuidHigh(swigCPtr, this);
   }
 
+  public SWIGTYPE_p_RTPSParticipant getParticipant() {
+    long cPtr = FastRTPSJNI.NativeParticipantImpl_getParticipant(swigCPtr, this);
+    return (cPtr == 0) ? null : new SWIGTYPE_p_RTPSParticipant(cPtr, false);
+  }
+
 }

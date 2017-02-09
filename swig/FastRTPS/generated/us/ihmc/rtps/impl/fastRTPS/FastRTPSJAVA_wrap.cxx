@@ -735,6 +735,8 @@ static void octetArray_setitem(unsigned char *ary, int index, unsigned char valu
 #include "nativepublisherimpl.h"
 #include "loglevel.h"
 
+using namespace us::ihmc::rtps::impl::fastRTPS;
+
 
 
 /* ---------------------------------------------------
@@ -743,10 +745,10 @@ static void octetArray_setitem(unsigned char *ary, int index, unsigned char valu
 
 #include "FastRTPSJAVA_wrap.h"
 
-SwigDirector_NativeParticipantListener::SwigDirector_NativeParticipantListener(JNIEnv *jenv) : NativeParticipantListener(), Swig::Director(jenv) {
+SwigDirector_NativeParticipantListener::SwigDirector_NativeParticipantListener(JNIEnv *jenv) : us::ihmc::rtps::impl::fastRTPS::NativeParticipantListener(), Swig::Director(jenv) {
 }
 
-void SwigDirector_NativeParticipantListener::onParticipantDiscovery(int64_t infoPtr, int64_t guidHigh, int64_t guidLow, DISCOVERY_STATUS status) {
+void SwigDirector_NativeParticipantListener::onParticipantDiscovery(int64_t infoPtr, int64_t guidHigh, int64_t guidLow, eprosima::fastrtps::rtps::DISCOVERY_STATUS status) {
   JNIEnvWrapper swigjnienv(this) ;
   JNIEnv * jenv = swigjnienv.getJNIEnv() ;
   jobject swigjobj = (jobject) NULL ;
@@ -756,7 +758,7 @@ void SwigDirector_NativeParticipantListener::onParticipantDiscovery(int64_t info
   jint jstatus  ;
   
   if (!swig_override[0]) {
-    NativeParticipantListener::onParticipantDiscovery(infoPtr,guidHigh,guidLow,status);
+    us::ihmc::rtps::impl::fastRTPS::NativeParticipantListener::onParticipantDiscovery(infoPtr,guidHigh,guidLow,status);
     return;
   }
   swigjobj = swig_get_self(jenv);
@@ -773,7 +775,7 @@ void SwigDirector_NativeParticipantListener::onParticipantDiscovery(int64_t info
     }
     
   } else {
-    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null upcall object in NativeParticipantListener::onParticipantDiscovery ");
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null upcall object in us::ihmc::rtps::impl::fastRTPS::NativeParticipantListener::onParticipantDiscovery ");
   }
   if (swigjobj) jenv->DeleteLocalRef(swigjobj);
 }
@@ -819,10 +821,10 @@ void SwigDirector_NativeParticipantListener::swig_connect_director(JNIEnv *jenv,
 }
 
 
-SwigDirector_NativePublisherListener::SwigDirector_NativePublisherListener(JNIEnv *jenv) : NativePublisherListener(), Swig::Director(jenv) {
+SwigDirector_NativePublisherListener::SwigDirector_NativePublisherListener(JNIEnv *jenv) : us::ihmc::rtps::impl::fastRTPS::NativePublisherListener(), Swig::Director(jenv) {
 }
 
-void SwigDirector_NativePublisherListener::onWriterMatched(MatchingStatus status, int64_t guidHigh, int64_t guidLow) {
+void SwigDirector_NativePublisherListener::onWriterMatched(eprosima::fastrtps::rtps::MatchingStatus status, int64_t guidHigh, int64_t guidLow) {
   JNIEnvWrapper swigjnienv(this) ;
   JNIEnv * jenv = swigjnienv.getJNIEnv() ;
   jobject swigjobj = (jobject) NULL ;
@@ -831,7 +833,7 @@ void SwigDirector_NativePublisherListener::onWriterMatched(MatchingStatus status
   jlong jguidLow  ;
   
   if (!swig_override[0]) {
-    NativePublisherListener::onWriterMatched(status,guidHigh,guidLow);
+    us::ihmc::rtps::impl::fastRTPS::NativePublisherListener::onWriterMatched(status,guidHigh,guidLow);
     return;
   }
   swigjobj = swig_get_self(jenv);
@@ -847,7 +849,7 @@ void SwigDirector_NativePublisherListener::onWriterMatched(MatchingStatus status
     }
     
   } else {
-    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null upcall object in NativePublisherListener::onWriterMatched ");
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null upcall object in us::ihmc::rtps::impl::fastRTPS::NativePublisherListener::onWriterMatched ");
   }
   if (swigjobj) jenv->DeleteLocalRef(swigjobj);
 }
@@ -1319,13 +1321,13 @@ SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_octetArray_1
 
 
 SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_Time_1t_1seconds_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2) {
-  Time_t *arg1 = (Time_t *) 0 ;
+  eprosima::fastrtps::rtps::Time_t *arg1 = (eprosima::fastrtps::rtps::Time_t *) 0 ;
   int32_t arg2 ;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
-  arg1 = *(Time_t **)&jarg1; 
+  arg1 = *(eprosima::fastrtps::rtps::Time_t **)&jarg1; 
   arg2 = (int32_t)jarg2; 
   if (arg1) (arg1)->seconds = arg2;
 }
@@ -1333,13 +1335,13 @@ SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_Time_1t_1sec
 
 SWIGEXPORT jint JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_Time_1t_1seconds_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
   jint jresult = 0 ;
-  Time_t *arg1 = (Time_t *) 0 ;
+  eprosima::fastrtps::rtps::Time_t *arg1 = (eprosima::fastrtps::rtps::Time_t *) 0 ;
   int32_t result;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
-  arg1 = *(Time_t **)&jarg1; 
+  arg1 = *(eprosima::fastrtps::rtps::Time_t **)&jarg1; 
   result = (int32_t) ((arg1)->seconds);
   jresult = (jint)result; 
   return jresult;
@@ -1347,13 +1349,13 @@ SWIGEXPORT jint JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_Time_1t_1sec
 
 
 SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_Time_1t_1fraction_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2) {
-  Time_t *arg1 = (Time_t *) 0 ;
+  eprosima::fastrtps::rtps::Time_t *arg1 = (eprosima::fastrtps::rtps::Time_t *) 0 ;
   uint32_t arg2 ;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
-  arg1 = *(Time_t **)&jarg1; 
+  arg1 = *(eprosima::fastrtps::rtps::Time_t **)&jarg1; 
   arg2 = (uint32_t)jarg2; 
   if (arg1) (arg1)->fraction = arg2;
 }
@@ -1361,13 +1363,13 @@ SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_Time_1t_1fra
 
 SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_Time_1t_1fraction_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
   jlong jresult = 0 ;
-  Time_t *arg1 = (Time_t *) 0 ;
+  eprosima::fastrtps::rtps::Time_t *arg1 = (eprosima::fastrtps::rtps::Time_t *) 0 ;
   uint32_t result;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
-  arg1 = *(Time_t **)&jarg1; 
+  arg1 = *(eprosima::fastrtps::rtps::Time_t **)&jarg1; 
   result = (uint32_t) ((arg1)->fraction);
   jresult = (jlong)result; 
   return jresult;
@@ -1376,12 +1378,12 @@ SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_Time_1t_1fr
 
 SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_new_1Time_1t_1_1SWIG_10(JNIEnv *jenv, jclass jcls) {
   jlong jresult = 0 ;
-  Time_t *result = 0 ;
+  eprosima::fastrtps::rtps::Time_t *result = 0 ;
   
   (void)jenv;
   (void)jcls;
-  result = (Time_t *)new Time_t();
-  *(Time_t **)&jresult = result; 
+  result = (eprosima::fastrtps::rtps::Time_t *)new eprosima::fastrtps::rtps::Time_t();
+  *(eprosima::fastrtps::rtps::Time_t **)&jresult = result; 
   return jresult;
 }
 
@@ -1390,24 +1392,24 @@ SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_new_1Time_1
   jlong jresult = 0 ;
   int32_t arg1 ;
   uint32_t arg2 ;
-  Time_t *result = 0 ;
+  eprosima::fastrtps::rtps::Time_t *result = 0 ;
   
   (void)jenv;
   (void)jcls;
   arg1 = (int32_t)jarg1; 
   arg2 = (uint32_t)jarg2; 
-  result = (Time_t *)new Time_t(arg1,arg2);
-  *(Time_t **)&jresult = result; 
+  result = (eprosima::fastrtps::rtps::Time_t *)new eprosima::fastrtps::rtps::Time_t(arg1,arg2);
+  *(eprosima::fastrtps::rtps::Time_t **)&jresult = result; 
   return jresult;
 }
 
 
 SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_delete_1Time_1t(JNIEnv *jenv, jclass jcls, jlong jarg1) {
-  Time_t *arg1 = (Time_t *) 0 ;
+  eprosima::fastrtps::rtps::Time_t *arg1 = (eprosima::fastrtps::rtps::Time_t *) 0 ;
   
   (void)jenv;
   (void)jcls;
-  arg1 = *(Time_t **)&jarg1; 
+  arg1 = *(eprosima::fastrtps::rtps::Time_t **)&jarg1; 
   delete arg1;
 }
 
@@ -1470,17 +1472,17 @@ SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_Locator_1t_
 
 SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_Locator_1t_1address_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2) {
   eprosima::fastrtps::rtps::Locator_t *arg1 = (eprosima::fastrtps::rtps::Locator_t *) 0 ;
-  octet *arg2 ;
+  eprosima::fastrtps::rtps::octet *arg2 ;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
   arg1 = *(eprosima::fastrtps::rtps::Locator_t **)&jarg1; 
-  arg2 = *(octet **)&jarg2; 
+  arg2 = *(eprosima::fastrtps::rtps::octet **)&jarg2; 
   {
     size_t ii;
-    octet *b = (octet *) arg1->address;
-    for (ii = 0; ii < (size_t)16; ii++) b[ii] = *((octet *) arg2 + ii);
+    eprosima::fastrtps::rtps::octet *b = (eprosima::fastrtps::rtps::octet *) arg1->address;
+    for (ii = 0; ii < (size_t)16; ii++) b[ii] = *((eprosima::fastrtps::rtps::octet *) arg2 + ii);
   }
   
 }
@@ -1489,14 +1491,14 @@ SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_Locator_1t_1
 SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_Locator_1t_1address_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
   jlong jresult = 0 ;
   eprosima::fastrtps::rtps::Locator_t *arg1 = (eprosima::fastrtps::rtps::Locator_t *) 0 ;
-  octet *result = 0 ;
+  eprosima::fastrtps::rtps::octet *result = 0 ;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
   arg1 = *(eprosima::fastrtps::rtps::Locator_t **)&jarg1; 
-  result = (octet *)(octet *) ((arg1)->address);
-  *(octet **)&jresult = result; 
+  result = (eprosima::fastrtps::rtps::octet *)(eprosima::fastrtps::rtps::octet *) ((arg1)->address);
+  *(eprosima::fastrtps::rtps::octet **)&jresult = result; 
   return jresult;
 }
 
@@ -1549,20 +1551,20 @@ SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_new_1Locato
 SWIGEXPORT jboolean JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_Locator_1t_1set_1IP4_1address_1_1SWIG_10(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jshort jarg2, jshort jarg3, jshort jarg4, jshort jarg5) {
   jboolean jresult = 0 ;
   eprosima::fastrtps::rtps::Locator_t *arg1 = (eprosima::fastrtps::rtps::Locator_t *) 0 ;
-  octet arg2 ;
-  octet arg3 ;
-  octet arg4 ;
-  octet arg5 ;
+  eprosima::fastrtps::rtps::octet arg2 ;
+  eprosima::fastrtps::rtps::octet arg3 ;
+  eprosima::fastrtps::rtps::octet arg4 ;
+  eprosima::fastrtps::rtps::octet arg5 ;
   bool result;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
   arg1 = *(eprosima::fastrtps::rtps::Locator_t **)&jarg1; 
-  arg2 = (octet)jarg2; 
-  arg3 = (octet)jarg3; 
-  arg4 = (octet)jarg4; 
-  arg5 = (octet)jarg5; 
+  arg2 = (eprosima::fastrtps::rtps::octet)jarg2; 
+  arg3 = (eprosima::fastrtps::rtps::octet)jarg3; 
+  arg4 = (eprosima::fastrtps::rtps::octet)jarg4; 
+  arg5 = (eprosima::fastrtps::rtps::octet)jarg5; 
   result = (bool)(arg1)->set_IP4_address(arg2,arg3,arg4,arg5);
   jresult = (jboolean)result; 
   return jresult;
@@ -2409,14 +2411,14 @@ SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_BuiltinAttr
 
 SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_BuiltinAttributes_1leaseDuration_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
   eprosima::fastrtps::rtps::BuiltinAttributes *arg1 = (eprosima::fastrtps::rtps::BuiltinAttributes *) 0 ;
-  Duration_t *arg2 = (Duration_t *) 0 ;
+  eprosima::fastrtps::rtps::Duration_t *arg2 = (eprosima::fastrtps::rtps::Duration_t *) 0 ;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
   (void)jarg2_;
   arg1 = *(eprosima::fastrtps::rtps::BuiltinAttributes **)&jarg1; 
-  arg2 = *(Duration_t **)&jarg2; 
+  arg2 = *(eprosima::fastrtps::rtps::Duration_t **)&jarg2; 
   if (arg1) (arg1)->leaseDuration = *arg2;
 }
 
@@ -2424,28 +2426,28 @@ SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_BuiltinAttri
 SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_BuiltinAttributes_1leaseDuration_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
   jlong jresult = 0 ;
   eprosima::fastrtps::rtps::BuiltinAttributes *arg1 = (eprosima::fastrtps::rtps::BuiltinAttributes *) 0 ;
-  Duration_t *result = 0 ;
+  eprosima::fastrtps::rtps::Duration_t *result = 0 ;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
   arg1 = *(eprosima::fastrtps::rtps::BuiltinAttributes **)&jarg1; 
-  result = (Duration_t *)& ((arg1)->leaseDuration);
-  *(Duration_t **)&jresult = result; 
+  result = (eprosima::fastrtps::rtps::Duration_t *)& ((arg1)->leaseDuration);
+  *(eprosima::fastrtps::rtps::Duration_t **)&jresult = result; 
   return jresult;
 }
 
 
 SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_BuiltinAttributes_1leaseDuration_1announcementperiod_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
   eprosima::fastrtps::rtps::BuiltinAttributes *arg1 = (eprosima::fastrtps::rtps::BuiltinAttributes *) 0 ;
-  Duration_t *arg2 = (Duration_t *) 0 ;
+  eprosima::fastrtps::rtps::Duration_t *arg2 = (eprosima::fastrtps::rtps::Duration_t *) 0 ;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
   (void)jarg2_;
   arg1 = *(eprosima::fastrtps::rtps::BuiltinAttributes **)&jarg1; 
-  arg2 = *(Duration_t **)&jarg2; 
+  arg2 = *(eprosima::fastrtps::rtps::Duration_t **)&jarg2; 
   if (arg1) (arg1)->leaseDuration_announcementperiod = *arg2;
 }
 
@@ -2453,14 +2455,14 @@ SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_BuiltinAttri
 SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_BuiltinAttributes_1leaseDuration_1announcementperiod_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
   jlong jresult = 0 ;
   eprosima::fastrtps::rtps::BuiltinAttributes *arg1 = (eprosima::fastrtps::rtps::BuiltinAttributes *) 0 ;
-  Duration_t *result = 0 ;
+  eprosima::fastrtps::rtps::Duration_t *result = 0 ;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
   arg1 = *(eprosima::fastrtps::rtps::BuiltinAttributes **)&jarg1; 
-  result = (Duration_t *)& ((arg1)->leaseDuration_announcementperiod);
-  *(Duration_t **)&jresult = result; 
+  result = (eprosima::fastrtps::rtps::Duration_t *)& ((arg1)->leaseDuration_announcementperiod);
+  *(eprosima::fastrtps::rtps::Duration_t **)&jresult = result; 
   return jresult;
 }
 
@@ -2860,14 +2862,14 @@ SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_RTPSPartici
 
 SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_RTPSParticipantAttributes_1userData_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
   eprosima::fastrtps::rtps::RTPSParticipantAttributes *arg1 = (eprosima::fastrtps::rtps::RTPSParticipantAttributes *) 0 ;
-  std::vector< octet > *arg2 = (std::vector< octet > *) 0 ;
+  std::vector< eprosima::fastrtps::rtps::octet > *arg2 = (std::vector< eprosima::fastrtps::rtps::octet > *) 0 ;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
   (void)jarg2_;
   arg1 = *(eprosima::fastrtps::rtps::RTPSParticipantAttributes **)&jarg1; 
-  arg2 = *(std::vector< octet > **)&jarg2; 
+  arg2 = *(std::vector< eprosima::fastrtps::rtps::octet > **)&jarg2; 
   if (arg1) (arg1)->userData = *arg2;
 }
 
@@ -2875,14 +2877,14 @@ SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_RTPSParticip
 SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_RTPSParticipantAttributes_1userData_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
   jlong jresult = 0 ;
   eprosima::fastrtps::rtps::RTPSParticipantAttributes *arg1 = (eprosima::fastrtps::rtps::RTPSParticipantAttributes *) 0 ;
-  std::vector< octet > *result = 0 ;
+  std::vector< eprosima::fastrtps::rtps::octet > *result = 0 ;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
   arg1 = *(eprosima::fastrtps::rtps::RTPSParticipantAttributes **)&jarg1; 
-  result = (std::vector< octet > *)& ((arg1)->userData);
-  *(std::vector< octet > **)&jresult = result; 
+  result = (std::vector< eprosima::fastrtps::rtps::octet > *)& ((arg1)->userData);
+  *(std::vector< eprosima::fastrtps::rtps::octet > **)&jresult = result; 
   return jresult;
 }
 
@@ -3296,14 +3298,14 @@ SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_delete_1Dead
 
 SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_DeadlineQosPolicy_1period_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
   eprosima::fastrtps::DeadlineQosPolicy *arg1 = (eprosima::fastrtps::DeadlineQosPolicy *) 0 ;
-  Duration_t *arg2 = (Duration_t *) 0 ;
+  eprosima::fastrtps::rtps::Duration_t *arg2 = (eprosima::fastrtps::rtps::Duration_t *) 0 ;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
   (void)jarg2_;
   arg1 = *(eprosima::fastrtps::DeadlineQosPolicy **)&jarg1; 
-  arg2 = *(Duration_t **)&jarg2; 
+  arg2 = *(eprosima::fastrtps::rtps::Duration_t **)&jarg2; 
   if (arg1) (arg1)->period = *arg2;
 }
 
@@ -3311,14 +3313,14 @@ SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_DeadlineQosP
 SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_DeadlineQosPolicy_1period_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
   jlong jresult = 0 ;
   eprosima::fastrtps::DeadlineQosPolicy *arg1 = (eprosima::fastrtps::DeadlineQosPolicy *) 0 ;
-  Duration_t *result = 0 ;
+  eprosima::fastrtps::rtps::Duration_t *result = 0 ;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
   arg1 = *(eprosima::fastrtps::DeadlineQosPolicy **)&jarg1; 
-  result = (Duration_t *)& ((arg1)->period);
-  *(Duration_t **)&jresult = result; 
+  result = (eprosima::fastrtps::rtps::Duration_t *)& ((arg1)->period);
+  *(eprosima::fastrtps::rtps::Duration_t **)&jresult = result; 
   return jresult;
 }
 
@@ -3364,14 +3366,14 @@ SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_delete_1Late
 
 SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_LatencyBudgetQosPolicy_1duration_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
   eprosima::fastrtps::LatencyBudgetQosPolicy *arg1 = (eprosima::fastrtps::LatencyBudgetQosPolicy *) 0 ;
-  Duration_t *arg2 = (Duration_t *) 0 ;
+  eprosima::fastrtps::rtps::Duration_t *arg2 = (eprosima::fastrtps::rtps::Duration_t *) 0 ;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
   (void)jarg2_;
   arg1 = *(eprosima::fastrtps::LatencyBudgetQosPolicy **)&jarg1; 
-  arg2 = *(Duration_t **)&jarg2; 
+  arg2 = *(eprosima::fastrtps::rtps::Duration_t **)&jarg2; 
   if (arg1) (arg1)->duration = *arg2;
 }
 
@@ -3379,14 +3381,14 @@ SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_LatencyBudge
 SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_LatencyBudgetQosPolicy_1duration_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
   jlong jresult = 0 ;
   eprosima::fastrtps::LatencyBudgetQosPolicy *arg1 = (eprosima::fastrtps::LatencyBudgetQosPolicy *) 0 ;
-  Duration_t *result = 0 ;
+  eprosima::fastrtps::rtps::Duration_t *result = 0 ;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
   arg1 = *(eprosima::fastrtps::LatencyBudgetQosPolicy **)&jarg1; 
-  result = (Duration_t *)& ((arg1)->duration);
-  *(Duration_t **)&jresult = result; 
+  result = (eprosima::fastrtps::rtps::Duration_t *)& ((arg1)->duration);
+  *(eprosima::fastrtps::rtps::Duration_t **)&jresult = result; 
   return jresult;
 }
 
@@ -3460,14 +3462,14 @@ SWIGEXPORT jint JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_LivelinessQo
 
 SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_LivelinessQosPolicy_1lease_1duration_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
   eprosima::fastrtps::LivelinessQosPolicy *arg1 = (eprosima::fastrtps::LivelinessQosPolicy *) 0 ;
-  Duration_t *arg2 = (Duration_t *) 0 ;
+  eprosima::fastrtps::rtps::Duration_t *arg2 = (eprosima::fastrtps::rtps::Duration_t *) 0 ;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
   (void)jarg2_;
   arg1 = *(eprosima::fastrtps::LivelinessQosPolicy **)&jarg1; 
-  arg2 = *(Duration_t **)&jarg2; 
+  arg2 = *(eprosima::fastrtps::rtps::Duration_t **)&jarg2; 
   if (arg1) (arg1)->lease_duration = *arg2;
 }
 
@@ -3475,28 +3477,28 @@ SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_LivelinessQo
 SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_LivelinessQosPolicy_1lease_1duration_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
   jlong jresult = 0 ;
   eprosima::fastrtps::LivelinessQosPolicy *arg1 = (eprosima::fastrtps::LivelinessQosPolicy *) 0 ;
-  Duration_t *result = 0 ;
+  eprosima::fastrtps::rtps::Duration_t *result = 0 ;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
   arg1 = *(eprosima::fastrtps::LivelinessQosPolicy **)&jarg1; 
-  result = (Duration_t *)& ((arg1)->lease_duration);
-  *(Duration_t **)&jresult = result; 
+  result = (eprosima::fastrtps::rtps::Duration_t *)& ((arg1)->lease_duration);
+  *(eprosima::fastrtps::rtps::Duration_t **)&jresult = result; 
   return jresult;
 }
 
 
 SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_LivelinessQosPolicy_1announcement_1period_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
   eprosima::fastrtps::LivelinessQosPolicy *arg1 = (eprosima::fastrtps::LivelinessQosPolicy *) 0 ;
-  Duration_t *arg2 = (Duration_t *) 0 ;
+  eprosima::fastrtps::rtps::Duration_t *arg2 = (eprosima::fastrtps::rtps::Duration_t *) 0 ;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
   (void)jarg2_;
   arg1 = *(eprosima::fastrtps::LivelinessQosPolicy **)&jarg1; 
-  arg2 = *(Duration_t **)&jarg2; 
+  arg2 = *(eprosima::fastrtps::rtps::Duration_t **)&jarg2; 
   if (arg1) (arg1)->announcement_period = *arg2;
 }
 
@@ -3504,14 +3506,14 @@ SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_LivelinessQo
 SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_LivelinessQosPolicy_1announcement_1period_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
   jlong jresult = 0 ;
   eprosima::fastrtps::LivelinessQosPolicy *arg1 = (eprosima::fastrtps::LivelinessQosPolicy *) 0 ;
-  Duration_t *result = 0 ;
+  eprosima::fastrtps::rtps::Duration_t *result = 0 ;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
   arg1 = *(eprosima::fastrtps::LivelinessQosPolicy **)&jarg1; 
-  result = (Duration_t *)& ((arg1)->announcement_period);
-  *(Duration_t **)&jresult = result; 
+  result = (eprosima::fastrtps::rtps::Duration_t *)& ((arg1)->announcement_period);
+  *(eprosima::fastrtps::rtps::Duration_t **)&jresult = result; 
   return jresult;
 }
 
@@ -3585,14 +3587,14 @@ SWIGEXPORT jint JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_ReliabilityQ
 
 SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_ReliabilityQosPolicy_1max_1blocking_1time_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
   eprosima::fastrtps::ReliabilityQosPolicy *arg1 = (eprosima::fastrtps::ReliabilityQosPolicy *) 0 ;
-  Duration_t *arg2 = (Duration_t *) 0 ;
+  eprosima::fastrtps::rtps::Duration_t *arg2 = (eprosima::fastrtps::rtps::Duration_t *) 0 ;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
   (void)jarg2_;
   arg1 = *(eprosima::fastrtps::ReliabilityQosPolicy **)&jarg1; 
-  arg2 = *(Duration_t **)&jarg2; 
+  arg2 = *(eprosima::fastrtps::rtps::Duration_t **)&jarg2; 
   if (arg1) (arg1)->max_blocking_time = *arg2;
 }
 
@@ -3600,14 +3602,14 @@ SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_ReliabilityQ
 SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_ReliabilityQosPolicy_1max_1blocking_1time_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
   jlong jresult = 0 ;
   eprosima::fastrtps::ReliabilityQosPolicy *arg1 = (eprosima::fastrtps::ReliabilityQosPolicy *) 0 ;
-  Duration_t *result = 0 ;
+  eprosima::fastrtps::rtps::Duration_t *result = 0 ;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
   arg1 = *(eprosima::fastrtps::ReliabilityQosPolicy **)&jarg1; 
-  result = (Duration_t *)& ((arg1)->max_blocking_time);
-  *(Duration_t **)&jresult = result; 
+  result = (eprosima::fastrtps::rtps::Duration_t *)& ((arg1)->max_blocking_time);
+  *(eprosima::fastrtps::rtps::Duration_t **)&jresult = result; 
   return jresult;
 }
 
@@ -3805,33 +3807,33 @@ SWIGEXPORT jboolean JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_UserData
 SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_UserDataQosPolicy_1getDataVec(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
   jlong jresult = 0 ;
   eprosima::fastrtps::UserDataQosPolicy *arg1 = (eprosima::fastrtps::UserDataQosPolicy *) 0 ;
-  std::vector< octet > result;
+  std::vector< eprosima::fastrtps::rtps::octet > result;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
   arg1 = *(eprosima::fastrtps::UserDataQosPolicy **)&jarg1; 
   result = (arg1)->getDataVec();
-  *(std::vector< octet > **)&jresult = new std::vector< octet >((const std::vector< octet > &)result); 
+  *(std::vector< eprosima::fastrtps::rtps::octet > **)&jresult = new std::vector< eprosima::fastrtps::rtps::octet >((const std::vector< eprosima::fastrtps::rtps::octet > &)result); 
   return jresult;
 }
 
 
 SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_UserDataQosPolicy_1setDataVec(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
   eprosima::fastrtps::UserDataQosPolicy *arg1 = (eprosima::fastrtps::UserDataQosPolicy *) 0 ;
-  std::vector< octet > *arg2 = 0 ;
+  std::vector< eprosima::fastrtps::rtps::octet > *arg2 = 0 ;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
   (void)jarg2_;
   arg1 = *(eprosima::fastrtps::UserDataQosPolicy **)&jarg1; 
-  arg2 = *(std::vector< octet > **)&jarg2;
+  arg2 = *(std::vector< eprosima::fastrtps::rtps::octet > **)&jarg2;
   if (!arg2) {
-    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "std::vector< octet > const & reference is null");
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "std::vector< eprosima::fastrtps::rtps::octet > const & reference is null");
     return ;
   } 
-  (arg1)->setDataVec((std::vector< octet > const &)*arg2);
+  (arg1)->setDataVec((std::vector< eprosima::fastrtps::rtps::octet > const &)*arg2);
 }
 
 
@@ -3859,14 +3861,14 @@ SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_delete_1Time
 
 SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_TimeBasedFilterQosPolicy_1minimum_1separation_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
   eprosima::fastrtps::TimeBasedFilterQosPolicy *arg1 = (eprosima::fastrtps::TimeBasedFilterQosPolicy *) 0 ;
-  Duration_t *arg2 = (Duration_t *) 0 ;
+  eprosima::fastrtps::rtps::Duration_t *arg2 = (eprosima::fastrtps::rtps::Duration_t *) 0 ;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
   (void)jarg2_;
   arg1 = *(eprosima::fastrtps::TimeBasedFilterQosPolicy **)&jarg1; 
-  arg2 = *(Duration_t **)&jarg2; 
+  arg2 = *(eprosima::fastrtps::rtps::Duration_t **)&jarg2; 
   if (arg1) (arg1)->minimum_separation = *arg2;
 }
 
@@ -3874,14 +3876,14 @@ SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_TimeBasedFil
 SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_TimeBasedFilterQosPolicy_1minimum_1separation_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
   jlong jresult = 0 ;
   eprosima::fastrtps::TimeBasedFilterQosPolicy *arg1 = (eprosima::fastrtps::TimeBasedFilterQosPolicy *) 0 ;
-  Duration_t *result = 0 ;
+  eprosima::fastrtps::rtps::Duration_t *result = 0 ;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
   arg1 = *(eprosima::fastrtps::TimeBasedFilterQosPolicy **)&jarg1; 
-  result = (Duration_t *)& ((arg1)->minimum_separation);
-  *(Duration_t **)&jresult = result; 
+  result = (eprosima::fastrtps::rtps::Duration_t *)& ((arg1)->minimum_separation);
+  *(eprosima::fastrtps::rtps::Duration_t **)&jresult = result; 
   return jresult;
 }
 
@@ -4168,13 +4170,13 @@ SWIGEXPORT jboolean JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_TopicDat
 
 SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_TopicDataQosPolicy_1push_1back(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jshort jarg2) {
   eprosima::fastrtps::TopicDataQosPolicy *arg1 = (eprosima::fastrtps::TopicDataQosPolicy *) 0 ;
-  octet arg2 ;
+  eprosima::fastrtps::rtps::octet arg2 ;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
   arg1 = *(eprosima::fastrtps::TopicDataQosPolicy **)&jarg1; 
-  arg2 = (octet)jarg2; 
+  arg2 = (eprosima::fastrtps::rtps::octet)jarg2; 
   (arg1)->push_back(arg2);
 }
 
@@ -4192,17 +4194,17 @@ SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_TopicDataQos
 
 SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_TopicDataQosPolicy_1setValue(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
   eprosima::fastrtps::TopicDataQosPolicy *arg1 = (eprosima::fastrtps::TopicDataQosPolicy *) 0 ;
-  std::vector< octet > arg2 ;
-  std::vector< octet > *argp2 ;
+  std::vector< eprosima::fastrtps::rtps::octet > arg2 ;
+  std::vector< eprosima::fastrtps::rtps::octet > *argp2 ;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
   (void)jarg2_;
   arg1 = *(eprosima::fastrtps::TopicDataQosPolicy **)&jarg1; 
-  argp2 = *(std::vector< octet > **)&jarg2; 
+  argp2 = *(std::vector< eprosima::fastrtps::rtps::octet > **)&jarg2; 
   if (!argp2) {
-    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "Attempt to dereference null std::vector< octet >");
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "Attempt to dereference null std::vector< eprosima::fastrtps::rtps::octet >");
     return ;
   }
   arg2 = *argp2; 
@@ -4213,14 +4215,14 @@ SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_TopicDataQos
 SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_TopicDataQosPolicy_1getValue(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
   jlong jresult = 0 ;
   eprosima::fastrtps::TopicDataQosPolicy *arg1 = (eprosima::fastrtps::TopicDataQosPolicy *) 0 ;
-  std::vector< octet > result;
+  std::vector< eprosima::fastrtps::rtps::octet > result;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
   arg1 = *(eprosima::fastrtps::TopicDataQosPolicy **)&jarg1; 
   result = (arg1)->getValue();
-  *(std::vector< octet > **)&jresult = new std::vector< octet >((const std::vector< octet > &)result); 
+  *(std::vector< eprosima::fastrtps::rtps::octet > **)&jresult = new std::vector< eprosima::fastrtps::rtps::octet >((const std::vector< eprosima::fastrtps::rtps::octet > &)result); 
   return jresult;
 }
 
@@ -4266,13 +4268,13 @@ SWIGEXPORT jboolean JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_GroupDat
 
 SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_GroupDataQosPolicy_1push_1back(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jshort jarg2) {
   eprosima::fastrtps::GroupDataQosPolicy *arg1 = (eprosima::fastrtps::GroupDataQosPolicy *) 0 ;
-  octet arg2 ;
+  eprosima::fastrtps::rtps::octet arg2 ;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
   arg1 = *(eprosima::fastrtps::GroupDataQosPolicy **)&jarg1; 
-  arg2 = (octet)jarg2; 
+  arg2 = (eprosima::fastrtps::rtps::octet)jarg2; 
   (arg1)->push_back(arg2);
 }
 
@@ -4290,17 +4292,17 @@ SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_GroupDataQos
 
 SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_GroupDataQosPolicy_1setValue(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
   eprosima::fastrtps::GroupDataQosPolicy *arg1 = (eprosima::fastrtps::GroupDataQosPolicy *) 0 ;
-  std::vector< octet > arg2 ;
-  std::vector< octet > *argp2 ;
+  std::vector< eprosima::fastrtps::rtps::octet > arg2 ;
+  std::vector< eprosima::fastrtps::rtps::octet > *argp2 ;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
   (void)jarg2_;
   arg1 = *(eprosima::fastrtps::GroupDataQosPolicy **)&jarg1; 
-  argp2 = *(std::vector< octet > **)&jarg2; 
+  argp2 = *(std::vector< eprosima::fastrtps::rtps::octet > **)&jarg2; 
   if (!argp2) {
-    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "Attempt to dereference null std::vector< octet >");
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "Attempt to dereference null std::vector< eprosima::fastrtps::rtps::octet >");
     return ;
   }
   arg2 = *argp2; 
@@ -4311,14 +4313,14 @@ SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_GroupDataQos
 SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_GroupDataQosPolicy_1getValue(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
   jlong jresult = 0 ;
   eprosima::fastrtps::GroupDataQosPolicy *arg1 = (eprosima::fastrtps::GroupDataQosPolicy *) 0 ;
-  std::vector< octet > result;
+  std::vector< eprosima::fastrtps::rtps::octet > result;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
   arg1 = *(eprosima::fastrtps::GroupDataQosPolicy **)&jarg1; 
   result = (arg1)->getValue();
-  *(std::vector< octet > **)&jresult = new std::vector< octet >((const std::vector< octet > &)result); 
+  *(std::vector< eprosima::fastrtps::rtps::octet > **)&jresult = new std::vector< eprosima::fastrtps::rtps::octet >((const std::vector< eprosima::fastrtps::rtps::octet > &)result); 
   return jresult;
 }
 
@@ -4571,14 +4573,14 @@ SWIGEXPORT jboolean JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_Resource
 
 SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_DurabilityServiceQosPolicy_1service_1cleanup_1delay_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
   eprosima::fastrtps::DurabilityServiceQosPolicy *arg1 = (eprosima::fastrtps::DurabilityServiceQosPolicy *) 0 ;
-  Duration_t *arg2 = (Duration_t *) 0 ;
+  eprosima::fastrtps::rtps::Duration_t *arg2 = (eprosima::fastrtps::rtps::Duration_t *) 0 ;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
   (void)jarg2_;
   arg1 = *(eprosima::fastrtps::DurabilityServiceQosPolicy **)&jarg1; 
-  arg2 = *(Duration_t **)&jarg2; 
+  arg2 = *(eprosima::fastrtps::rtps::Duration_t **)&jarg2; 
   if (arg1) (arg1)->service_cleanup_delay = *arg2;
 }
 
@@ -4586,14 +4588,14 @@ SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_DurabilitySe
 SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_DurabilityServiceQosPolicy_1service_1cleanup_1delay_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
   jlong jresult = 0 ;
   eprosima::fastrtps::DurabilityServiceQosPolicy *arg1 = (eprosima::fastrtps::DurabilityServiceQosPolicy *) 0 ;
-  Duration_t *result = 0 ;
+  eprosima::fastrtps::rtps::Duration_t *result = 0 ;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
   arg1 = *(eprosima::fastrtps::DurabilityServiceQosPolicy **)&jarg1; 
-  result = (Duration_t *)& ((arg1)->service_cleanup_delay);
-  *(Duration_t **)&jresult = result; 
+  result = (eprosima::fastrtps::rtps::Duration_t *)& ((arg1)->service_cleanup_delay);
+  *(eprosima::fastrtps::rtps::Duration_t **)&jresult = result; 
   return jresult;
 }
 
@@ -4801,14 +4803,14 @@ SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_delete_1Life
 
 SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_LifespanQosPolicy_1duration_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
   eprosima::fastrtps::LifespanQosPolicy *arg1 = (eprosima::fastrtps::LifespanQosPolicy *) 0 ;
-  Duration_t *arg2 = (Duration_t *) 0 ;
+  eprosima::fastrtps::rtps::Duration_t *arg2 = (eprosima::fastrtps::rtps::Duration_t *) 0 ;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
   (void)jarg2_;
   arg1 = *(eprosima::fastrtps::LifespanQosPolicy **)&jarg1; 
-  arg2 = *(Duration_t **)&jarg2; 
+  arg2 = *(eprosima::fastrtps::rtps::Duration_t **)&jarg2; 
   if (arg1) (arg1)->duration = *arg2;
 }
 
@@ -4816,14 +4818,14 @@ SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_LifespanQosP
 SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_LifespanQosPolicy_1duration_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
   jlong jresult = 0 ;
   eprosima::fastrtps::LifespanQosPolicy *arg1 = (eprosima::fastrtps::LifespanQosPolicy *) 0 ;
-  Duration_t *result = 0 ;
+  eprosima::fastrtps::rtps::Duration_t *result = 0 ;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
   arg1 = *(eprosima::fastrtps::LifespanQosPolicy **)&jarg1; 
-  result = (Duration_t *)& ((arg1)->duration);
-  *(Duration_t **)&jresult = result; 
+  result = (eprosima::fastrtps::rtps::Duration_t *)& ((arg1)->duration);
+  *(eprosima::fastrtps::rtps::Duration_t **)&jresult = result; 
   return jresult;
 }
 
@@ -5617,7 +5619,7 @@ SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_new_1TopicA
   jlong jresult = 0 ;
   char *arg1 = (char *) 0 ;
   char *arg2 = (char *) 0 ;
-  TopicKind_t arg3 ;
+  eprosima::fastrtps::rtps::TopicKind_t arg3 ;
   eprosima::fastrtps::TopicAttributes *result = 0 ;
   
   (void)jenv;
@@ -5632,7 +5634,7 @@ SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_new_1TopicA
     arg2 = (char *)jenv->GetStringUTFChars(jarg2, 0);
     if (!arg2) return 0;
   }
-  arg3 = (TopicKind_t)jarg3; 
+  arg3 = (eprosima::fastrtps::rtps::TopicKind_t)jarg3; 
   result = (eprosima::fastrtps::TopicAttributes *)new eprosima::fastrtps::TopicAttributes((char const *)arg1,(char const *)arg2,arg3);
   *(eprosima::fastrtps::TopicAttributes **)&jresult = result; 
   if (arg1) jenv->ReleaseStringUTFChars(jarg1, (const char *)arg1);
@@ -5679,13 +5681,13 @@ SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_delete_1Topi
 
 SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_TopicAttributes_1topicKind_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2) {
   eprosima::fastrtps::TopicAttributes *arg1 = (eprosima::fastrtps::TopicAttributes *) 0 ;
-  TopicKind_t arg2 ;
+  eprosima::fastrtps::rtps::TopicKind_t arg2 ;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
   arg1 = *(eprosima::fastrtps::TopicAttributes **)&jarg1; 
-  arg2 = (TopicKind_t)jarg2; 
+  arg2 = (eprosima::fastrtps::rtps::TopicKind_t)jarg2; 
   if (arg1) (arg1)->topicKind = arg2;
 }
 
@@ -5693,13 +5695,13 @@ SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_TopicAttribu
 SWIGEXPORT jint JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_TopicAttributes_1topicKind_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
   jint jresult = 0 ;
   eprosima::fastrtps::TopicAttributes *arg1 = (eprosima::fastrtps::TopicAttributes *) 0 ;
-  TopicKind_t result;
+  eprosima::fastrtps::rtps::TopicKind_t result;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
   arg1 = *(eprosima::fastrtps::TopicAttributes **)&jarg1; 
-  result = (TopicKind_t) ((arg1)->topicKind);
+  result = (eprosima::fastrtps::rtps::TopicKind_t) ((arg1)->topicKind);
   jresult = (jint)result; 
   return jresult;
 }
@@ -5874,13 +5876,13 @@ SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_delete_1Endp
 
 SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_EndpointAttributes_1endpointKind_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2) {
   eprosima::fastrtps::rtps::EndpointAttributes *arg1 = (eprosima::fastrtps::rtps::EndpointAttributes *) 0 ;
-  EndpointKind_t arg2 ;
+  eprosima::fastrtps::rtps::EndpointKind_t arg2 ;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
   arg1 = *(eprosima::fastrtps::rtps::EndpointAttributes **)&jarg1; 
-  arg2 = (EndpointKind_t)jarg2; 
+  arg2 = (eprosima::fastrtps::rtps::EndpointKind_t)jarg2; 
   if (arg1) (arg1)->endpointKind = arg2;
 }
 
@@ -5888,13 +5890,13 @@ SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_EndpointAttr
 SWIGEXPORT jint JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_EndpointAttributes_1endpointKind_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
   jint jresult = 0 ;
   eprosima::fastrtps::rtps::EndpointAttributes *arg1 = (eprosima::fastrtps::rtps::EndpointAttributes *) 0 ;
-  EndpointKind_t result;
+  eprosima::fastrtps::rtps::EndpointKind_t result;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
   arg1 = *(eprosima::fastrtps::rtps::EndpointAttributes **)&jarg1; 
-  result = (EndpointKind_t) ((arg1)->endpointKind);
+  result = (eprosima::fastrtps::rtps::EndpointKind_t) ((arg1)->endpointKind);
   jresult = (jint)result; 
   return jresult;
 }
@@ -5902,13 +5904,13 @@ SWIGEXPORT jint JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_EndpointAttr
 
 SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_EndpointAttributes_1topicKind_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2) {
   eprosima::fastrtps::rtps::EndpointAttributes *arg1 = (eprosima::fastrtps::rtps::EndpointAttributes *) 0 ;
-  TopicKind_t arg2 ;
+  eprosima::fastrtps::rtps::TopicKind_t arg2 ;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
   arg1 = *(eprosima::fastrtps::rtps::EndpointAttributes **)&jarg1; 
-  arg2 = (TopicKind_t)jarg2; 
+  arg2 = (eprosima::fastrtps::rtps::TopicKind_t)jarg2; 
   if (arg1) (arg1)->topicKind = arg2;
 }
 
@@ -5916,13 +5918,13 @@ SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_EndpointAttr
 SWIGEXPORT jint JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_EndpointAttributes_1topicKind_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
   jint jresult = 0 ;
   eprosima::fastrtps::rtps::EndpointAttributes *arg1 = (eprosima::fastrtps::rtps::EndpointAttributes *) 0 ;
-  TopicKind_t result;
+  eprosima::fastrtps::rtps::TopicKind_t result;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
   arg1 = *(eprosima::fastrtps::rtps::EndpointAttributes **)&jarg1; 
-  result = (TopicKind_t) ((arg1)->topicKind);
+  result = (eprosima::fastrtps::rtps::TopicKind_t) ((arg1)->topicKind);
   jresult = (jint)result; 
   return jresult;
 }
@@ -5930,13 +5932,13 @@ SWIGEXPORT jint JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_EndpointAttr
 
 SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_EndpointAttributes_1reliabilityKind_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2) {
   eprosima::fastrtps::rtps::EndpointAttributes *arg1 = (eprosima::fastrtps::rtps::EndpointAttributes *) 0 ;
-  ReliabilityKind_t arg2 ;
+  eprosima::fastrtps::rtps::ReliabilityKind_t arg2 ;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
   arg1 = *(eprosima::fastrtps::rtps::EndpointAttributes **)&jarg1; 
-  arg2 = (ReliabilityKind_t)jarg2; 
+  arg2 = (eprosima::fastrtps::rtps::ReliabilityKind_t)jarg2; 
   if (arg1) (arg1)->reliabilityKind = arg2;
 }
 
@@ -5944,13 +5946,13 @@ SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_EndpointAttr
 SWIGEXPORT jint JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_EndpointAttributes_1reliabilityKind_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
   jint jresult = 0 ;
   eprosima::fastrtps::rtps::EndpointAttributes *arg1 = (eprosima::fastrtps::rtps::EndpointAttributes *) 0 ;
-  ReliabilityKind_t result;
+  eprosima::fastrtps::rtps::ReliabilityKind_t result;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
   arg1 = *(eprosima::fastrtps::rtps::EndpointAttributes **)&jarg1; 
-  result = (ReliabilityKind_t) ((arg1)->reliabilityKind);
+  result = (eprosima::fastrtps::rtps::ReliabilityKind_t) ((arg1)->reliabilityKind);
   jresult = (jint)result; 
   return jresult;
 }
@@ -5958,13 +5960,13 @@ SWIGEXPORT jint JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_EndpointAttr
 
 SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_EndpointAttributes_1durabilityKind_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2) {
   eprosima::fastrtps::rtps::EndpointAttributes *arg1 = (eprosima::fastrtps::rtps::EndpointAttributes *) 0 ;
-  DurabilityKind_t arg2 ;
+  eprosima::fastrtps::rtps::DurabilityKind_t arg2 ;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
   arg1 = *(eprosima::fastrtps::rtps::EndpointAttributes **)&jarg1; 
-  arg2 = (DurabilityKind_t)jarg2; 
+  arg2 = (eprosima::fastrtps::rtps::DurabilityKind_t)jarg2; 
   if (arg1) (arg1)->durabilityKind = arg2;
 }
 
@@ -5972,13 +5974,13 @@ SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_EndpointAttr
 SWIGEXPORT jint JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_EndpointAttributes_1durabilityKind_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
   jint jresult = 0 ;
   eprosima::fastrtps::rtps::EndpointAttributes *arg1 = (eprosima::fastrtps::rtps::EndpointAttributes *) 0 ;
-  DurabilityKind_t result;
+  eprosima::fastrtps::rtps::DurabilityKind_t result;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
   arg1 = *(eprosima::fastrtps::rtps::EndpointAttributes **)&jarg1; 
-  result = (DurabilityKind_t) ((arg1)->durabilityKind);
+  result = (eprosima::fastrtps::rtps::DurabilityKind_t) ((arg1)->durabilityKind);
   jresult = (jint)result; 
   return jresult;
 }
@@ -6151,14 +6153,14 @@ SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_delete_1Writ
 
 SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_WriterTimes_1initialHeartbeatDelay_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
   eprosima::fastrtps::rtps::WriterTimes *arg1 = (eprosima::fastrtps::rtps::WriterTimes *) 0 ;
-  Duration_t *arg2 = (Duration_t *) 0 ;
+  eprosima::fastrtps::rtps::Duration_t *arg2 = (eprosima::fastrtps::rtps::Duration_t *) 0 ;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
   (void)jarg2_;
   arg1 = *(eprosima::fastrtps::rtps::WriterTimes **)&jarg1; 
-  arg2 = *(Duration_t **)&jarg2; 
+  arg2 = *(eprosima::fastrtps::rtps::Duration_t **)&jarg2; 
   if (arg1) (arg1)->initialHeartbeatDelay = *arg2;
 }
 
@@ -6166,28 +6168,28 @@ SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_WriterTimes_
 SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_WriterTimes_1initialHeartbeatDelay_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
   jlong jresult = 0 ;
   eprosima::fastrtps::rtps::WriterTimes *arg1 = (eprosima::fastrtps::rtps::WriterTimes *) 0 ;
-  Duration_t *result = 0 ;
+  eprosima::fastrtps::rtps::Duration_t *result = 0 ;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
   arg1 = *(eprosima::fastrtps::rtps::WriterTimes **)&jarg1; 
-  result = (Duration_t *)& ((arg1)->initialHeartbeatDelay);
-  *(Duration_t **)&jresult = result; 
+  result = (eprosima::fastrtps::rtps::Duration_t *)& ((arg1)->initialHeartbeatDelay);
+  *(eprosima::fastrtps::rtps::Duration_t **)&jresult = result; 
   return jresult;
 }
 
 
 SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_WriterTimes_1heartbeatPeriod_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
   eprosima::fastrtps::rtps::WriterTimes *arg1 = (eprosima::fastrtps::rtps::WriterTimes *) 0 ;
-  Duration_t *arg2 = (Duration_t *) 0 ;
+  eprosima::fastrtps::rtps::Duration_t *arg2 = (eprosima::fastrtps::rtps::Duration_t *) 0 ;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
   (void)jarg2_;
   arg1 = *(eprosima::fastrtps::rtps::WriterTimes **)&jarg1; 
-  arg2 = *(Duration_t **)&jarg2; 
+  arg2 = *(eprosima::fastrtps::rtps::Duration_t **)&jarg2; 
   if (arg1) (arg1)->heartbeatPeriod = *arg2;
 }
 
@@ -6195,28 +6197,28 @@ SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_WriterTimes_
 SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_WriterTimes_1heartbeatPeriod_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
   jlong jresult = 0 ;
   eprosima::fastrtps::rtps::WriterTimes *arg1 = (eprosima::fastrtps::rtps::WriterTimes *) 0 ;
-  Duration_t *result = 0 ;
+  eprosima::fastrtps::rtps::Duration_t *result = 0 ;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
   arg1 = *(eprosima::fastrtps::rtps::WriterTimes **)&jarg1; 
-  result = (Duration_t *)& ((arg1)->heartbeatPeriod);
-  *(Duration_t **)&jresult = result; 
+  result = (eprosima::fastrtps::rtps::Duration_t *)& ((arg1)->heartbeatPeriod);
+  *(eprosima::fastrtps::rtps::Duration_t **)&jresult = result; 
   return jresult;
 }
 
 
 SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_WriterTimes_1nackResponseDelay_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
   eprosima::fastrtps::rtps::WriterTimes *arg1 = (eprosima::fastrtps::rtps::WriterTimes *) 0 ;
-  Duration_t *arg2 = (Duration_t *) 0 ;
+  eprosima::fastrtps::rtps::Duration_t *arg2 = (eprosima::fastrtps::rtps::Duration_t *) 0 ;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
   (void)jarg2_;
   arg1 = *(eprosima::fastrtps::rtps::WriterTimes **)&jarg1; 
-  arg2 = *(Duration_t **)&jarg2; 
+  arg2 = *(eprosima::fastrtps::rtps::Duration_t **)&jarg2; 
   if (arg1) (arg1)->nackResponseDelay = *arg2;
 }
 
@@ -6224,28 +6226,28 @@ SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_WriterTimes_
 SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_WriterTimes_1nackResponseDelay_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
   jlong jresult = 0 ;
   eprosima::fastrtps::rtps::WriterTimes *arg1 = (eprosima::fastrtps::rtps::WriterTimes *) 0 ;
-  Duration_t *result = 0 ;
+  eprosima::fastrtps::rtps::Duration_t *result = 0 ;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
   arg1 = *(eprosima::fastrtps::rtps::WriterTimes **)&jarg1; 
-  result = (Duration_t *)& ((arg1)->nackResponseDelay);
-  *(Duration_t **)&jresult = result; 
+  result = (eprosima::fastrtps::rtps::Duration_t *)& ((arg1)->nackResponseDelay);
+  *(eprosima::fastrtps::rtps::Duration_t **)&jresult = result; 
   return jresult;
 }
 
 
 SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_WriterTimes_1nackSupressionDuration_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
   eprosima::fastrtps::rtps::WriterTimes *arg1 = (eprosima::fastrtps::rtps::WriterTimes *) 0 ;
-  Duration_t *arg2 = (Duration_t *) 0 ;
+  eprosima::fastrtps::rtps::Duration_t *arg2 = (eprosima::fastrtps::rtps::Duration_t *) 0 ;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
   (void)jarg2_;
   arg1 = *(eprosima::fastrtps::rtps::WriterTimes **)&jarg1; 
-  arg2 = *(Duration_t **)&jarg2; 
+  arg2 = *(eprosima::fastrtps::rtps::Duration_t **)&jarg2; 
   if (arg1) (arg1)->nackSupressionDuration = *arg2;
 }
 
@@ -6253,14 +6255,14 @@ SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_WriterTimes_
 SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_WriterTimes_1nackSupressionDuration_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
   jlong jresult = 0 ;
   eprosima::fastrtps::rtps::WriterTimes *arg1 = (eprosima::fastrtps::rtps::WriterTimes *) 0 ;
-  Duration_t *result = 0 ;
+  eprosima::fastrtps::rtps::Duration_t *result = 0 ;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
   arg1 = *(eprosima::fastrtps::rtps::WriterTimes **)&jarg1; 
-  result = (Duration_t *)& ((arg1)->nackSupressionDuration);
-  *(Duration_t **)&jresult = result; 
+  result = (eprosima::fastrtps::rtps::Duration_t *)& ((arg1)->nackSupressionDuration);
+  *(eprosima::fastrtps::rtps::Duration_t **)&jresult = result; 
   return jresult;
 }
 
@@ -6791,53 +6793,53 @@ SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_PublisherAtt
 
 
 SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_NativeParticipantListener_1onParticipantDiscovery(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jlong jarg3, jlong jarg4, jint jarg5) {
-  NativeParticipantListener *arg1 = (NativeParticipantListener *) 0 ;
+  us::ihmc::rtps::impl::fastRTPS::NativeParticipantListener *arg1 = (us::ihmc::rtps::impl::fastRTPS::NativeParticipantListener *) 0 ;
   int64_t arg2 ;
   int64_t arg3 ;
   int64_t arg4 ;
-  DISCOVERY_STATUS arg5 ;
+  eprosima::fastrtps::rtps::DISCOVERY_STATUS arg5 ;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
-  arg1 = *(NativeParticipantListener **)&jarg1; 
+  arg1 = *(us::ihmc::rtps::impl::fastRTPS::NativeParticipantListener **)&jarg1; 
   arg2 = (int64_t)jarg2; 
   arg3 = (int64_t)jarg3; 
   arg4 = (int64_t)jarg4; 
-  arg5 = (DISCOVERY_STATUS)jarg5; 
+  arg5 = (eprosima::fastrtps::rtps::DISCOVERY_STATUS)jarg5; 
   (arg1)->onParticipantDiscovery(arg2,arg3,arg4,arg5);
 }
 
 
 SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_NativeParticipantListener_1onParticipantDiscoverySwigExplicitNativeParticipantListener(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jlong jarg3, jlong jarg4, jint jarg5) {
-  NativeParticipantListener *arg1 = (NativeParticipantListener *) 0 ;
+  us::ihmc::rtps::impl::fastRTPS::NativeParticipantListener *arg1 = (us::ihmc::rtps::impl::fastRTPS::NativeParticipantListener *) 0 ;
   int64_t arg2 ;
   int64_t arg3 ;
   int64_t arg4 ;
-  DISCOVERY_STATUS arg5 ;
+  eprosima::fastrtps::rtps::DISCOVERY_STATUS arg5 ;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
-  arg1 = *(NativeParticipantListener **)&jarg1; 
+  arg1 = *(us::ihmc::rtps::impl::fastRTPS::NativeParticipantListener **)&jarg1; 
   arg2 = (int64_t)jarg2; 
   arg3 = (int64_t)jarg3; 
   arg4 = (int64_t)jarg4; 
-  arg5 = (DISCOVERY_STATUS)jarg5; 
-  (arg1)->NativeParticipantListener::onParticipantDiscovery(arg2,arg3,arg4,arg5);
+  arg5 = (eprosima::fastrtps::rtps::DISCOVERY_STATUS)jarg5; 
+  (arg1)->us::ihmc::rtps::impl::fastRTPS::NativeParticipantListener::onParticipantDiscovery(arg2,arg3,arg4,arg5);
 }
 
 
 SWIGEXPORT jstring JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_NativeParticipantListener_1getName(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2) {
   jstring jresult = 0 ;
-  NativeParticipantListener *arg1 = (NativeParticipantListener *) 0 ;
+  us::ihmc::rtps::impl::fastRTPS::NativeParticipantListener *arg1 = (us::ihmc::rtps::impl::fastRTPS::NativeParticipantListener *) 0 ;
   int64_t arg2 ;
   std::string result;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
-  arg1 = *(NativeParticipantListener **)&jarg1; 
+  arg1 = *(us::ihmc::rtps::impl::fastRTPS::NativeParticipantListener **)&jarg1; 
   arg2 = (int64_t)jarg2; 
   result = (arg1)->getName(arg2);
   jresult = jenv->NewStringUTF((&result)->c_str()); 
@@ -6846,29 +6848,29 @@ SWIGEXPORT jstring JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_NativePar
 
 
 SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_delete_1NativeParticipantListener(JNIEnv *jenv, jclass jcls, jlong jarg1) {
-  NativeParticipantListener *arg1 = (NativeParticipantListener *) 0 ;
+  us::ihmc::rtps::impl::fastRTPS::NativeParticipantListener *arg1 = (us::ihmc::rtps::impl::fastRTPS::NativeParticipantListener *) 0 ;
   
   (void)jenv;
   (void)jcls;
-  arg1 = *(NativeParticipantListener **)&jarg1; 
+  arg1 = *(us::ihmc::rtps::impl::fastRTPS::NativeParticipantListener **)&jarg1; 
   delete arg1;
 }
 
 
 SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_new_1NativeParticipantListener(JNIEnv *jenv, jclass jcls) {
   jlong jresult = 0 ;
-  NativeParticipantListener *result = 0 ;
+  us::ihmc::rtps::impl::fastRTPS::NativeParticipantListener *result = 0 ;
   
   (void)jenv;
   (void)jcls;
-  result = (NativeParticipantListener *)new SwigDirector_NativeParticipantListener(jenv);
-  *(NativeParticipantListener **)&jresult = result; 
+  result = (us::ihmc::rtps::impl::fastRTPS::NativeParticipantListener *)new SwigDirector_NativeParticipantListener(jenv);
+  *(us::ihmc::rtps::impl::fastRTPS::NativeParticipantListener **)&jresult = result; 
   return jresult;
 }
 
 
 SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_NativeParticipantListener_1director_1connect(JNIEnv *jenv, jclass jcls, jobject jself, jlong objarg, jboolean jswig_mem_own, jboolean jweak_global) {
-  NativeParticipantListener *obj = *((NativeParticipantListener **)&objarg);
+  us::ihmc::rtps::impl::fastRTPS::NativeParticipantListener *obj = *((us::ihmc::rtps::impl::fastRTPS::NativeParticipantListener **)&objarg);
   (void)jcls;
   SwigDirector_NativeParticipantListener *director = dynamic_cast<SwigDirector_NativeParticipantListener *>(obj);
   if (director) {
@@ -6878,7 +6880,7 @@ SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_NativePartic
 
 
 SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_NativeParticipantListener_1change_1ownership(JNIEnv *jenv, jclass jcls, jobject jself, jlong objarg, jboolean jtake_or_release) {
-  NativeParticipantListener *obj = *((NativeParticipantListener **)&objarg);
+  us::ihmc::rtps::impl::fastRTPS::NativeParticipantListener *obj = *((us::ihmc::rtps::impl::fastRTPS::NativeParticipantListener **)&objarg);
   SwigDirector_NativeParticipantListener *director = dynamic_cast<SwigDirector_NativeParticipantListener *>(obj);
   (void)jcls;
   if (director) {
@@ -6890,8 +6892,8 @@ SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_NativePartic
 SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_new_1NativeParticipantImpl(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
   jlong jresult = 0 ;
   eprosima::fastrtps::rtps::RTPSParticipantAttributes *arg1 = 0 ;
-  NativeParticipantListener *arg2 = (NativeParticipantListener *) 0 ;
-  NativeParticipantImpl *result = 0 ;
+  us::ihmc::rtps::impl::fastRTPS::NativeParticipantListener *arg2 = (us::ihmc::rtps::impl::fastRTPS::NativeParticipantListener *) 0 ;
+  us::ihmc::rtps::impl::fastRTPS::NativeParticipantImpl *result = 0 ;
   
   (void)jenv;
   (void)jcls;
@@ -6902,9 +6904,9 @@ SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_new_1Native
     SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "eprosima::fastrtps::rtps::RTPSParticipantAttributes & reference is null");
     return 0;
   } 
-  arg2 = *(NativeParticipantListener **)&jarg2; 
+  arg2 = *(us::ihmc::rtps::impl::fastRTPS::NativeParticipantListener **)&jarg2; 
   try {
-    result = (NativeParticipantImpl *)new NativeParticipantImpl(*arg1,arg2);
+    result = (us::ihmc::rtps::impl::fastRTPS::NativeParticipantImpl *)new us::ihmc::rtps::impl::fastRTPS::NativeParticipantImpl(*arg1,arg2);
   }
   catch(FastRTPSException &_e) {
     {
@@ -6915,20 +6917,20 @@ SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_new_1Native
     }
   }
   
-  *(NativeParticipantImpl **)&jresult = result; 
+  *(us::ihmc::rtps::impl::fastRTPS::NativeParticipantImpl **)&jresult = result; 
   return jresult;
 }
 
 
 SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_NativeParticipantImpl_1getGuidLow(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
   jlong jresult = 0 ;
-  NativeParticipantImpl *arg1 = (NativeParticipantImpl *) 0 ;
+  us::ihmc::rtps::impl::fastRTPS::NativeParticipantImpl *arg1 = (us::ihmc::rtps::impl::fastRTPS::NativeParticipantImpl *) 0 ;
   int64_t result;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
-  arg1 = *(NativeParticipantImpl **)&jarg1; 
+  arg1 = *(us::ihmc::rtps::impl::fastRTPS::NativeParticipantImpl **)&jarg1; 
   result = (int64_t)(arg1)->getGuidLow();
   jresult = (jlong)result; 
   return jresult;
@@ -6937,40 +6939,55 @@ SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_NativeParti
 
 SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_NativeParticipantImpl_1getGuidHigh(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
   jlong jresult = 0 ;
-  NativeParticipantImpl *arg1 = (NativeParticipantImpl *) 0 ;
+  us::ihmc::rtps::impl::fastRTPS::NativeParticipantImpl *arg1 = (us::ihmc::rtps::impl::fastRTPS::NativeParticipantImpl *) 0 ;
   int64_t result;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
-  arg1 = *(NativeParticipantImpl **)&jarg1; 
+  arg1 = *(us::ihmc::rtps::impl::fastRTPS::NativeParticipantImpl **)&jarg1; 
   result = (int64_t)(arg1)->getGuidHigh();
   jresult = (jlong)result; 
   return jresult;
 }
 
 
-SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_delete_1NativeParticipantImpl(JNIEnv *jenv, jclass jcls, jlong jarg1) {
-  NativeParticipantImpl *arg1 = (NativeParticipantImpl *) 0 ;
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_NativeParticipantImpl_1getParticipant(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  us::ihmc::rtps::impl::fastRTPS::NativeParticipantImpl *arg1 = (us::ihmc::rtps::impl::fastRTPS::NativeParticipantImpl *) 0 ;
+  RTPSParticipant *result = 0 ;
   
   (void)jenv;
   (void)jcls;
-  arg1 = *(NativeParticipantImpl **)&jarg1; 
+  (void)jarg1_;
+  arg1 = *(us::ihmc::rtps::impl::fastRTPS::NativeParticipantImpl **)&jarg1; 
+  result = (RTPSParticipant *)(arg1)->getParticipant();
+  *(RTPSParticipant **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_delete_1NativeParticipantImpl(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+  us::ihmc::rtps::impl::fastRTPS::NativeParticipantImpl *arg1 = (us::ihmc::rtps::impl::fastRTPS::NativeParticipantImpl *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = *(us::ihmc::rtps::impl::fastRTPS::NativeParticipantImpl **)&jarg1; 
   delete arg1;
 }
 
 
 SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_NativePublisherListener_1onWriterMatched(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2, jlong jarg3, jlong jarg4) {
-  NativePublisherListener *arg1 = (NativePublisherListener *) 0 ;
-  MatchingStatus arg2 ;
+  us::ihmc::rtps::impl::fastRTPS::NativePublisherListener *arg1 = (us::ihmc::rtps::impl::fastRTPS::NativePublisherListener *) 0 ;
+  eprosima::fastrtps::rtps::MatchingStatus arg2 ;
   int64_t arg3 ;
   int64_t arg4 ;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
-  arg1 = *(NativePublisherListener **)&jarg1; 
-  arg2 = (MatchingStatus)jarg2; 
+  arg1 = *(us::ihmc::rtps::impl::fastRTPS::NativePublisherListener **)&jarg1; 
+  arg2 = (eprosima::fastrtps::rtps::MatchingStatus)jarg2; 
   arg3 = (int64_t)jarg3; 
   arg4 = (int64_t)jarg4; 
   (arg1)->onWriterMatched(arg2,arg3,arg4);
@@ -6978,46 +6995,46 @@ SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_NativePublis
 
 
 SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_NativePublisherListener_1onWriterMatchedSwigExplicitNativePublisherListener(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2, jlong jarg3, jlong jarg4) {
-  NativePublisherListener *arg1 = (NativePublisherListener *) 0 ;
-  MatchingStatus arg2 ;
+  us::ihmc::rtps::impl::fastRTPS::NativePublisherListener *arg1 = (us::ihmc::rtps::impl::fastRTPS::NativePublisherListener *) 0 ;
+  eprosima::fastrtps::rtps::MatchingStatus arg2 ;
   int64_t arg3 ;
   int64_t arg4 ;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
-  arg1 = *(NativePublisherListener **)&jarg1; 
-  arg2 = (MatchingStatus)jarg2; 
+  arg1 = *(us::ihmc::rtps::impl::fastRTPS::NativePublisherListener **)&jarg1; 
+  arg2 = (eprosima::fastrtps::rtps::MatchingStatus)jarg2; 
   arg3 = (int64_t)jarg3; 
   arg4 = (int64_t)jarg4; 
-  (arg1)->NativePublisherListener::onWriterMatched(arg2,arg3,arg4);
+  (arg1)->us::ihmc::rtps::impl::fastRTPS::NativePublisherListener::onWriterMatched(arg2,arg3,arg4);
 }
 
 
 SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_delete_1NativePublisherListener(JNIEnv *jenv, jclass jcls, jlong jarg1) {
-  NativePublisherListener *arg1 = (NativePublisherListener *) 0 ;
+  us::ihmc::rtps::impl::fastRTPS::NativePublisherListener *arg1 = (us::ihmc::rtps::impl::fastRTPS::NativePublisherListener *) 0 ;
   
   (void)jenv;
   (void)jcls;
-  arg1 = *(NativePublisherListener **)&jarg1; 
+  arg1 = *(us::ihmc::rtps::impl::fastRTPS::NativePublisherListener **)&jarg1; 
   delete arg1;
 }
 
 
 SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_new_1NativePublisherListener(JNIEnv *jenv, jclass jcls) {
   jlong jresult = 0 ;
-  NativePublisherListener *result = 0 ;
+  us::ihmc::rtps::impl::fastRTPS::NativePublisherListener *result = 0 ;
   
   (void)jenv;
   (void)jcls;
-  result = (NativePublisherListener *)new SwigDirector_NativePublisherListener(jenv);
-  *(NativePublisherListener **)&jresult = result; 
+  result = (us::ihmc::rtps::impl::fastRTPS::NativePublisherListener *)new SwigDirector_NativePublisherListener(jenv);
+  *(us::ihmc::rtps::impl::fastRTPS::NativePublisherListener **)&jresult = result; 
   return jresult;
 }
 
 
 SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_NativePublisherListener_1director_1connect(JNIEnv *jenv, jclass jcls, jobject jself, jlong objarg, jboolean jswig_mem_own, jboolean jweak_global) {
-  NativePublisherListener *obj = *((NativePublisherListener **)&objarg);
+  us::ihmc::rtps::impl::fastRTPS::NativePublisherListener *obj = *((us::ihmc::rtps::impl::fastRTPS::NativePublisherListener **)&objarg);
   (void)jcls;
   SwigDirector_NativePublisherListener *director = dynamic_cast<SwigDirector_NativePublisherListener *>(obj);
   if (director) {
@@ -7027,7 +7044,7 @@ SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_NativePublis
 
 
 SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_NativePublisherListener_1change_1ownership(JNIEnv *jenv, jclass jcls, jobject jself, jlong objarg, jboolean jtake_or_release) {
-  NativePublisherListener *obj = *((NativePublisherListener **)&objarg);
+  us::ihmc::rtps::impl::fastRTPS::NativePublisherListener *obj = *((us::ihmc::rtps::impl::fastRTPS::NativePublisherListener **)&objarg);
   SwigDirector_NativePublisherListener *director = dynamic_cast<SwigDirector_NativePublisherListener *>(obj);
   (void)jcls;
   if (director) {
@@ -7049,9 +7066,9 @@ SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_new_1Native
   eprosima::fastrtps::rtps::LocatorList_t *arg9 = (eprosima::fastrtps::rtps::LocatorList_t *) 0 ;
   eprosima::fastrtps::rtps::LocatorList_t *arg10 = (eprosima::fastrtps::rtps::LocatorList_t *) 0 ;
   eprosima::fastrtps::rtps::ThroughputControllerDescriptor *arg11 = (eprosima::fastrtps::rtps::ThroughputControllerDescriptor *) 0 ;
-  NativeParticipantImpl *arg12 = (NativeParticipantImpl *) 0 ;
-  NativePublisherListener *arg13 = (NativePublisherListener *) 0 ;
-  NativePublisherImpl *result = 0 ;
+  us::ihmc::rtps::impl::fastRTPS::NativeParticipantImpl *arg12 = (us::ihmc::rtps::impl::fastRTPS::NativeParticipantImpl *) 0 ;
+  us::ihmc::rtps::impl::fastRTPS::NativePublisherListener *arg13 = (us::ihmc::rtps::impl::fastRTPS::NativePublisherListener *) 0 ;
+  us::ihmc::rtps::impl::fastRTPS::NativePublisherImpl *result = 0 ;
   
   (void)jenv;
   (void)jcls;
@@ -7075,10 +7092,10 @@ SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_new_1Native
   arg9 = *(eprosima::fastrtps::rtps::LocatorList_t **)&jarg9; 
   arg10 = *(eprosima::fastrtps::rtps::LocatorList_t **)&jarg10; 
   arg11 = *(eprosima::fastrtps::rtps::ThroughputControllerDescriptor **)&jarg11; 
-  arg12 = *(NativeParticipantImpl **)&jarg12; 
-  arg13 = *(NativePublisherListener **)&jarg13; 
+  arg12 = *(us::ihmc::rtps::impl::fastRTPS::NativeParticipantImpl **)&jarg12; 
+  arg13 = *(us::ihmc::rtps::impl::fastRTPS::NativePublisherListener **)&jarg13; 
   try {
-    result = (NativePublisherImpl *)new NativePublisherImpl(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10,arg11,arg12,arg13);
+    result = (us::ihmc::rtps::impl::fastRTPS::NativePublisherImpl *)new us::ihmc::rtps::impl::fastRTPS::NativePublisherImpl(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10,arg11,arg12,arg13);
   }
   catch(FastRTPSException &_e) {
     {
@@ -7089,34 +7106,34 @@ SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_new_1Native
     }
   }
   
-  *(NativePublisherImpl **)&jresult = result; 
+  *(us::ihmc::rtps::impl::fastRTPS::NativePublisherImpl **)&jresult = result; 
   return jresult;
 }
 
 
 SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_delete_1NativePublisherImpl(JNIEnv *jenv, jclass jcls, jlong jarg1) {
-  NativePublisherImpl *arg1 = (NativePublisherImpl *) 0 ;
+  us::ihmc::rtps::impl::fastRTPS::NativePublisherImpl *arg1 = (us::ihmc::rtps::impl::fastRTPS::NativePublisherImpl *) 0 ;
   
   (void)jenv;
   (void)jcls;
-  arg1 = *(NativePublisherImpl **)&jarg1; 
+  arg1 = *(us::ihmc::rtps::impl::fastRTPS::NativePublisherImpl **)&jarg1; 
   delete arg1;
 }
 
 
 SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_NativePublisherImpl_1create_1new_1change(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2, jobject jarg3, jint jarg4, jshort jarg5, jobject jarg6) {
-  NativePublisherImpl *arg1 = (NativePublisherImpl *) 0 ;
-  ChangeKind_t arg2 ;
+  us::ihmc::rtps::impl::fastRTPS::NativePublisherImpl *arg1 = (us::ihmc::rtps::impl::fastRTPS::NativePublisherImpl *) 0 ;
+  eprosima::fastrtps::rtps::ChangeKind_t arg2 ;
   unsigned char *arg3 = (unsigned char *) 0 ;
   int32_t arg4 ;
   int16_t arg5 ;
-  octet *arg6 = (octet *) 0 ;
+  eprosima::fastrtps::rtps::octet *arg6 = (eprosima::fastrtps::rtps::octet *) 0 ;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
-  arg1 = *(NativePublisherImpl **)&jarg1; 
-  arg2 = (ChangeKind_t)jarg2; 
+  arg1 = *(us::ihmc::rtps::impl::fastRTPS::NativePublisherImpl **)&jarg1; 
+  arg2 = (eprosima::fastrtps::rtps::ChangeKind_t)jarg2; 
   {
     arg3 = (unsigned char *) jenv->GetDirectBufferAddress(jarg3); 
     if (arg3 == NULL) {
@@ -7148,16 +7165,46 @@ SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_NativePublis
 }
 
 
+SWIGEXPORT jint JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_NativePublisherImpl_1getTopicKind(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jint jresult = 0 ;
+  us::ihmc::rtps::impl::fastRTPS::NativePublisherImpl *arg1 = (us::ihmc::rtps::impl::fastRTPS::NativePublisherImpl *) 0 ;
+  eprosima::fastrtps::rtps::TopicKind_t result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(us::ihmc::rtps::impl::fastRTPS::NativePublisherImpl **)&jarg1; 
+  result = (eprosima::fastrtps::rtps::TopicKind_t)(arg1)->getTopicKind();
+  jresult = (jint)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_NativePublisherImpl_1getGuid(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  us::ihmc::rtps::impl::fastRTPS::NativePublisherImpl *arg1 = (us::ihmc::rtps::impl::fastRTPS::NativePublisherImpl *) 0 ;
+  GUID_t *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(us::ihmc::rtps::impl::fastRTPS::NativePublisherImpl **)&jarg1; 
+  result = (GUID_t *) &(arg1)->getGuid();
+  *(GUID_t **)&jresult = result; 
+  return jresult;
+}
+
+
 SWIGEXPORT jboolean JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_NativePublisherImpl_1clean_1history(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2) {
   jboolean jresult = 0 ;
-  NativePublisherImpl *arg1 = (NativePublisherImpl *) 0 ;
+  us::ihmc::rtps::impl::fastRTPS::NativePublisherImpl *arg1 = (us::ihmc::rtps::impl::fastRTPS::NativePublisherImpl *) 0 ;
   unsigned int arg2 ;
   bool result;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
-  arg1 = *(NativePublisherImpl **)&jarg1; 
+  arg1 = *(us::ihmc::rtps::impl::fastRTPS::NativePublisherImpl **)&jarg1; 
   arg2 = (unsigned int)jarg2; 
   result = (bool)(arg1)->clean_history(arg2);
   jresult = (jboolean)result; 
@@ -7167,13 +7214,13 @@ SWIGEXPORT jboolean JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_NativePu
 
 SWIGEXPORT jint JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_NativePublisherImpl_1removeAllChange(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
   jint jresult = 0 ;
-  NativePublisherImpl *arg1 = (NativePublisherImpl *) 0 ;
+  us::ihmc::rtps::impl::fastRTPS::NativePublisherImpl *arg1 = (us::ihmc::rtps::impl::fastRTPS::NativePublisherImpl *) 0 ;
   int32_t result;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
-  arg1 = *(NativePublisherImpl **)&jarg1; 
+  arg1 = *(us::ihmc::rtps::impl::fastRTPS::NativePublisherImpl **)&jarg1; 
   result = (int32_t)(arg1)->removeAllChange();
   jresult = (jint)result; 
   return jresult;
@@ -7182,21 +7229,21 @@ SWIGEXPORT jint JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_NativePublis
 
 SWIGEXPORT jboolean JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_NativePublisherImpl_1wait_1for_1all_1acked(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
   jboolean jresult = 0 ;
-  NativePublisherImpl *arg1 = (NativePublisherImpl *) 0 ;
-  Time_t *arg2 = 0 ;
+  us::ihmc::rtps::impl::fastRTPS::NativePublisherImpl *arg1 = (us::ihmc::rtps::impl::fastRTPS::NativePublisherImpl *) 0 ;
+  eprosima::fastrtps::rtps::Time_t *arg2 = 0 ;
   bool result;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
   (void)jarg2_;
-  arg1 = *(NativePublisherImpl **)&jarg1; 
-  arg2 = *(Time_t **)&jarg2;
+  arg1 = *(us::ihmc::rtps::impl::fastRTPS::NativePublisherImpl **)&jarg1; 
+  arg2 = *(eprosima::fastrtps::rtps::Time_t **)&jarg2;
   if (!arg2) {
-    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "Time_t const & reference is null");
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "eprosima::fastrtps::rtps::Time_t const & reference is null");
     return 0;
   } 
-  result = (bool)(arg1)->wait_for_all_acked((Time_t const &)*arg2);
+  result = (bool)(arg1)->wait_for_all_acked((eprosima::fastrtps::rtps::Time_t const &)*arg2);
   jresult = (jboolean)result; 
   return jresult;
 }
@@ -7204,13 +7251,13 @@ SWIGEXPORT jboolean JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_NativePu
 
 SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_NativePublisherImpl_1getGuidLow(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
   jlong jresult = 0 ;
-  NativePublisherImpl *arg1 = (NativePublisherImpl *) 0 ;
+  us::ihmc::rtps::impl::fastRTPS::NativePublisherImpl *arg1 = (us::ihmc::rtps::impl::fastRTPS::NativePublisherImpl *) 0 ;
   int64_t result;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
-  arg1 = *(NativePublisherImpl **)&jarg1; 
+  arg1 = *(us::ihmc::rtps::impl::fastRTPS::NativePublisherImpl **)&jarg1; 
   result = (int64_t)(arg1)->getGuidLow();
   jresult = (jlong)result; 
   return jresult;
@@ -7219,13 +7266,13 @@ SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_NativePubli
 
 SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_NativePublisherImpl_1getGuidHigh(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
   jlong jresult = 0 ;
-  NativePublisherImpl *arg1 = (NativePublisherImpl *) 0 ;
+  us::ihmc::rtps::impl::fastRTPS::NativePublisherImpl *arg1 = (us::ihmc::rtps::impl::fastRTPS::NativePublisherImpl *) 0 ;
   int64_t result;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
-  arg1 = *(NativePublisherImpl **)&jarg1; 
+  arg1 = *(us::ihmc::rtps::impl::fastRTPS::NativePublisherImpl **)&jarg1; 
   result = (int64_t)(arg1)->getGuidHigh();
   jresult = (jlong)result; 
   return jresult;
@@ -7238,28 +7285,28 @@ SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_LogLevel_1se
   (void)jenv;
   (void)jcls;
   arg1 = (int)jarg1; 
-  LogLevel::setLogLevel(arg1);
+  us::ihmc::rtps::impl::fastRTPS::LogLevel::setLogLevel(arg1);
 }
 
 
 SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_new_1LogLevel(JNIEnv *jenv, jclass jcls) {
   jlong jresult = 0 ;
-  LogLevel *result = 0 ;
+  us::ihmc::rtps::impl::fastRTPS::LogLevel *result = 0 ;
   
   (void)jenv;
   (void)jcls;
-  result = (LogLevel *)new LogLevel();
-  *(LogLevel **)&jresult = result; 
+  result = (us::ihmc::rtps::impl::fastRTPS::LogLevel *)new us::ihmc::rtps::impl::fastRTPS::LogLevel();
+  *(us::ihmc::rtps::impl::fastRTPS::LogLevel **)&jresult = result; 
   return jresult;
 }
 
 
 SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_delete_1LogLevel(JNIEnv *jenv, jclass jcls, jlong jarg1) {
-  LogLevel *arg1 = (LogLevel *) 0 ;
+  us::ihmc::rtps::impl::fastRTPS::LogLevel *arg1 = (us::ihmc::rtps::impl::fastRTPS::LogLevel *) 0 ;
   
   (void)jenv;
   (void)jcls;
-  arg1 = *(LogLevel **)&jarg1; 
+  arg1 = *(us::ihmc::rtps::impl::fastRTPS::LogLevel **)&jarg1; 
   delete arg1;
 }
 

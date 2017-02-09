@@ -14,6 +14,7 @@
 
 extern ::rtps::WriteParams WRITE_PARAM_DEFAULT;
 
+using namespace us::ihmc::rtps::impl::fastRTPS;
 
 NativePublisherHistory::NativePublisherHistory(NativePublisherImpl* pimpl,int32_t payloadMaxSize,HistoryQosPolicy& history,
         ResourceLimitsQosPolicy& resource,MemoryManagementPolicy_t mempolicy):

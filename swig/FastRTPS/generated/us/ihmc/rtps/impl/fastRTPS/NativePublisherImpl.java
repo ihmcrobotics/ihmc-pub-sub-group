@@ -47,6 +47,14 @@ public class NativePublisherImpl {
     }
   }
 
+  public TopicKind_t getTopicKind() {
+    return TopicKind_t.swigToEnum(FastRTPSJNI.NativePublisherImpl_getTopicKind(swigCPtr, this));
+  }
+
+  public SWIGTYPE_p_GUID_t getGuid() {
+    return new SWIGTYPE_p_GUID_t(FastRTPSJNI.NativePublisherImpl_getGuid(swigCPtr, this), false);
+  }
+
   public boolean clean_history(long max) {
     return FastRTPSJNI.NativePublisherImpl_clean_history(swigCPtr, this, max);
   }

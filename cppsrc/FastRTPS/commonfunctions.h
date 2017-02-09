@@ -5,33 +5,40 @@
 #include <fastrtps/rtps/common/Guid.h>
 #include <fastrtps/rtps/common/Types.h>
 
-union GuidUnion
-{
 
-    struct
+namespace us{
+namespace ihmc{
+namespace rtps{
+namespace impl{
+namespace fastRTPS{
+    union GuidUnion
     {
-        int64_t high;
-        int64_t low;
-    } primitive;
 
-    octet guid[GuidPrefix_t::size + EntityId_t::size];
+        struct
+        {
+            int64_t high;
+            int64_t low;
+        } primitive;
 
-};
+        octet guid[GuidPrefix_t::size + EntityId_t::size];
 
-class CommonFunctions
-{
-public:
-    static void guidcpy(GUID_t src, GuidUnion *dest)
+    };
+
+    class CommonFunctions
     {
-        for(int g_c = 0; g_c < GuidPrefix_t::size; g_c++)
+    public:
+        static void guidcpy(GUID_t src, GuidUnion *dest)
         {
-            dest->guid[g_c] = src.guidPrefix.value[g_c];
-        }
+            for(int g_c = 0; g_c < GuidPrefix_t::size; g_c++)
+            {
+                dest->guid[g_c] = src.guidPrefix.value[g_c];
+            }
 
-        for(int g_c = 0; g_c < EntityId_t::size; g_c++)
-        {
-            dest->guid[GuidPrefix_t::size + g_c] = src.entityId.value[g_c];
+            for(int g_c = 0; g_c < EntityId_t::size; g_c++)
+            {
+                dest->guid[GuidPrefix_t::size + g_c] = src.entityId.value[g_c];
+            }
         }
-    }
-};
+    };
+}}}}}
 #endif // COMMONFUNCTIONS_H
