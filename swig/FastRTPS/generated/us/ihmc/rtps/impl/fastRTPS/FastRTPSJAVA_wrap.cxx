@@ -822,13 +822,13 @@ void SwigDirector_NativeParticipantListener::swig_connect_director(JNIEnv *jenv,
 SwigDirector_NativePublisherListener::SwigDirector_NativePublisherListener(JNIEnv *jenv) : NativePublisherListener(), Swig::Director(jenv) {
 }
 
-void SwigDirector_NativePublisherListener::onWriterMatched(MatchingStatus status, long guidHigh, long guidLow) {
+void SwigDirector_NativePublisherListener::onWriterMatched(MatchingStatus status, int64_t guidHigh, int64_t guidLow) {
   JNIEnvWrapper swigjnienv(this) ;
   JNIEnv * jenv = swigjnienv.getJNIEnv() ;
   jobject swigjobj = (jobject) NULL ;
   jint jstatus  ;
-  jint jguidHigh  ;
-  jint jguidLow  ;
+  jlong jguidHigh  ;
+  jlong jguidLow  ;
   
   if (!swig_override[0]) {
     NativePublisherListener::onWriterMatched(status,guidHigh,guidLow);
@@ -837,8 +837,8 @@ void SwigDirector_NativePublisherListener::onWriterMatched(MatchingStatus status
   swigjobj = swig_get_self(jenv);
   if (swigjobj && jenv->IsSameObject(swigjobj, NULL) == JNI_FALSE) {
     jstatus = (jint) status;
-    jguidHigh = (jint) guidHigh;
-    jguidLow = (jint) guidLow;
+    jguidHigh = (jlong) guidHigh;
+    jguidLow = (jlong) guidLow;
     jenv->CallStaticVoidMethod(Swig::jclass_FastRTPSJNI, Swig::director_method_ids[1], swigjobj, jstatus, jguidHigh, jguidLow);
     jthrowable swigerror = jenv->ExceptionOccurred();
     if (swigerror) {
@@ -864,7 +864,7 @@ void SwigDirector_NativePublisherListener::swig_connect_director(JNIEnv *jenv, j
     jmethodID base_methid;
   } methods[] = {
     {
-      "onWriterMatched", "(Lus/ihmc/rtps/impl/fastRTPS/MatchingStatus;II)V", NULL 
+      "onWriterMatched", "(Lus/ihmc/rtps/impl/fastRTPS/MatchingStatus;JJ)V", NULL 
     }
   };
   
@@ -6960,36 +6960,36 @@ SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_delete_1Nati
 }
 
 
-SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_NativePublisherListener_1onWriterMatched(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2, jint jarg3, jint jarg4) {
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_NativePublisherListener_1onWriterMatched(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2, jlong jarg3, jlong jarg4) {
   NativePublisherListener *arg1 = (NativePublisherListener *) 0 ;
   MatchingStatus arg2 ;
-  long arg3 ;
-  long arg4 ;
+  int64_t arg3 ;
+  int64_t arg4 ;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
   arg1 = *(NativePublisherListener **)&jarg1; 
   arg2 = (MatchingStatus)jarg2; 
-  arg3 = (long)jarg3; 
-  arg4 = (long)jarg4; 
+  arg3 = (int64_t)jarg3; 
+  arg4 = (int64_t)jarg4; 
   (arg1)->onWriterMatched(arg2,arg3,arg4);
 }
 
 
-SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_NativePublisherListener_1onWriterMatchedSwigExplicitNativePublisherListener(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2, jint jarg3, jint jarg4) {
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_NativePublisherListener_1onWriterMatchedSwigExplicitNativePublisherListener(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2, jlong jarg3, jlong jarg4) {
   NativePublisherListener *arg1 = (NativePublisherListener *) 0 ;
   MatchingStatus arg2 ;
-  long arg3 ;
-  long arg4 ;
+  int64_t arg3 ;
+  int64_t arg4 ;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
   arg1 = *(NativePublisherListener **)&jarg1; 
   arg2 = (MatchingStatus)jarg2; 
-  arg3 = (long)jarg3; 
-  arg4 = (long)jarg4; 
+  arg3 = (int64_t)jarg3; 
+  arg4 = (int64_t)jarg4; 
   (arg1)->NativePublisherListener::onWriterMatched(arg2,arg3,arg4);
 }
 
@@ -7435,7 +7435,7 @@ SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_swig_1module
       "SwigDirector_NativeParticipantListener_onParticipantDiscovery", "(Lus/ihmc/rtps/impl/fastRTPS/NativeParticipantListener;JJJI)V" 
     },
     {
-      "SwigDirector_NativePublisherListener_onWriterMatched", "(Lus/ihmc/rtps/impl/fastRTPS/NativePublisherListener;III)V" 
+      "SwigDirector_NativePublisherListener_onWriterMatched", "(Lus/ihmc/rtps/impl/fastRTPS/NativePublisherListener;IJJ)V" 
     }
   };
   Swig::jclass_FastRTPSJNI = (jclass) jenv->NewGlobalRef(jcls);

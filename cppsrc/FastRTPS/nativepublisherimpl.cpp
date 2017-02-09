@@ -1,6 +1,7 @@
 #include "nativepublisherimpl.h"
 #include "commonfunctions.h"
 #include <fastrtps/rtps/RTPSDomain.h>
+#include <fastrtps/log/Log.h>
 
 using namespace eprosima::fastrtps::rtps;
 
@@ -47,6 +48,8 @@ NativePublisherImpl::NativePublisherImpl(
     mp_writer = RTPSDomain::createRTPSWriter(participant->getParticipant(), watt, &publisherhistory, &writerListener);
     CommonFunctions::guidcpy(mp_writer->getGuid(), &guid);
     this->rtpsParticipant->registerWriter(mp_writer,*topic,*qos);
+
+    logInfo(PUBLISHER, "Guid: " << mp_writer->getGuid());
 
 }
 
@@ -173,6 +176,7 @@ void NativePublisherImpl::create_new_change(ChangeKind_t changeKind, unsigned ch
 
 void NativePublisherImpl::PublisherWriterListener::onWriterMatched(RTPSWriter *writer, MatchingInfo &info)
 {
+    logInfo(PUBLISHER, "Remote reader Guid: " << info.remoteEndpointGuid);
     GuidUnion retGuid;
     CommonFunctions::guidcpy(info.remoteEndpointGuid, &retGuid);
     publisherImpl->listener->onWriterMatched(info.status, retGuid.primitive.high, retGuid.primitive.low);

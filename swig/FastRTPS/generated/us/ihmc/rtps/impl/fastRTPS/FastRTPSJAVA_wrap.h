@@ -31,7 +31,7 @@ class SwigDirector_NativePublisherListener : public NativePublisherListener, pub
 public:
     void swig_connect_director(JNIEnv *jenv, jobject jself, jclass jcls, bool swig_mem_own, bool weak_global);
     SwigDirector_NativePublisherListener(JNIEnv *jenv);
-    virtual void onWriterMatched(MatchingStatus status, long guidHigh, long guidLow);
+    virtual void onWriterMatched(MatchingStatus status, int64_t guidHigh, int64_t guidLow);
     virtual ~SwigDirector_NativePublisherListener();
 public:
     bool swig_overrides(int n) {

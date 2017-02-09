@@ -17,7 +17,7 @@ using namespace eprosima::fastrtps::rtps;
 class NativePublisherListener
 {
 public:
-    virtual void onWriterMatched(MatchingStatus status, long guidHigh, long guidLow) {};
+    virtual void onWriterMatched(MatchingStatus status, int64_t guidHigh, int64_t guidLow) {};
     virtual ~NativePublisherListener() {};
 };
 

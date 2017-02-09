@@ -1,4 +1,5 @@
 #include "nativeparticipantimpl.h"
+#include <fastrtps/log/Log.h>
 
 NativeParticipantImpl::NativeParticipantImpl(RTPSParticipantAttributes& rtps, NativeParticipantListener* listener) throw(FastRTPSException) :
     listener(listener),
@@ -11,7 +12,11 @@ NativeParticipantImpl::NativeParticipantImpl(RTPSParticipantAttributes& rtps, Na
     {
         throw FastRTPSException("Problem creating RTPSParticipant");
     }
+
+    std::cout << "Part GUID " << part->getGuid() << std::endl;
+    logInfo(PARTICIPANT,"Guid: " << part->getGuid());
     CommonFunctions::guidcpy(part->getGuid(), &guid);
+
 
 }
 
@@ -39,6 +44,7 @@ void NativeParticipantImpl::MyRTPSParticipantListener::onRTPSParticipantDiscover
 {
     if(this->mp_participantimpl->listener!=nullptr)
     {
+        logInfo(PARTICIPANT,"Remote participant Guid: " << rtpsinfo.m_guid);
         GuidUnion retGuid;
         CommonFunctions::guidcpy(rtpsinfo.m_guid, &retGuid);
 
