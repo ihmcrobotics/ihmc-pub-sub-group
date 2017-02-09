@@ -7,6 +7,7 @@ import us.ihmc.rtps.Domain;
 import us.ihmc.rtps.TopicDataType;
 import us.ihmc.rtps.attributes.ParticipantAttributes;
 import us.ihmc.rtps.attributes.PublisherAttributes;
+import us.ihmc.rtps.common.LogLevel;
 import us.ihmc.rtps.participant.Participant;
 import us.ihmc.rtps.participant.ParticipantListener;
 import us.ihmc.rtps.publisher.Publisher;
@@ -133,8 +134,7 @@ public class FastRTPSDomain implements Domain
    @Override
    public synchronized void stopAll()
    {
-      // TODO Auto-generated method stub
-
+      
    }
 
    @Override
@@ -147,6 +147,12 @@ public class FastRTPSDomain implements Domain
    public ParticipantAttributes<?> createParticipantAttributes()
    {
       return new FastRTPSParticipantAttributes();
+   }
+
+   @Override
+   public void setLogLevel(LogLevel level)
+   {
+      us.ihmc.rtps.impl.fastRTPS.LogLevel.setLogLevel(level.getLevel());
    }
 
 }

@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import us.ihmc.rtps.attributes.ParticipantAttributes;
 import us.ihmc.rtps.attributes.PublisherAttributes;
+import us.ihmc.rtps.common.LogLevel;
 import us.ihmc.rtps.participant.Participant;
 import us.ihmc.rtps.participant.ParticipantListener;
 import us.ihmc.rtps.publisher.Publisher;
@@ -20,11 +21,21 @@ import us.ihmc.rtps.subscriber.Subscriber;
 public interface Domain
 {
    /**
+    * Set the log level of the underlying implementation. 
+    * 
+    * The log is implementation specific.
+    * 
+    * @param level LogLevel to log at
+    * 
+    */
+   public void setLogLevel(LogLevel level);
+   
+   /**
     * Create a Participant.
     * 
     * This method may allocate memory and is thread-safe
     * 
-    * @param att Participant Attributes. Implementation specific. Not null.
+    * @param att Participant Attributes. Implementation specific specific participant attributes, see {@link #createParticipantAttributes() createParticipantAttributes}.
     * @param participantListener. Listener for newly discovered participants. Can be null
     * 
     * @return Participant handle
@@ -34,6 +45,20 @@ public interface Domain
     */
    public Participant createParticipant(ParticipantAttributes<?> att, ParticipantListener participantListener) throws IOException;
 
+   /**
+    * Create a Publisher in a Participant.
+    * 
+    * This method may allocate memory and is thread-safe
+    * 
+    * @param participant where you want to create the publisher
+    * @param publisherAttributes Implementation specific publisher attributes, see {@link #createPublisherAttributes() createPublisherAttributes()}
+    * @param listener Listener for publisher status. Can be null
+    * 
+    * @return Publisher handler
+    * 
+    * @throws IOException If the publisher cannot be made
+    * @throws IllegalArgumentException If the attributes are invalid for this publisher
+    */
    public Publisher createPublisher(Participant participant, PublisherAttributes<?,?,?> publisherAttributes, PublisherListener listener) throws IOException, IllegalArgumentException;
    
    public Subscriber createSubscriber(Participant participant) throws IOException;

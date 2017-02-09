@@ -40,6 +40,10 @@ public class ByteArrayTopicDataType implements TopicDataType<byte[]>
    @Override
    public void deserialize(SerializedPayload serializedPayload, byte[] data) throws IOException
    {
+      if(serializedPayload.getLength() > data.length)
+      {
+         throw new IOException("Serialized payload is larger than target buffer");
+      }
       serializedPayload.getData().get(data, 0, serializedPayload.getLength());
    }
 
