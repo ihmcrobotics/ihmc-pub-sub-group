@@ -11,12 +11,12 @@
 #ifndef SWIG_FastRTPS_WRAP_H_
 #define SWIG_FastRTPS_WRAP_H_
 
-class SwigDirector_NativeParticipantListener : public NativeParticipantListener, public Swig::Director {
+class SwigDirector_NativeParticipantListener : public us::ihmc::rtps::impl::fastRTPS::NativeParticipantListener, public Swig::Director {
 
 public:
     void swig_connect_director(JNIEnv *jenv, jobject jself, jclass jcls, bool swig_mem_own, bool weak_global);
     SwigDirector_NativeParticipantListener(JNIEnv *jenv);
-    virtual void onParticipantDiscovery(int64_t infoPtr, int64_t guidHigh, int64_t guidLow, DISCOVERY_STATUS status);
+    virtual void onParticipantDiscovery(int64_t infoPtr, int64_t guidHigh, int64_t guidLow, eprosima::fastrtps::rtps::DISCOVERY_STATUS status);
     virtual ~SwigDirector_NativeParticipantListener();
 public:
     bool swig_overrides(int n) {
@@ -26,12 +26,12 @@ protected:
     Swig::BoolArray<1> swig_override;
 };
 
-class SwigDirector_NativePublisherListener : public NativePublisherListener, public Swig::Director {
+class SwigDirector_NativePublisherListener : public us::ihmc::rtps::impl::fastRTPS::NativePublisherListener, public Swig::Director {
 
 public:
     void swig_connect_director(JNIEnv *jenv, jobject jself, jclass jcls, bool swig_mem_own, bool weak_global);
     SwigDirector_NativePublisherListener(JNIEnv *jenv);
-    virtual void onWriterMatched(MatchingStatus status, int64_t guidHigh, int64_t guidLow);
+    virtual void onWriterMatched(eprosima::fastrtps::rtps::MatchingStatus status, int64_t guidHigh, int64_t guidLow);
     virtual ~SwigDirector_NativePublisherListener();
 public:
     bool swig_overrides(int n) {
