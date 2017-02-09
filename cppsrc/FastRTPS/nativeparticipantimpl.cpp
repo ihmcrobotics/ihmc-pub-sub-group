@@ -1,5 +1,6 @@
 #include "nativeparticipantimpl.h"
 #include <fastrtps/log/Log.h>
+using namespace us::ihmc::rtps::impl::fastRTPS;
 
 NativeParticipantImpl::NativeParticipantImpl(RTPSParticipantAttributes& rtps, NativeParticipantListener* listener) throw(FastRTPSException) :
     listener(listener),

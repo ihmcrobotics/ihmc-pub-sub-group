@@ -27,9 +27,9 @@ public class PublisherExample
       public void onParticipantDiscovery(Participant participant, ParticipantDiscoveryInfo info)
       {
          System.out.println("New participant discovered");
-         System.out.println(info.getStatus());
-         System.out.println(info.getGuid().toString());
-         System.out.println(info.getName());
+         System.out.println("Status: " + info.getStatus());
+         System.out.println("Guid: " + info.getGuid().toString());
+         System.out.println("Name: " + info.getName());
       }
 
    }
@@ -41,8 +41,8 @@ public class PublisherExample
       public void onPublicationMatched(Publisher publisher, MatchingInfo info)
       {
          System.out.println("New publication matched");
-         System.out.println(info.getStatus());
-         System.out.println(info.getGuid().toString());
+         System.out.println("Status: " + info.getStatus());
+         System.out.println("Guid: " + info.getGuid().toString());
       }
       
    }
@@ -51,7 +51,7 @@ public class PublisherExample
    {
       Domain domain = DomainFactory.getDomain(PubSubImplementation.FAST_RTPS);
       
-      domain.setLogLevel(LogLevel.INFO);
+      domain.setLogLevel(LogLevel.WARNING);
 
       ParticipantAttributes<?> attributes = domain.createParticipantAttributes();
       attributes.setDomainId(1);
@@ -59,7 +59,6 @@ public class PublisherExample
       attributes.setName("ChatApp");
 
       Participant participant = domain.createParticipant(attributes, new ParticipantListenerImpl());
-      System.out.println("Participant GUID: " + participant.getGuid());
       
       ByteArrayTopicDataType dataType = new ByteArrayTopicDataType(500, "Chat::ChatMessage", ByteOrder.nativeOrder());
       domain.registerType(participant, dataType);
@@ -70,7 +69,6 @@ public class PublisherExample
       publisherAttributes.getTopic().setTopicName("ChatBox");
       
       Publisher publisher = domain.createPublisher(participant, publisherAttributes, new PublisherListenerImpl());
-      System.out.println("Publisher GUID: " + publisher.getGuid());
       
       
       byte[] javaHelloWorld = { 0x05, 0x00, 0x00, 0x00, 0x4a, 0x61, 0x76, 0x61, 0x00, 0x00, 0x00, 0x00, 0x0c, 0x00, 0x00, 0x00, 0x48, 0x65, 0x6c, 0x6c, 0x6f, 0x20, 0x57, 0x6f, 0x72, 0x6c, 0x64, 0x00 };
@@ -80,15 +78,11 @@ public class PublisherExample
       {
          try
          {
-            Thread.sleep(1000);
             publisher.write(javaHelloWorld);
-
-
+            Thread.sleep(1000);
          }
          catch (InterruptedException e)
          {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
          }
       }
    }

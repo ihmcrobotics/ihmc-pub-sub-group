@@ -3,18 +3,24 @@
 #include <exception>
 #include <string>
 
-class FastRTPSException : std::exception
-{
-public:
-    FastRTPSException(std::string e) : error(e) {}
-
-
-    const char * what() const throw()
+namespace us{
+namespace ihmc{
+namespace rtps{
+namespace impl{
+namespace fastRTPS{
+    class FastRTPSException : std::exception
     {
-        return error.c_str();
-    }
-private:
-    std::string error;
-};
+    public:
+        FastRTPSException(std::string e) : error(e) {}
+
+
+        const char * what() const throw()
+        {
+            return error.c_str();
+        }
+    private:
+        std::string error;
+    };
+}}}}}
 
 #endif // FASTRTPSEXCEPTION_H

@@ -3,7 +3,7 @@
 #include <fastrtps/log/Log.h>
 
 using namespace eprosima::fastrtps;
-
+using namespace us::ihmc::rtps::impl::fastRTPS;
 void LogLevel::setLogLevel(int level)
 {
     switch(level)
