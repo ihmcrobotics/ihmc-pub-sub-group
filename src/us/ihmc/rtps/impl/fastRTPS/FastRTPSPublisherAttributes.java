@@ -37,7 +37,6 @@ public class FastRTPSPublisherAttributes extends PublisherAttributes<WriterQos, 
       return descriptor;
    }
    
-   @Override
    public void delete()
    {
       this.qos.delete();
@@ -45,6 +44,12 @@ public class FastRTPSPublisherAttributes extends PublisherAttributes<WriterQos, 
       this.unicastLocatorList.delete();
       this.multicastLocatorList.delete();
       this.outLocatorList.delete();
+   }
+   
+   @Override
+   public void finalize()
+   {
+      delete();
    }
    
 }

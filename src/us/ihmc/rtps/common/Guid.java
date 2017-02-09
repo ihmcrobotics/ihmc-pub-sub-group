@@ -1,6 +1,8 @@
 package us.ihmc.rtps.common;
 
 import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.util.Arrays;
 
 /**
  * Structure GUID_t, entity identifier, unique in DDS-RTPS Domain.
@@ -36,6 +38,40 @@ public class Guid
             sb.append(String.format("%02x", b));
          return sb.toString();
       }
+
+      @Override
+      public int hashCode()
+      {
+         final int prime = 31;
+         int result = 1;
+         result = prime * result + getOuterType().hashCode();
+         result = prime * result + Arrays.hashCode(value);
+         return result;
+      }
+
+      @Override
+      public boolean equals(Object obj)
+      {
+         if (this == obj)
+            return true;
+         if (obj == null)
+            return false;
+         if (getClass() != obj.getClass())
+            return false;
+         GuidPrefix other = (GuidPrefix) obj;
+         if (!getOuterType().equals(other.getOuterType()))
+            return false;
+         if (!Arrays.equals(value, other.value))
+            return false;
+         return true;
+      }
+
+      private Guid getOuterType()
+      {
+         return Guid.this;
+      }
+      
+      
    }
    
    public class Entity
@@ -69,6 +105,12 @@ public class Guid
    private final GuidPrefix guidPrefix = new GuidPrefix();
    private final Entity entity = new Entity();
    
+   private final ByteBuffer conversionBuffer = ByteBuffer.allocate(16);
+   
+   public Guid()
+   {
+      conversionBuffer.order(ByteOrder.nativeOrder());
+   }
    
    public GuidPrefix getGuidPrefix()
    {
@@ -81,11 +123,14 @@ public class Guid
       return entity;
    }
 
-
-   public void fromByteBuffer(ByteBuffer buffer)
+   public void fromPrimitives(long high, long low)
    {
-      buffer.get(guidPrefix.value, 0, Guid.GuidPrefix.size);
-      buffer.get(entity.value, 0, Guid.Entity.size);
+      conversionBuffer.clear();
+      conversionBuffer.putLong(high);
+      conversionBuffer.putLong(low);
+      conversionBuffer.flip();
+      conversionBuffer.get(guidPrefix.value, 0, Guid.GuidPrefix.size);
+      conversionBuffer.get(entity.value, 0, Guid.Entity.size);
    }
    
    @Override

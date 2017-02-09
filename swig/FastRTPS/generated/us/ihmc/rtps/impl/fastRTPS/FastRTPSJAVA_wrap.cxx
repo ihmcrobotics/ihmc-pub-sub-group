@@ -659,7 +659,7 @@ namespace Swig {
 namespace Swig {
   namespace {
     jclass jclass_FastRTPSJNI = NULL;
-    jmethodID director_method_ids[1];
+    jmethodID director_method_ids[2];
   }
 }
 
@@ -745,22 +745,26 @@ static void octetArray_setitem(unsigned char *ary, int index, unsigned char valu
 SwigDirector_NativeParticipantListener::SwigDirector_NativeParticipantListener(JNIEnv *jenv) : NativeParticipantListener(), Swig::Director(jenv) {
 }
 
-void SwigDirector_NativeParticipantListener::onParticipantDiscovery(int64_t infoPtr, DISCOVERY_STATUS status) {
+void SwigDirector_NativeParticipantListener::onParticipantDiscovery(int64_t infoPtr, int64_t guidHigh, int64_t guidLow, DISCOVERY_STATUS status) {
   JNIEnvWrapper swigjnienv(this) ;
   JNIEnv * jenv = swigjnienv.getJNIEnv() ;
   jobject swigjobj = (jobject) NULL ;
   jlong jinfoPtr  ;
+  jlong jguidHigh  ;
+  jlong jguidLow  ;
   jint jstatus  ;
   
   if (!swig_override[0]) {
-    NativeParticipantListener::onParticipantDiscovery(infoPtr,status);
+    NativeParticipantListener::onParticipantDiscovery(infoPtr,guidHigh,guidLow,status);
     return;
   }
   swigjobj = swig_get_self(jenv);
   if (swigjobj && jenv->IsSameObject(swigjobj, NULL) == JNI_FALSE) {
     jinfoPtr = (jlong) infoPtr;
+    jguidHigh = (jlong) guidHigh;
+    jguidLow = (jlong) guidLow;
     jstatus = (jint) status;
-    jenv->CallStaticVoidMethod(Swig::jclass_FastRTPSJNI, Swig::director_method_ids[0], swigjobj, jinfoPtr, jstatus);
+    jenv->CallStaticVoidMethod(Swig::jclass_FastRTPSJNI, Swig::director_method_ids[0], swigjobj, jinfoPtr, jguidHigh, jguidLow, jstatus);
     jthrowable swigerror = jenv->ExceptionOccurred();
     if (swigerror) {
       jenv->ExceptionClear();
@@ -773,6 +777,11 @@ void SwigDirector_NativeParticipantListener::onParticipantDiscovery(int64_t info
   if (swigjobj) jenv->DeleteLocalRef(swigjobj);
 }
 
+SwigDirector_NativeParticipantListener::~SwigDirector_NativeParticipantListener() {
+  swig_disconnect_director_self("swigDirectorDisconnect");
+}
+
+
 void SwigDirector_NativeParticipantListener::swig_connect_director(JNIEnv *jenv, jobject jself, jclass jcls, bool swig_mem_own, bool weak_global) {
   static struct {
     const char *mname;
@@ -780,7 +789,7 @@ void SwigDirector_NativeParticipantListener::swig_connect_director(JNIEnv *jenv,
     jmethodID base_methid;
   } methods[] = {
     {
-      "onParticipantDiscovery", "(JLus/ihmc/rtps/impl/fastRTPS/DISCOVERY_STATUS;)V", NULL 
+      "onParticipantDiscovery", "(JJJLus/ihmc/rtps/impl/fastRTPS/DISCOVERY_STATUS;)V", NULL 
     }
   };
   
@@ -789,6 +798,80 @@ void SwigDirector_NativeParticipantListener::swig_connect_director(JNIEnv *jenv,
   if (swig_set_self(jenv, jself, swig_mem_own, weak_global)) {
     if (!baseclass) {
       baseclass = jenv->FindClass("us/ihmc/rtps/impl/fastRTPS/NativeParticipantListener");
+      if (!baseclass) return;
+      baseclass = (jclass) jenv->NewGlobalRef(baseclass);
+    }
+    bool derived = (jenv->IsSameObject(baseclass, jcls) ? false : true);
+    for (int i = 0; i < 1; ++i) {
+      if (!methods[i].base_methid) {
+        methods[i].base_methid = jenv->GetMethodID(baseclass, methods[i].mname, methods[i].mdesc);
+        if (!methods[i].base_methid) return;
+      }
+      swig_override[i] = false;
+      if (derived) {
+        jmethodID methid = jenv->GetMethodID(jcls, methods[i].mname, methods[i].mdesc);
+        swig_override[i] = (methid != methods[i].base_methid);
+        jenv->ExceptionClear();
+      }
+    }
+  }
+}
+
+
+SwigDirector_NativePublisherListener::SwigDirector_NativePublisherListener(JNIEnv *jenv) : NativePublisherListener(), Swig::Director(jenv) {
+}
+
+void SwigDirector_NativePublisherListener::onWriterMatched(MatchingStatus status, long guidHigh, long guidLow) {
+  JNIEnvWrapper swigjnienv(this) ;
+  JNIEnv * jenv = swigjnienv.getJNIEnv() ;
+  jobject swigjobj = (jobject) NULL ;
+  jint jstatus  ;
+  jint jguidHigh  ;
+  jint jguidLow  ;
+  
+  if (!swig_override[0]) {
+    NativePublisherListener::onWriterMatched(status,guidHigh,guidLow);
+    return;
+  }
+  swigjobj = swig_get_self(jenv);
+  if (swigjobj && jenv->IsSameObject(swigjobj, NULL) == JNI_FALSE) {
+    jstatus = (jint) status;
+    jguidHigh = (jint) guidHigh;
+    jguidLow = (jint) guidLow;
+    jenv->CallStaticVoidMethod(Swig::jclass_FastRTPSJNI, Swig::director_method_ids[1], swigjobj, jstatus, jguidHigh, jguidLow);
+    jthrowable swigerror = jenv->ExceptionOccurred();
+    if (swigerror) {
+      jenv->ExceptionClear();
+      throw Swig::DirectorException(jenv, swigerror);
+    }
+    
+  } else {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null upcall object in NativePublisherListener::onWriterMatched ");
+  }
+  if (swigjobj) jenv->DeleteLocalRef(swigjobj);
+}
+
+SwigDirector_NativePublisherListener::~SwigDirector_NativePublisherListener() {
+  swig_disconnect_director_self("swigDirectorDisconnect");
+}
+
+
+void SwigDirector_NativePublisherListener::swig_connect_director(JNIEnv *jenv, jobject jself, jclass jcls, bool swig_mem_own, bool weak_global) {
+  static struct {
+    const char *mname;
+    const char *mdesc;
+    jmethodID base_methid;
+  } methods[] = {
+    {
+      "onWriterMatched", "(Lus/ihmc/rtps/impl/fastRTPS/MatchingStatus;II)V", NULL 
+    }
+  };
+  
+  static jclass baseclass = 0 ;
+  
+  if (swig_set_self(jenv, jself, swig_mem_own, weak_global)) {
+    if (!baseclass) {
+      baseclass = jenv->FindClass("us/ihmc/rtps/impl/fastRTPS/NativePublisherListener");
       if (!baseclass) return;
       baseclass = (jclass) jenv->NewGlobalRef(baseclass);
     }
@@ -1448,7 +1531,7 @@ SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_new_1Locato
 }
 
 
-SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_new_1Locator_1t_1_1SWIG_13(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_new_1Locator_1t_1_1SWIG_12(JNIEnv *jenv, jclass jcls, jlong jarg1) {
   jlong jresult = 0 ;
   uint32_t arg1 ;
   eprosima::fastrtps::rtps::Locator_t *result = 0 ;
@@ -1666,10 +1749,10 @@ SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_new_1Locato
   (void)jarg1_;
   arg1 = *(eprosima::fastrtps::rtps::LocatorList_t **)&jarg1;
   if (!arg1) {
-    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "eprosima::fastrtps::rtps::LocatorList_t const & reference is null");
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "eprosima::fastrtps::rtps::LocatorList_t && reference is null");
     return 0;
   } 
-  result = (eprosima::fastrtps::rtps::LocatorList_t *)new eprosima::fastrtps::rtps::LocatorList_t((eprosima::fastrtps::rtps::LocatorList_t const &)*arg1);
+  result = (eprosima::fastrtps::rtps::LocatorList_t *)new eprosima::fastrtps::rtps::LocatorList_t((eprosima::fastrtps::rtps::LocatorList_t &&)*arg1);
   *(eprosima::fastrtps::rtps::LocatorList_t **)&jresult = result; 
   return jresult;
 }
@@ -3038,58 +3121,6 @@ SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_delete_1Thro
   (void)jenv;
   (void)jcls;
   arg1 = *(eprosima::fastrtps::rtps::ThroughputControllerDescriptor **)&jarg1; 
-  delete arg1;
-}
-
-
-SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_new_1ThroughputController_1_1SWIG_10(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2) {
-  jlong jresult = 0 ;
-  eprosima::fastrtps::rtps::ThroughputControllerDescriptor *arg1 = 0 ;
-  eprosima::fastrtps::rtps::RTPSWriter *arg2 = (eprosima::fastrtps::rtps::RTPSWriter *) 0 ;
-  eprosima::fastrtps::rtps::ThroughputController *result = 0 ;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  arg1 = *(eprosima::fastrtps::rtps::ThroughputControllerDescriptor **)&jarg1;
-  if (!arg1) {
-    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "eprosima::fastrtps::rtps::ThroughputControllerDescriptor const & reference is null");
-    return 0;
-  } 
-  arg2 = *(eprosima::fastrtps::rtps::RTPSWriter **)&jarg2; 
-  result = (eprosima::fastrtps::rtps::ThroughputController *)new eprosima::fastrtps::rtps::ThroughputController((eprosima::fastrtps::rtps::ThroughputControllerDescriptor const &)*arg1,(eprosima::fastrtps::rtps::RTPSWriter const *)arg2);
-  *(eprosima::fastrtps::rtps::ThroughputController **)&jresult = result; 
-  return jresult;
-}
-
-
-SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_new_1ThroughputController_1_1SWIG_11(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2) {
-  jlong jresult = 0 ;
-  eprosima::fastrtps::rtps::ThroughputControllerDescriptor *arg1 = 0 ;
-  eprosima::fastrtps::rtps::RTPSParticipantImpl *arg2 = (eprosima::fastrtps::rtps::RTPSParticipantImpl *) 0 ;
-  eprosima::fastrtps::rtps::ThroughputController *result = 0 ;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  arg1 = *(eprosima::fastrtps::rtps::ThroughputControllerDescriptor **)&jarg1;
-  if (!arg1) {
-    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "eprosima::fastrtps::rtps::ThroughputControllerDescriptor const & reference is null");
-    return 0;
-  } 
-  arg2 = *(eprosima::fastrtps::rtps::RTPSParticipantImpl **)&jarg2; 
-  result = (eprosima::fastrtps::rtps::ThroughputController *)new eprosima::fastrtps::rtps::ThroughputController((eprosima::fastrtps::rtps::ThroughputControllerDescriptor const &)*arg1,(eprosima::fastrtps::rtps::RTPSParticipantImpl const *)arg2);
-  *(eprosima::fastrtps::rtps::ThroughputController **)&jresult = result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_delete_1ThroughputController(JNIEnv *jenv, jclass jcls, jlong jarg1) {
-  eprosima::fastrtps::rtps::ThroughputController *arg1 = (eprosima::fastrtps::rtps::ThroughputController *) 0 ;
-  
-  (void)jenv;
-  (void)jcls;
-  arg1 = *(eprosima::fastrtps::rtps::ThroughputController **)&jarg1; 
   delete arg1;
 }
 
@@ -6421,40 +6452,6 @@ SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_RemoteReade
 }
 
 
-SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_RemoteReaderAttributes_1guid_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2) {
-  eprosima::fastrtps::rtps::RemoteReaderAttributes *arg1 = (eprosima::fastrtps::rtps::RemoteReaderAttributes *) 0 ;
-  GUID_t arg2 ;
-  GUID_t *argp2 ;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  arg1 = *(eprosima::fastrtps::rtps::RemoteReaderAttributes **)&jarg1; 
-  argp2 = *(GUID_t **)&jarg2; 
-  if (!argp2) {
-    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "Attempt to dereference null GUID_t");
-    return ;
-  }
-  arg2 = *argp2; 
-  if (arg1) (arg1)->guid = arg2;
-}
-
-
-SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_RemoteReaderAttributes_1guid_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
-  jlong jresult = 0 ;
-  eprosima::fastrtps::rtps::RemoteReaderAttributes *arg1 = (eprosima::fastrtps::rtps::RemoteReaderAttributes *) 0 ;
-  GUID_t result;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  arg1 = *(eprosima::fastrtps::rtps::RemoteReaderAttributes **)&jarg1; 
-  result =  ((arg1)->guid);
-  *(GUID_t **)&jresult = new GUID_t((const GUID_t &)result); 
-  return jresult;
-}
-
-
 SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_RemoteReaderAttributes_1expectsInlineQos_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jboolean jarg2) {
   eprosima::fastrtps::rtps::RemoteReaderAttributes *arg1 = (eprosima::fastrtps::rtps::RemoteReaderAttributes *) 0 ;
   bool arg2 ;
@@ -6792,33 +6789,41 @@ SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_PublisherAtt
 }
 
 
-SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_NativeParticipantListener_1onParticipantDiscovery(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jint jarg3) {
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_NativeParticipantListener_1onParticipantDiscovery(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jlong jarg3, jlong jarg4, jint jarg5) {
   NativeParticipantListener *arg1 = (NativeParticipantListener *) 0 ;
   int64_t arg2 ;
-  DISCOVERY_STATUS arg3 ;
+  int64_t arg3 ;
+  int64_t arg4 ;
+  DISCOVERY_STATUS arg5 ;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
   arg1 = *(NativeParticipantListener **)&jarg1; 
   arg2 = (int64_t)jarg2; 
-  arg3 = (DISCOVERY_STATUS)jarg3; 
-  (arg1)->onParticipantDiscovery(arg2,arg3);
+  arg3 = (int64_t)jarg3; 
+  arg4 = (int64_t)jarg4; 
+  arg5 = (DISCOVERY_STATUS)jarg5; 
+  (arg1)->onParticipantDiscovery(arg2,arg3,arg4,arg5);
 }
 
 
-SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_NativeParticipantListener_1onParticipantDiscoverySwigExplicitNativeParticipantListener(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jint jarg3) {
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_NativeParticipantListener_1onParticipantDiscoverySwigExplicitNativeParticipantListener(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jlong jarg3, jlong jarg4, jint jarg5) {
   NativeParticipantListener *arg1 = (NativeParticipantListener *) 0 ;
   int64_t arg2 ;
-  DISCOVERY_STATUS arg3 ;
+  int64_t arg3 ;
+  int64_t arg4 ;
+  DISCOVERY_STATUS arg5 ;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
   arg1 = *(NativeParticipantListener **)&jarg1; 
   arg2 = (int64_t)jarg2; 
-  arg3 = (DISCOVERY_STATUS)jarg3; 
-  (arg1)->NativeParticipantListener::onParticipantDiscovery(arg2,arg3);
+  arg3 = (int64_t)jarg3; 
+  arg4 = (int64_t)jarg4; 
+  arg5 = (DISCOVERY_STATUS)jarg5; 
+  (arg1)->NativeParticipantListener::onParticipantDiscovery(arg2,arg3,arg4,arg5);
 }
 
 
@@ -6839,24 +6844,13 @@ SWIGEXPORT jstring JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_NativePar
 }
 
 
-SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_NativeParticipantListener_1getGuid(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg3) {
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_delete_1NativeParticipantListener(JNIEnv *jenv, jclass jcls, jlong jarg1) {
   NativeParticipantListener *arg1 = (NativeParticipantListener *) 0 ;
-  int64_t arg2 ;
-  octet *arg3 = (octet *) 0 ;
   
   (void)jenv;
   (void)jcls;
-  (void)jarg1_;
   arg1 = *(NativeParticipantListener **)&jarg1; 
-  arg2 = (int64_t)jarg2; 
-  {
-    arg3 = (unsigned char *) jenv->GetDirectBufferAddress(jarg3); 
-    if (arg3 == NULL) {
-      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, "Unable to get address of a java.nio.ByteBuffer direct byte buffer. Buffer must be a direct buffer and not a non-direct buffer.");  
-    }  
-  }
-  (arg1)->getGuid(arg2,arg3);
-  
+  delete arg1;
 }
 
 
@@ -6869,16 +6863,6 @@ SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_new_1Native
   result = (NativeParticipantListener *)new SwigDirector_NativeParticipantListener(jenv);
   *(NativeParticipantListener **)&jresult = result; 
   return jresult;
-}
-
-
-SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_delete_1NativeParticipantListener(JNIEnv *jenv, jclass jcls, jlong jarg1) {
-  NativeParticipantListener *arg1 = (NativeParticipantListener *) 0 ;
-  
-  (void)jenv;
-  (void)jcls;
-  arg1 = *(NativeParticipantListener **)&jarg1; 
-  delete arg1;
 }
 
 
@@ -6935,22 +6919,33 @@ SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_new_1Native
 }
 
 
-SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_NativeParticipantImpl_1getGuid(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jobject jarg2) {
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_NativeParticipantImpl_1getGuidLow(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
   NativeParticipantImpl *arg1 = (NativeParticipantImpl *) 0 ;
-  octet *arg2 = (octet *) 0 ;
+  int64_t result;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
   arg1 = *(NativeParticipantImpl **)&jarg1; 
-  {
-    arg2 = (unsigned char *) jenv->GetDirectBufferAddress(jarg2); 
-    if (arg2 == NULL) {
-      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, "Unable to get address of a java.nio.ByteBuffer direct byte buffer. Buffer must be a direct buffer and not a non-direct buffer.");  
-    }  
-  }
-  (arg1)->getGuid(arg2);
+  result = (int64_t)(arg1)->getGuidLow();
+  jresult = (jlong)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_NativeParticipantImpl_1getGuidHigh(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  NativeParticipantImpl *arg1 = (NativeParticipantImpl *) 0 ;
+  int64_t result;
   
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(NativeParticipantImpl **)&jarg1; 
+  result = (int64_t)(arg1)->getGuidHigh();
+  jresult = (jlong)result; 
+  return jresult;
 }
 
 
@@ -6964,7 +6959,83 @@ SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_delete_1Nati
 }
 
 
-SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_new_1NativePublisherImpl(JNIEnv *jenv, jclass jcls, jint jarg1, jint jarg2, jint jarg3, jint jarg4, jlong jarg5, jobject jarg5_, jlong jarg6, jobject jarg6_, jlong jarg7, jobject jarg7_, jlong jarg8, jobject jarg8_, jlong jarg9, jobject jarg9_, jlong jarg10, jobject jarg10_, jlong jarg11, jobject jarg11_, jlong jarg12, jobject jarg12_) {
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_NativePublisherListener_1onWriterMatched(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2, jint jarg3, jint jarg4) {
+  NativePublisherListener *arg1 = (NativePublisherListener *) 0 ;
+  MatchingStatus arg2 ;
+  long arg3 ;
+  long arg4 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(NativePublisherListener **)&jarg1; 
+  arg2 = (MatchingStatus)jarg2; 
+  arg3 = (long)jarg3; 
+  arg4 = (long)jarg4; 
+  (arg1)->onWriterMatched(arg2,arg3,arg4);
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_NativePublisherListener_1onWriterMatchedSwigExplicitNativePublisherListener(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2, jint jarg3, jint jarg4) {
+  NativePublisherListener *arg1 = (NativePublisherListener *) 0 ;
+  MatchingStatus arg2 ;
+  long arg3 ;
+  long arg4 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(NativePublisherListener **)&jarg1; 
+  arg2 = (MatchingStatus)jarg2; 
+  arg3 = (long)jarg3; 
+  arg4 = (long)jarg4; 
+  (arg1)->NativePublisherListener::onWriterMatched(arg2,arg3,arg4);
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_delete_1NativePublisherListener(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+  NativePublisherListener *arg1 = (NativePublisherListener *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = *(NativePublisherListener **)&jarg1; 
+  delete arg1;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_new_1NativePublisherListener(JNIEnv *jenv, jclass jcls) {
+  jlong jresult = 0 ;
+  NativePublisherListener *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  result = (NativePublisherListener *)new SwigDirector_NativePublisherListener(jenv);
+  *(NativePublisherListener **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_NativePublisherListener_1director_1connect(JNIEnv *jenv, jclass jcls, jobject jself, jlong objarg, jboolean jswig_mem_own, jboolean jweak_global) {
+  NativePublisherListener *obj = *((NativePublisherListener **)&objarg);
+  (void)jcls;
+  SwigDirector_NativePublisherListener *director = dynamic_cast<SwigDirector_NativePublisherListener *>(obj);
+  if (director) {
+    director->swig_connect_director(jenv, jself, jenv->GetObjectClass(jself), (jswig_mem_own == JNI_TRUE), (jweak_global == JNI_TRUE));
+  }
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_NativePublisherListener_1change_1ownership(JNIEnv *jenv, jclass jcls, jobject jself, jlong objarg, jboolean jtake_or_release) {
+  NativePublisherListener *obj = *((NativePublisherListener **)&objarg);
+  SwigDirector_NativePublisherListener *director = dynamic_cast<SwigDirector_NativePublisherListener *>(obj);
+  (void)jcls;
+  if (director) {
+    director->swig_java_change_ownership(jenv, jself, jtake_or_release ? true : false);
+  }
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_new_1NativePublisherImpl(JNIEnv *jenv, jclass jcls, jint jarg1, jint jarg2, jint jarg3, jint jarg4, jlong jarg5, jobject jarg5_, jlong jarg6, jobject jarg6_, jlong jarg7, jobject jarg7_, jlong jarg8, jobject jarg8_, jlong jarg9, jobject jarg9_, jlong jarg10, jobject jarg10_, jlong jarg11, jobject jarg11_, jlong jarg12, jobject jarg12_, jlong jarg13, jobject jarg13_) {
   jlong jresult = 0 ;
   int32_t arg1 ;
   int32_t arg2 ;
@@ -6978,6 +7049,7 @@ SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_new_1Native
   eprosima::fastrtps::rtps::LocatorList_t *arg10 = (eprosima::fastrtps::rtps::LocatorList_t *) 0 ;
   eprosima::fastrtps::rtps::ThroughputControllerDescriptor *arg11 = (eprosima::fastrtps::rtps::ThroughputControllerDescriptor *) 0 ;
   NativeParticipantImpl *arg12 = (NativeParticipantImpl *) 0 ;
+  NativePublisherListener *arg13 = (NativePublisherListener *) 0 ;
   NativePublisherImpl *result = 0 ;
   
   (void)jenv;
@@ -6990,6 +7062,7 @@ SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_new_1Native
   (void)jarg10_;
   (void)jarg11_;
   (void)jarg12_;
+  (void)jarg13_;
   arg1 = (int32_t)jarg1; 
   arg2 = (int32_t)jarg2; 
   arg3 = (int32_t)jarg3; 
@@ -7002,8 +7075,9 @@ SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_new_1Native
   arg10 = *(eprosima::fastrtps::rtps::LocatorList_t **)&jarg10; 
   arg11 = *(eprosima::fastrtps::rtps::ThroughputControllerDescriptor **)&jarg11; 
   arg12 = *(NativeParticipantImpl **)&jarg12; 
+  arg13 = *(NativePublisherListener **)&jarg13; 
   try {
-    result = (NativePublisherImpl *)new NativePublisherImpl(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10,arg11,arg12);
+    result = (NativePublisherImpl *)new NativePublisherImpl(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10,arg11,arg12,arg13);
   }
   catch(FastRTPSException &_e) {
     {
@@ -7019,25 +7093,29 @@ SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_new_1Native
 }
 
 
-SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_NativePublisherImpl_1create_1new_1change(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg3, jint jarg4, jshort jarg5, jobject jarg6) {
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_delete_1NativePublisherImpl(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+  NativePublisherImpl *arg1 = (NativePublisherImpl *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = *(NativePublisherImpl **)&jarg1; 
+  delete arg1;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_NativePublisherImpl_1create_1new_1change(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2, jobject jarg3, jint jarg4, jshort jarg5, jobject jarg6) {
   NativePublisherImpl *arg1 = (NativePublisherImpl *) 0 ;
   ChangeKind_t arg2 ;
   unsigned char *arg3 = (unsigned char *) 0 ;
   int32_t arg4 ;
   int16_t arg5 ;
   octet *arg6 = (octet *) 0 ;
-  ChangeKind_t *argp2 ;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
   arg1 = *(NativePublisherImpl **)&jarg1; 
-  argp2 = *(ChangeKind_t **)&jarg2; 
-  if (!argp2) {
-    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "Attempt to dereference null ChangeKind_t");
-    return ;
-  }
-  arg2 = *argp2; 
+  arg2 = (ChangeKind_t)jarg2; 
   {
     arg3 = (unsigned char *) jenv->GetDirectBufferAddress(jarg3); 
     if (arg3 == NULL) {
@@ -7069,36 +7147,6 @@ SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_NativePublis
 }
 
 
-SWIGEXPORT jint JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_NativePublisherImpl_1getTopicKind(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
-  jint jresult = 0 ;
-  NativePublisherImpl *arg1 = (NativePublisherImpl *) 0 ;
-  TopicKind_t result;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  arg1 = *(NativePublisherImpl **)&jarg1; 
-  result = (TopicKind_t)(arg1)->getTopicKind();
-  jresult = (jint)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_NativePublisherImpl_1getGuid(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
-  jlong jresult = 0 ;
-  NativePublisherImpl *arg1 = (NativePublisherImpl *) 0 ;
-  GUID_t *result = 0 ;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  arg1 = *(NativePublisherImpl **)&jarg1; 
-  result = (GUID_t *) &(arg1)->getGuid();
-  *(GUID_t **)&jresult = result; 
-  return jresult;
-}
-
-
 SWIGEXPORT jboolean JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_NativePublisherImpl_1clean_1history(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2) {
   jboolean jresult = 0 ;
   NativePublisherImpl *arg1 = (NativePublisherImpl *) 0 ;
@@ -7116,13 +7164,70 @@ SWIGEXPORT jboolean JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_NativePu
 }
 
 
-SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_delete_1NativePublisherImpl(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+SWIGEXPORT jint JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_NativePublisherImpl_1removeAllChange(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jint jresult = 0 ;
   NativePublisherImpl *arg1 = (NativePublisherImpl *) 0 ;
+  int32_t result;
   
   (void)jenv;
   (void)jcls;
+  (void)jarg1_;
   arg1 = *(NativePublisherImpl **)&jarg1; 
-  delete arg1;
+  result = (int32_t)(arg1)->removeAllChange();
+  jresult = (jint)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_NativePublisherImpl_1wait_1for_1all_1acked(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  jboolean jresult = 0 ;
+  NativePublisherImpl *arg1 = (NativePublisherImpl *) 0 ;
+  Time_t *arg2 = 0 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  arg1 = *(NativePublisherImpl **)&jarg1; 
+  arg2 = *(Time_t **)&jarg2;
+  if (!arg2) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "Time_t const & reference is null");
+    return 0;
+  } 
+  result = (bool)(arg1)->wait_for_all_acked((Time_t const &)*arg2);
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_NativePublisherImpl_1getGuidLow(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  NativePublisherImpl *arg1 = (NativePublisherImpl *) 0 ;
+  int64_t result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(NativePublisherImpl **)&jarg1; 
+  result = (int64_t)(arg1)->getGuidLow();
+  jresult = (jlong)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_NativePublisherImpl_1getGuidHigh(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  NativePublisherImpl *arg1 = (NativePublisherImpl *) 0 ;
+  int64_t result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(NativePublisherImpl **)&jarg1; 
+  result = (int64_t)(arg1)->getGuidHigh();
+  jresult = (jlong)result; 
+  return jresult;
 }
 
 
@@ -7292,9 +7397,12 @@ SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_swig_1module
   static struct {
     const char *method;
     const char *signature;
-  } methods[1] = {
+  } methods[2] = {
     {
-      "SwigDirector_NativeParticipantListener_onParticipantDiscovery", "(Lus/ihmc/rtps/impl/fastRTPS/NativeParticipantListener;JI)V" 
+      "SwigDirector_NativeParticipantListener_onParticipantDiscovery", "(Lus/ihmc/rtps/impl/fastRTPS/NativeParticipantListener;JJJI)V" 
+    },
+    {
+      "SwigDirector_NativePublisherListener_onWriterMatched", "(Lus/ihmc/rtps/impl/fastRTPS/NativePublisherListener;III)V" 
     }
   };
   Swig::jclass_FastRTPSJNI = (jclass) jenv->NewGlobalRef(jcls);

@@ -1,5 +1,4 @@
 #include "nativeparticipantimpl.h"
-#include "commonfunctions.h"
 
 NativeParticipantImpl::NativeParticipantImpl(RTPSParticipantAttributes& rtps, NativeParticipantListener* listener) throw(FastRTPSException) :
     listener(listener),
@@ -11,7 +10,7 @@ NativeParticipantImpl::NativeParticipantImpl(RTPSParticipantAttributes& rtps, Na
     {
         throw FastRTPSException("Problem creating RTPSParticipant");
     }
-    CommonFunctions::guidcpy(part->getGuid(), guid);
+    CommonFunctions::guidcpy(part->getGuid(), &guid);
 
 }
 
@@ -20,23 +19,30 @@ NativeParticipantImpl::~NativeParticipantImpl()
     RTPSDomain::removeRTPSParticipant(part);
 }
 
-void NativeParticipantImpl::getGuid(octet* ret)
+int64_t NativeParticipantImpl::getGuidLow()
 {
-    memcpy(ret, guid, GuidPrefix_t::size + EntityId_t::size);
+    return guid.primitive.low;
 }
 
+int64_t NativeParticipantImpl::getGuidHigh()
+{
+    return guid.primitive.high;
+}
+
+RTPSParticipant* NativeParticipantImpl::getParticipant()
+{
+    return part;
+}
 
 void NativeParticipantImpl::MyRTPSParticipantListener::onRTPSParticipantDiscovery(RTPSParticipant* part, RTPSParticipantDiscoveryInfo rtpsinfo)
 {
     if(this->mp_participantimpl->listener!=nullptr)
     {
-        this->mp_participantimpl->listener->onParticipantDiscovery((int64_t)&rtpsinfo, rtpsinfo.m_status);
-    }
-}
+        GuidUnion retGuid;
+        CommonFunctions::guidcpy(rtpsinfo.m_guid, &retGuid);
 
-void NativeParticipantListener::getGuid(int64_t infoPtr, octet* ret)
-{
-    CommonFunctions::guidcpy(((RTPSParticipantDiscoveryInfo*) infoPtr)->m_guid, ret);
+        this->mp_participantimpl->listener->onParticipantDiscovery((int64_t)&rtpsinfo, retGuid.primitive.high, retGuid.primitive.low, rtpsinfo.m_status);
+    }
 }
 
 

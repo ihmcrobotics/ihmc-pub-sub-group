@@ -29,7 +29,7 @@ public class PublisherAttributes<WriterQos_t, WriterTimes_t, LocatorList_t>
    protected final LocatorList_t unicastLocatorList;
    protected final LocatorList_t multicastLocatorList;
    protected final LocatorList_t outLocatorList;
-   protected final TroughputControllerDescriptor throughputController = new TroughputControllerDescriptor();
+   protected final ThroughputControllerDescriptor throughputController = new ThroughputControllerDescriptor();
 
    protected PublisherAttributes(WriterQos_t qos, WriterTimes_t times, LocatorList_t unicastLocatorList, LocatorList_t multicastLocatorList,
                               LocatorList_t outLocatorList)
@@ -96,14 +96,9 @@ public class PublisherAttributes<WriterQos_t, WriterTimes_t, LocatorList_t>
       return outLocatorList;
    }
 
-   public TroughputControllerDescriptor getThroughputController()
+   public ThroughputControllerDescriptor getThroughputController()
    {
       return throughputController;
-   }
-   
-   public void delete()
-   {
-      
    }
 
 }

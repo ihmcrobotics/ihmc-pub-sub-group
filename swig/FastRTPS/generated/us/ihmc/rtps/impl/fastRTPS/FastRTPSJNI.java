@@ -50,7 +50,7 @@ public class FastRTPSJNI {
   public final static native long Locator_t_address_get(long jarg1, Locator_t jarg1_);
   public final static native long new_Locator_t__SWIG_0();
   public final static native long new_Locator_t__SWIG_1(long jarg1, Locator_t jarg1_);
-  public final static native long new_Locator_t__SWIG_3(long jarg1);
+  public final static native long new_Locator_t__SWIG_2(long jarg1);
   public final static native boolean Locator_t_set_IP4_address__SWIG_0(long jarg1, Locator_t jarg1_, short jarg2, short jarg3, short jarg4, short jarg5);
   public final static native boolean Locator_t_set_IP4_address__SWIG_1(long jarg1, Locator_t jarg1_, String jarg2);
   public final static native String Locator_t_to_IP4_string(long jarg1, Locator_t jarg1_);
@@ -159,9 +159,6 @@ public class FastRTPSJNI {
   public final static native long new_ThroughputControllerDescriptor__SWIG_0();
   public final static native long new_ThroughputControllerDescriptor__SWIG_1(long jarg1, long jarg2);
   public final static native void delete_ThroughputControllerDescriptor(long jarg1);
-  public final static native long new_ThroughputController__SWIG_0(long jarg1, ThroughputControllerDescriptor jarg1_, long jarg2);
-  public final static native long new_ThroughputController__SWIG_1(long jarg1, ThroughputControllerDescriptor jarg1_, long jarg2);
-  public final static native void delete_ThroughputController(long jarg1);
   public final static native long new_QosPolicy__SWIG_0();
   public final static native long new_QosPolicy__SWIG_1(boolean jarg1);
   public final static native void delete_QosPolicy(long jarg1);
@@ -399,8 +396,6 @@ public class FastRTPSJNI {
   public final static native void delete_RemoteReaderAttributes(long jarg1);
   public final static native void RemoteReaderAttributes_endpoint_set(long jarg1, RemoteReaderAttributes jarg1_, long jarg2, EndpointAttributes jarg2_);
   public final static native long RemoteReaderAttributes_endpoint_get(long jarg1, RemoteReaderAttributes jarg1_);
-  public final static native void RemoteReaderAttributes_guid_set(long jarg1, RemoteReaderAttributes jarg1_, long jarg2);
-  public final static native long RemoteReaderAttributes_guid_get(long jarg1, RemoteReaderAttributes jarg1_);
   public final static native void RemoteReaderAttributes_expectsInlineQos_set(long jarg1, RemoteReaderAttributes jarg1_, boolean jarg2);
   public final static native boolean RemoteReaderAttributes_expectsInlineQos_get(long jarg1, RemoteReaderAttributes jarg1_);
   public final static native long new_PublisherAttributes();
@@ -425,23 +420,31 @@ public class FastRTPSJNI {
   public final static native short PublisherAttributes_getEntityID(long jarg1, PublisherAttributes jarg1_);
   public final static native void PublisherAttributes_setUserDefinedID(long jarg1, PublisherAttributes jarg1_, short jarg2);
   public final static native void PublisherAttributes_setEntityID(long jarg1, PublisherAttributes jarg1_, short jarg2);
-  public final static native void NativeParticipantListener_onParticipantDiscovery(long jarg1, NativeParticipantListener jarg1_, long jarg2, int jarg3);
-  public final static native void NativeParticipantListener_onParticipantDiscoverySwigExplicitNativeParticipantListener(long jarg1, NativeParticipantListener jarg1_, long jarg2, int jarg3);
+  public final static native void NativeParticipantListener_onParticipantDiscovery(long jarg1, NativeParticipantListener jarg1_, long jarg2, long jarg3, long jarg4, int jarg5);
+  public final static native void NativeParticipantListener_onParticipantDiscoverySwigExplicitNativeParticipantListener(long jarg1, NativeParticipantListener jarg1_, long jarg2, long jarg3, long jarg4, int jarg5);
   public final static native String NativeParticipantListener_getName(long jarg1, NativeParticipantListener jarg1_, long jarg2);
-  public final static native void NativeParticipantListener_getGuid(long jarg1, NativeParticipantListener jarg1_, long jarg2, java.nio.ByteBuffer jarg3);
-  public final static native long new_NativeParticipantListener();
   public final static native void delete_NativeParticipantListener(long jarg1);
+  public final static native long new_NativeParticipantListener();
   public final static native void NativeParticipantListener_director_connect(NativeParticipantListener obj, long cptr, boolean mem_own, boolean weak_global);
   public final static native void NativeParticipantListener_change_ownership(NativeParticipantListener obj, long cptr, boolean take_or_release);
   public final static native long new_NativeParticipantImpl(long jarg1, RTPSParticipantAttributes jarg1_, long jarg2, NativeParticipantListener jarg2_) throws java.io.IOException;
-  public final static native void NativeParticipantImpl_getGuid(long jarg1, NativeParticipantImpl jarg1_, java.nio.ByteBuffer jarg2);
+  public final static native long NativeParticipantImpl_getGuidLow(long jarg1, NativeParticipantImpl jarg1_);
+  public final static native long NativeParticipantImpl_getGuidHigh(long jarg1, NativeParticipantImpl jarg1_);
   public final static native void delete_NativeParticipantImpl(long jarg1);
-  public final static native long new_NativePublisherImpl(int jarg1, int jarg2, int jarg3, int jarg4, long jarg5, TopicAttributes jarg5_, long jarg6, WriterQos jarg6_, long jarg7, WriterTimes jarg7_, long jarg8, LocatorList_t jarg8_, long jarg9, LocatorList_t jarg9_, long jarg10, LocatorList_t jarg10_, long jarg11, ThroughputControllerDescriptor jarg11_, long jarg12, NativeParticipantImpl jarg12_) throws java.io.IOException;
-  public final static native void NativePublisherImpl_create_new_change(long jarg1, NativePublisherImpl jarg1_, long jarg2, java.nio.ByteBuffer jarg3, int jarg4, short jarg5, java.nio.ByteBuffer jarg6) throws java.io.IOException;
-  public final static native int NativePublisherImpl_getTopicKind(long jarg1, NativePublisherImpl jarg1_);
-  public final static native long NativePublisherImpl_getGuid(long jarg1, NativePublisherImpl jarg1_);
-  public final static native boolean NativePublisherImpl_clean_history(long jarg1, NativePublisherImpl jarg1_, long jarg2);
+  public final static native void NativePublisherListener_onWriterMatched(long jarg1, NativePublisherListener jarg1_, int jarg2, int jarg3, int jarg4);
+  public final static native void NativePublisherListener_onWriterMatchedSwigExplicitNativePublisherListener(long jarg1, NativePublisherListener jarg1_, int jarg2, int jarg3, int jarg4);
+  public final static native void delete_NativePublisherListener(long jarg1);
+  public final static native long new_NativePublisherListener();
+  public final static native void NativePublisherListener_director_connect(NativePublisherListener obj, long cptr, boolean mem_own, boolean weak_global);
+  public final static native void NativePublisherListener_change_ownership(NativePublisherListener obj, long cptr, boolean take_or_release);
+  public final static native long new_NativePublisherImpl(int jarg1, int jarg2, int jarg3, int jarg4, long jarg5, TopicAttributes jarg5_, long jarg6, WriterQos jarg6_, long jarg7, WriterTimes jarg7_, long jarg8, LocatorList_t jarg8_, long jarg9, LocatorList_t jarg9_, long jarg10, LocatorList_t jarg10_, long jarg11, ThroughputControllerDescriptor jarg11_, long jarg12, NativeParticipantImpl jarg12_, long jarg13, NativePublisherListener jarg13_) throws java.io.IOException;
   public final static native void delete_NativePublisherImpl(long jarg1);
+  public final static native void NativePublisherImpl_create_new_change(long jarg1, NativePublisherImpl jarg1_, int jarg2, java.nio.ByteBuffer jarg3, int jarg4, short jarg5, java.nio.ByteBuffer jarg6) throws java.io.IOException;
+  public final static native boolean NativePublisherImpl_clean_history(long jarg1, NativePublisherImpl jarg1_, long jarg2);
+  public final static native int NativePublisherImpl_removeAllChange(long jarg1, NativePublisherImpl jarg1_);
+  public final static native boolean NativePublisherImpl_wait_for_all_acked(long jarg1, NativePublisherImpl jarg1_, long jarg2, Time_t jarg2_);
+  public final static native long NativePublisherImpl_getGuidLow(long jarg1, NativePublisherImpl jarg1_);
+  public final static native long NativePublisherImpl_getGuidHigh(long jarg1, NativePublisherImpl jarg1_);
   public final static native long DurabilityQosPolicy_SWIGUpcast(long jarg1);
   public final static native long DeadlineQosPolicy_SWIGUpcast(long jarg1);
   public final static native long LatencyBudgetQosPolicy_SWIGUpcast(long jarg1);
@@ -463,8 +466,11 @@ public class FastRTPSJNI {
   public final static native long TransportPriorityQosPolicy_SWIGUpcast(long jarg1);
   public final static native long PublishModeQosPolicy_SWIGUpcast(long jarg1);
 
-  public static void SwigDirector_NativeParticipantListener_onParticipantDiscovery(NativeParticipantListener jself, long infoPtr, int status) {
-    jself.onParticipantDiscovery(infoPtr, DISCOVERY_STATUS.swigToEnum(status));
+  public static void SwigDirector_NativeParticipantListener_onParticipantDiscovery(NativeParticipantListener jself, long infoPtr, long guidHigh, long guidLow, int status) {
+    jself.onParticipantDiscovery(infoPtr, guidHigh, guidLow, DISCOVERY_STATUS.swigToEnum(status));
+  }
+  public static void SwigDirector_NativePublisherListener_onWriterMatched(NativePublisherListener jself, int status, int guidHigh, int guidLow) {
+    jself.onWriterMatched(MatchingStatus.swigToEnum(status), guidHigh, guidLow);
   }
 
   private final static native void swig_module_init();

@@ -1,6 +1,7 @@
 package us.ihmc.rtps.common;
 
 import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 
 /**
  * Structure to hold serialized data
@@ -15,7 +16,7 @@ public class SerializedPayload
    public static final short PL_CDR_BE = 0x0002;
    public static final short PL_CDR_LE = 0x0003;
 
-   private short encapsulation = CDR_BE;
+   private short encapsulation;
    private int length;
    private final ByteBuffer data;
    private int max_size;
@@ -29,6 +30,7 @@ public class SerializedPayload
    public SerializedPayload(int maxSize)
    {
       this.data = ByteBuffer.allocateDirect(maxSize);
+      this.encapsulation = this.data.order() == ByteOrder.BIG_ENDIAN ? CDR_BE : CDR_LE;
    }
 
    /**
@@ -40,9 +42,21 @@ public class SerializedPayload
       return encapsulation;
    }
 
+   /**
+    * Set encapsulation of the data as suggested in the RTPS 2.1 specification chapter 10. The byte order of the underlying buffer is adjusted accordingly.
+    * @param encapsulation
+    */
    public void setEncapsulation(short encapsulation)
    {
       this.encapsulation = encapsulation;
+      if(encapsulation == CDR_BE || encapsulation == PL_CDR_BE)
+      {
+         data.order(ByteOrder.BIG_ENDIAN);
+      }
+      else
+      {
+         data.order(ByteOrder.LITTLE_ENDIAN);
+      }
    }
 
    /**

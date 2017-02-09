@@ -1,5 +1,7 @@
 package us.ihmc.rtps;
 
+import java.io.IOException;
+
 import us.ihmc.rtps.common.SerializedPayload;
 
 /**
@@ -20,7 +22,7 @@ public interface TopicDataType<T>
     * 
     * @return true if serialized correctly
     */
-   public boolean serialize(T data, SerializedPayload serializedPayload);
+   public void serialize(T data, SerializedPayload serializedPayload) throws IOException;
 
    /**
     * Deserialize method, it should be implemented by the user
@@ -30,7 +32,7 @@ public interface TopicDataType<T>
     * 
     * @return true if deserialized correctly
     */
-   public boolean deserialize(SerializedPayload serializedPayload, T data);
+   public void deserialize(SerializedPayload serializedPayload, T data) throws IOException;
 
    /**
     * Maximum serialized size of the type in bytes.

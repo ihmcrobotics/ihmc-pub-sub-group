@@ -1,10 +1,14 @@
 package us.ihmc.rtps.impl.fastRTPS;
 
 import java.io.IOException;
+import java.nio.ByteBuffer;
 
 import us.ihmc.rtps.TopicDataType;
 import us.ihmc.rtps.attributes.PublisherAttributes;
+import us.ihmc.rtps.attributes.TopicAttributes.TopicKind;
 import us.ihmc.rtps.common.Guid;
+import us.ihmc.rtps.common.MatchingInfo;
+import us.ihmc.rtps.common.SerializedPayload;
 import us.ihmc.rtps.publisher.Publisher;
 import us.ihmc.rtps.publisher.PublisherListener;
 
@@ -12,9 +16,36 @@ public class FastRTPSPublisher implements Publisher
 {
 
    private final NativePublisherImpl impl;
+   private final FastRTPSPublisherAttributes attributes;
+   private final TopicDataType<Object> topicDataType;
+   private final PublisherListener listener;
+   private final SerializedPayload payload;
    private TopicAttributes fastRTPSAttributes;
    private ThroughputControllerDescriptor throughputController;
+   private final Guid guid = new Guid();
+   
+   private final ByteBuffer keyBuffer = ByteBuffer.allocateDirect(16);
 
+   
+   
+   private class NativePublisherListenerImpl extends NativePublisherListener
+   {
+      private final MatchingInfo matchingInfo = new MatchingInfo();
+      
+      @Override
+      public void onWriterMatched(MatchingStatus status, int guidHigh, int guidLow) 
+      {
+         if(listener != null)
+         {
+            matchingInfo.getGuid().fromPrimitives(guidHigh, guidLow);
+            matchingInfo.setStatus(MatchingInfo.MatchingStatus.values[status.swigValue()]);
+            listener.onPublicationMatched(FastRTPSPublisher.this, matchingInfo);
+         }
+      }
+
+   }
+   
+   @SuppressWarnings("unchecked")
    public FastRTPSPublisher(TopicDataType<?> topicDataType, FastRTPSPublisherAttributes attributes, PublisherListener listener, NativeParticipantImpl participant)
          throws IOException, IllegalArgumentException
    {
@@ -31,9 +62,15 @@ public class FastRTPSPublisher implements Publisher
          throw new IllegalArgumentException("Output Locator List for Publisher contains invalid Locator");
       }
 
+      this.attributes = attributes;
+      this.topicDataType = (TopicDataType<Object>) topicDataType;
+      this.listener = listener;
+      this.payload = new SerializedPayload(topicDataType.getTypeSize());
+      
       fastRTPSAttributes = attributes.createFastRTPSTopicAttributes();
       throughputController = attributes.createTroughputControllerDescriptor();
 
+      
       WriterQos qos = attributes.getQos();
       if (!qos.checkQos() || !fastRTPSAttributes.checkQos())
       {
@@ -43,29 +80,43 @@ public class FastRTPSPublisher implements Publisher
       impl = new NativePublisherImpl(attributes.getEntityID(), attributes.getUserDefinedID(), topicDataType.getTypeSize(),
                                      MemoryManagementPolicy_t.swigToEnum(attributes.getHistoryMemoryPolicy().ordinal()), fastRTPSAttributes, qos,
                                      attributes.getTimes(), attributes.getUnicastLocatorList(), attributes.getMulticastLocatorList(),
-                                     attributes.getOutLocatorList(), throughputController, participant);
+                                     attributes.getOutLocatorList(), throughputController, participant, new NativePublisherListenerImpl());
+      
+
+      guid.fromPrimitives(impl.getGuidHigh(), impl.getGuidLow());
 
    }
 
    @Override
-   public void write(Object data)
+   public void write(Object data) throws IOException
    {
-      // TODO Auto-generated method stub
+      ChangeKind_t change = ChangeKind_t.ALIVE;
+      createNewChange(data, change);
+   }
 
+   private void createNewChange(Object data, ChangeKind_t change) throws IOException
+   {
+      if(attributes.getTopic().getTopicKind() == TopicKind.WITH_KEY)
+      {
+         keyBuffer.clear();
+         keyBuffer.put(topicDataType.getKey(data));
+      }
+      
+      
+      topicDataType.serialize(data, payload);
+      impl.create_new_change(change, payload.getData(), payload.getLength(), payload.getEncapsulation(), keyBuffer);
    }
 
    @Override
    public Guid getGuid()
    {
-      // TODO Auto-generated method stub
-      return null;
+      return guid;
    }
 
    @Override
    public PublisherAttributes<?, ?, ?> getAttributes()
    {
-      // TODO Auto-generated method stub
-      return null;
+      return attributes;
    }
 
    void delete()
@@ -79,5 +130,42 @@ public class FastRTPSPublisher implements Publisher
    public void finalize()
    {
       delete();
+   }
+
+   @Override
+   public void dispose(Object data) throws IOException
+   {
+      createNewChange(data, ChangeKind_t.NOT_ALIVE_DISPOSED);
+   }
+
+   @Override
+   public void unregister(Object data) throws IOException
+   {
+      createNewChange(data, ChangeKind_t.NOT_ALIVE_UNREGISTERED);
+   }
+
+   @Override
+   public void dispose_and_unregister(Object data) throws IOException
+   {
+      createNewChange(data, ChangeKind_t.NOT_ALIVE_DISPOSED_UNREGISTERED);
+   }
+
+   @Override
+   public int removeAllChange() throws IOException
+   {
+      int removed = impl.removeAllChange();
+      if(removed >= 0)
+      {
+         return removed;
+      }
+      else
+      {
+         throw new IOException("Cannot remove all changes");
+      }
+   }
+
+   public TopicDataType<?> getTopicDataType()
+   {
+      return topicDataType;
    }
 }

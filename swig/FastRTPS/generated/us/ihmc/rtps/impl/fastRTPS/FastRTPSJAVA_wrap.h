@@ -16,7 +16,23 @@ class SwigDirector_NativeParticipantListener : public NativeParticipantListener,
 public:
     void swig_connect_director(JNIEnv *jenv, jobject jself, jclass jcls, bool swig_mem_own, bool weak_global);
     SwigDirector_NativeParticipantListener(JNIEnv *jenv);
-    virtual void onParticipantDiscovery(int64_t infoPtr, DISCOVERY_STATUS status);
+    virtual void onParticipantDiscovery(int64_t infoPtr, int64_t guidHigh, int64_t guidLow, DISCOVERY_STATUS status);
+    virtual ~SwigDirector_NativeParticipantListener();
+public:
+    bool swig_overrides(int n) {
+      return (n < 1 ? swig_override[n] : false);
+    }
+protected:
+    Swig::BoolArray<1> swig_override;
+};
+
+class SwigDirector_NativePublisherListener : public NativePublisherListener, public Swig::Director {
+
+public:
+    void swig_connect_director(JNIEnv *jenv, jobject jself, jclass jcls, bool swig_mem_own, bool weak_global);
+    SwigDirector_NativePublisherListener(JNIEnv *jenv);
+    virtual void onWriterMatched(MatchingStatus status, long guidHigh, long guidLow);
+    virtual ~SwigDirector_NativePublisherListener();
 public:
     bool swig_overrides(int n) {
       return (n < 1 ? swig_override[n] : false);
