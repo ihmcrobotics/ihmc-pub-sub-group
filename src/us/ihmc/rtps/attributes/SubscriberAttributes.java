@@ -1,29 +1,30 @@
 package us.ihmc.rtps.attributes;
 
 /**
- * Class PublisherAttributes, used by the user to define the attributes of a Publisher.
+ * Class SubscriberAttributes, used by the user to define the attributes of a Subscriber.
  * 
  * @author Jesper Smith
  *
- * @param <T>
+ * @param <ReaderQos_t>
+ * @param <ReaderTimes_t>
+ * @param <LocatorList_t>
  */
-public class PublisherAttributes<WriterQos_t, WriterTimes_t, LocatorList_t>
+public abstract class SubscriberAttributes<ReaderQos_t, ReaderTimes_t, LocatorList_t>
 {
-
-   private int userDefinedID = -1;
-   private int entityID = -1;
-   protected final MemoryManagementPolicy historyMemoryPolicy = MemoryManagementPolicy.PREALLOCATED_MEMORY_MODE;
-
    protected final TopicAttributes topic = new TopicAttributes();
-   protected final WriterQos_t qos;
-   protected final WriterTimes_t times;
+   protected final ReaderQos_t qos;
+   protected final ReaderTimes_t times;
    protected final LocatorList_t unicastLocatorList;
    protected final LocatorList_t multicastLocatorList;
    protected final LocatorList_t outLocatorList;
-   protected final ThroughputControllerDescriptor throughputController = new ThroughputControllerDescriptor();
 
-   protected PublisherAttributes(WriterQos_t qos, WriterTimes_t times, LocatorList_t unicastLocatorList, LocatorList_t multicastLocatorList,
-                              LocatorList_t outLocatorList)
+   private int userDefinedID = -1;
+   private int entityID = -1;
+   private boolean expectsInlineQos;
+   private MemoryManagementPolicy historyMemoryPolicy;
+
+   public SubscriberAttributes(ReaderQos_t qos, ReaderTimes_t times, LocatorList_t unicastLocatorList, LocatorList_t multicastLocatorList,
+                               LocatorList_t outLocatorList)
    {
       this.qos = qos;
       this.times = times;
@@ -52,9 +53,24 @@ public class PublisherAttributes<WriterQos_t, WriterTimes_t, LocatorList_t>
       this.entityID = entityID;
    }
 
+   public boolean isExpectsInlineQos()
+   {
+      return expectsInlineQos;
+   }
+
+   public void setExpectsInlineQos(boolean expectsInlineQos)
+   {
+      this.expectsInlineQos = expectsInlineQos;
+   }
+
    public MemoryManagementPolicy getHistoryMemoryPolicy()
    {
       return historyMemoryPolicy;
+   }
+
+   public void setHistoryMemoryPolicy(MemoryManagementPolicy historyMemoryPolicy)
+   {
+      this.historyMemoryPolicy = historyMemoryPolicy;
    }
 
    public TopicAttributes getTopic()
@@ -62,12 +78,12 @@ public class PublisherAttributes<WriterQos_t, WriterTimes_t, LocatorList_t>
       return topic;
    }
 
-   public WriterQos_t getQos()
+   public ReaderQos_t getQos()
    {
       return qos;
    }
 
-   public WriterTimes_t getTimes()
+   public ReaderTimes_t getTimes()
    {
       return times;
    }
@@ -85,11 +101,6 @@ public class PublisherAttributes<WriterQos_t, WriterTimes_t, LocatorList_t>
    public LocatorList_t getOutLocatorList()
    {
       return outLocatorList;
-   }
-
-   public ThroughputControllerDescriptor getThroughputController()
-   {
-      return throughputController;
    }
 
 }
