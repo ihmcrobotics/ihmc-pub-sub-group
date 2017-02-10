@@ -56,8 +56,10 @@ public class PublisherExample
       ParticipantAttributes<?> attributes = domain.createParticipantAttributes();
       attributes.setDomainId(1);
       attributes.setLeaseDuration(Time.Infinite);
-      attributes.setName("ChatApp");
+      attributes.setName("PublisherExample");
 
+      
+      
       Participant participant = domain.createParticipant(attributes, new ParticipantListenerImpl());
       
       ByteArrayTopicDataType dataType = new ByteArrayTopicDataType(500, "Chat::ChatMessage", ByteOrder.nativeOrder());
