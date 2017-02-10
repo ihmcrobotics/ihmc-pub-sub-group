@@ -29,6 +29,11 @@ public class Time
       this.fraction = fraction;
    }
 
+   public Time()
+   {
+      
+   }
+   
    public int getSeconds()
    {
       return seconds;

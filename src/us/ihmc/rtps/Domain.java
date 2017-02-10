@@ -4,12 +4,14 @@ import java.io.IOException;
 
 import us.ihmc.rtps.attributes.ParticipantAttributes;
 import us.ihmc.rtps.attributes.PublisherAttributes;
+import us.ihmc.rtps.attributes.SubscriberAttributes;
 import us.ihmc.rtps.common.LogLevel;
 import us.ihmc.rtps.participant.Participant;
 import us.ihmc.rtps.participant.ParticipantListener;
 import us.ihmc.rtps.publisher.Publisher;
 import us.ihmc.rtps.publisher.PublisherListener;
 import us.ihmc.rtps.subscriber.Subscriber;
+import us.ihmc.rtps.subscriber.SubscriberListener;
 
 /**
  * Class Domain, use to interact with the Publisher Subscriber API of the IHMC Java RTPS API.
@@ -61,7 +63,7 @@ public interface Domain
     */
    public Publisher createPublisher(Participant participant, PublisherAttributes<?,?,?> publisherAttributes, PublisherListener listener) throws IOException, IllegalArgumentException;
    
-   public Subscriber createSubscriber(Participant participant) throws IOException;
+   public Subscriber createSubscriber(Participant participant, SubscriberAttributes<?, ?, ?> subscriberAttributes, SubscriberListener listener) throws IOException, IllegalArgumentException;
 
    /**
     * Remove a Participant and all associated publishers and subscribers.
@@ -74,6 +76,14 @@ public interface Domain
     */
    public boolean removeParticipant(Participant participant);
 
+   /**
+    * Remove a Publisher.
+    * 
+    * This method may allocate memory and is thread-safe
+    * 
+    * @param publisher
+    * @return true if publisher is found and removed
+    */
    public boolean removePublisher(Publisher publisher);
    
    public boolean removeSubscriber(Subscriber subscriber);
