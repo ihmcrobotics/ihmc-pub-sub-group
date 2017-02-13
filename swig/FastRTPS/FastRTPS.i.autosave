@@ -196,6 +196,7 @@ namespace fastRTPS{
 using namespace us::ihmc::rtps::impl::fastRTPS;
 %}
 
+%import <fastrtps/
 %include "sampleinfomarshaller.h"
 %include "nativeparticipantimpl.h"
 %include "nativepublisherimpl.h"

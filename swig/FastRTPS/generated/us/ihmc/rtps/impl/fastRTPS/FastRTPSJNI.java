@@ -579,8 +579,9 @@ public class FastRTPSJNI {
   public final static native void NativeSubscriberImpl_getData(long jarg1, NativeSubscriberImpl jarg1_, long jarg2, java.nio.ByteBuffer jarg3);
   public final static native void NativeSubscriberImpl_updateKey(long jarg1, NativeSubscriberImpl jarg1_, long jarg2, java.nio.ByteBuffer jarg3);
   public final static native boolean NativeSubscriberImpl_received_change(long jarg1, NativeSubscriberImpl jarg1_, long jarg2, long jarg3);
-  public final static native boolean NativeSubscriberImpl_remove_change_sub__SWIG_0(long jarg1, NativeSubscriberImpl jarg1_, long jarg2, long jarg3);
-  public final static native boolean NativeSubscriberImpl_remove_change_sub__SWIG_1(long jarg1, NativeSubscriberImpl jarg1_, long jarg2);
+  public final static native boolean NativeSubscriberImpl_remove_change_sub_swig(long jarg1, NativeSubscriberImpl jarg1_, long jarg2);
+  public final static native void NativeSubscriberImpl_waitForUnreadMessage(long jarg1, NativeSubscriberImpl jarg1_);
+  public final static native boolean NativeSubscriberImpl_isInCleanState(long jarg1, NativeSubscriberImpl jarg1_);
   public final static native void NativeSubscriberImpl_increaseUnreadCount(long jarg1, NativeSubscriberImpl jarg1_);
   public final static native void NativeSubscriberImpl_decreaseUnreadCount(long jarg1, NativeSubscriberImpl jarg1_);
   public final static native java.math.BigInteger NativeSubscriberImpl_getUnreadCount(long jarg1, NativeSubscriberImpl jarg1_);
