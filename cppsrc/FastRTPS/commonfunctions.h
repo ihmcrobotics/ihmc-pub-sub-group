@@ -27,7 +27,7 @@ namespace fastRTPS{
     class CommonFunctions
     {
     public:
-        static void guidcpy(GUID_t src, GuidUnion *dest)
+        static void guidcpy(const GUID_t& src, GuidUnion *dest)
         {
             for(int g_c = 0; g_c < GuidPrefix_t::size; g_c++)
             {

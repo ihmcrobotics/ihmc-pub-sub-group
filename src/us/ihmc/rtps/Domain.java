@@ -56,13 +56,23 @@ public interface Domain
     * @param publisherAttributes Implementation specific publisher attributes, see {@link #createPublisherAttributes() createPublisherAttributes()}
     * @param listener Listener for publisher status. Can be null
     * 
-    * @return Publisher handler
+    * @return Publisher handle
     * 
     * @throws IOException If the publisher cannot be made
     * @throws IllegalArgumentException If the attributes are invalid for this publisher
     */
    public Publisher createPublisher(Participant participant, PublisherAttributes<?,?,?> publisherAttributes, PublisherListener listener) throws IOException, IllegalArgumentException;
    
+   /**
+    * Create a Subscriber in a Participant.
+    * 
+    * @param participant the participant where you want to create the Publisher.
+    * @param subscriberAttributes Implementation specific subscriber attributes, see {@link #createSubscriberAttributes() createSubscriberAttributes()}
+    * @param listener Listener for subscriber status and messages. Can be null
+    * @return Subscriber handle
+    * @throws IOException If the subscriber cannot be made
+    * @throws IllegalArgumentException If the attributes are invalid for this subscriber
+    */
    public Subscriber createSubscriber(Participant participant, SubscriberAttributes<?, ?, ?> subscriberAttributes, SubscriberListener listener) throws IOException, IllegalArgumentException;
 
    /**
@@ -86,6 +96,15 @@ public interface Domain
     */
    public boolean removePublisher(Publisher publisher);
    
+   
+   /**
+    * Remove a Subscriber.
+    * 
+    * This method may allocate memory and is thread-safe
+    * 
+    * @param publisher
+    * @return true if subscriber is found and removed
+    */
    public boolean removeSubscriber(Subscriber subscriber);
    
    /**
@@ -124,6 +143,15 @@ public interface Domain
    public void unregisterType(Participant participant, String typeName) throws IOException;
    
    public void stopAll();
+   
+   /**
+    * Generate an implementation specific version of SubscriberAttributes
+    * 
+    * This method allocates memory
+    * 
+    * @return Implementation specific version of SubscriberAttributes
+    */
+   public SubscriberAttributes<?, ?, ?> createSubscriberAttributes();
    
    /**
     * Generate an implementation specific version of PublisherAttributes

@@ -8,19 +8,21 @@ package us.ihmc.rtps.common;
  */
 public class InstanceHandle
 {
-   private boolean isDefined;
    private byte value[] = new byte[16];
 
    public boolean isDefined()
    {
-      return isDefined;
+      for(int i = 0; i < 16; i++)
+      {
+            if(value[i] != 0)
+            {
+               return true;
+            }
+      }
+      return false;
    }
 
-   public void setDefined(boolean isDefined)
-   {
-      this.isDefined = isDefined;
-   }
-
+ 
    public byte[] getValue()
    {
       return value;

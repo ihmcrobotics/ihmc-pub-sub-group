@@ -39,6 +39,7 @@ namespace fastrtps{
         %ignore ThroughputController;
         %ignore FlowController;
         %ignore RemoteReaderAttributes::guid;
+        %ignore RemoteWriterAttributes::guid;
         %ignore GUID_t;
     }
     %ignore TopicAttributes::getTopicKind;
@@ -98,9 +99,10 @@ namespace rtps{
 %include <fastrtps/rtps/attributes/RTPSParticipantAttributes.h>
 
 
-// Support for PublisherAttributes
+// Support for PublisherAttributes and SubscriberAttributes
 %{
 #include <fastrtps/attributes/PublisherAttributes.h>
+#include <fastrtps/attributes/SubscriberAttributes.h>
 %}
 
 namespace eprosima{
@@ -152,11 +154,14 @@ namespace rtps{
 %include <fastrtps/rtps/flowcontrol/ThroughputController.h>
 %include <fastrtps/qos/QosPolicies.h>
 %include <fastrtps/qos/WriterQos.h>
+%include <fastrtps/qos/ReaderQos.h>
 %include <fastrtps/rtps/resources/ResourceManagement.h>
 %include <fastrtps/attributes/TopicAttributes.h>
 %include <fastrtps/rtps/attributes/EndpointAttributes.h>
 %include <fastrtps/rtps/attributes/WriterAttributes.h>
 %include <fastrtps/attributes/PublisherAttributes.h>
+%include <fastrtps/rtps/attributes/ReaderAttributes.h>
+%include <fastrtps/attributes/SubscriberAttributes.h>
 
 
 %typemap(throws, throws="java.io.IOException") FastRTPSException {
@@ -168,21 +173,35 @@ namespace rtps{
 
 %feature("director") NativeParticipantListener;
 %feature("director") NativePublisherListener;
+%feature("director") NativeSubscriberListener;
 
 
+namespace us{
+namespace ihmc{
+namespace rtps{
+namespace impl{
+namespace fastRTPS{
 %ignore NativeParticipantImpl::getParticipant;
 %ignore NativePublisherImpl::getGuid();
 %ignore NativePublisherImpl::getTopicKind;
+%ignore NativeSubscriberImpl::t_p_I_Change;
+%ignore NativeSubscriberImpl::t_v_Inst_Caches;
+}}}}}
 %{
 #include "nativeparticipantimpl.h"
 #include "nativepublisherimpl.h"
+#include "nativesubscriberimpl.h"
 #include "loglevel.h"
+#include "sampleinfomarshaller.h"
 
 using namespace us::ihmc::rtps::impl::fastRTPS;
 %}
 
+%include "sampleinfomarshaller.h"
 %include "nativeparticipantimpl.h"
 %include "nativepublisherimpl.h"
+%include "nativesubscriberimpl.h"
 %include "loglevel.h"
+
 
 

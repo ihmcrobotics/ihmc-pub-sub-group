@@ -1,3 +1,18 @@
+// Copyright 2016 Proyectos y Sistemas de Mantenimiento SL (eProsima).
+// Copyright 2017 Florida Institute for Human and Machine Cognition
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
 #include "publisherhistory.h"
 
 #include <fastrtps/publisher/PublisherHistory.h>
@@ -198,12 +213,11 @@ bool NativePublisherHistory::removeAllChange(size_t* removed)
 }
 
 
-bool NativePublisherHistory::removeMinChange()
+bool NativePublisherHistory::removeMinChange() throw(FastRTPSException)
 {
     if(mp_writer == nullptr || mp_mutex == nullptr)
     {
-        logError(RTPS_HISTORY,"You need to create a Writer with this History before using it");
-        return false;
+        throw FastRTPSException("You need to create a Writer with this History before using it");
     }
 
     boost::lock_guard<boost::recursive_mutex> guard(*this->mp_mutex);
@@ -212,13 +226,12 @@ bool NativePublisherHistory::removeMinChange()
     return false;
 }
 
-bool NativePublisherHistory::remove_change_pub(CacheChange_t* change,t_v_Inst_Caches::iterator* vit_in)
+bool NativePublisherHistory::remove_change_pub(CacheChange_t* change,t_v_Inst_Caches::iterator* vit_in) throw(FastRTPSException)
 {
 
     if(mp_writer == nullptr || mp_mutex == nullptr)
     {
-        logError(RTPS_HISTORY,"You need to create a Writer with this History before using it");
-        return false;
+        throw FastRTPSException("You need to create a Writer with this History before using it");
     }
 
     boost::lock_guard<boost::recursive_mutex> guard(*this->mp_mutex);
@@ -257,7 +270,7 @@ bool NativePublisherHistory::remove_change_pub(CacheChange_t* change,t_v_Inst_Ca
                 }
             }
         }
-        logError(PUBLISHER,"Change not found, something is wrong");
+        throw FastRTPSException("Change not found, something is wrong");
     }
     return false;
 }
