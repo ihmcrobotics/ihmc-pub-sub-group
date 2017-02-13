@@ -9269,10 +9269,9 @@ SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_NativeSubsc
   jlong jresult = 0 ;
   us::ihmc::rtps::impl::fastRTPS::NativeSubscriberImpl *arg1 = (us::ihmc::rtps::impl::fastRTPS::NativeSubscriberImpl *) 0 ;
   unsigned char *arg2 = (unsigned char *) 0 ;
-  us::ihmc::rtps::impl::fastRTPS::SampleInfoMarshaller arg3 ;
+  us::ihmc::rtps::impl::fastRTPS::SampleInfoMarshaller *arg3 = (us::ihmc::rtps::impl::fastRTPS::SampleInfoMarshaller *) 0 ;
   eprosima::fastrtps::rtps::TopicKind_t arg4 ;
   eprosima::fastrtps::OwnershipQosPolicyKind arg5 ;
-  us::ihmc::rtps::impl::fastRTPS::SampleInfoMarshaller *argp3 ;
   int64_t result;
   
   (void)jenv;
@@ -9286,12 +9285,7 @@ SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_NativeSubsc
       SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, "Unable to get address of a java.nio.ByteBuffer direct byte buffer. Buffer must be a direct buffer and not a non-direct buffer.");  
     }  
   }
-  argp3 = *(us::ihmc::rtps::impl::fastRTPS::SampleInfoMarshaller **)&jarg3; 
-  if (!argp3) {
-    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "Attempt to dereference null us::ihmc::rtps::impl::fastRTPS::SampleInfoMarshaller");
-    return 0;
-  }
-  arg3 = *argp3; 
+  arg3 = *(us::ihmc::rtps::impl::fastRTPS::SampleInfoMarshaller **)&jarg3; 
   arg4 = (eprosima::fastrtps::rtps::TopicKind_t)jarg4; 
   arg5 = (eprosima::fastrtps::OwnershipQosPolicyKind)jarg5; 
   result = (int64_t)(arg1)->takeNextData(arg2,arg3,arg4,arg5);
@@ -9362,37 +9356,44 @@ SWIGEXPORT jboolean JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_NativeSu
 }
 
 
-SWIGEXPORT jboolean JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_NativeSubscriberImpl_1remove_1change_1sub_1_1SWIG_10(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jlong jarg3) {
+SWIGEXPORT jboolean JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_NativeSubscriberImpl_1remove_1change_1sub_1swig(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2) {
   jboolean jresult = 0 ;
   us::ihmc::rtps::impl::fastRTPS::NativeSubscriberImpl *arg1 = (us::ihmc::rtps::impl::fastRTPS::NativeSubscriberImpl *) 0 ;
-  CacheChange_t *arg2 = (CacheChange_t *) 0 ;
-  us::ihmc::rtps::impl::fastRTPS::t_v_Inst_Caches::iterator *arg3 = (us::ihmc::rtps::impl::fastRTPS::t_v_Inst_Caches::iterator *) 0 ;
+  int64_t arg2 ;
   bool result;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
   arg1 = *(us::ihmc::rtps::impl::fastRTPS::NativeSubscriberImpl **)&jarg1; 
-  arg2 = *(CacheChange_t **)&jarg2; 
-  arg3 = *(us::ihmc::rtps::impl::fastRTPS::t_v_Inst_Caches::iterator **)&jarg3; 
-  result = (bool)(arg1)->remove_change_sub(arg2,arg3);
+  arg2 = (int64_t)jarg2; 
+  result = (bool)(arg1)->remove_change_sub_swig(arg2);
   jresult = (jboolean)result; 
   return jresult;
 }
 
 
-SWIGEXPORT jboolean JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_NativeSubscriberImpl_1remove_1change_1sub_1_1SWIG_11(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2) {
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_NativeSubscriberImpl_1waitForUnreadMessage(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  us::ihmc::rtps::impl::fastRTPS::NativeSubscriberImpl *arg1 = (us::ihmc::rtps::impl::fastRTPS::NativeSubscriberImpl *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(us::ihmc::rtps::impl::fastRTPS::NativeSubscriberImpl **)&jarg1; 
+  (arg1)->waitForUnreadMessage();
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_NativeSubscriberImpl_1isInCleanState(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
   jboolean jresult = 0 ;
   us::ihmc::rtps::impl::fastRTPS::NativeSubscriberImpl *arg1 = (us::ihmc::rtps::impl::fastRTPS::NativeSubscriberImpl *) 0 ;
-  CacheChange_t *arg2 = (CacheChange_t *) 0 ;
   bool result;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
   arg1 = *(us::ihmc::rtps::impl::fastRTPS::NativeSubscriberImpl **)&jarg1; 
-  arg2 = *(CacheChange_t **)&jarg2; 
-  result = (bool)(arg1)->remove_change_sub(arg2);
+  result = (bool)(arg1)->isInCleanState();
   jresult = (jboolean)result; 
   return jresult;
 }

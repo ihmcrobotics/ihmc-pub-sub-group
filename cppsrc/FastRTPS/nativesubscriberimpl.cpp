@@ -65,19 +65,40 @@ NativeSubscriberImpl::NativeSubscriberImpl(int32_t entityId,
         ratt.endpoint.setUserDefinedID((uint8_t)userDefinedID);
     ratt.times = *times;
 
-    RTPSReader* reader = RTPSDomain::createRTPSReader(participant->getParticipant(),
+    mp_reader = RTPSDomain::createRTPSReader(participant->getParticipant(),
             ratt,
             (ReaderHistory*)this,
             (ReaderListener*)&readerListener);
-    if(reader == nullptr)
+    if(mp_reader == nullptr)
     {
         throw FastRTPSException("Problem creating associated reader");
     }
 
+
     //REGISTER THE READER
-    participant->getParticipant()->registerReader(reader,*topic,*qos);
+    participant->getParticipant()->registerReader(mp_reader,*topic,*qos);
+
+    CommonFunctions::guidcpy(mp_reader->getGuid(), &guidUnion);
 
 }
+
+bool NativeSubscriberImpl::isInCleanState()
+{
+    return mp_reader->isInCleanState();
+}
+
+void NativeSubscriberImpl::waitForUnreadMessage()
+{
+    if(getUnreadCount()==0)
+    {
+        do
+        {
+            waitSemaphore();
+        }
+        while(getUnreadCount() == 0);
+    }
+}
+
 
 void NativeSubscriberImpl::updateMarshaller(SampleInfoMarshaller* marshaller, CacheChange_t* change, WriterProxy* wp, TopicKind_t topicKind, OwnershipQosPolicyKind ownerShipQosKind)
 {
@@ -126,6 +147,7 @@ int64_t NativeSubscriberImpl::readnextData(unsigned char* data, SampleInfoMarsha
     if(this->mp_reader->nextUnreadCache(&change,&wp))
     {
         change->isRead = true;
+        decreaseUnreadCount();
 
         marshaller->changeKind = (int32_t) change->kind;
 
@@ -144,9 +166,33 @@ int64_t NativeSubscriberImpl::readnextData(unsigned char* data, SampleInfoMarsha
     return 0;
 }
 
-int64_t NativeSubscriberImpl::takeNextData(unsigned char* data, SampleInfoMarshaller marshaller, TopicKind_t topicKind, OwnershipQosPolicyKind ownerShipQosKind)
+int64_t NativeSubscriberImpl::takeNextData(unsigned char* data, SampleInfoMarshaller* marshaller, TopicKind_t topicKind, OwnershipQosPolicyKind ownerShipQosKind)
 {
+    CacheChange_t* change;
+    WriterProxy * wp;
 
+
+    if(this->mp_reader->nextUntakenCache(&change,&wp))
+    {
+        if(!change->isRead)
+        {
+            decreaseUnreadCount();
+        }
+        change->isRead = true;
+
+        marshaller->changeKind = (int32_t) change->kind;
+
+        if(change->kind == ALIVE)
+        {
+            marshaller->encapsulation = change->serializedPayload.encapsulation;
+            marshaller->dataLength = change->serializedPayload.length;
+            memcpy(data, change->serializedPayload.data, change->serializedPayload.length);
+        }
+
+        updateMarshaller(marshaller, change, wp, topicKind, ownerShipQosKind);
+
+        return (int64_t) change;
+    }
 }
 
 void NativeSubscriberImpl::lock()
@@ -420,6 +466,12 @@ bool NativeSubscriberImpl::find_Key(CacheChange_t* a_change, t_v_Inst_Caches::it
 
     }
     return false;
+}
+
+bool NativeSubscriberImpl::remove_change_sub_swig(int64_t change)
+{
+    CacheChange_t* cChange = (CacheChange_t*) change;
+    return remove_change_sub(cChange);
 }
 
 

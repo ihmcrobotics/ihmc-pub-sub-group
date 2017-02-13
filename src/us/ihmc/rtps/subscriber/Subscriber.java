@@ -49,7 +49,7 @@ public interface Subscriber
     * 
     * @return True if a sample was taken.
     */
-   public boolean takeNextData(Object data, SampleInfo info);
+   public boolean takeNextData(Object data, SampleInfo info) throws IOException;
    
    /**
     * Get the Attributes of the Subscriber.

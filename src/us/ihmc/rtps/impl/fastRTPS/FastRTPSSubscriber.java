@@ -86,6 +86,7 @@ public class FastRTPSSubscriber implements Subscriber
 
    }
 
+   @SuppressWarnings("unchecked")
    public FastRTPSSubscriber(TopicDataType<?> topicDataType, FastRTPSSubscriberAttributes attributes, SubscriberListener listener,
                              NativeParticipantImpl participantImpl)
          throws IOException
@@ -124,6 +125,8 @@ public class FastRTPSSubscriber implements Subscriber
                                       MemoryManagementPolicy_t.swigToEnum(attributes.getHistoryMemoryPolicy().ordinal()), fastRTPSAttributes, qos,
                                       attributes.getTimes(), attributes.getUnicastLocatorList(), attributes.getMulticastLocatorList(),
                                       attributes.getMulticastLocatorList(), attributes.isExpectsInlineQos(), participantImpl, new NativeSubscriberListenerImpl());
+      
+      guid.fromPrimitives(impl.getGuidHigh(), impl.getGuidLow());
    }
 
    @Override
@@ -135,8 +138,7 @@ public class FastRTPSSubscriber implements Subscriber
    @Override
    public void waitForUnreadMessage()
    {
-      // TODO Auto-generated method stub
-
+      impl.waitForUnreadMessage();
    }
 
    private void updateSampleInfo(SampleInfoMarshaller marshaller, SampleInfo info, ByteBuffer keyBuffer)
@@ -167,7 +169,6 @@ public class FastRTPSSubscriber implements Subscriber
          long cacheChange = impl.readnextData(payload.getData(), sampleInfoMarshaller, topicKind, ownershipQosPolicyKind);
          if (cacheChange != 0)
          {
-            impl.decreaseUnreadCount();
             if (sampleInfoMarshaller.getChangeKind() == ChangeKind_t.ALIVE.swigValue())
             {
                payload.setEncapsulation(sampleInfoMarshaller.getEncapsulation());
@@ -203,12 +204,44 @@ public class FastRTPSSubscriber implements Subscriber
    }
 
    @Override
-   public boolean takeNextData(Object data, SampleInfo info)
+   public boolean takeNextData(Object data, SampleInfo info) throws IOException
    {
       boolean ret = false;
       impl.lock();
       {
-
+         long cacheChange = impl.takeNextData(payload.getData(), sampleInfoMarshaller, topicKind, ownershipQosPolicyKind);
+         if (cacheChange != 0)
+         {
+            
+            if(sampleInfoMarshaller.getChangeKind() == ChangeKind_t.ALIVE.swigValue())
+            {
+               payload.setEncapsulation(sampleInfoMarshaller.getEncapsulation());
+               payload.setLength(sampleInfoMarshaller.getDataLength());
+               topicDataType.deserialize(payload, data);
+            }
+            
+            
+            if (sampleInfoMarshaller.getUpdateKey())
+            {
+               keyBuffer.clear();
+               topicDataType.getKey(data, keyBuffer);
+               keyBuffer.flip();
+               impl.updateKey(cacheChange, keyBuffer);
+            }
+            else
+            {
+               sampleInfoMarshaller.getInstanceHandleValue(keyBuffer);
+               keyBuffer.clear();
+            }
+            if (info != null)
+            {
+               updateSampleInfo(sampleInfoMarshaller, info, keyBuffer);
+            }
+            
+            
+            impl.remove_change_sub_swig(cacheChange);
+            return true;
+         }
       }
       impl.unlock();
       return ret;
@@ -223,8 +256,7 @@ public class FastRTPSSubscriber implements Subscriber
    @Override
    public boolean isInCleanState()
    {
-      // TODO Auto-generated method stub
-      return false;
+      return impl.isInCleanState();
    }
 
    public void delete()

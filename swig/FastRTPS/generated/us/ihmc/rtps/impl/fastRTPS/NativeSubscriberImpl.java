@@ -87,12 +87,16 @@ public class NativeSubscriberImpl {
     return FastRTPSJNI.NativeSubscriberImpl_received_change(swigCPtr, this, SWIGTYPE_p_CacheChange_t.getCPtr(a_change), unknown_missing_changes_up_to);
   }
 
-  public boolean remove_change_sub(SWIGTYPE_p_CacheChange_t change, SWIGTYPE_p_std__vectorT_std__pairT_InstanceHandle_t_std__vectorT_CacheChange_t_p_t_t_t__iterator vit) {
-    return FastRTPSJNI.NativeSubscriberImpl_remove_change_sub__SWIG_0(swigCPtr, this, SWIGTYPE_p_CacheChange_t.getCPtr(change), SWIGTYPE_p_std__vectorT_std__pairT_InstanceHandle_t_std__vectorT_CacheChange_t_p_t_t_t__iterator.getCPtr(vit));
+  public boolean remove_change_sub_swig(long change) {
+    return FastRTPSJNI.NativeSubscriberImpl_remove_change_sub_swig(swigCPtr, this, change);
   }
 
-  public boolean remove_change_sub(SWIGTYPE_p_CacheChange_t change) {
-    return FastRTPSJNI.NativeSubscriberImpl_remove_change_sub__SWIG_1(swigCPtr, this, SWIGTYPE_p_CacheChange_t.getCPtr(change));
+  public void waitForUnreadMessage() {
+    FastRTPSJNI.NativeSubscriberImpl_waitForUnreadMessage(swigCPtr, this);
+  }
+
+  public boolean isInCleanState() {
+    return FastRTPSJNI.NativeSubscriberImpl_isInCleanState(swigCPtr, this);
   }
 
   public void increaseUnreadCount() {
