@@ -1,6 +1,7 @@
 package us.ihmc.rtps;
 
 import java.io.IOException;
+import java.nio.ByteBuffer;
 
 import us.ihmc.rtps.common.SerializedPayload;
 
@@ -48,13 +49,18 @@ public interface TopicDataType<T>
     * @return Topic data type name
     */
    public String getName();
+   
+   /**
+    * 
+    * @return an instance of the data type
+    */
+   public T createData();
 
    /**
     * Get the key associated with the data. 
     */
-   default byte[] getKey(T data)
+   default void getKey(T data, ByteBuffer target)
    {
-      return null;
    }
 
    /**

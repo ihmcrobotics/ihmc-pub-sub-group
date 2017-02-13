@@ -3,7 +3,7 @@ project(IHMCJavaRTPS)
 
 find_package(Boost REQUIRED COMPONENTS system thread date_time)
 
-add_library(FastRTPSNativeImpl nativeparticipantimpl nativepublisherimpl publisherhistory loglevel)
+add_library(FastRTPSNativeImpl nativeparticipantimpl nativepublisherimpl publisherhistory nativesubscriberimpl loglevel)
 target_link_libraries(FastRTPSNativeImpl ${Boost_LIBRARIES} fastcdr fastrtps)
 
 

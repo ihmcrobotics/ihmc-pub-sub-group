@@ -1,3 +1,18 @@
+// Copyright 2016 Proyectos y Sistemas de Mantenimiento SL (eProsima).
+// Copyright 2017 Florida Institute for Human and Machine Cognition
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
 #ifndef PUBLISHERHISTORY_H
 #define PUBLISHERHISTORY_H
 
@@ -15,7 +30,7 @@ namespace rtps{
 namespace impl{
 namespace fastRTPS{
 
-class NativePublisherImpl;
+    class NativePublisherImpl;
 
     class NativePublisherHistory:public WriterHistory
     {
@@ -56,7 +71,7 @@ class NativePublisherImpl;
         * Remove the change with the minimum sequence Number.
         * @return True if removed.
         */
-        bool removeMinChange();
+        bool removeMinChange() throw(FastRTPSException);
 
         /**
         * Remove a change by the publisher History.
@@ -64,7 +79,7 @@ class NativePublisherImpl;
         * @param vit Pointer to the iterator of the Keyed history vector.
         * @return True if removed.
         */
-        bool remove_change_pub(CacheChange_t* change,t_v_Inst_Caches::iterator* vit=nullptr);
+        bool remove_change_pub(CacheChange_t* change,t_v_Inst_Caches::iterator* vit=nullptr)  throw(FastRTPSException);
 
         virtual bool remove_change_g(CacheChange_t* a_change);
 

@@ -99,7 +99,7 @@ public class FastRTPSPublisher implements Publisher
       if(attributes.getTopic().getTopicKind() == TopicKind.WITH_KEY)
       {
          keyBuffer.clear();
-         keyBuffer.put(topicDataType.getKey(data));
+         topicDataType.getKey(data, keyBuffer);
       }
       
       

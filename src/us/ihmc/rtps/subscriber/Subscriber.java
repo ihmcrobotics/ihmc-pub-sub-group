@@ -1,5 +1,7 @@
 package us.ihmc.rtps.subscriber;
 
+import java.io.IOException;
+
 import us.ihmc.rtps.attributes.SubscriberAttributes;
 import us.ihmc.rtps.common.Guid;
 import us.ihmc.rtps.common.SampleInfo;
@@ -30,8 +32,10 @@ public interface Subscriber
     * 
     * @param data the object where you want the data stored.
     * @param info a SampleInfo structure that informs you about your sample.
+    * 
+    * @return True if a sample was read.
     */
-   public void readNextData(Object data, SampleInfo info);
+   public boolean readNextData(Object data, SampleInfo info) throws IOException;
    
    /**
     * Take next Data from the Subscriber.
@@ -42,8 +46,10 @@ public interface Subscriber
     * 
     * @param data the object where you want the data stored.
     * @param info a SampleInfo_t structure that informs you about your sample.
+    * 
+    * @return True if a sample was taken.
     */
-   public void takeNextData(Object data, SampleInfo info);
+   public boolean takeNextData(Object data, SampleInfo info);
    
    /**
     * Get the Attributes of the Subscriber.

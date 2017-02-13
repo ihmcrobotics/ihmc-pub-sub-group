@@ -23,7 +23,7 @@ namespace fastRTPS{
     public:
         virtual void onParticipantDiscovery(int64_t infoPtr, int64_t guidHigh, int64_t guidLow, DISCOVERY_STATUS status) {}
         std::string getName(int64_t infoPtr);
-        virtual ~NativeParticipantListener() {};
+        virtual ~NativeParticipantListener() {}
     };
 
     class NativeParticipantImpl
@@ -43,8 +43,8 @@ namespace fastRTPS{
         class MyRTPSParticipantListener : public RTPSParticipantListener
         {
             public:
-                MyRTPSParticipantListener(NativeParticipantImpl* impl): mp_participantimpl(impl){};
-                virtual ~MyRTPSParticipantListener(){};
+                MyRTPSParticipantListener(NativeParticipantImpl* impl): mp_participantimpl(impl){}
+                virtual ~MyRTPSParticipantListener(){}
                 void onRTPSParticipantDiscovery(RTPSParticipant* part, RTPSParticipantDiscoveryInfo info);
                 NativeParticipantImpl* mp_participantimpl;
         } m_rtps_listener;
