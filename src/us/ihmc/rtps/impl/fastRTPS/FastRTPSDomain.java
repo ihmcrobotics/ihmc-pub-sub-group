@@ -50,9 +50,18 @@ public class FastRTPSDomain implements Domain
    }
 
    @Override
-   public Subscriber createSubscriber(Participant participant, SubscriberAttributes<?, ?, ?> subscriberAttributes, SubscriberListener listener) throws IOException, IllegalArgumentException
+   public Subscriber createSubscriber(Participant participant, SubscriberAttributes<?, ?, ?> subscriberAttributes, SubscriberListener listener)
+         throws IOException, IllegalArgumentException
    {
-      return null;
+      for (int i = 0; i < participants.size(); i++)
+      {
+         if (participants.get(i) == participant)
+         {
+            return participants.get(i).createSubscriber(subscriberAttributes, listener);
+         }
+      }
+      throw new IllegalArgumentException("Participant is not part of this domain.");
+
    }
 
    @Override
@@ -87,7 +96,13 @@ public class FastRTPSDomain implements Domain
    @Override
    public synchronized boolean removeSubscriber(Subscriber subscriber)
    {
-      // TODO Auto-generated method stub
+      for (int i = 0; i < participants.size(); i++)
+      {
+         if (participants.get(i).getGuid().getGuidPrefix().equals(subscriber.getGuid().getGuidPrefix()))
+         {
+            return participants.get(i).removeSubscriber(subscriber);
+         }
+      }
       return false;
    }
 
@@ -135,9 +150,15 @@ public class FastRTPSDomain implements Domain
    @Override
    public synchronized void stopAll()
    {
-      
+
    }
 
+   @Override
+   public FastRTPSSubscriberAttributes createSubscriberAttributes()
+   {
+      return new FastRTPSSubscriberAttributes();
+   }
+   
    @Override
    public FastRTPSPublisherAttributes createPublisherAttributes()
    {
@@ -155,5 +176,6 @@ public class FastRTPSDomain implements Domain
    {
       us.ihmc.rtps.impl.fastRTPS.LogLevel.setLogLevel(level.getLevel());
    }
+
 
 }

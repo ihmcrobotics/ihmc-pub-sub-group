@@ -59,4 +59,10 @@ public class ByteArrayTopicDataType implements TopicDataType<byte[]>
       return name;
    }
 
+   @Override
+   public byte[] createData()
+   {
+      return new byte[maxSize];
+   }
+
 }

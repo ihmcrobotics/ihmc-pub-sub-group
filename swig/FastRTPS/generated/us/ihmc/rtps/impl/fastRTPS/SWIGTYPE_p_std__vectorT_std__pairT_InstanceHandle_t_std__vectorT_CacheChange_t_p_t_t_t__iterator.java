@@ -8,18 +8,18 @@
 
 package us.ihmc.rtps.impl.fastRTPS;
 
-public class SWIGTYPE_p_RTPSParticipant {
+public class SWIGTYPE_p_std__vectorT_std__pairT_InstanceHandle_t_std__vectorT_CacheChange_t_p_t_t_t__iterator {
   private transient long swigCPtr;
 
-  protected SWIGTYPE_p_RTPSParticipant(long cPtr, @SuppressWarnings("unused") boolean futureUse) {
+  protected SWIGTYPE_p_std__vectorT_std__pairT_InstanceHandle_t_std__vectorT_CacheChange_t_p_t_t_t__iterator(long cPtr, @SuppressWarnings("unused") boolean futureUse) {
     swigCPtr = cPtr;
   }
 
-  protected SWIGTYPE_p_RTPSParticipant() {
+  protected SWIGTYPE_p_std__vectorT_std__pairT_InstanceHandle_t_std__vectorT_CacheChange_t_p_t_t_t__iterator() {
     swigCPtr = 0;
   }
 
-  protected static long getCPtr(SWIGTYPE_p_RTPSParticipant obj) {
+  protected static long getCPtr(SWIGTYPE_p_std__vectorT_std__pairT_InstanceHandle_t_std__vectorT_CacheChange_t_p_t_t_t__iterator obj) {
     return (obj == null) ? 0 : obj.swigCPtr;
   }
 }

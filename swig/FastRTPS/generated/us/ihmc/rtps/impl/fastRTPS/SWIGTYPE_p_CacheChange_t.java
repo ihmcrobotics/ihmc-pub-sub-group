@@ -8,18 +8,18 @@
 
 package us.ihmc.rtps.impl.fastRTPS;
 
-public class SWIGTYPE_p_GUID_t {
+public class SWIGTYPE_p_CacheChange_t {
   private transient long swigCPtr;
 
-  protected SWIGTYPE_p_GUID_t(long cPtr, @SuppressWarnings("unused") boolean futureUse) {
+  protected SWIGTYPE_p_CacheChange_t(long cPtr, @SuppressWarnings("unused") boolean futureUse) {
     swigCPtr = cPtr;
   }
 
-  protected SWIGTYPE_p_GUID_t() {
+  protected SWIGTYPE_p_CacheChange_t() {
     swigCPtr = 0;
   }
 
-  protected static long getCPtr(SWIGTYPE_p_GUID_t obj) {
+  protected static long getCPtr(SWIGTYPE_p_CacheChange_t obj) {
     return (obj == null) ? 0 : obj.swigCPtr;
   }
 }

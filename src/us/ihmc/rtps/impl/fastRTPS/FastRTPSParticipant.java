@@ -6,12 +6,15 @@ import java.util.ArrayList;
 import us.ihmc.rtps.TopicDataType;
 import us.ihmc.rtps.attributes.ParticipantAttributes;
 import us.ihmc.rtps.attributes.PublisherAttributes;
+import us.ihmc.rtps.attributes.SubscriberAttributes;
 import us.ihmc.rtps.attributes.TopicAttributes.TopicKind;
 import us.ihmc.rtps.common.Guid;
 import us.ihmc.rtps.participant.Participant;
 import us.ihmc.rtps.participant.ParticipantListener;
 import us.ihmc.rtps.publisher.Publisher;
 import us.ihmc.rtps.publisher.PublisherListener;
+import us.ihmc.rtps.subscriber.Subscriber;
+import us.ihmc.rtps.subscriber.SubscriberListener;
 
 class FastRTPSParticipant implements Participant
 {
@@ -19,7 +22,8 @@ class FastRTPSParticipant implements Participant
 
    private final ArrayList<TopicDataType<?>> types = new ArrayList<>();
    private final ArrayList<FastRTPSPublisher> publishers = new ArrayList<>();
-   
+   private final ArrayList<FastRTPSSubscriber> subscribers = new ArrayList<>();
+
    private final FastRTPSParticipantAttributes attributes;
    private final ParticipantListener participantListener;
 
@@ -59,7 +63,7 @@ class FastRTPSParticipant implements Participant
 
    synchronized void delete()
    {
-      for(int i = 0; i < publishers.size(); i++)
+      for (int i = 0; i < publishers.size(); i++)
       {
          publishers.get(i).delete();
       }
@@ -92,38 +96,37 @@ class FastRTPSParticipant implements Participant
    @Override
    public synchronized int get_no_subscribers(String target_topic)
    {
-      // TODO Auto-generated method stub
-      return 0;
+      return subscribers.size();
    }
 
    synchronized void registerType(TopicDataType<?> topicDataType) throws IllegalArgumentException
    {
-      if(topicDataType.getTypeSize() <= 0)
+      if (topicDataType.getTypeSize() <= 0)
       {
          throw new IllegalArgumentException("Registered type must have maximum byte size > 0");
       }
-      
-      if(topicDataType.getName().isEmpty())
+
+      if (topicDataType.getName().isEmpty())
       {
          throw new IllegalArgumentException("Registered type must have a name");
       }
-      
-      for(int i = 0; i < types.size(); i++)
+
+      for (int i = 0; i < types.size(); i++)
       {
-         if(types.get(i).getName().equals(topicDataType.getName()))
+         if (types.get(i).getName().equals(topicDataType.getName()))
          {
             throw new IllegalArgumentException("Type with the same name already exists: " + topicDataType.getName());
          }
       }
-      
+
       types.add(topicDataType);
    }
-   
+
    synchronized TopicDataType<?> getRegisteredType(String name)
    {
-      for(int i = 0; i < types.size(); i++)
+      for (int i = 0; i < types.size(); i++)
       {
-         if(types.get(i).getName().equals(name))
+         if (types.get(i).getName().equals(name))
          {
             return types.get(i);
          }
@@ -131,28 +134,29 @@ class FastRTPSParticipant implements Participant
       return null;
    }
 
-   synchronized FastRTPSPublisher createPublisher(PublisherAttributes<?, ?, ?> publisherAttributes, PublisherListener listener) throws IOException, IllegalArgumentException
+   synchronized FastRTPSPublisher createPublisher(PublisherAttributes<?, ?, ?> publisherAttributes, PublisherListener listener)
+         throws IOException, IllegalArgumentException
    {
       TopicDataType<?> topicDataType = getRegisteredType(publisherAttributes.getTopic().getTopicDataType());
-      if(topicDataType == null)
+      if (topicDataType == null)
       {
          throw new IllegalArgumentException("Type: " + publisherAttributes.getTopic().getTopicDataType() + " is not registered");
       }
-      
-      if(publisherAttributes.getTopic().getTopicKind() == TopicKind.WITH_KEY && !topicDataType.isGetKeyDefined())
+
+      if (publisherAttributes.getTopic().getTopicKind() == TopicKind.WITH_KEY && !topicDataType.isGetKeyDefined())
       {
          throw new IllegalArgumentException("Keyed topic needs getKey function");
       }
-      
-      if(attributes.rtps().getBuiltin().getUse_STATIC_EndpointDiscoveryProtocol())
+
+      if (attributes.rtps().getBuiltin().getUse_STATIC_EndpointDiscoveryProtocol())
       {
-         if(publisherAttributes.getUserDefinedID() <= 0)
+         if (publisherAttributes.getUserDefinedID() <= 0)
          {
             throw new IllegalArgumentException("Static EDP requires user defined EDP");
          }
       }
-      
-      if(publisherAttributes instanceof FastRTPSPublisherAttributes)
+
+      if (publisherAttributes instanceof FastRTPSPublisherAttributes)
       {
          FastRTPSPublisher publisher = new FastRTPSPublisher(topicDataType, (FastRTPSPublisherAttributes) publisherAttributes, listener, impl);
          publishers.add(publisher);
@@ -164,41 +168,92 @@ class FastRTPSParticipant implements Participant
       }
    }
 
+   synchronized Subscriber createSubscriber(SubscriberAttributes<?, ?, ?> subscriberAttributes, SubscriberListener listener) throws IOException
+   {
+      TopicDataType<?> topicDataType = getRegisteredType(subscriberAttributes.getTopic().getTopicDataType());
+      if (topicDataType == null)
+      {
+         throw new IllegalArgumentException("Type: " + subscriberAttributes.getTopic().getTopicDataType() + " is not registered");
+      }
+
+      if (subscriberAttributes.getTopic().getTopicKind() == TopicKind.WITH_KEY && !topicDataType.isGetKeyDefined())
+      {
+         throw new IllegalArgumentException("Keyed topic needs getKey function");
+      }
+
+      if (attributes.rtps().getBuiltin().getUse_STATIC_EndpointDiscoveryProtocol())
+      {
+         if (subscriberAttributes.getUserDefinedID() <= 0)
+         {
+            throw new IllegalArgumentException("Static EDP requires user defined EDP");
+         }
+      }
+
+      if (subscriberAttributes instanceof FastRTPSSubscriberAttributes)
+      {
+         FastRTPSSubscriber subscriber = new FastRTPSSubscriber(topicDataType, (FastRTPSSubscriberAttributes) subscriberAttributes, listener, impl);
+         subscribers.add(subscriber);
+         return subscriber;
+      }
+      else
+      {
+         throw new IllegalArgumentException("subscriberAttributes are not an instance of FastRTPSSubscriberAttributes");
+      }
+   }
+
    synchronized boolean removePublisher(Publisher publisher)
    {
-      for(int i = 0; i < publishers.size(); i++)
+      for (int i = 0; i < publishers.size(); i++)
       {
-         if(publishers.get(i) == publisher)
+         if (publishers.get(i) == publisher)
          {
             publishers.get(i).delete();
+            publishers.remove(i);
+            return true;
          }
       }
       return false;
    }
 
-   public void unregisterType(String typeName) throws IOException
+   public boolean removeSubscriber(Subscriber subscriber)
+   {
+      for (int i = 0; i < subscribers.size(); i++)
+      {
+         if (subscribers.get(i) == subscriber)
+         {
+            subscribers.get(i).delete();
+            subscribers.remove(i);
+            return true;
+         }
+      }
+      return false;
+   }
+
+   synchronized void unregisterType(String typeName) throws IOException
    {
       TopicDataType<?> type = null;
-      for(int i = 0; i < types.size(); i++)
+      for (int i = 0; i < types.size(); i++)
       {
-         if(types.get(i).getName().equals(typeName))
+         if (types.get(i).getName().equals(typeName))
          {
             type = types.get(i);
             continue;
          }
       }
-      if(type == null)
+      if (type == null)
       {
          throw new IllegalArgumentException(typeName + " is not registered with participant");
       }
-      
-      for(int i = 0; i < publishers.size(); i++)
+
+      for (int i = 0; i < publishers.size(); i++)
       {
-         if(publishers.get(i).getTopicDataType().equals(type))
+         if (publishers.get(i).getTopicDataType().equals(type))
          {
             throw new IOException("TopicDataType in use by publisher " + publishers.get(i).getAttributes().getTopic().getTopicName());
          }
       }
+
+      publishers.remove(type);
    }
-   
+
 }

@@ -9,7 +9,6 @@
 
 #include <fastrtps/rtps/writer/RTPSWriter.h>
 #include <fastrtps/rtps/writer/WriterListener.h>
-#include <fastrtps/publisher/PublisherHistory.h>
 
 using namespace eprosima::fastrtps;
 using namespace eprosima::fastrtps::rtps;
@@ -21,12 +20,12 @@ namespace rtps{
 namespace impl{
 namespace fastRTPS{
 
-class NativePublisherListener
-{
-public:
-    virtual void onWriterMatched(MatchingStatus status, int64_t guidHigh, int64_t guidLow) {};
-    virtual ~NativePublisherListener() {};
-};
+    class NativePublisherListener
+    {
+    public:
+        virtual void onWriterMatched(MatchingStatus status, int64_t guidHigh, int64_t guidLow) {}
+        virtual ~NativePublisherListener() {}
+    };
 
     class NativePublisherImpl
     {

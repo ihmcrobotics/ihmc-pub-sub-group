@@ -41,5 +41,22 @@ protected:
     Swig::BoolArray<1> swig_override;
 };
 
+class SwigDirector_NativeSubscriberListener : public us::ihmc::rtps::impl::fastRTPS::NativeSubscriberListener, public Swig::Director {
+
+public:
+    void swig_connect_director(JNIEnv *jenv, jobject jself, jclass jcls, bool swig_mem_own, bool weak_global);
+    SwigDirector_NativeSubscriberListener(JNIEnv *jenv);
+    virtual void onReaderMatched(eprosima::fastrtps::rtps::MatchingStatus status, int64_t guidHigh, int64_t guidLow);
+    virtual void onNewCacheChangeAdded();
+    virtual bool getKey(int64_t cacheChangePtr, int16_t encoding, int32_t dataLength);
+    virtual ~SwigDirector_NativeSubscriberListener();
+public:
+    bool swig_overrides(int n) {
+      return (n < 3 ? swig_override[n] : false);
+    }
+protected:
+    Swig::BoolArray<3> swig_override;
+};
+
 
 #endif
