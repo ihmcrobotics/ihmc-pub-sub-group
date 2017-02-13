@@ -68,18 +68,29 @@ namespace fastRTPS{
                 NativeParticipantImpl* participant,
                 NativeSubscriberListener* listener) throw(FastRTPSException);
 
-        int64_t getGuidLow();
-        int64_t getGuidHigh();
+        int64_t getGuidLow()
+        {
+            return guidUnion.primitive.low;
+        }
+
+        int64_t getGuidHigh()
+        {
+            return guidUnion.primitive.high;
+        }
+
 
         void lock();
         void unlock();
 
         int64_t readnextData(unsigned char* data, SampleInfoMarshaller* marshaller, TopicKind_t topicKind, OwnershipQosPolicyKind ownerShipQosKind);
-        int64_t takeNextData(unsigned char* data, SampleInfoMarshaller marshaller, TopicKind_t topicKind, OwnershipQosPolicyKind ownerShipQosKind);
+        int64_t takeNextData(unsigned char* data, SampleInfoMarshaller* marshaller, TopicKind_t topicKind, OwnershipQosPolicyKind ownerShipQosKind);
         void getData(int64_t cacheChangePtr, unsigned char* data);
         void updateKey(int64_t cacheChangePtr, unsigned char* key);
         bool received_change(CacheChange_t* a_change, size_t unknown_missing_changes_up_to);
         bool remove_change_sub(CacheChange_t* change,t_v_Inst_Caches::iterator* vit=nullptr);
+        bool remove_change_sub_swig(int64_t change);
+        void waitForUnreadMessage();
+        bool isInCleanState();
 
 
 
