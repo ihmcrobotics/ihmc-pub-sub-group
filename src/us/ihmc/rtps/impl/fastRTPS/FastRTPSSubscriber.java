@@ -52,18 +52,18 @@ public class FastRTPSSubscriber implements Subscriber
       @Override
       public void onNewCacheChangeAdded()
       {
-         if(listener != null)
-         {
-            listener.onNewDataMessage(FastRTPSSubscriber.this);
-         }
+//         if(listener != null)
+//         {
+//            listener.onNewDataMessage(FastRTPSSubscriber.this);
+//         }
+         System.out.println(Thread.currentThread().getName());
       }
 
       @Override
       public boolean getKey(long cacheChangePtr, short encoding, int dataLength)
       {
-         payload.setEncapsulation(encoding);
-         payload.setLength(dataLength);
          impl.getData(cacheChangePtr, payload.getData());
+         preparePayload(encoding, dataLength);
          if(!topicDataType.isGetKeyDefined())
          {
             return false;
@@ -85,9 +85,18 @@ public class FastRTPSSubscriber implements Subscriber
       }
 
    }
+   
+   private void preparePayload(short encapsulation, int dataLength)
+   {
+      payload.getData().clear();
+      payload.setEncapsulation(encapsulation);
+      payload.setLength(dataLength);
+      payload.getData().limit(dataLength);
+      
+   }
 
    @SuppressWarnings("unchecked")
-   public FastRTPSSubscriber(TopicDataType<?> topicDataType, FastRTPSSubscriberAttributes attributes, SubscriberListener listener,
+   FastRTPSSubscriber(TopicDataType<?> topicDataType, FastRTPSSubscriberAttributes attributes, SubscriberListener listener,
                              NativeParticipantImpl participantImpl)
          throws IOException
    {
@@ -171,8 +180,7 @@ public class FastRTPSSubscriber implements Subscriber
          {
             if (sampleInfoMarshaller.getChangeKind() == ChangeKind_t.ALIVE.swigValue())
             {
-               payload.setEncapsulation(sampleInfoMarshaller.getEncapsulation());
-               payload.setLength(sampleInfoMarshaller.getDataLength());
+               preparePayload(sampleInfoMarshaller.getEncapsulation(), sampleInfoMarshaller.getDataLength());
                topicDataType.deserialize(payload, data);
             }
 
@@ -215,8 +223,7 @@ public class FastRTPSSubscriber implements Subscriber
             
             if(sampleInfoMarshaller.getChangeKind() == ChangeKind_t.ALIVE.swigValue())
             {
-               payload.setEncapsulation(sampleInfoMarshaller.getEncapsulation());
-               payload.setLength(sampleInfoMarshaller.getDataLength());
+               preparePayload(sampleInfoMarshaller.getEncapsulation(), sampleInfoMarshaller.getDataLength());
                topicDataType.deserialize(payload, data);
             }
             
@@ -259,9 +266,15 @@ public class FastRTPSSubscriber implements Subscriber
       return impl.isInCleanState();
    }
 
-   public void delete()
+   void delete()
    {
+      fastRTPSAttributes.delete();     
       impl.delete();
+   }
+
+   TopicDataType<Object> getTopicDataType()
+   {
+      return topicDataType;
    }
 
 }
