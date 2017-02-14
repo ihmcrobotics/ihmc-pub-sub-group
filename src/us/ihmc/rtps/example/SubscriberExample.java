@@ -22,7 +22,7 @@ import us.ihmc.rtps.subscriber.SubscriberListener;
 
 public class SubscriberExample
 {
-   
+
    private class ParticipantListenerImpl implements ParticipantListener
    {
 
@@ -36,20 +36,20 @@ public class SubscriberExample
       }
 
    }
-   
+
    private class SubscriberListenerImpl implements SubscriberListener
    {
       private final byte[] data = new byte[500];
       private final SampleInfo info = new SampleInfo();
-      
+
       @Override
       public void onNewDataMessage(Subscriber subscriber)
       {
          try
          {
-            if(subscriber.takeNextData(data, info))
+            if (subscriber.takeNextData(data, info))
             {
-//               System.out.println(Arrays.toString(data));
+               System.out.println(Arrays.toString(data));
             }
          }
          catch (IOException e)
@@ -66,11 +66,11 @@ public class SubscriberExample
          System.out.println("Guid: " + info.getGuid().toString());
       }
    }
-   
+
    public SubscriberExample() throws IOException
    {
       Domain domain = DomainFactory.getDomain(PubSubImplementation.FAST_RTPS);
-      
+
       domain.setLogLevel(LogLevel.WARNING);
 
       ParticipantAttributes<?> attributes = domain.createParticipantAttributes();
@@ -78,23 +78,19 @@ public class SubscriberExample
       attributes.setLeaseDuration(Time.Infinite);
       attributes.setName("SubscriberExample");
 
-      
-      
       Participant participant = domain.createParticipant(attributes, new ParticipantListenerImpl());
-      
+
       ByteArrayTopicDataType dataType = new ByteArrayTopicDataType(500, "Chat::ChatMessage", ByteOrder.nativeOrder());
       domain.registerType(participant, dataType);
-      
-      
+
       SubscriberAttributes<?, ?, ?> subscriberAttributes = domain.createSubscriberAttributes();
       subscriberAttributes.getTopic().setTopicKind(TopicKind.NO_KEY);
       subscriberAttributes.getTopic().setTopicDataType(dataType.getName());
       subscriberAttributes.getTopic().setTopicName("ChatBox");
-      
-      domain.createSubscriber(participant, subscriberAttributes, new SubscriberListenerImpl());
-      
 
-      while(true)
+      domain.createSubscriber(participant, subscriberAttributes, new SubscriberListenerImpl());
+
+      while (true)
       {
          try
          {
@@ -106,7 +102,7 @@ public class SubscriberExample
       }
 
    }
-   
+
    public static void main(String[] args) throws IOException
    {
       new SubscriberExample();
