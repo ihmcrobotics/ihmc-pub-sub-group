@@ -2,24 +2,27 @@ package us.ihmc.rtps.example;
 
 import java.io.IOException;
 import java.nio.ByteOrder;
+import java.util.Arrays;
 
 import us.ihmc.rtps.Domain;
 import us.ihmc.rtps.DomainFactory;
 import us.ihmc.rtps.DomainFactory.PubSubImplementation;
 import us.ihmc.rtps.attributes.ParticipantAttributes;
-import us.ihmc.rtps.attributes.PublisherAttributes;
+import us.ihmc.rtps.attributes.SubscriberAttributes;
 import us.ihmc.rtps.attributes.TopicAttributes.TopicKind;
 import us.ihmc.rtps.common.LogLevel;
 import us.ihmc.rtps.common.MatchingInfo;
+import us.ihmc.rtps.common.SampleInfo;
 import us.ihmc.rtps.common.Time;
 import us.ihmc.rtps.participant.Participant;
 import us.ihmc.rtps.participant.ParticipantDiscoveryInfo;
 import us.ihmc.rtps.participant.ParticipantListener;
-import us.ihmc.rtps.publisher.Publisher;
-import us.ihmc.rtps.publisher.PublisherListener;
+import us.ihmc.rtps.subscriber.Subscriber;
+import us.ihmc.rtps.subscriber.SubscriberListener;
 
-public class PublisherExample
+public class SubscriberExample
 {
+   
    private class ParticipantListenerImpl implements ParticipantListener
    {
 
@@ -34,20 +37,37 @@ public class PublisherExample
 
    }
    
-   private class PublisherListenerImpl implements PublisherListener
+   private class SubscriberListenerImpl implements SubscriberListener
    {
+      private final byte[] data = new byte[500];
+      private final SampleInfo info = new SampleInfo();
+      
+      @Override
+      public void onNewDataMessage(Subscriber subscriber)
+      {
+         try
+         {
+            if(subscriber.takeNextData(data, info))
+            {
+               System.out.println(Arrays.toString(data));
+            }
+         }
+         catch (IOException e)
+         {
+            e.printStackTrace();
+         }
+      }
 
       @Override
-      public void onPublicationMatched(Publisher publisher, MatchingInfo info)
+      public void onSubscriptionMatched(Subscriber subscriber, MatchingInfo info)
       {
-         System.out.println("New subscriber matched");
+         System.out.println("New publisher matched");
          System.out.println("Status: " + info.getStatus());
          System.out.println("Guid: " + info.getGuid().toString());
       }
-      
    }
-
-   public PublisherExample() throws IOException
+   
+   public SubscriberExample() throws IOException
    {
       Domain domain = DomainFactory.getDomain(PubSubImplementation.FAST_RTPS);
       
@@ -56,7 +76,7 @@ public class PublisherExample
       ParticipantAttributes<?> attributes = domain.createParticipantAttributes();
       attributes.setDomainId(1);
       attributes.setLeaseDuration(Time.Infinite);
-      attributes.setName("PublisherExample");
+      attributes.setName("SubscriberExample");
 
       
       
@@ -65,32 +85,30 @@ public class PublisherExample
       ByteArrayTopicDataType dataType = new ByteArrayTopicDataType(500, "Chat::ChatMessage", ByteOrder.nativeOrder());
       domain.registerType(participant, dataType);
       
-      PublisherAttributes<?,?,?> publisherAttributes = domain.createPublisherAttributes();
-      publisherAttributes.getTopic().setTopicKind(TopicKind.NO_KEY);
-      publisherAttributes.getTopic().setTopicDataType(dataType.getName());
-      publisherAttributes.getTopic().setTopicName("ChatBox");
       
-      Publisher publisher = domain.createPublisher(participant, publisherAttributes, new PublisherListenerImpl());
+      SubscriberAttributes<?, ?, ?> subscriberAttributes = domain.createSubscriberAttributes();
+      subscriberAttributes.getTopic().setTopicKind(TopicKind.NO_KEY);
+      subscriberAttributes.getTopic().setTopicDataType(dataType.getName());
+      subscriberAttributes.getTopic().setTopicName("ChatBox");
       
-      
-      byte[] javaHelloWorld = { 0x05, 0x00, 0x00, 0x00, 0x4a, 0x61, 0x76, 0x61, 0x00, 0x00, 0x00, 0x00, 0x0c, 0x00, 0x00, 0x00, 0x48, 0x65, 0x6c, 0x6c, 0x6f, 0x20, 0x57, 0x6f, 0x72, 0x6c, 0x64, 0x00 };
+      domain.createSubscriber(participant, subscriberAttributes, new SubscriberListenerImpl());
       
 
       while(true)
       {
          try
          {
-            publisher.write(javaHelloWorld);
             Thread.sleep(1000);
          }
          catch (InterruptedException e)
          {
          }
       }
+
    }
    
    public static void main(String[] args) throws IOException
    {
-      new PublisherExample();
+      new SubscriberExample();
    }
 }

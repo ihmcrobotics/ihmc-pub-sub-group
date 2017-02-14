@@ -17,6 +17,7 @@
 #include "commonfunctions.h"
 #include <fastrtps/rtps/reader/WriterProxy.h>
 #include <boost/thread/lock_guard.hpp>
+#include <boost/thread/recursive_mutex.hpp>
 
 
 using namespace us::ihmc::rtps::impl::fastRTPS;
@@ -197,11 +198,11 @@ int64_t NativeSubscriberImpl::takeNextData(unsigned char* data, SampleInfoMarsha
 
 void NativeSubscriberImpl::lock()
 {
-    mp_mutex.lock();
+    mp_mutex->lock();
 }
 void NativeSubscriberImpl::unlock()
 {
-    mp_mutex.unlock();
+    mp_mutex->unlock();
 }
 
 void NativeSubscriberImpl::updateKey(int64_t cacheChangePtr, unsigned char *key)
@@ -225,7 +226,7 @@ bool NativeSubscriberImpl::received_change(CacheChange_t* a_change, size_t unkno
         return false;
     }
 
-    boost::lock_guard<boost::recursive_mutex> guard(mp_mutex);
+    boost::lock_guard<boost::recursive_mutex> guard(*mp_mutex);
 
     //NO KEY HISTORY
     if(topicKind == NO_KEY)
@@ -484,7 +485,7 @@ bool NativeSubscriberImpl::remove_change_sub(CacheChange_t* change,t_v_Inst_Cach
         return false;
     }
 
-    boost::lock_guard<boost::recursive_mutex> guard(mp_mutex);
+    boost::lock_guard<boost::recursive_mutex> guard(*mp_mutex);
     if(this->topicKind == NO_KEY)
     {
         if(this->remove_change(change))
@@ -523,3 +524,22 @@ bool NativeSubscriberImpl::remove_change_sub(CacheChange_t* change,t_v_Inst_Cach
     }
     return false;
 }
+
+NativeSubscriberImpl::~NativeSubscriberImpl()
+{
+    RTPSDomain::removeRTPSReader(mp_reader);
+}
+
+void NativeSubscriberImpl::SubscriberReaderListener::onReaderMatched(RTPSReader* reader,MatchingInfo& info)
+{
+    logInfo(PUBLISHER, "Remote writer Guid: " << info.remoteEndpointGuid);
+    GuidUnion retGuid;
+    CommonFunctions::guidcpy(info.remoteEndpointGuid, &retGuid);
+    subscriberImpl->listener->onReaderMatched(info.status, retGuid.primitive.high, retGuid.primitive.low);
+}
+
+void NativeSubscriberImpl::SubscriberReaderListener::onNewCacheChangeAdded(RTPSReader * reader,const CacheChange_t* const change)
+{
+    subscriberImpl->listener->onNewCacheChangeAdded();
+}
+
