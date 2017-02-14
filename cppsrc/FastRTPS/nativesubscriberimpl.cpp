@@ -540,7 +540,6 @@ void NativeSubscriberImpl::SubscriberReaderListener::onReaderMatched(RTPSReader*
 
 void NativeSubscriberImpl::SubscriberReaderListener::onNewCacheChangeAdded(RTPSReader * reader,const CacheChange_t* const change)
 {
-    std::cout << std::this_thread::get_id() << std::endl;
     subscriberImpl->listener->onNewCacheChangeAdded();
 }
 
