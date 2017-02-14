@@ -8,6 +8,14 @@
 %include "carrays.i"
 
 
+// Disable detachedment of threads in the director. This avoids a memory leak due to spinning up a lot of Java threads
+%insert("runtime") %{
+#define SWIG_JAVA_NO_DETACH_CURRENT_THREAD
+#define SWIG_JAVA_ATTACH_CURRENT_THREAD_AS_DAEMON
+%}
+
+
+
 %apply unsigned char *NIOBUFFER { unsigned char* };
 
 namespace std {
