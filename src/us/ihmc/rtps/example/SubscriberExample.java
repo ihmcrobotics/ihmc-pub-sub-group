@@ -49,7 +49,7 @@ public class SubscriberExample
          {
             if(subscriber.takeNextData(data, info))
             {
-               System.out.println(Arrays.toString(data));
+//               System.out.println(Arrays.toString(data));
             }
          }
          catch (IOException e)
