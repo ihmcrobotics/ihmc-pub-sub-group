@@ -228,6 +228,10 @@ static void SWIGUNUSED SWIG_JavaThrowException(JNIEnv *jenv, SWIG_JavaExceptionC
 
 #define SWIG_contract_assert(nullreturn, expr, msg) if (!(expr)) {SWIG_JavaThrowException(jenv, SWIG_JavaIllegalArgumentException, msg); return nullreturn; } else
 
+
+#define SWIG_JAVA_NO_DETACH_CURRENT_THREAD
+#define SWIG_JAVA_ATTACH_CURRENT_THREAD_AS_DAEMON
+
 /* -----------------------------------------------------------------------------
  * director_common.swg
  *

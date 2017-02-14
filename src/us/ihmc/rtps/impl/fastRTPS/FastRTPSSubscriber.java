@@ -52,11 +52,10 @@ public class FastRTPSSubscriber implements Subscriber
       @Override
       public void onNewCacheChangeAdded()
       {
-//         if(listener != null)
-//         {
-//            listener.onNewDataMessage(FastRTPSSubscriber.this);
-//         }
-         System.out.println(Thread.currentThread().getName());
+         if(listener != null)
+         {
+            listener.onNewDataMessage(FastRTPSSubscriber.this);
+         }
       }
 
       @Override
