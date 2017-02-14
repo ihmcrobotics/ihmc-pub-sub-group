@@ -26,9 +26,7 @@
 #include <fastrtps/rtps/reader/RTPSReader.h>
 #include <fastrtps/rtps/reader/ReaderListener.h>
 #include <fastrtps/rtps/history/ReaderHistory.h>
-
-#include <boost/thread/recursive_mutex.hpp>
-
+#include <mutex>
 using namespace eprosima::fastrtps::rtps;
 
 namespace us{
@@ -134,7 +132,6 @@ namespace fastRTPS{
         TopicKind_t topicKind;
         HistoryQosPolicyKind historyQosKind;
         NativeSubscriberListener* listener;
-        boost::recursive_mutex mp_mutex;
         std::string topicName;
 
 

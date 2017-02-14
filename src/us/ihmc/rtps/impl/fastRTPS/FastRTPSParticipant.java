@@ -215,7 +215,7 @@ class FastRTPSParticipant implements Participant
       return false;
    }
 
-   public boolean removeSubscriber(Subscriber subscriber)
+   synchronized boolean removeSubscriber(Subscriber subscriber)
    {
       for (int i = 0; i < subscribers.size(); i++)
       {
@@ -250,6 +250,15 @@ class FastRTPSParticipant implements Participant
          if (publishers.get(i).getTopicDataType().equals(type))
          {
             throw new IOException("TopicDataType in use by publisher " + publishers.get(i).getAttributes().getTopic().getTopicName());
+         }
+      }
+      
+      for(int i  = 0; i < subscribers.size(); i++)
+      {
+         if(subscribers.get(i).getTopicDataType().equals(type))
+         {
+            throw new IOException("TopicDataType in use by subscriber " + subscribers.get(i).getAttributes().getTopic().getTopicName());
+
          }
       }
 

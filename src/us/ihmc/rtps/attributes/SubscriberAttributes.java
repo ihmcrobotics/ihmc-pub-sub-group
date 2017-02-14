@@ -21,7 +21,7 @@ public abstract class SubscriberAttributes<ReaderQos_t, ReaderTimes_t, LocatorLi
    private int userDefinedID = -1;
    private int entityID = -1;
    private boolean expectsInlineQos;
-   private MemoryManagementPolicy historyMemoryPolicy;
+   private MemoryManagementPolicy historyMemoryPolicy = MemoryManagementPolicy.PREALLOCATED_MEMORY_MODE;
 
    public SubscriberAttributes(ReaderQos_t qos, ReaderTimes_t times, LocatorList_t unicastLocatorList, LocatorList_t multicastLocatorList,
                                LocatorList_t outLocatorList)
