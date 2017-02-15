@@ -37,37 +37,29 @@ public class TypesGenerator
         tmanager_ = tmanager;
         outputDir_ = outputDir;
         replace_ = replace;
-        stg_ = tmanager_.createStringTemplateGroup("JavaType");
     }
 
     /*!
      * @brief This function generates data types in Java.
      * It uses a context that was processed by the IDL parser.
      */
-    public boolean generate(Context context, String packagDir, String packag, String libraryName, Map<String, String> extensions)
+    public boolean generate(Context context, String packagDir, String packag, Map<String, String> extensions)
     {
         ArrayList<Definition> definitions = context.getDefinitions();
         
-        boolean returnedValue = processDefinitions(context, definitions, packagDir, packag, extensions);
-
+        StringTemplateGroup javaTypeTemplate = tmanager_.createStringTemplateGroup("JavaType");
+        boolean returnedValue = processDefinitions(javaTypeTemplate, context, definitions, packagDir, packag, "", extensions);
         if(returnedValue)
         {
-            // Create gradle build script.
-            StringTemplateGroup gradlestg = tmanager_.createStringTemplateGroup("gradle");
-            StringTemplate gradlest = gradlestg.getInstanceOf("main");
-            gradlest.setAttribute("name", libraryName);
-
-            if(!writeFile(outputDir_ + "build.gradle", gradlest))
-            {
-                System.out.println(ColorMessage.error() + "Cannot write file " + outputDir_ + "build.gradle");
-                returnedValue = false;
-            }
+           StringTemplateGroup javaPubSubTypeTemplate = tmanager_.createStringTemplateGroup("JavaPubSubType");
+           returnedValue = processDefinitions(javaPubSubTypeTemplate, context, definitions, packagDir, packag, "PubSubType", extensions);
         }
+
 
         return returnedValue;
     }
 
-    public boolean processDefinitions(Context context, ArrayList<Definition> definitions, String packagDir, String packag, Map<String, String> extensions)
+    private boolean processDefinitions(StringTemplateGroup stg_, Context context, ArrayList<Definition> definitions, String packagDir, String packag, String moduleNamePostfix, Map<String, String> extensions)
     {
         if(definitions != null)
         {
@@ -90,8 +82,8 @@ public class TypesGenerator
                         }
                     }
                     
-                    if(!processDefinitions(context, module.getDefinitions(), outputDir + File.separator,
-                            packag + "." + module.getName(), extensions))
+                    if(!processDefinitions(stg_, context, module.getDefinitions(), outputDir + File.separator,
+                            packag + "." + module.getName(), moduleNamePostfix, extensions))
                         return false;
                 }
                 else if(definition.isIsInterface())
@@ -115,7 +107,7 @@ public class TypesGenerator
                         ifcst.setAttribute("extension", extensionst.toString());
                     }
                     
-                    if(processExports(context, ifc.getExports(), ifcst, extensions))
+                    if(processExports(stg_, context, ifc.getExports(), ifcst, extensions))
                     {
                         // Save file.
                         StringTemplate st = stg_.getInstanceOf("main");
@@ -130,7 +122,7 @@ public class TypesGenerator
                             st.setAttribute("extension", extensionst.toString());
                         }
 
-                        if(!writeFile(packagDir + ifc.getName() + ".java", st))
+                        if(!writeFile(packagDir + ifc.getName() + moduleNamePostfix + ".java", st))
                         {
                             System.out.println(ColorMessage.error() + "Cannot write file " + packagDir + ifc.getName() + ".java");
                             return false;
@@ -144,7 +136,7 @@ public class TypesGenerator
                     TypeDeclaration typedecl = (TypeDeclaration)definition;
 
                     // get StringTemplate of the structure
-                    StringTemplate typest = processTypeDeclaration(context, typedecl, extensions);
+                    StringTemplate typest = processTypeDeclaration(stg_, context, typedecl, extensions);
 
                     if(typest != null)
                     {
@@ -163,7 +155,7 @@ public class TypesGenerator
                             st.setAttribute("extension", extensionst.toString());
                         }
 
-                        if(!writeFile(packagDir + typedecl.getName() + ".java", st))
+                        if(!writeFile(packagDir + typedecl.getName() + moduleNamePostfix + ".java", st))
                         {
                             System.out.println(ColorMessage.error() + "Cannot write file " + packagDir + typedecl.getName() + ".java");
                             return false;
@@ -176,7 +168,7 @@ public class TypesGenerator
         return true;
     }
 
-    public boolean processExports(Context context, ArrayList<Export> exports, StringTemplate ifcst, Map<String, String> extensions)
+    public boolean processExports(StringTemplateGroup stg_, Context context, ArrayList<Export> exports, StringTemplate ifcst, Map<String, String> extensions)
     {
         for(Export export : exports)
         {
@@ -185,7 +177,7 @@ public class TypesGenerator
                 TypeDeclaration typedecl = (TypeDeclaration)export;
 
                 // get StringTemplate of the structure
-                StringTemplate typest = processTypeDeclaration(context, typedecl, extensions);
+                StringTemplate typest = processTypeDeclaration(stg_, context, typedecl, extensions);
 
                 if(typest != null)
                 {
@@ -198,7 +190,7 @@ public class TypesGenerator
         return true;
     }
 
-    public StringTemplate processTypeDeclaration(Context context, TypeDeclaration typedecl, Map<String, String> extensions)
+    public StringTemplate processTypeDeclaration(StringTemplateGroup stg_, Context context, TypeDeclaration typedecl, Map<String, String> extensions)
     {
         StringTemplate typest = null, extensionst = null;
         String extensionname = null;
@@ -273,7 +265,6 @@ public class TypesGenerator
                 String data = template.toString();
                 fw.write(data, 0, data.length());
                 fw.close();
-                System.out.println(data);
             }
             else
             {
@@ -291,7 +282,7 @@ public class TypesGenerator
     }
 
     private TemplateManager tmanager_ = null;
-    private StringTemplateGroup stg_ = null;
+//    private StringTemplateGroup stg_ = null;
     private String outputDir_ = null;
     private boolean replace_ = false;
 }
