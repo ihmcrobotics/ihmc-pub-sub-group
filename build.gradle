@@ -21,6 +21,7 @@ sourceSets {
 	main {
 		java {
 			srcDirs += ['swig/FastRTPS/generated']
+			srcDirs += ['generated']
 		}
 		
 	}
@@ -47,6 +48,7 @@ dependencies {
     compile group: 'us.ihmc', name: 'IHMCNativeLibraryLoader', version: '1.0'
     compile files('thirdparty/idl/build/libs/idlparser-1.0.0.jar')
 	compile group: 'org.jacorb', name: 'jacorb-idl-compiler', version: '3.8'
+	compile group: 'net.sf.trove4j', name: 'trove4j', version: '3.0.3'
 	
 }
 

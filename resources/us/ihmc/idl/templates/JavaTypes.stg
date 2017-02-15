@@ -57,9 +57,17 @@ type_c(package, name) ::= <<$package$$name$>>
 type_10(package, name) ::= <<$name$>>
 
 // TODO Para que sirve empty en FastBuffers?
-type_e(package, type, maxsize, empty) ::= <<IDLSequence<$type$> $empty$>>
+type_e(package, type, maxsize, empty) ::= <<IDLSequence$if(type_e_content_types.(type))$$type_e_content_types.(type)$$else$<$type$>$endif$ $empty$>>
 
 type_e_content_types ::= [
+	"boolean":".Boolean",
+	"byte":".Byte",
+	"char":".Char",
+	"short":".Short",
+	"int":".Integer",
+	"long":".Long",
+	"float":".Float",
+	"double":".Double",
     default:
 ]
 
