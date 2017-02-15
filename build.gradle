@@ -9,6 +9,7 @@ apply plugin: 'application'
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 version = '0.1'
+buildDir = 'build-java'
 
 project.ext.fullVersion = version
 project.ext.vcsUrl = "https://stash.ihmc.us/projects/LIBS/repos/ihmcjavartps"
@@ -21,8 +22,17 @@ sourceSets {
 		java {
 			srcDirs += ['swig/FastRTPS/generated']
 		}
+		
 	}
+	
 }
+
+task buildIDLParser(type: GradleBuild) {
+    buildFile = 'thirdparty/idl/idl.gradle'
+    tasks = ['clean', 'build']
+}
+compileJava.dependsOn buildIDLParser
+
 
 repositories {
   jcenter()
@@ -35,6 +45,8 @@ repositories {
 dependencies {
 	compile group: 'junit', name: 'junit', version: '4.11'
     compile group: 'us.ihmc', name: 'IHMCNativeLibraryLoader', version: '1.0'
+    compile files('thirdparty/idl/build/libs/idlparser-1.0.0.jar')
+	compile group: 'org.jacorb', name: 'jacorb-idl-compiler', version: '3.8'
 	
 }
 

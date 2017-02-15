@@ -1,0 +1,6 @@
+[submodule "thirdparty/fastcdr"]
+	path = thirdparty/fastcdr
+	url = git@github.com:eProsima/Fast-CDR.git
+[submodule "thirdparty/idl"]
+	path = thirdparty/idl
+	url = git@github.com:eProsima/IDL-Parser.git
