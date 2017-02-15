@@ -1,4 +1,4 @@
-package us.ihmc.idl.Chat;
+package us.ihmc.idl.generated.Chat;
 import java.util.ArrayList;
 import us.ihmc.idl.IDLSequence;
 import us.ihmc.idl.CDR;
