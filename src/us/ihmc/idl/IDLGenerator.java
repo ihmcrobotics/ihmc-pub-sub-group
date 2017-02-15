@@ -25,7 +25,7 @@ import com.eprosima.log.ColorMessage;
 public class IDLGenerator
 {
    private static final String pkg = "us.ihmc.idl.generated";
-   private static final String idlFilename = "LaserScan.idl";
+   private static final String idlFilename = "ChatMessage.idl";
 
    
    public static void main(String[] args) throws IOException
@@ -73,9 +73,8 @@ public class IDLGenerator
          IDLParser parser = new IDLParser(tokens);
          // Pass the filename without the extension
 
-         Specification specification = parser.specification(ctx, tmanager, maintemplates).spec;
-         System.out.println(specification);
-         
+         parser.specification(ctx, tmanager, maintemplates);
+       
 
       }
       catch (FileNotFoundException ex)

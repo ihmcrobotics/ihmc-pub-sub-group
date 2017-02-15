@@ -1,6 +1,5 @@
 package us.ihmc.idl.Chat;
 import java.util.ArrayList;
-import us.ihmc.idl.StringBufferPubSubType;
 import us.ihmc.idl.IDLSequence;
 import us.ihmc.idl.CDR;
 import us.ihmc.idl.IDLStruct;
@@ -9,31 +8,31 @@ public class ChatMessage implements IDLStruct
 {
     public ChatMessage()
     {
-                sender_ = new StringBuffer(255);
+                sender_ = new StringBuilder(255);
                 
-                msg_ = new StringBuffer(255);
+                msg_ = new StringBuilder(255);
                 
         
         
     }
 
-        public void setSender(StringBuffer sender)
+        public void setSender(StringBuilder sender)
         {
             sender_ = sender;
         }
 
-        public StringBuffer getSender()
+        public StringBuilder getSender()
         {
             return sender_;
         }
 
         
-        public void setMsg(StringBuffer msg)
+        public void setMsg(StringBuilder msg)
         {
             msg_ = msg;
         }
 
-        public StringBuffer getMsg()
+        public StringBuilder getMsg()
         {
             return msg_;
         }
@@ -81,13 +80,11 @@ public class ChatMessage implements IDLStruct
 
 
 	    if(sender_.length() <= 255)
-	    cdr.write_type_d(sender_);
-	    else
+	    cdr.write_type_d(sender_);else
 	        throw new RuntimeException("sender field exceeds the maximum length");
 
 	    if(msg_.length() <= 255)
-	    cdr.write_type_d(msg_);
-	    else
+	    cdr.write_type_d(msg_);else
 	        throw new RuntimeException("msg field exceeds the maximum length");
 	}
 	
@@ -116,7 +113,7 @@ public class ChatMessage implements IDLStruct
         return returnedValue;
     }
 
-    private StringBuffer sender_; 
-    private StringBuffer msg_; 
+    private StringBuilder sender_; 
+    private StringBuilder msg_; 
 
 }
