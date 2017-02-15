@@ -1,11 +1,10 @@
 package us.ihmc.idl.sensor_msgs;
 import java.util.ArrayList;
-import us.ihmc.idl.StringPubSubType;
 import us.ihmc.idl.IDLSequence;
 import us.ihmc.idl.CDR;
-import us.ihmc.idl.IDLType;
+import us.ihmc.idl.IDLStruct;
 
-public class Time implements IDLType
+public class Time implements IDLStruct
 {
     public Time()
     {
@@ -26,12 +25,12 @@ public class Time implements IDLType
         }
 
         
-        public void setNanosec(int nanosec)
+        public void setNanosec(long nanosec)
         {
             nanosec_ = nanosec;
         }
 
-        public int getNanosec()
+        public long getNanosec()
         {
             return nanosec_;
         }
@@ -39,12 +38,12 @@ public class Time implements IDLType
         
 
 
-	public static int getMaxCdrSerializedSize()
+	static int getMaxCdrSerializedSize()
 	{
 		return getMaxCdrSerializedSize(0);
 	}
 
-	public static int getMaxCdrSerializedSize(int current_alignment)
+	static int getMaxCdrSerializedSize(int current_alignment)
 	{
 	    int initial_alignment = current_alignment;
 	            
@@ -57,12 +56,12 @@ public class Time implements IDLType
 	}
 
 
-	public static int getCdrSerializedSize(Time data)
+	static int getCdrSerializedSize(Time data)
 	{
 		return getCdrSerializedSize(data, 0);
 	}
 
-	public static int getCdrSerializedSize(Time data, int current_alignment)
+	static int getCdrSerializedSize(Time data, int current_alignment)
 	{
 	    int initial_alignment = current_alignment;
 	            
@@ -78,17 +77,17 @@ public class Time implements IDLType
 	{
 
 
-	    cdr.serializetype_2(sec_);
+	    cdr.write_type_2(sec_);
 
-
-	    cdr.serializetype_4(nanosec_);
-
+	    cdr.write_type_4(nanosec_);
 	}
 	
 	public void deserialize(CDR cdr)
 	{
-	    	sec_ = cdr.deserializetype_2();	
-	    	nanosec_ = cdr.deserializetype_4();	
+
+	    	sec_ = cdr.read_type_2();	
+
+	    	nanosec_ = cdr.read_type_4();	
 	}
 
     @Override
@@ -109,6 +108,6 @@ public class Time implements IDLType
     }
 
     private int sec_; 
-    private int nanosec_; 
+    private long nanosec_; 
 
 }

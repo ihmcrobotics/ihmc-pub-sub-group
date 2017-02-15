@@ -21,16 +21,15 @@ package $package$;
 $endif$
 
 import java.util.ArrayList;
-import us.ihmc.idl.StringPubSubType;
 import us.ihmc.idl.IDLSequence;
 import us.ihmc.idl.CDR;
-import us.ihmc.idl.IDLType;
+import us.ihmc.idl.IDLStruct;
 
 $definitions$
 >>
 
 interface(ctx, parent, interface, exports, extension) ::= <<
-public class $interface.name$
+public interface $interface.name$
 {
     $extension$
 
@@ -39,19 +38,23 @@ public class $interface.name$
 >>
 
 struct_type(ctx, parent, struct, extension) ::= <<
-public class $struct.name$ implements IDLType
+public class $struct.name$ implements IDLStruct
 {
     public $struct.name$()
     {
         $struct.members : { member |
         $if(member.typecode.isType_e)$
         $if(member.typecode.ContentTypeCode.primitive)$
-        $member.name$_ = new $member.typecode.javaTypename$($member.typecode.Maxsize$);
+        $member.name$_ = new $member.typecode.javaTypename$($member.typecode.Maxsize$, "$member.typecode.stType$");
+        $elseif(member.typecode.ContentTypeCode.isType_d)$
+        $member.name$_ = new $member.typecode.javaTypename$($member.typecode.Maxsize$, "$member.typecode.stType$");
         $else$
         $member.name$_ = new $member.typecode.javaTypename$($member.typecode.Maxsize$, $member.typecode.ContentTypeCode.JavaTypename$.class, new $member.typecode.ContentTypeCode.JavaTypename$PubSubType());
         $endif$
         $elseif(member.typecode.isType_f)$
         $member.name$_ = new $member.typecode.ContentTypeCode.JavaTypename$[$member.typecode.Dimensions;separator="]["$];
+        $elseif(member.typecode.isType_d)$
+        $member.name$_ = new $member.typecode.javaTypename$($member.typecode.Maxsize$);
         $elseif(!member.typecode.primitive)$$member.name$_ = new $member.typecode.javaTypename$();$endif$
         }; separator="\n"$
         
@@ -74,12 +77,12 @@ public class $struct.name$ implements IDLType
     }; separator="\n"$
 
 
-	public static int getMaxCdrSerializedSize()
+	static int getMaxCdrSerializedSize()
 	{
 		return getMaxCdrSerializedSize(0);
 	}
 
-	public static int getMaxCdrSerializedSize(int current_alignment)
+	static int getMaxCdrSerializedSize(int current_alignment)
 	{
 	    int initial_alignment = current_alignment;
 	            
@@ -89,12 +92,12 @@ public class $struct.name$ implements IDLType
 	}
 
 
-	public static int getCdrSerializedSize($struct.name$ data)
+	static int getCdrSerializedSize($struct.name$ data)
 	{
 		return getCdrSerializedSize(data, 0);
 	}
 
-	public static int getCdrSerializedSize($struct.name$ data, int current_alignment)
+	static int getCdrSerializedSize($struct.name$ data, int current_alignment)
 	{
 	    int initial_alignment = current_alignment;
 	            
@@ -242,42 +245,17 @@ public class $union.name$
 >>
 
 enum_type(ctx, parent, enum, extension) ::= <<
-public class $enum.name$
+public enum $enum.name$
 {
     $enum.members:{ member |
-        public static final int _$member.name$ = $i$ - 1;
-
-        public static final $enum.name$ $member.name$ = new $enum.name$(_$member.name$);
-
-    }; separator="\n"$
-
-    public int value()
-    {
-        return value_;
-    }
-
-    public static $enum.name$ from_int(int value)
-    {
-        return new $enum.name$(value);
-    }
     
-    protected $enum.name$(int value)
-    {
-        value = value_;
-    }
+    	$member.name$,
+        
+    }; separator="\n"$
+	;
+	
+	public static $enum.name$[] values = values();
 
-    @Override
-    public boolean equals(Object other)
-    {
-        if(other == null) return false;
-        if(other == this) return true;
-        if(!(other instanceof $enum.name$)) return false;
-        $enum.name$ otherMyClass = ($enum.name$)other;
-
-        return this.value_ == otherMyClass.value_;
-    }
-
-    private int value_ = 0;
 
     $extension$
 }

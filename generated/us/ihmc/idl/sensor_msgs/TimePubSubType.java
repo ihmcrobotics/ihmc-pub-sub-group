@@ -22,14 +22,14 @@ public class TimePubSubType implements TopicDataType<Time>
        @Override
    public void serialize(Time data, SerializedPayload serializedPayload) throws IOException
    {
-      serializeCDR.init(serializedPayload);
+      serializeCDR.serialize(serializedPayload);
       data.serialize(serializeCDR);
    }
 
    @Override
    public void deserialize(SerializedPayload serializedPayload, Time data) throws IOException
    {
-      deserializeCDR.init(serializedPayload);
+      deserializeCDR.deserialize(serializedPayload);
       data.deserialize(deserializeCDR);
    }
 
