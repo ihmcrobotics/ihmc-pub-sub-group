@@ -1,4 +1,6 @@
 module sensor_msgs{
+
+	enum Currency {pound, dollar, yen, franc};
     struct Time{
         long sec;
         unsigned long nanosec;
@@ -18,6 +20,8 @@ module sensor_msgs{
         float scan_time;
         float range_min;
         float range_max;
+        
+        Currency cur;
 
         sequence<float, 65535> ranges;
         sequence<float, 65535> intensities;
@@ -29,4 +33,6 @@ module sensor_msgs{
         float floatArray[3];
         Time timeArray[9];
     };
+    
+    
 };

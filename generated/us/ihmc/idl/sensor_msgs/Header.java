@@ -1,16 +1,16 @@
 package us.ihmc.idl.sensor_msgs;
 import java.util.ArrayList;
-import us.ihmc.idl.StringPubSubType;
 import us.ihmc.idl.IDLSequence;
 import us.ihmc.idl.CDR;
-import us.ihmc.idl.IDLType;
+import us.ihmc.idl.IDLStruct;
 
-public class Header implements IDLType
+public class Header implements IDLStruct
 {
     public Header()
     {
                 stamp_ = new us.ihmc.idl.sensor_msgs.Time();        
-                frame_id_ = new String();        
+                frame_id_ = new StringBuilder(255);
+                
         
         
     }
@@ -26,12 +26,12 @@ public class Header implements IDLType
         }
 
         
-        public void setFrame_id(String frame_id)
+        public void setFrame_id(StringBuilder frame_id)
         {
             frame_id_ = frame_id;
         }
 
-        public String getFrame_id()
+        public StringBuilder getFrame_id()
         {
             return frame_id_;
         }
@@ -39,12 +39,12 @@ public class Header implements IDLType
         
 
 
-	public static int getMaxCdrSerializedSize()
+	static int getMaxCdrSerializedSize()
 	{
 		return getMaxCdrSerializedSize(0);
 	}
 
-	public static int getMaxCdrSerializedSize(int current_alignment)
+	static int getMaxCdrSerializedSize(int current_alignment)
 	{
 	    int initial_alignment = current_alignment;
 	            
@@ -56,12 +56,12 @@ public class Header implements IDLType
 	}
 
 
-	public static int getCdrSerializedSize(Header data)
+	static int getCdrSerializedSize(Header data)
 	{
 		return getCdrSerializedSize(data, 0);
 	}
 
-	public static int getCdrSerializedSize(Header data, int current_alignment)
+	static int getCdrSerializedSize(Header data, int current_alignment)
 	{
 	    int initial_alignment = current_alignment;
 	            
@@ -76,19 +76,19 @@ public class Header implements IDLType
 	{
 
 
-	    cdr.serializetype_a(stamp_);
-
+	    cdr.write_type_a(stamp_);
 
 	    if(frame_id_.length() <= 255)
-	    cdr.serializetype_d(frame_id_);
-	    else
+	    cdr.write_type_d(frame_id_);else
 	        throw new RuntimeException("frame_id field exceeds the maximum length");
 	}
 	
 	public void deserialize(CDR cdr)
 	{
-	    	cdr.deserializetype_a(stamp_);	
-	    	cdr.deserializetype_d(frame_id_);	
+
+	    	cdr.read_type_a(stamp_);	
+
+	    	cdr.read_type_d(frame_id_);	
 	}
 
     @Override
@@ -109,6 +109,6 @@ public class Header implements IDLType
     }
 
     private us.ihmc.idl.sensor_msgs.Time stamp_; 
-    private String frame_id_; 
+    private StringBuilder frame_id_; 
 
 }

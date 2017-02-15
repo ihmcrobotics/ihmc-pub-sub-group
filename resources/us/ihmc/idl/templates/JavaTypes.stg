@@ -27,9 +27,9 @@ type_2(package) ::= <<int>>
 
 type_11(package) ::= <<long>>
 
-type_3(package) ::= <<short>>
+type_3(package) ::= <<int>>
 
-type_4(package) ::= <<int>>
+type_4(package) ::= <<long>>
 
 type_12(package) ::= <<long>>
 
@@ -41,9 +41,9 @@ type_7(package) ::= <<boolean>>
 
 type_9(package) ::= <<byte>>
 
-type_d(package) ::= <<String>>
+type_d(package) ::= <<StringBuilder>>
 
-type_15(package) ::= <<String>>
+type_15(package) ::= <<StringBuilder>>
 
 type_f_first(prev) ::= <<wowowo<$prev$>>
 type_f_second(prev, size) ::= <<, $size$>$prev$>>
@@ -58,7 +58,7 @@ type_c(package, name) ::= <<$package$$name$>>
 type_10(package, name) ::= <<$name$>>
 
 // TODO Para que sirve empty en FastBuffers?
-type_e(package, type, maxsize, empty) ::= <<IDLSequence$if(type_e_content_types.(type))$$type_e_content_types.(type)$$else$<$type$>$endif$ $empty$>>
+type_e(package, type, maxsize, empty) ::= <<IDLSequence$if(type_e_content_types.(type))$$type_e_content_types.(type)$$else$.Object<$type$>$endif$ $empty$>>
 
 type_e_content_types ::= [
 	"boolean":".Boolean",
@@ -69,6 +69,7 @@ type_e_content_types ::= [
 	"long":".Long",
 	"float":".Float",
 	"double":".Double",
+	"StringBuilder":".StringBuilderHolder",
     default:
 ]
 

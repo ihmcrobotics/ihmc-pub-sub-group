@@ -22,14 +22,14 @@ public class LaserScanPubSubType implements TopicDataType<LaserScan>
        @Override
    public void serialize(LaserScan data, SerializedPayload serializedPayload) throws IOException
    {
-      serializeCDR.init(serializedPayload);
+      serializeCDR.serialize(serializedPayload);
       data.serialize(serializeCDR);
    }
 
    @Override
    public void deserialize(SerializedPayload serializedPayload, LaserScan data) throws IOException
    {
-      deserializeCDR.init(serializedPayload);
+      deserializeCDR.deserialize(serializedPayload);
       data.deserialize(deserializeCDR);
    }
 
