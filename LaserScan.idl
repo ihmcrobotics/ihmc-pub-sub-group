@@ -1,0 +1,32 @@
+module sensor_msgs{
+    struct Time{
+        long sec;
+        unsigned long nanosec;
+    };
+
+    struct Header{
+        Time stamp;
+        string frame_id;
+    };
+
+    struct LaserScan{
+        Header header;
+        float angle_min;
+        float angle_max;
+        float angle_increment;
+        float time_increment;
+        float scan_time;
+        float range_min;
+        float range_max;
+
+        sequence<float, 65535> ranges;
+        sequence<float, 65535> intensities;
+        
+        sequence<Header, 10> headers;
+        sequence<string, 20> strings;
+        
+        string stringArray[5][2];
+        float floatArray[3];
+        Time timeArray[9];
+    };
+};

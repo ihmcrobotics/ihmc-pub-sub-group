@@ -1,0 +1,10 @@
+module Chat
+{
+struct ChatMessage 
+{
+	string sender;
+	string msg;
+	
+};
+#pragma keylist ChatMessage sender
+};
