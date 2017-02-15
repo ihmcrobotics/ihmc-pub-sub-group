@@ -12,12 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package us.ihmc.idl;
+package us.ihmc.idl.generator;
 
 import com.eprosima.idl.parser.typecode.Member;
 import com.eprosima.idl.parser.tree.Annotation;
 
-public class StructTypeCode extends com.eprosima.idl.parser.typecode.StructTypeCode
+/**
+ * 
+ * Internal class for the code generator
+ * 
+ * @author Jesper Smith
+ *
+ */
+class StructTypeCode extends com.eprosima.idl.parser.typecode.StructTypeCode
 {
     public StructTypeCode(String scope, String name)
     {

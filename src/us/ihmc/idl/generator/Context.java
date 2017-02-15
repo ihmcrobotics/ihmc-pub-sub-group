@@ -1,14 +1,20 @@
-package us.ihmc.idl;
+package us.ihmc.idl.generator;
 
 import java.util.ArrayList;
 
+/**
+ * Internal class for the code generator
+ * 
+ * @author Jesper Smith
+ *
+ */
 public class Context extends com.eprosima.idl.context.Context  
 {
    private String m_package;
    private String m_onlypackage;
    private String m_packageDir;
    
-   public Context(String arg0, String arg1, ArrayList<String> arg2)
+   Context(String arg0, String arg1, ArrayList<String> arg2)
    {
       super(arg0, arg1, arg2);
       

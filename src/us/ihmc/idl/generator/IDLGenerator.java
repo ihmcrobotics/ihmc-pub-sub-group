@@ -1,10 +1,15 @@
-package us.ihmc.idl;
+package us.ihmc.idl.generator;
 
+import java.awt.FileDialog;
+import java.awt.Frame;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 
 import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -15,23 +20,53 @@ import com.eprosima.idl.parser.grammar.IDLLexer;
 import com.eprosima.idl.parser.grammar.IDLParser;
 import com.eprosima.idl.parser.tree.AnnotationDeclaration;
 import com.eprosima.idl.parser.tree.AnnotationMember;
-import com.eprosima.idl.parser.tree.Definition;
-import com.eprosima.idl.parser.tree.Specification;
 import com.eprosima.idl.parser.typecode.PrimitiveTypeCode;
 import com.eprosima.idl.parser.typecode.TypeCode;
 import com.eprosima.idl.util.Util;
 import com.eprosima.log.ColorMessage;
 
+/**
+ * The IDL file parser and code generator. 
+ * 
+ * @author Jesper Smith
+ *
+ */
 public class IDLGenerator
 {
-   private static final String pkg = "us.ihmc.idl.generated";
-   private static final String idlFilename = "ChatMessage.idl";
 
-   
    public static void main(String[] args) throws IOException
    {
+      FileDialog dialog = new FileDialog((Frame) null, "Select idl file", FileDialog.LOAD);
+      dialog.setFile("*.idl");
+      dialog.setVisible(true);
+      String filename = dialog.getFile();
+      if (filename == null)
+      {
+         return;
+      }
+
+      String res = JOptionPane.showInputDialog("Desired package path");
+
+      if (res == null)
+      {
+         JOptionPane.showMessageDialog(null, "No package path given");
+         return;
+      }
+      JFileChooser fileChooser = new JFileChooser();
+      fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+      fileChooser.setCurrentDirectory(new File("."));
+      if (!(fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION))
+      {
+         return;
+      }
+
+      execute(filename, res, fileChooser.getSelectedFile());
+   }
+
+   private static void execute(String idlFilename, String packageName, File targetDirectory) throws IOException
+   {
       System.out.println("Loading templates...");
-      
+
       Field field;
       try
       {
@@ -43,10 +78,11 @@ public class IDLGenerator
       {
          throw new RuntimeException("API changed, fixme", e);
       }
-      
+
       String onlyFileName = Util.getIDLFileNameOnly(idlFilename);
 
       Context ctx = new Context(onlyFileName, idlFilename, new ArrayList<>());
+      ctx.setPackage(packageName);
       TypeCode.javapackage = ctx.getPackage() + ".";
 
       // Create default @Key annotation.
@@ -74,7 +110,6 @@ public class IDLGenerator
          // Pass the filename without the extension
 
          parser.specification(ctx, tmanager, maintemplates);
-       
 
       }
       catch (FileNotFoundException ex)
@@ -82,8 +117,8 @@ public class IDLGenerator
          System.out.println(ColorMessage.error("FileNotFounException") + "The File " + idlFilename + " was not found.");
       }
 
-      File packageDir = new File("generated", ctx.getPackageDir());
-      if(packageDir.isDirectory() || packageDir.mkdirs())
+      File packageDir = new File(targetDirectory, ctx.getPackageDir());
+      if (packageDir.isDirectory() || packageDir.mkdirs())
       {
          TypesGenerator gen = new TypesGenerator(tmanager, ctx.getPackageDir() + "/", true);
          gen.generate(ctx, packageDir.getPath() + "/", ctx.getPackage(), null);
@@ -93,6 +128,5 @@ public class IDLGenerator
          System.out.println("Cannot create output dir " + packageDir);
       }
    }
- 
 
 }
