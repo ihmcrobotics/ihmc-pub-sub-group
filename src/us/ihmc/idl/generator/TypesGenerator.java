@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package us.ihmc.idl;
+package us.ihmc.idl.generator;
 
 import com.eprosima.log.ColorMessage;
 import com.eprosima.idl.generator.manager.TemplateManager;
@@ -30,9 +30,16 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.io.*;
 
-public class TypesGenerator
+/**
+ * Internal class for the code generator
+ * 
+ * 
+ * @author Jesper Smith
+ *
+ */
+class TypesGenerator
 {
-    public TypesGenerator(TemplateManager tmanager, String outputDir, boolean replace)
+    TypesGenerator(TemplateManager tmanager, String outputDir, boolean replace)
     {
         tmanager_ = tmanager;
         outputDir_ = outputDir;
@@ -43,7 +50,7 @@ public class TypesGenerator
      * @brief This function generates data types in Java.
      * It uses a context that was processed by the IDL parser.
      */
-    public boolean generate(Context context, String packagDir, String packag, Map<String, String> extensions)
+    boolean generate(Context context, String packagDir, String packag, Map<String, String> extensions)
     {
         ArrayList<Definition> definitions = context.getDefinitions();
         
@@ -168,7 +175,7 @@ public class TypesGenerator
         return true;
     }
 
-    public boolean processExports(StringTemplateGroup stg_, Context context, ArrayList<Export> exports, StringTemplate ifcst, Map<String, String> extensions)
+    boolean processExports(StringTemplateGroup stg_, Context context, ArrayList<Export> exports, StringTemplate ifcst, Map<String, String> extensions)
     {
         for(Export export : exports)
         {
@@ -190,7 +197,7 @@ public class TypesGenerator
         return true;
     }
 
-    public StringTemplate processTypeDeclaration(StringTemplateGroup stg_, Context context, TypeDeclaration typedecl, Map<String, String> extensions)
+    StringTemplate processTypeDeclaration(StringTemplateGroup stg_, Context context, TypeDeclaration typedecl, Map<String, String> extensions)
     {
         StringTemplate typest = null, extensionst = null;
         String extensionname = null;

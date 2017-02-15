@@ -6,6 +6,14 @@ import org.apache.commons.lang3.NotImplementedException;
 
 import us.ihmc.rtps.common.SerializedPayload;
 
+/**
+ * Helper class to serialize and deserialize IDL messages.
+ * 
+ * It should not be neccessary to use this class directly. Use the IDLGenerator to create the neccessary java files to serialize and deserialize messages
+ * 
+ * @author Jesper Smith
+ *
+ */
 public class CDR
 {
    private ByteBuffer buf;
@@ -19,7 +27,6 @@ public class CDR
    public void serialize(SerializedPayload payload)
    {
       buf = payload.getData();
-      buf.putShort(payload.getEncapsulation());
    }
    
    public void deserialize(SerializedPayload payload)
@@ -198,21 +205,23 @@ public class CDR
     */
    public void read_type_d(StringBuilder res)
    {
-      int length = read_type_2();
+      int length = read_type_2() - 1;
       res.setLength(length);
       for(int i = 0; i < length; i++)
       {
          res.setCharAt(i, (char)buf.get());
       }
+      buf.get(); 
    }
    
    public void write_type_d(StringBuilder str)
    {
-      write_type_2(str.length());
+      write_type_2(str.length() + 1);
       for(int i = 0; i < str.length(); i++)
       {
          buf.put((byte)str.charAt(i));
       }
+      buf.put((byte)0);
    }
    
    /**

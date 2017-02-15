@@ -30,7 +30,7 @@ public class SerializedPayload
    public SerializedPayload(int maxSize)
    {
       this.data = ByteBuffer.allocateDirect(maxSize);
-      this.encapsulation = this.data.order() == ByteOrder.BIG_ENDIAN ? CDR_BE : CDR_LE;
+      setEncapsulation(CDR_LE);
    }
 
    /**

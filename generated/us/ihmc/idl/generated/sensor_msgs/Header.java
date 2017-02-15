@@ -1,4 +1,4 @@
-package us.ihmc.idl.sensor_msgs;
+package us.ihmc.idl.generated.sensor_msgs;
 import java.util.ArrayList;
 import us.ihmc.idl.IDLSequence;
 import us.ihmc.idl.CDR;
@@ -8,19 +8,19 @@ public class Header implements IDLStruct
 {
     public Header()
     {
-                stamp_ = new us.ihmc.idl.sensor_msgs.Time();        
+                stamp_ = new us.ihmc.idl.generated.sensor_msgs.Time();        
                 frame_id_ = new StringBuilder(255);
                 
         
         
     }
 
-        public void setStamp(us.ihmc.idl.sensor_msgs.Time stamp)
+        public void setStamp(us.ihmc.idl.generated.sensor_msgs.Time stamp)
         {
             stamp_ = stamp;
         }
 
-        public us.ihmc.idl.sensor_msgs.Time getStamp()
+        public us.ihmc.idl.generated.sensor_msgs.Time getStamp()
         {
             return stamp_;
         }
@@ -48,7 +48,7 @@ public class Header implements IDLStruct
 	{
 	    int initial_alignment = current_alignment;
 	            
-	    current_alignment += us.ihmc.idl.sensor_msgs.Time.getMaxCdrSerializedSize(current_alignment);
+	    current_alignment += us.ihmc.idl.generated.sensor_msgs.Time.getMaxCdrSerializedSize(current_alignment);
 	    current_alignment += 4 + CDR.alignment(current_alignment, 4) + 255 + 1;
 
 	
@@ -65,7 +65,7 @@ public class Header implements IDLStruct
 	{
 	    int initial_alignment = current_alignment;
 	            
-	    current_alignment += us.ihmc.idl.sensor_msgs.Time.getCdrSerializedSize(data.getStamp(), current_alignment);
+	    current_alignment += us.ihmc.idl.generated.sensor_msgs.Time.getCdrSerializedSize(data.getStamp(), current_alignment);
 	    current_alignment += 4 + CDR.alignment(current_alignment, 4) + data.getFrame_id().length() + 1;
 
 	
@@ -108,7 +108,7 @@ public class Header implements IDLStruct
         return returnedValue;
     }
 
-    private us.ihmc.idl.sensor_msgs.Time stamp_; 
+    private us.ihmc.idl.generated.sensor_msgs.Time stamp_; 
     private StringBuilder frame_id_; 
 
 }

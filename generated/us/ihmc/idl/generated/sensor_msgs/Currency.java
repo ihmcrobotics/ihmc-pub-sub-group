@@ -1,4 +1,4 @@
-package us.ihmc.idl.sensor_msgs;
+package us.ihmc.idl.generated.sensor_msgs;
 import java.util.ArrayList;
 import us.ihmc.idl.IDLSequence;
 import us.ihmc.idl.CDR;
