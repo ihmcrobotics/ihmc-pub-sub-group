@@ -47,7 +47,7 @@ public class IDLGenerator
       String onlyFileName = Util.getIDLFileNameOnly(idlFilename);
 
       Context ctx = new Context(onlyFileName, idlFilename, new ArrayList<>());
-      
+      TypeCode.javapackage = ctx.getPackage() + ".";
 
       // Create default @Key annotation.
       AnnotationDeclaration keyann = ctx.createAnnotationDeclaration("Key", null);
@@ -83,12 +83,12 @@ public class IDLGenerator
          System.out.println(ColorMessage.error("FileNotFounException") + "The File " + idlFilename + " was not found.");
       }
 
-      File packageDir = new File(ctx.getPackageDir());
+      File packageDir = new File("generated", ctx.getPackageDir());
       if(packageDir.isDirectory() || packageDir.mkdirs())
       {
          TypesGenerator gen = new TypesGenerator(tmanager, ctx.getPackageDir() + "/", true);
          ArrayList<Definition> definitions = ctx.getDefinitions();
-         gen.processDefinitions(ctx, definitions, ctx.getPackageDir() + "/", ctx.getPackage(), null);
+         gen.processDefinitions(ctx, definitions, packageDir.getPath() + "/", ctx.getPackage(), null);
       }
       else
       {

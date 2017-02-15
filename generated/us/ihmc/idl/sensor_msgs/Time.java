@@ -1,5 +1,9 @@
-package us.ihmc.idl..sensor_msgs;
+package us.ihmc.idl.sensor_msgs;
 import java.util.ArrayList;
+import us.ihmc.idl.StringPubSubType;
+import us.ihmc.idl.IDLSequence;
+import us.ihmc.idl.CDR;
+import us.ihmc.idl.IDLType;
 
 public class Time
 {
@@ -48,7 +52,7 @@ public class Time
 
 	public static int getCdrSerializedSize(Time data, int current_alignment)
 	{
-	    size_t initial_alignment = current_alignment;
+	    int initial_alignment = current_alignment;
 	            
 	    current_alignment += 4 + CDR.alignment(current_alignment, 4);
 
@@ -58,7 +62,7 @@ public class Time
 	    return current_alignment - initial_alignment;
 	}
 	
-	public static void serialize(CDR cdr)
+	public void serialize(CDR cdr)
 	{
 
 
@@ -69,7 +73,7 @@ public class Time
 
 	}
 	
-	public static void deserialize(CDR cdr)
+	public void deserialize(CDR cdr)
 	{
 	    	sec_ = cdr.deserializetype_2();	
 	    	nanosec_ = cdr.deserializetype_4();	

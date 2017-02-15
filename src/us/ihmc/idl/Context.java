@@ -20,7 +20,7 @@ public class Context extends com.eprosima.idl.context.Context
    {
        if(pack != null && !pack.isEmpty())
        {
-           m_package = pack + ".";
+           m_package = pack;
            m_onlypackage = pack;
            m_packageDir = m_package.replace('.', '/');
        }
