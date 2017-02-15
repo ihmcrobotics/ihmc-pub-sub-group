@@ -1,4 +1,4 @@
-package us.ihmc.idl.sensor_msgs;
+package us.ihmc.idl.Chat;
 
 import java.io.IOException;
 
@@ -6,28 +6,28 @@ import us.ihmc.rtps.common.SerializedPayload;
 import us.ihmc.rtps.TopicDataType;
 import us.ihmc.idl.CDR;
 
-public class HeaderPubSubType implements TopicDataType<Header>
+public class ChatMessagePubSubType implements TopicDataType<ChatMessage>
 {
-	public static final String name = "sensor_msgs::Header";
+	public static final String name = "Chat::ChatMessage";
 	private final CDR serializeCDR = new CDR();
 	private final CDR deserializeCDR = new CDR();
 	
 	
 	
-    public HeaderPubSubType()
+    public ChatMessagePubSubType()
     {
         
     }
     
        @Override
-   public void serialize(Header data, SerializedPayload serializedPayload) throws IOException
+   public void serialize(ChatMessage data, SerializedPayload serializedPayload) throws IOException
    {
       serializeCDR.serialize(serializedPayload);
       data.serialize(serializeCDR);
    }
 
    @Override
-   public void deserialize(SerializedPayload serializedPayload, Header data) throws IOException
+   public void deserialize(SerializedPayload serializedPayload, ChatMessage data) throws IOException
    {
       deserializeCDR.deserialize(serializedPayload);
       data.deserialize(deserializeCDR);
@@ -36,7 +36,7 @@ public class HeaderPubSubType implements TopicDataType<Header>
    @Override
    public int getTypeSize()
    {
-      return Header.getMaxCdrSerializedSize();
+      return ChatMessage.getMaxCdrSerializedSize();
    }
 
    @Override
@@ -46,8 +46,8 @@ public class HeaderPubSubType implements TopicDataType<Header>
    }
 
    @Override
-   public Header createData()
+   public ChatMessage createData()
    {
-      return new Header();
+      return new ChatMessage();
    }
 }

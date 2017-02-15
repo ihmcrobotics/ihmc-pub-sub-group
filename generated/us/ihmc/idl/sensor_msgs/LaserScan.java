@@ -1,11 +1,10 @@
 package us.ihmc.idl.sensor_msgs;
 import java.util.ArrayList;
-import us.ihmc.idl.StringPubSubType;
 import us.ihmc.idl.IDLSequence;
 import us.ihmc.idl.CDR;
-import us.ihmc.idl.IDLType;
+import us.ihmc.idl.IDLStruct;
 
-public class LaserScan implements IDLType
+public class LaserScan implements IDLStruct
 {
     public LaserScan()
     {
@@ -17,19 +16,20 @@ public class LaserScan implements IDLType
                 
                 
                 
-                ranges_ = new IDLSequence.Float (65535);
+                
+                ranges_ = new IDLSequence.Float (65535, "type_e");
+
 
                 
-                intensities_ = new IDLSequence.Float (65535);
+                intensities_ = new IDLSequence.Float (65535, "type_e");
+
 
                 
-                headers_ = new IDLSequence<us.ihmc.idl.sensor_msgs.Header> (10, us.ihmc.idl.sensor_msgs.Header.class, new us.ihmc.idl.sensor_msgs.HeaderPubSubType());
+                headers_ = new IDLSequence.Object<us.ihmc.idl.sensor_msgs.Header> (10, us.ihmc.idl.sensor_msgs.Header.class, new us.ihmc.idl.sensor_msgs.HeaderPubSubType());
 
                 
-                strings_ = new IDLSequence<String> (20, String.class, new StringPubSubType());
-
-                
-                stringArray_ = new String[5][2];
+                strings_ = new IDLSequence.StringBuilderHolder (20, "type_e");        
+                stringArray_ = new StringBuilder[5][2];
                 
                 floatArray_ = new float[3];
                 
@@ -127,6 +127,17 @@ public class LaserScan implements IDLType
         }
 
         
+        public void setCur(us.ihmc.idl.sensor_msgs.Currency cur)
+        {
+            cur_ = cur;
+        }
+
+        public us.ihmc.idl.sensor_msgs.Currency getCur()
+        {
+            return cur_;
+        }
+
+        
 
         public IDLSequence.Float  getRanges()
         {
@@ -142,25 +153,25 @@ public class LaserScan implements IDLType
 
         
 
-        public IDLSequence<us.ihmc.idl.sensor_msgs.Header>  getHeaders()
+        public IDLSequence.Object<us.ihmc.idl.sensor_msgs.Header>  getHeaders()
         {
             return headers_;
         }
 
         
 
-        public IDLSequence<String>  getStrings()
+        public IDLSequence.StringBuilderHolder  getStrings()
         {
             return strings_;
         }
 
         
-        public void setStringArray(String[][] stringArray)
+        public void setStringArray(StringBuilder[][] stringArray)
         {
             stringArray_ = stringArray;
         }
 
-        public String[][] getStringArray()
+        public StringBuilder[][] getStringArray()
         {
             return stringArray_;
         }
@@ -190,16 +201,18 @@ public class LaserScan implements IDLType
         
 
 
-	public static int getMaxCdrSerializedSize()
+	static int getMaxCdrSerializedSize()
 	{
 		return getMaxCdrSerializedSize(0);
 	}
 
-	public static int getMaxCdrSerializedSize(int current_alignment)
+	static int getMaxCdrSerializedSize(int current_alignment)
 	{
 	    int initial_alignment = current_alignment;
 	            
 	    current_alignment += us.ihmc.idl.sensor_msgs.Header.getMaxCdrSerializedSize(current_alignment);
+	    current_alignment += 4 + CDR.alignment(current_alignment, 4);
+
 	    current_alignment += 4 + CDR.alignment(current_alignment, 4);
 
 	    current_alignment += 4 + CDR.alignment(current_alignment, 4);
@@ -246,16 +259,18 @@ public class LaserScan implements IDLType
 	}
 
 
-	public static int getCdrSerializedSize(LaserScan data)
+	static int getCdrSerializedSize(LaserScan data)
 	{
 		return getCdrSerializedSize(data, 0);
 	}
 
-	public static int getCdrSerializedSize(LaserScan data, int current_alignment)
+	static int getCdrSerializedSize(LaserScan data, int current_alignment)
 	{
 	    int initial_alignment = current_alignment;
 	            
 	    current_alignment += us.ihmc.idl.sensor_msgs.Header.getCdrSerializedSize(data.getHeader(), current_alignment);
+	    current_alignment += 4 + CDR.alignment(current_alignment, 4);
+
 	    current_alignment += 4 + CDR.alignment(current_alignment, 4);
 
 	    current_alignment += 4 + CDR.alignment(current_alignment, 4);
@@ -309,77 +324,82 @@ public class LaserScan implements IDLType
 	{
 
 
-	    cdr.serializetype_a(header_);
+	    cdr.write_type_a(header_);
 
+	    cdr.write_type_5(angle_min_);
 
-	    cdr.serializetype_5(angle_min_);
+	    cdr.write_type_5(angle_max_);
 
+	    cdr.write_type_5(angle_increment_);
 
-	    cdr.serializetype_5(angle_max_);
+	    cdr.write_type_5(time_increment_);
 
+	    cdr.write_type_5(scan_time_);
 
-	    cdr.serializetype_5(angle_increment_);
+	    cdr.write_type_5(range_min_);
 
+	    cdr.write_type_5(range_max_);
 
-	    cdr.serializetype_5(time_increment_);
-
-
-	    cdr.serializetype_5(scan_time_);
-
-
-	    cdr.serializetype_5(range_min_);
-
-
-	    cdr.serializetype_5(range_max_);
-
+	    cdr.write_type_c(cur_.ordinal());
 
 	    if(ranges_.size() <= 65535)
-	    cdr.serializetype_e(ranges_);
-	    else
+	    cdr.write_type_e(ranges_);else
 	        throw new RuntimeException("ranges field exceeds the maximum length");
 
 	    if(intensities_.size() <= 65535)
-	    cdr.serializetype_e(intensities_);
-	    else
+	    cdr.write_type_e(intensities_);else
 	        throw new RuntimeException("intensities field exceeds the maximum length");
 
 	    if(headers_.size() <= 10)
-	    cdr.serializetype_e(headers_);
-	    else
+	    cdr.write_type_e(headers_);else
 	        throw new RuntimeException("headers field exceeds the maximum length");
 
 	    if(strings_.size() <= 20)
-	    cdr.serializetype_e(strings_);
-	    else
+	    cdr.write_type_e(strings_);else
 	        throw new RuntimeException("strings field exceeds the maximum length");
 
-	    cdr.serializetype_f(stringArray_);
+	    cdr.write_type_f(stringArray_);
 
+	    cdr.write_type_f(floatArray_);
 
-	    cdr.serializetype_f(floatArray_);
-
-
-	    cdr.serializetype_f(timeArray_);
-
+	    cdr.write_type_f(timeArray_);
 	}
 	
 	public void deserialize(CDR cdr)
 	{
-	    	cdr.deserializetype_a(header_);	
-	    	angle_min_ = cdr.deserializetype_5();	
-	    	angle_max_ = cdr.deserializetype_5();	
-	    	angle_increment_ = cdr.deserializetype_5();	
-	    	time_increment_ = cdr.deserializetype_5();	
-	    	scan_time_ = cdr.deserializetype_5();	
-	    	range_min_ = cdr.deserializetype_5();	
-	    	range_max_ = cdr.deserializetype_5();	
-	    	cdr.deserializetype_e(ranges_);	
-	    	cdr.deserializetype_e(intensities_);	
-	    	cdr.deserializetype_e(headers_);	
-	    	cdr.deserializetype_e(strings_);	
-	    	cdr.deserializetype_f(stringArray_);	
-	    	cdr.deserializetype_f(floatArray_);	
-	    	cdr.deserializetype_f(timeArray_);	
+
+	    	cdr.read_type_a(header_);	
+
+	    	angle_min_ = cdr.read_type_5();	
+
+	    	angle_max_ = cdr.read_type_5();	
+
+	    	angle_increment_ = cdr.read_type_5();	
+
+	    	time_increment_ = cdr.read_type_5();	
+
+	    	scan_time_ = cdr.read_type_5();	
+
+	    	range_min_ = cdr.read_type_5();	
+
+	    	range_max_ = cdr.read_type_5();	
+
+	    	cur_ = us.ihmc.idl.sensor_msgs.Currency.values[cdr.read_type_c()];
+	    	
+
+	    	cdr.read_type_e(ranges_);	
+
+	    	cdr.read_type_e(intensities_);	
+
+	    	cdr.read_type_e(headers_);	
+
+	    	cdr.read_type_e(strings_);	
+
+	    	cdr.read_type_f(stringArray_);	
+
+	    	cdr.read_type_f(floatArray_);	
+
+	    	cdr.read_type_f(timeArray_);	
 	}
 
     @Override
@@ -407,6 +427,8 @@ public class LaserScan implements IDLType
                 
         returnedValue &= this.range_max_ == otherMyClass.range_max_;
                 
+        returnedValue &= this.cur_ == otherMyClass.cur_;
+                
         returnedValue &= this.ranges_.equals(otherMyClass.ranges_);
                 
         returnedValue &= this.intensities_.equals(otherMyClass.intensities_);
@@ -433,11 +455,12 @@ public class LaserScan implements IDLType
     private float scan_time_; 
     private float range_min_; 
     private float range_max_; 
+    private us.ihmc.idl.sensor_msgs.Currency cur_; 
     private IDLSequence.Float  ranges_; 
     private IDLSequence.Float  intensities_; 
-    private IDLSequence<us.ihmc.idl.sensor_msgs.Header>  headers_; 
-    private IDLSequence<String>  strings_; 
-    private String[][] stringArray_; 
+    private IDLSequence.Object<us.ihmc.idl.sensor_msgs.Header>  headers_; 
+    private IDLSequence.StringBuilderHolder  strings_; 
+    private StringBuilder[][] stringArray_; 
     private float[] floatArray_; 
     private us.ihmc.idl.sensor_msgs.Time[] timeArray_; 
 

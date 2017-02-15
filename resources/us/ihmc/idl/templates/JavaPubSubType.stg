@@ -30,7 +30,7 @@ $definitions$
 >>
 
 interface(ctx, parent, interface, exports, extension) ::= <<
-public class $interface.name$ implements IDLType
+public class $interface.name$PubSubType 
 {
     $extension$
 
@@ -55,14 +55,14 @@ public class $struct.name$PubSubType implements TopicDataType<$struct.name$>
        @Override
    public void serialize($struct.name$ data, SerializedPayload serializedPayload) throws IOException
    {
-      serializeCDR.init(serializedPayload);
+      serializeCDR.serialize(serializedPayload);
       data.serialize(serializeCDR);
    }
 
    @Override
    public void deserialize(SerializedPayload serializedPayload, $struct.name$ data) throws IOException
    {
-      deserializeCDR.init(serializedPayload);
+      deserializeCDR.deserialize(serializedPayload);
       data.deserialize(deserializeCDR);
    }
 

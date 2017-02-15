@@ -48,7 +48,10 @@ object_serialization(ctx, object, postfix) ::= <<
 $if(object.typecode.maxsize)$
 if($object.name$$postfix$.$sizeFunction.(object.typecode.stType)$ <= $object.typecode.maxsize$)
 
-$endif$cdr.serialize$object.typecode.stType$($object.name$$postfix$);
+$endif$
+$if(object.typecode.isType_c)$cdr.write_$object.typecode.stType$($object.name$$postfix$.ordinal());
+$else$cdr.write_$object.typecode.stType$($object.name$$postfix$);
+$endif$
 $if(object.typecode.maxsize)$
 else
     throw new RuntimeException("$object.name$ field exceeds the maximum length");
@@ -56,10 +59,13 @@ $endif$
 >>
 
 object_deserialization(ctx, object, postfix) ::= <<
-$if(object.typecode.primitive)$
-	$object.name$$postfix$ = cdr.deserialize$object.typecode.stType$();
+
+$if(object.typecode.isType_c)$
+	$object.name$$postfix$ = $object.typecode.javaTypename$.values[cdr.read_$object.typecode.stType$()];
+$elseif(object.typecode.primitive)$
+	$object.name$$postfix$ = cdr.read_$object.typecode.stType$();
 $else$
-	cdr.deserialize$object.typecode.stType$($object.name$$postfix$);
+	cdr.read_$object.typecode.stType$($object.name$$postfix$);
 $endif$	
 >>
 
