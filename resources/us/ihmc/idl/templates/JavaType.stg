@@ -20,12 +20,16 @@ package $package$;
 $endif$
 
 import java.util.ArrayList;
+import us.ihmc.idl.StringPubSubType;
+import us.ihmc.idl.IDLSequence;
+import us.ihmc.idl.CDR;
+import us.ihmc.idl.IDLType;
 
 $definitions$
 >>
 
 interface(ctx, parent, interface, exports, extension) ::= <<
-public class $interface.name$
+public class $interface.name$ implements IDLType
 {
     $extension$
 
@@ -39,8 +43,14 @@ public class $struct.name$
     public $struct.name$()
     {
         $struct.members : { member |
-        $if(member.typecode.isType_e)$$member.name$_ = new $member.typecode.javaTypename$(new $member.typecode.ContentTypeCode.JavaTypename$[$member.typecode.Maxsize$]);
-        $elseif(member.typecode.isType_f)$$member.name$_ = new $member.typecode.ContentTypeCode.JavaTypename$[$member.typecode.Size$];
+        $if(member.typecode.isType_e)$
+        $if(member.typecode.ContentTypeCode.primitive)$
+        $member.name$_ = new $member.typecode.javaTypename$($member.typecode.Maxsize$);
+        $else$
+        $member.name$_ = new $member.typecode.javaTypename$($member.typecode.Maxsize$, $member.typecode.ContentTypeCode.JavaTypename$.class, new $member.typecode.ContentTypeCode.JavaTypename$PubSubType());
+        $endif$
+        $elseif(member.typecode.isType_f)$
+        $member.name$_ = new $member.typecode.ContentTypeCode.JavaTypename$[$member.typecode.Dimensions;separator="]["$];
         $elseif(!member.typecode.primitive)$$member.name$_ = new $member.typecode.javaTypename$();$endif$
         }; separator="\n"$
         
@@ -73,20 +83,20 @@ public class $struct.name$
 
 	public static int getCdrSerializedSize($struct.name$ data, int current_alignment)
 	{
-	    size_t initial_alignment = current_alignment;
+	    int initial_alignment = current_alignment;
 	            
 	    $struct.members : { member |$serialized_size(ctx=ctx, object=member, data="data", var="current_alignment")$}; separator="\n"$
 	
 	    return current_alignment - initial_alignment;
 	}
 	
-	public static void serialize(CDR cdr)
+	public void serialize(CDR cdr)
 	{
 
 	    $struct.members : { member |$object_serialization(ctx=ctx, object=member, postfix="_")$}; separator="\n"$
 	}
 	
-	public static void deserialize(CDR cdr)
+	public void deserialize(CDR cdr)
 	{
 	    $struct.members : { member |$object_deserialization(ctx=ctx, object=member, postfix="_")$}; separator="\n"$
 	}

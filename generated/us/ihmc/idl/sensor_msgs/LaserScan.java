@@ -1,11 +1,15 @@
-package us.ihmc.idl..sensor_msgs;
+package us.ihmc.idl.sensor_msgs;
 import java.util.ArrayList;
+import us.ihmc.idl.StringPubSubType;
+import us.ihmc.idl.IDLSequence;
+import us.ihmc.idl.CDR;
+import us.ihmc.idl.IDLType;
 
 public class LaserScan
 {
     public LaserScan()
     {
-                header_ = new sensor_msgs.Header();        
+                header_ = new us.ihmc.idl.sensor_msgs.Header();        
                 
                 
                 
@@ -13,34 +17,34 @@ public class LaserScan
                 
                 
                 
-                ranges_ = new IDLSequence<float> (new float[65535]);
+                ranges_ = new IDLSequence.Float (65535);
 
                 
-                intensities_ = new IDLSequence<float> (new float[65535]);
+                intensities_ = new IDLSequence.Float (65535);
 
                 
-                headers_ = new IDLSequence<sensor_msgs.Header> (new sensor_msgs.Header[10]);
+                headers_ = new IDLSequence<us.ihmc.idl.sensor_msgs.Header> (10, us.ihmc.idl.sensor_msgs.Header.class, new us.ihmc.idl.sensor_msgs.HeaderPubSubType());
 
                 
-                strings_ = new IDLSequence<String> (new String[20]);
+                strings_ = new IDLSequence<String> (20, String.class, new StringPubSubType());
 
                 
-                stringArray_ = new String[(5 * 2)];
+                stringArray_ = new String[5][2];
                 
-                floatArray_ = new float[(3)];
+                floatArray_ = new float[3];
                 
-                timeArray_ = new sensor_msgs.Time[(9)];
+                timeArray_ = new us.ihmc.idl.sensor_msgs.Time[9];
                 
         
         
     }
 
-        public void setHeader(sensor_msgs.Header header)
+        public void setHeader(us.ihmc.idl.sensor_msgs.Header header)
         {
             header_ = header;
         }
 
-        public sensor_msgs.Header getHeader()
+        public us.ihmc.idl.sensor_msgs.Header getHeader()
         {
             return header_;
         }
@@ -124,21 +128,21 @@ public class LaserScan
 
         
 
-        public IDLSequence<float>  getRanges()
+        public IDLSequence.Float  getRanges()
         {
             return ranges_;
         }
 
         
 
-        public IDLSequence<float>  getIntensities()
+        public IDLSequence.Float  getIntensities()
         {
             return intensities_;
         }
 
         
 
-        public IDLSequence<sensor_msgs.Header>  getHeaders()
+        public IDLSequence<us.ihmc.idl.sensor_msgs.Header>  getHeaders()
         {
             return headers_;
         }
@@ -173,12 +177,12 @@ public class LaserScan
         }
 
         
-        public void setTimeArray(sensor_msgs.Time[] timeArray)
+        public void setTimeArray(us.ihmc.idl.sensor_msgs.Time[] timeArray)
         {
             timeArray_ = timeArray;
         }
 
-        public sensor_msgs.Time[] getTimeArray()
+        public us.ihmc.idl.sensor_msgs.Time[] getTimeArray()
         {
             return timeArray_;
         }
@@ -189,7 +193,7 @@ public class LaserScan
 	{
 	    int initial_alignment = current_alignment;
 	            
-	    current_alignment += sensor_msgs.Header.getMaxCdrSerializedSize(current_alignment);
+	    current_alignment += us.ihmc.idl.sensor_msgs.Header.getMaxCdrSerializedSize(current_alignment);
 	    current_alignment += 4 + CDR.alignment(current_alignment, 4);
 
 	    current_alignment += 4 + CDR.alignment(current_alignment, 4);
@@ -213,33 +217,33 @@ public class LaserScan
 
 
 	    current_alignment += 4 + CDR.alignment(current_alignment, 4);
-	    for(size_t a = 0; a < 10; ++a)
+	    for(int a = 0; a < 10; ++a)
 	    {
-	        current_alignment += sensor_msgs.Header.getMaxCdrSerializedSize(current_alignment);}
+	        current_alignment += us.ihmc.idl.sensor_msgs.Header.getMaxCdrSerializedSize(current_alignment);}
 
 	    current_alignment += 4 + CDR.alignment(current_alignment, 4);
-	    for(size_t a = 0; a < 20; ++a)
+	    for(int a = 0; a < 20; ++a)
 	    {
 	        current_alignment += 4 + CDR.alignment(current_alignment, 4) + 255 + 1;
 	    }
-	    for(size_t a = 0; a < (5 * 2); ++a)
+	    for(int a = 0; a < (5 * 2); ++a)
 	    {
 	        current_alignment += 4 + CDR.alignment(current_alignment, 4) + 255 + 1;
 	    }
 	    current_alignment += ((3) * 4) + CDR.alignment(current_alignment, 4);
 
-	    for(size_t a = 0; a < (9); ++a)
+	    for(int a = 0; a < (9); ++a)
 	    {
-	        current_alignment += sensor_msgs.Time.getMaxCdrSerializedSize(current_alignment);}
+	        current_alignment += us.ihmc.idl.sensor_msgs.Time.getMaxCdrSerializedSize(current_alignment);}
 	
 	    return current_alignment - initial_alignment;
 	}
 
 	public static int getCdrSerializedSize(LaserScan data, int current_alignment)
 	{
-	    size_t initial_alignment = current_alignment;
+	    int initial_alignment = current_alignment;
 	            
-	    current_alignment += sensor_msgs.Header.getCdrSerializedSize(data.getHeader(), current_alignment);
+	    current_alignment += us.ihmc.idl.sensor_msgs.Header.getCdrSerializedSize(data.getHeader(), current_alignment);
 	    current_alignment += 4 + CDR.alignment(current_alignment, 4);
 
 	    current_alignment += 4 + CDR.alignment(current_alignment, 4);
@@ -263,33 +267,33 @@ public class LaserScan
 
 
 	    current_alignment += 4 + CDR.alignment(current_alignment, 4);
-	    for(size_t a = 0; a < data.getHeaders().size(); ++a)
+	    for(int a = 0; a < data.getHeaders().size(); ++a)
 	    {
-	        current_alignment += sensor_msgs.Header.getCdrSerializedSize(data.getHeaders().get(a), current_alignment);}
+	        current_alignment += us.ihmc.idl.sensor_msgs.Header.getCdrSerializedSize(data.getHeaders().get(a), current_alignment);}
 
 	    current_alignment += 4 + CDR.alignment(current_alignment, 4);
-	    for(size_t a = 0; a < data.getStrings().size(); ++a)
+	    for(int a = 0; a < data.getStrings().size(); ++a)
 	    {
 	        current_alignment += 4 + CDR.alignment(current_alignment, 4) + data.getStrings().get(a).length() + 1;
 	    }
-	    for(size_t a = 0; a < data.getStringArray().size(); ++a)
+	    for(int a = 0; a < data.getStringArray().length; ++a)
 	    {
-	        for(size_t b = 0; b < data.getStringArray().at(a).size(); ++b)
+	        for(int b = 0; b < data.getStringArray()[a].length; ++b)
 	        {
-	                current_alignment += 4 + CDR.alignment(current_alignment, 4) + data.getStringArray().at(a).at(b).size() + 1;
+	                current_alignment += 4 + CDR.alignment(current_alignment, 4) + data.getStringArray()[a][b].length() + 1;
 
 	        }
 	    }
 	    current_alignment += ((3) * 4) + CDR.alignment(current_alignment, 4);
-	    for(size_t a = 0; a < data.getTimeArray().size(); ++a)
+	    for(int a = 0; a < data.getTimeArray().length; ++a)
 	    {
-	            current_alignment += sensor_msgs.Time.getCdrSerializedSize(data.getTimeArray().at(a), current_alignment);
+	            current_alignment += us.ihmc.idl.sensor_msgs.Time.getCdrSerializedSize(data.getTimeArray()[a], current_alignment);
 	    }
 	
 	    return current_alignment - initial_alignment;
 	}
 	
-	public static void serialize(CDR cdr)
+	public void serialize(CDR cdr)
 	{
 
 
@@ -347,7 +351,7 @@ public class LaserScan
 
 	}
 	
-	public static void deserialize(CDR cdr)
+	public void deserialize(CDR cdr)
 	{
 	    	cdr.deserializetype_a(header_);	
 	    	angle_min_ = cdr.deserializetype_5();	
@@ -409,7 +413,7 @@ public class LaserScan
         return returnedValue;
     }
 
-    private sensor_msgs.Header header_; 
+    private us.ihmc.idl.sensor_msgs.Header header_; 
     private float angle_min_; 
     private float angle_max_; 
     private float angle_increment_; 
@@ -417,12 +421,12 @@ public class LaserScan
     private float scan_time_; 
     private float range_min_; 
     private float range_max_; 
-    private IDLSequence<float>  ranges_; 
-    private IDLSequence<float>  intensities_; 
-    private IDLSequence<sensor_msgs.Header>  headers_; 
+    private IDLSequence.Float  ranges_; 
+    private IDLSequence.Float  intensities_; 
+    private IDLSequence<us.ihmc.idl.sensor_msgs.Header>  headers_; 
     private IDLSequence<String>  strings_; 
     private String[][] stringArray_; 
     private float[] floatArray_; 
-    private sensor_msgs.Time[] timeArray_; 
+    private us.ihmc.idl.sensor_msgs.Time[] timeArray_; 
 
 }

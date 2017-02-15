@@ -1,22 +1,26 @@
-package us.ihmc.idl..sensor_msgs;
+package us.ihmc.idl.sensor_msgs;
 import java.util.ArrayList;
+import us.ihmc.idl.StringPubSubType;
+import us.ihmc.idl.IDLSequence;
+import us.ihmc.idl.CDR;
+import us.ihmc.idl.IDLType;
 
 public class Header
 {
     public Header()
     {
-                stamp_ = new sensor_msgs.Time();        
+                stamp_ = new us.ihmc.idl.sensor_msgs.Time();        
                 frame_id_ = new String();        
         
         
     }
 
-        public void setStamp(sensor_msgs.Time stamp)
+        public void setStamp(us.ihmc.idl.sensor_msgs.Time stamp)
         {
             stamp_ = stamp;
         }
 
-        public sensor_msgs.Time getStamp()
+        public us.ihmc.idl.sensor_msgs.Time getStamp()
         {
             return stamp_;
         }
@@ -38,7 +42,7 @@ public class Header
 	{
 	    int initial_alignment = current_alignment;
 	            
-	    current_alignment += sensor_msgs.Time.getMaxCdrSerializedSize(current_alignment);
+	    current_alignment += us.ihmc.idl.sensor_msgs.Time.getMaxCdrSerializedSize(current_alignment);
 	    current_alignment += 4 + CDR.alignment(current_alignment, 4) + 255 + 1;
 
 	
@@ -47,16 +51,16 @@ public class Header
 
 	public static int getCdrSerializedSize(Header data, int current_alignment)
 	{
-	    size_t initial_alignment = current_alignment;
+	    int initial_alignment = current_alignment;
 	            
-	    current_alignment += sensor_msgs.Time.getCdrSerializedSize(data.getStamp(), current_alignment);
+	    current_alignment += us.ihmc.idl.sensor_msgs.Time.getCdrSerializedSize(data.getStamp(), current_alignment);
 	    current_alignment += 4 + CDR.alignment(current_alignment, 4) + data.getFrame_id().length() + 1;
 
 	
 	    return current_alignment - initial_alignment;
 	}
 	
-	public static void serialize(CDR cdr)
+	public void serialize(CDR cdr)
 	{
 
 
@@ -69,7 +73,7 @@ public class Header
 	        throw new RuntimeException("frame_id field exceeds the maximum length");
 	}
 	
-	public static void deserialize(CDR cdr)
+	public void deserialize(CDR cdr)
 	{
 	    	cdr.deserializetype_a(stamp_);	
 	    	cdr.deserializetype_d(frame_id_);	
@@ -92,7 +96,7 @@ public class Header
         return returnedValue;
     }
 
-    private sensor_msgs.Time stamp_; 
+    private us.ihmc.idl.sensor_msgs.Time stamp_; 
     private String frame_id_; 
 
 }
