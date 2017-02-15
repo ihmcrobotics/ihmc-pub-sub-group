@@ -59,7 +59,6 @@ public class IDLGenerator
 
       // Create template manager
       TemplateManager tmanager = new TemplateManager("FastCdrCommon:Common");
-      tmanager.addGroup("JavaSource");
 
       // Create main template
       TemplateGroup maintemplates = tmanager.createTemplateGroup("main");
@@ -76,6 +75,7 @@ public class IDLGenerator
 
          Specification specification = parser.specification(ctx, tmanager, maintemplates).spec;
          System.out.println(specification);
+         
 
       }
       catch (FileNotFoundException ex)
@@ -87,8 +87,7 @@ public class IDLGenerator
       if(packageDir.isDirectory() || packageDir.mkdirs())
       {
          TypesGenerator gen = new TypesGenerator(tmanager, ctx.getPackageDir() + "/", true);
-         ArrayList<Definition> definitions = ctx.getDefinitions();
-         gen.processDefinitions(ctx, definitions, packageDir.getPath() + "/", ctx.getPackage(), null);
+         gen.generate(ctx, packageDir.getPath() + "/", ctx.getPackage(), null);
       }
       else
       {

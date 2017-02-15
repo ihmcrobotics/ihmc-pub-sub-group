@@ -5,7 +5,7 @@ import us.ihmc.idl.IDLSequence;
 import us.ihmc.idl.CDR;
 import us.ihmc.idl.IDLType;
 
-public class LaserScan
+public class LaserScan implements IDLType
 {
     public LaserScan()
     {
@@ -189,6 +189,12 @@ public class LaserScan
 
         
 
+
+	public static int getMaxCdrSerializedSize()
+	{
+		return getMaxCdrSerializedSize(0);
+	}
+
 	public static int getMaxCdrSerializedSize(int current_alignment)
 	{
 	    int initial_alignment = current_alignment;
@@ -237,6 +243,12 @@ public class LaserScan
 	        current_alignment += us.ihmc.idl.sensor_msgs.Time.getMaxCdrSerializedSize(current_alignment);}
 	
 	    return current_alignment - initial_alignment;
+	}
+
+
+	public static int getCdrSerializedSize(LaserScan data)
+	{
+		return getCdrSerializedSize(data, 0);
 	}
 
 	public static int getCdrSerializedSize(LaserScan data, int current_alignment)

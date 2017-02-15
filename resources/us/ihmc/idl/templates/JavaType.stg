@@ -1,4 +1,5 @@
 // Copyright 2016 Proyectos y Sistemas de Mantenimiento SL (eProsima).
+// Copyright 2017 Florida Institute for Human And Machine Cognition (IHMC)
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -29,7 +30,7 @@ $definitions$
 >>
 
 interface(ctx, parent, interface, exports, extension) ::= <<
-public class $interface.name$ implements IDLType
+public class $interface.name$
 {
     $extension$
 
@@ -38,7 +39,7 @@ public class $interface.name$ implements IDLType
 >>
 
 struct_type(ctx, parent, struct, extension) ::= <<
-public class $struct.name$
+public class $struct.name$ implements IDLType
 {
     public $struct.name$()
     {
@@ -72,6 +73,12 @@ public class $struct.name$
 
     }; separator="\n"$
 
+
+	public static int getMaxCdrSerializedSize()
+	{
+		return getMaxCdrSerializedSize(0);
+	}
+
 	public static int getMaxCdrSerializedSize(int current_alignment)
 	{
 	    int initial_alignment = current_alignment;
@@ -79,6 +86,12 @@ public class $struct.name$
 	    $struct.members : { member |$max_serialized_size(ctx=ctx, typecode=member.typecode, var="current_alignment")$}; separator="\n"$
 	
 	    return current_alignment - initial_alignment;
+	}
+
+
+	public static int getCdrSerializedSize($struct.name$ data)
+	{
+		return getCdrSerializedSize(data, 0);
 	}
 
 	public static int getCdrSerializedSize($struct.name$ data, int current_alignment)
