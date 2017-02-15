@@ -342,6 +342,7 @@ public class LaserScan implements IDLStruct
 
 	    cdr.write_type_c(cur_.ordinal());
 
+
 	    if(ranges_.size() <= 65535)
 	    cdr.write_type_e(ranges_);else
 	        throw new RuntimeException("ranges field exceeds the maximum length");
@@ -358,11 +359,23 @@ public class LaserScan implements IDLStruct
 	    cdr.write_type_e(strings_);else
 	        throw new RuntimeException("strings field exceeds the maximum length");
 
-	    cdr.write_type_f(stringArray_);
+	    for(int a = 0; a < stringArray_.length; ++a)
+	    {
+	        for(int b = 0; b < stringArray_[a].length; ++b)
+	        {
+	            	cdr.read_type_d(stringArray_[a][b]);	
+	        }
+	    }
 
-	    cdr.write_type_f(floatArray_);
+	    for(int a = 0; a < floatArray_.length; ++a)
+	    {
+	        	floatArray_[a] = cdr.read_type_5();	
+	    }
 
-	    cdr.write_type_f(timeArray_);
+	    for(int a = 0; a < timeArray_.length; ++a)
+	    {
+	        	cdr.read_type_a(timeArray_[a]);	
+	    }
 	}
 	
 	public void deserialize(CDR cdr)
@@ -395,11 +408,26 @@ public class LaserScan implements IDLStruct
 
 	    	cdr.read_type_e(strings_);	
 
-	    	cdr.read_type_f(stringArray_);	
+	    	for(int a = 0; a < stringArray_.length; ++a)
+	    	{
+	    	    for(int b = 0; b < stringArray_[a].length; ++b)
+	    	    {
+	    	        	cdr.read_type_d(stringArray_[a][b]);	
+	    	    }
+	    	}
+	    	
 
-	    	cdr.read_type_f(floatArray_);	
+	    	for(int a = 0; a < floatArray_.length; ++a)
+	    	{
+	    	    	floatArray_[a] = cdr.read_type_5();	
+	    	}
+	    	
 
-	    	cdr.read_type_f(timeArray_);	
+	    	for(int a = 0; a < timeArray_.length; ++a)
+	    	{
+	    	    	cdr.read_type_a(timeArray_[a]);	
+	    	}
+	    	
 	}
 
     @Override

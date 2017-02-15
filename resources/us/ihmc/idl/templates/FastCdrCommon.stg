@@ -50,6 +50,7 @@ if($object.name$$postfix$.$sizeFunction.(object.typecode.stType)$ <= $object.typ
 
 $endif$
 $if(object.typecode.isType_c)$cdr.write_$object.typecode.stType$($object.name$$postfix$.ordinal());
+$elseif(object.typecode.isType_f)$$array_serialize(ctx=ctx, typecodeArr=object.typecode, data=[object.name, postfix], loopvar=ctx.newLoopVarName, dimensions=object.typecode.dimensions)$
 $else$cdr.write_$object.typecode.stType$($object.name$$postfix$);
 $endif$
 $if(object.typecode.maxsize)$
@@ -58,16 +59,52 @@ else
 $endif$
 >>
 
+array_serialize(ctx, typecodeArr, data, loopvar, dimensions) ::= <<
+$if(first(dimensions))$
+for(int $loopvar$ = 0; $loopvar$ < $data$.length; ++$loopvar$)
+{
+    $array_deserialize(ctx=ctx, typecodeArr=typecodeArr, data=[data, "[", loopvar, "]"], loopvar=ctx.nextLoopVarName, dimensions=rest(dimensions))$
+}
+$else$
+$if(typecodeArr.contentTypeCode.isType_c)$
+	cdr.write_$typecodeArr.contentTypeCode.stType$($data$.ordinal())
+$else$
+	cdr.write_$typecodeArr.contentTypeCode.stType$($data$);
+$endif$	
+$endif$
+>>
+
 object_deserialization(ctx, object, postfix) ::= <<
 
 $if(object.typecode.isType_c)$
 	$object.name$$postfix$ = $object.typecode.javaTypename$.values[cdr.read_$object.typecode.stType$()];
+$elseif(object.typecode.isType_f)$
+	$array_deserialize(ctx=ctx, typecodeArr=object.typecode, data=[object.name, postfix], loopvar=ctx.newLoopVarName, dimensions=object.typecode.dimensions)$
 $elseif(object.typecode.primitive)$
 	$object.name$$postfix$ = cdr.read_$object.typecode.stType$();
 $else$
 	cdr.read_$object.typecode.stType$($object.name$$postfix$);
 $endif$	
 >>
+
+array_deserialize(ctx, typecodeArr, data, loopvar, dimensions) ::= <<
+$if(first(dimensions))$
+for(int $loopvar$ = 0; $loopvar$ < $data$.length; ++$loopvar$)
+{
+    $array_deserialize(ctx=ctx, typecodeArr=typecodeArr, data=[data, "[", loopvar, "]"], loopvar=ctx.nextLoopVarName, dimensions=rest(dimensions))$
+}
+$else$
+$if(typecodeArr.contentTypeCode.isType_c)$
+	$data$ = $typecodeArr.contentTypeCode.javaTypename$.values[cdr.read_$typecodeArr.contentTypeCode.stType$()];
+$elseif(typecodeArr.contentTypeCode.primitive)$
+	$data$ = cdr.read_$typecodeArr.contentTypeCode.stType$();
+$else$
+	cdr.read_$typecodeArr.contentTypeCode.stType$($data$);
+$endif$	
+$endif$
+>>
+
+
 
 // TODO Todos los tipos. MEJORAR. size of 1 no deberia generar alignment.
 max_serialized_size(ctx, typecode, var) ::= <<
