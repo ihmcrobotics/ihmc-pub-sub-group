@@ -228,7 +228,6 @@ public class CDR
    
    public void write_type_d(StringBuilder str)
    {
-      System.out.println(str.length());
       write_type_2(str.length() + 1);
       for(int i = 0; i < str.length(); i++)
       {
