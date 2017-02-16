@@ -10,7 +10,7 @@ import us.ihmc.idl.generated.IDLElement.Color;
 import us.ihmc.idl.generated.IDLElement.IDLElementTest;
 import us.ihmc.idl.generated.IDLElement.IDLElementTestPubSubType;
 import us.ihmc.idl.generated.IDLElement.NestedElement;
-import us.ihmc.rtps.common.SerializedPayload;
+import us.ihmc.pubsub.common.SerializedPayload;
 
 /**
  * Test cases for the IDLElementTest type. 

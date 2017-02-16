@@ -1,6 +1,6 @@
 package us.ihmc.rtps.impl.fastRTPS;
 
-import us.ihmc.rtps.attributes.PublisherAttributes;
+import us.ihmc.pubsub.attributes.PublisherAttributes;
 
 public class FastRTPSPublisherAttributes extends PublisherAttributes<WriterQos, WriterTimes, LocatorList_t>
 {

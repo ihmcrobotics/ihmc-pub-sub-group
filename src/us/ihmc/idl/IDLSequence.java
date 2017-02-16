@@ -9,7 +9,7 @@ import gnu.trove.list.array.TFloatArrayList;
 import gnu.trove.list.array.TIntArrayList;
 import gnu.trove.list.array.TLongArrayList;
 import gnu.trove.list.array.TShortArrayList;
-import us.ihmc.rtps.TopicDataType;
+import us.ihmc.pubsub.TopicDataType;
 
 /**
  * Represents an IDL sequence.

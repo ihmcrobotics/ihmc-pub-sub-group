@@ -9,7 +9,7 @@ import org.junit.Test;
 
 import us.ihmc.idl.generated.Chat.ChatMessage;
 import us.ihmc.idl.generated.Chat.ChatMessagePubSubType;
-import us.ihmc.rtps.common.SerializedPayload;
+import us.ihmc.pubsub.common.SerializedPayload;
 
 public class ChatMessageTest
 {
