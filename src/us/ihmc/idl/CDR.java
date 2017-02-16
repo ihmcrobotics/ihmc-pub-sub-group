@@ -138,7 +138,8 @@ public class CDR
     */
    public boolean read_type_7()
    {
-      return read_type_9() != (byte)0;
+      int val = read_type_9();
+      return val != (byte)0;
    }
    
    public void write_type_7(boolean val)
