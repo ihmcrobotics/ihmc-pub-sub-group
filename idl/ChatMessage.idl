@@ -6,5 +6,4 @@ struct ChatMessage
 	string msg;
 	
 };
-#pragma keylist ChatMessage sender
 };
