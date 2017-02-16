@@ -1,6 +1,9 @@
 package us.ihmc.idl;
 
 import java.lang.reflect.Array;
+import java.util.Arrays;
+
+import gnu.trove.list.array.TDoubleArrayList;
 
 /**
  * Preallocated list of Objects or Enums.
@@ -14,6 +17,7 @@ import java.lang.reflect.Array;
  */
 public class PreallocatedList<T>
 {
+   private final Class<T> clazz;
    private final T[] values;
    private int pos = -1;
 
@@ -24,6 +28,7 @@ public class PreallocatedList<T>
    @SuppressWarnings("unchecked")
    public PreallocatedList(Class<T> clazz, ListAllocator<T> allocator, int maxSize)
    {
+      this.clazz = clazz;
       this.values = (T[]) Array.newInstance(clazz, maxSize);
       this.isEnum = false;
       this.constants = null;
@@ -36,6 +41,7 @@ public class PreallocatedList<T>
    @SuppressWarnings({"unchecked", "rawtypes"})
    public PreallocatedList(Class<T> clazz, Enum[] constants, int maxSize)
    {
+      this.clazz = clazz;
       this.values = (T[]) Array.newInstance(clazz, maxSize);
       this.isEnum = true;
       this.constants = constants;
@@ -45,7 +51,7 @@ public class PreallocatedList<T>
    {
       T createInstance();
    }
-   
+
    /**
     * 
     * @return true if this is a List of enums
@@ -63,13 +69,13 @@ public class PreallocatedList<T>
    @SuppressWarnings("rawtypes")
    public Enum[] getEnumConstants()
    {
-      if(!isEnum)
+      if (!isEnum)
       {
          throw new RuntimeException("This list is not filled with Enums");
       }
       return constants;
    }
-   
+
    /**
     * Clears the list. 
     * 
@@ -181,6 +187,47 @@ public class PreallocatedList<T>
    public int size()
    {
       return pos + 1;
+   }
+
+   @Override
+   public int hashCode()
+   {
+      final int prime = 31;
+      int result = 1;
+      result = prime * result + ((clazz == null) ? 0 : clazz.hashCode());
+      result = prime * result + Arrays.hashCode(constants);
+      result = prime * result + (isEnum ? 1231 : 1237);
+      result = prime * result + pos;
+      result = prime * result + Arrays.hashCode(values);
+      return result;
+   }
+
+   @Override
+   public boolean equals(Object obj)
+   {
+      if (this == obj)
+         return true;
+      if (obj == null)
+         return false;
+      if (getClass() != obj.getClass())
+         return false;
+      PreallocatedList<?> other = (PreallocatedList<?>) obj;
+      if (clazz == null)
+      {
+         if (other.clazz != null)
+            return false;
+      }
+      else if (!clazz.equals(other.clazz))
+         return false;
+      if (!Arrays.equals(constants, other.constants))
+         return false;
+      if (isEnum != other.isEnum)
+         return false;
+      if (pos != other.pos)
+         return false;
+      if (!Arrays.equals(values, other.values))
+         return false;
+      return true;
    }
 
 }
