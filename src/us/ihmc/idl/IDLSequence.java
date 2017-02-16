@@ -1,5 +1,6 @@
 package us.ihmc.idl;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import org.apache.commons.lang3.NotImplementedException;
@@ -11,6 +12,7 @@ import gnu.trove.list.array.TFloatArrayList;
 import gnu.trove.list.array.TIntArrayList;
 import gnu.trove.list.array.TLongArrayList;
 import gnu.trove.list.array.TShortArrayList;
+import us.ihmc.idl.generated.IDLElement.Color;
 import us.ihmc.rtps.TopicDataType;
 
 /**
@@ -62,6 +64,15 @@ public interface IDLSequence
          cdr.write_type_7(getBoolean(i));
          ;
       }
+      
+      public void set(Boolean other)
+      {
+         resetQuick();
+         for(int i = 0; i < other.size(); i++)
+         {
+            add(other.get(i));
+         }
+      }
 
    }
 
@@ -86,6 +97,15 @@ public interface IDLSequence
       public void writeElement(int i, CDR cdr)
       {
          cdr.write_type_9(get(i));
+      }
+      
+      public void set(Byte other)
+      {
+         resetQuick();
+         for(int i = 0; i < other.size(); i++)
+         {
+            add(other.get(i));
+         }
       }
    }
 
@@ -136,6 +156,15 @@ public interface IDLSequence
             break;
          }
       }
+      
+      public void set(Char other)
+      {
+         resetQuick();
+         for(int i = 0; i < other.size(); i++)
+         {
+            add(other.get(i));
+         }
+      }
    }
 
    public static class Short extends TShortArrayList implements IDLSequence
@@ -159,6 +188,15 @@ public interface IDLSequence
       public void writeElement(int i, CDR cdr)
       {
          cdr.write_type_1(get(i));
+      }
+      
+      public void set(Short other)
+      {
+         resetQuick();
+         for(int i = 0; i < other.size(); i++)
+         {
+            add(other.get(i));
+         }
       }
    }
 
@@ -207,6 +245,15 @@ public interface IDLSequence
          case 3:
             cdr.write_type_3(get(i));
             break;
+         }
+      }
+      
+      public void set(Integer other)
+      {
+         resetQuick();
+         for(int i = 0; i < other.size(); i++)
+         {
+            add(other.get(i));
          }
       }
    }
@@ -267,6 +314,15 @@ public interface IDLSequence
             break;
          }
       }
+      
+      public void set(Long other)
+      {
+         resetQuick();
+         for(int i = 0; i < other.size(); i++)
+         {
+            add(other.get(i));
+         }
+      }
    }
 
    public static class Float extends TFloatArrayList implements IDLSequence
@@ -291,6 +347,15 @@ public interface IDLSequence
       {
          cdr.write_type_5(get(i));
       }
+      
+      public void set(Float other)
+      {
+         resetQuick();
+         for(int i = 0; i < other.size(); i++)
+         {
+            add(other.get(i));
+         }
+      }
    }
 
    public static class Double extends TDoubleArrayList implements IDLSequence
@@ -314,6 +379,15 @@ public interface IDLSequence
       public void writeElement(int i, CDR cdr)
       {
          cdr.write_type_6(get(i));
+      }
+      
+      public void set(Double other)
+      {
+         resetQuick();
+         for(int i = 0; i < other.size(); i++)
+         {
+            add(other.get(i));
+         }
       }
    }
 
@@ -373,46 +447,37 @@ public interface IDLSequence
             break;
          }
       }
-
-   }
-
-   public static class EnumType<T extends Enum<T>> extends ArrayList<T> implements IDLSequence
-   {
-      private final Enum<T>[] enumConstants;
-
-      public EnumType(int maxSize, Class<T> clazz)
+      
+      public void set(StringBuilderHolder other)
       {
-         super(maxSize);
-         this.enumConstants = clazz.getEnumConstants();
-      }
-
-      @Override
-      public void resetQuick()
-      {
-         clear();
-      }
-
-      @SuppressWarnings("unchecked")
-      @Override
-      public void readElement(int i, CDR cdr)
-      {
-         add((T) enumConstants[cdr.read_type_c()]);
-      }
-
-      @Override
-      public void writeElement(int i, CDR cdr)
-      {
-         cdr.write_type_c(get(i).ordinal());
+         resetQuick();
+         for(int i = 0; i < other.size(); i++)
+         {
+            add(other.get(i));
+         }
       }
 
    }
 
-   public static class Object<T extends IDLStruct> extends ArrayList<T> implements IDLSequence
+
+   /**
+    * Generic object and enum type for IDL sequences. 
+    * 
+    * This object preallocates the maximum number of instances. 
+    * No setter is provided, use add(), remove() and get(i) to add, remove or get elements and change them in place. 
+    * 
+    * @author Jesper Smith
+    *
+    * @param <T> Element type
+    */
+   public static class Object<T extends IDLStruct> implements IDLSequence
    {
-      private static final long serialVersionUID = -5474351057888727678L;
       private final TopicDataType<T> topicDataType;
       private final Enum[] constants;
       private final boolean isEnum;
+      
+      private final T[] values;
+      private int pos = -1;
 
       /**
        * 
@@ -422,7 +487,11 @@ public interface IDLSequence
        */
       public Object(int maxSize, Class<T> clazz, TopicDataType<T> topicDataType)
       {
-         super(maxSize);
+         this.values = (T[]) Array.newInstance(clazz, maxSize);
+         for(int i = 0; i < maxSize; i++)
+         {
+            values[i] = topicDataType.createData();
+         }
          this.topicDataType = topicDataType;
          this.isEnum = false;
          this.constants = null;
@@ -430,18 +499,105 @@ public interface IDLSequence
 
       public Object(int maxSize, Enum[] constants)
       {
-         super(maxSize);
+         if(maxSize > 0)
+         {
+            this.values = (T[]) Array.newInstance(constants[0].getClass(), maxSize);
+         }
+         else
+         {
+            this.values = (T[]) new Object[0];
+         }
          this.topicDataType = null;
          this.isEnum = true;
          this.constants = constants;
       }
 
+      /**
+       * Clears the list. 
+       * 
+       * This function just resets the size to 0. The underlying data objects are not emptied or removed.
+       */
       @Override
       public void resetQuick()
       {
-         clear();
+         pos = -1;
       }
 
+      /**
+       * Add a value and return a handle to the object.
+       * 
+       * Do not use for Enum sequences.
+       * 
+       * @return value at the last position. This object can still hold data.
+       */
+      public T add()
+      {
+         if(isEnum)
+         {
+            throw new RuntimeException("Cannot add() enum to enum sequences. Use add(T) instead.");
+         }
+         if(pos + 1 >= this.values.length)
+         {
+            throw new ArrayIndexOutOfBoundsException("Cannot add element to sequence, max size is violated");
+         }
+         return values[++pos];  
+      }
+      
+      /**
+       * Add an enum value.
+       * 
+       * Use for enum sequences 
+       * 
+       * @param Enum value
+       */
+      public void add(T value)
+      {
+         if(!isEnum)
+         {
+            throw new RuntimeException("Cannot add(Enum) to object sequences. Use T add() instead");
+         }
+         if(pos + 1 >= this.values.length)
+         {
+            throw new ArrayIndexOutOfBoundsException("Cannot add element to sequence, max size is violated");
+         }
+         values[++pos] = value; 
+      }
+      
+      /**
+       * Removes the last element in the list. The underlying data object is not emptied or removed
+       */
+      public void remove()
+      {
+         if(pos < 0)
+         {
+            throw new ArrayIndexOutOfBoundsException("List is empty");
+         }
+         --pos;
+      }
+      
+      /**
+       * Get the element at position i. To change the element, use get() and 
+       * 
+       * @param i Position to get element at
+       * @return Element at position i.
+       */
+      public T get(int i)
+      {
+         if(i < 0 || i > pos)
+         {
+            throw new ArrayIndexOutOfBoundsException("Position is not valid in the list, size is " + size() + ", requested element is " + i);
+         }
+         return values[i];
+      }
+      
+      /**
+       * Clears the list
+       */
+      public void clear()
+      {
+         resetQuick();
+      }
+      
       @Override
       public void readElement(int i, CDR cdr)
       {
@@ -451,9 +607,8 @@ public interface IDLSequence
          }
          else
          {
-            T val = topicDataType.createData();
-            cdr.read_type_a(val);
-            add(val);
+            T val = add();
+            cdr.read_type_a(val);            
          }
       }
 
@@ -467,6 +622,36 @@ public interface IDLSequence
          else
          {
             cdr.write_type_a(get(i));
+         }
+      }
+
+      /**
+       * Returns the number of active elements in this list
+       */
+      @Override
+      public int size()
+      {
+         return pos + 1;
+      }
+
+      public void set(Object<T> other)
+      {
+         if(isEnum)
+         {
+            clear();
+            for(int i = 0; i < other.size(); i++)
+            {
+               add(other.get(i));
+            }
+         }
+         else
+         {
+            clear();
+            for(int i = 0; i < other.size(); i++)
+            {
+               T val = add();
+               val.set(other.get(i));
+            }
          }
       }
    }
