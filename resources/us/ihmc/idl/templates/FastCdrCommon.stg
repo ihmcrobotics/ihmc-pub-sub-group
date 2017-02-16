@@ -63,7 +63,7 @@ array_serialize(ctx, typecodeArr, data, loopvar, dimensions) ::= <<
 $if(first(dimensions))$
 for(int $loopvar$ = 0; $loopvar$ < $data$.length; ++$loopvar$)
 {
-    $array_deserialize(ctx=ctx, typecodeArr=typecodeArr, data=[data, "[", loopvar, "]"], loopvar=ctx.nextLoopVarName, dimensions=rest(dimensions))$
+    $array_serialize(ctx=ctx, typecodeArr=typecodeArr, data=[data, "[", loopvar, "]"], loopvar=ctx.nextLoopVarName, dimensions=rest(dimensions))$
 }
 $else$
 $if(typecodeArr.contentTypeCode.isType_c)$

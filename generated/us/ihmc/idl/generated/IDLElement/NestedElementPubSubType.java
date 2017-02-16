@@ -1,4 +1,4 @@
-package us.ihmc.idl.generated.sensor_msgs;
+package us.ihmc.idl.generated.IDLElement;
 
 import java.io.IOException;
 
@@ -6,37 +6,39 @@ import us.ihmc.rtps.common.SerializedPayload;
 import us.ihmc.rtps.TopicDataType;
 import us.ihmc.idl.CDR;
 
-public class TimePubSubType implements TopicDataType<Time>
+public class NestedElementPubSubType implements TopicDataType<NestedElement>
 {
-	public static final String name = "sensor_msgs::Time";
+	public static final String name = "IDLElement::NestedElement";
 	private final CDR serializeCDR = new CDR();
 	private final CDR deserializeCDR = new CDR();
 	
 	
 	
-    public TimePubSubType()
+    public NestedElementPubSubType()
     {
         
     }
     
        @Override
-   public void serialize(Time data, SerializedPayload serializedPayload) throws IOException
+   public void serialize(NestedElement data, SerializedPayload serializedPayload) throws IOException
    {
       serializeCDR.serialize(serializedPayload);
       data.serialize(serializeCDR);
+      serializeCDR.finishSerialize();
    }
 
    @Override
-   public void deserialize(SerializedPayload serializedPayload, Time data) throws IOException
+   public void deserialize(SerializedPayload serializedPayload, NestedElement data) throws IOException
    {
       deserializeCDR.deserialize(serializedPayload);
       data.deserialize(deserializeCDR);
+      deserializeCDR.finishDeserialize();
    }
 
    @Override
    public int getTypeSize()
    {
-      return Time.getMaxCdrSerializedSize();
+      return NestedElement.getMaxCdrSerializedSize();
    }
 
    @Override
@@ -46,8 +48,8 @@ public class TimePubSubType implements TopicDataType<Time>
    }
 
    @Override
-   public Time createData()
+   public NestedElement createData()
    {
-      return new Time();
+      return new NestedElement();
    }
 }

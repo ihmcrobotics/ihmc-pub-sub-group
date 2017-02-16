@@ -1,4 +1,4 @@
-package us.ihmc.idl.generated.sensor_msgs;
+package us.ihmc.idl.generated.IDLElement;
 
 import java.io.IOException;
 

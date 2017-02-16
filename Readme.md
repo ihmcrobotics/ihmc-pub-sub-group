@@ -12,7 +12,7 @@ The Pub/Sub API is based on the eProsima Fast-RTPS C++ Api. The API is decoupled
 The code generator is built on top of the eProsima IDL-Parser and creates pure Java classes. Serialization and deserialization methods are provided. This allows creating new IDL structures without having to compile the underlying C++ library.
  
 ### Limitations
-- Sequences of Arrays are not supported.
-- Long Doubles are not supported due to limitations in the Java language
-- Union, alias, value, sparse, set and map are not implemented
-- Interfaces are not supported
+- Sequences of arrays and arrays of sequences are not supported.
+- Long Doubles are not supported due to limitations in the Java language.
+- Union, alias, value, sparse, set and map are not implemented.
+- Interfaces are not implemented.
