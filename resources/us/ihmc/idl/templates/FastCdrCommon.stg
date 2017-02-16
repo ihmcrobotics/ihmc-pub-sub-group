@@ -97,7 +97,7 @@ for(int $loopvar$ = 0; $loopvar$ < $data$.length; ++$loopvar$)
 }
 $else$
 $if(typecodeArr.contentTypeCode.primitive)$$bool$ &= this.$data$ == $other$;
-$elseif(typecodeArr.contentTypeCode.isType_d)$$bool$ &= this.$data$.equals($other$);
+$elseif(typecodeArr.contentTypeCode.isType_d)$$bool$ &= us.ihmc.idl.IDLTools.equals(this.$data$, $other$);
 $else$$bool$ &= $data$.equals($other$);
 $endif$
 

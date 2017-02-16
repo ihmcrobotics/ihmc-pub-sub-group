@@ -891,7 +891,7 @@ public class IDLElementTest implements IDLStruct<IDLElementTest>
                 	}        
                 	for(int h = 0; h < stringArray_.length; ++h)
                 	{
-                	    returnedValue &= this.stringArray_[h].equals(otherMyClass.stringArray_[h]);}        
+                	    returnedValue &= us.ihmc.idl.IDLTools.equals(this.stringArray_[h], otherMyClass.stringArray_[h]);}        
         returnedValue &= this.charSeqTest_.equals(otherMyClass.charSeqTest_);
                 
         returnedValue &= this.wcharSeqTest_.equals(otherMyClass.wcharSeqTest_);
