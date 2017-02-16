@@ -1,8 +1,5 @@
 package us.ihmc.idl;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-
 import org.apache.commons.lang3.NotImplementedException;
 
 import gnu.trove.list.array.TByteArrayList;
@@ -12,7 +9,6 @@ import gnu.trove.list.array.TFloatArrayList;
 import gnu.trove.list.array.TIntArrayList;
 import gnu.trove.list.array.TLongArrayList;
 import gnu.trove.list.array.TShortArrayList;
-import us.ihmc.idl.generated.IDLElement.Color;
 import us.ihmc.rtps.TopicDataType;
 
 /**
@@ -73,6 +69,23 @@ public interface IDLSequence
             add(other.get(i));
          }
       }
+      
+      @Override
+      public String toString()
+      {
+         StringBuilder builder = new StringBuilder();
+         builder.append("[");
+         for(int i = 0; i < size(); i++)
+         {
+            if(i > 0)
+            {
+               builder.append(", ");
+            }
+            builder.append(getBoolean(i));           
+         }
+         builder.append("]");
+         return builder.toString();
+      }
 
    }
 
@@ -106,6 +119,23 @@ public interface IDLSequence
          {
             add(other.get(i));
          }
+      }
+      
+      @Override
+      public String toString()
+      {
+         StringBuilder builder = new StringBuilder();
+         builder.append("[");
+         for(int i = 0; i < size(); i++)
+         {
+            if(i > 0)
+            {
+               builder.append(", ");
+            }
+            builder.append(get(i));           
+         }
+         builder.append("]");
+         return builder.toString();
       }
    }
 
@@ -165,6 +195,23 @@ public interface IDLSequence
             add(other.get(i));
          }
       }
+      
+      @Override
+      public String toString()
+      {
+         StringBuilder builder = new StringBuilder();
+         builder.append("[");
+         for(int i = 0; i < size(); i++)
+         {
+            if(i > 0)
+            {
+               builder.append(", ");
+            }
+            builder.append(get(i));           
+         }
+         builder.append("]");
+         return builder.toString();
+      }
    }
 
    public static class Short extends TShortArrayList implements IDLSequence
@@ -197,6 +244,23 @@ public interface IDLSequence
          {
             add(other.get(i));
          }
+      }
+      
+      @Override
+      public String toString()
+      {
+         StringBuilder builder = new StringBuilder();
+         builder.append("[");
+         for(int i = 0; i < size(); i++)
+         {
+            if(i > 0)
+            {
+               builder.append(", ");
+            }
+            builder.append(get(i));           
+         }
+         builder.append("]");
+         return builder.toString();
       }
    }
 
@@ -255,6 +319,23 @@ public interface IDLSequence
          {
             add(other.get(i));
          }
+      }
+      
+      @Override
+      public String toString()
+      {
+         StringBuilder builder = new StringBuilder();
+         builder.append("[");
+         for(int i = 0; i < size(); i++)
+         {
+            if(i > 0)
+            {
+               builder.append(", ");
+            }
+            builder.append(get(i));           
+         }
+         builder.append("]");
+         return builder.toString();
       }
    }
 
@@ -323,6 +404,23 @@ public interface IDLSequence
             add(other.get(i));
          }
       }
+      
+      @Override
+      public String toString()
+      {
+         StringBuilder builder = new StringBuilder();
+         builder.append("[");
+         for(int i = 0; i < size(); i++)
+         {
+            if(i > 0)
+            {
+               builder.append(", ");
+            }
+            builder.append(get(i));           
+         }
+         builder.append("]");
+         return builder.toString();
+      }
    }
 
    public static class Float extends TFloatArrayList implements IDLSequence
@@ -355,6 +453,23 @@ public interface IDLSequence
          {
             add(other.get(i));
          }
+      }
+      
+      @Override
+      public String toString()
+      {
+         StringBuilder builder = new StringBuilder();
+         builder.append("[");
+         for(int i = 0; i < size(); i++)
+         {
+            if(i > 0)
+            {
+               builder.append(", ");
+            }
+            builder.append(get(i));           
+         }
+         builder.append("]");
+         return builder.toString();
       }
    }
 
@@ -389,11 +504,27 @@ public interface IDLSequence
             add(other.get(i));
          }
       }
+      
+      @Override
+      public String toString()
+      {
+         StringBuilder builder = new StringBuilder();
+         builder.append("[");
+         for(int i = 0; i < size(); i++)
+         {
+            if(i > 0)
+            {
+               builder.append(", ");
+            }
+            builder.append(get(i));           
+         }
+         builder.append("]");
+         return builder.toString();
+      }
    }
 
    public static class StringBuilderHolder extends PreallocatedList<StringBuilder> implements IDLSequence
    {
-      private static final long serialVersionUID = -8682247533370869042L;
       private final int type;
 
       public StringBuilderHolder(int maxSize, String typeCode)
@@ -449,6 +580,23 @@ public interface IDLSequence
             add(other.get(i));
          }
       }
+      
+      @Override
+      public String toString()
+      {
+         StringBuilder builder = new StringBuilder();
+         builder.append("[");
+         for(int i = 0; i < size(); i++)
+         {
+            if(i > 0)
+            {
+               builder.append(", ");
+            }
+            builder.append(get(i));           
+         }
+         builder.append("]");
+         return builder.toString();
+      }
 
    }
 
@@ -460,6 +608,7 @@ public interface IDLSequence
     *
     * @param <T> Element type
     */
+   @SuppressWarnings("rawtypes")
    public static class Object<T extends IDLStruct> extends PreallocatedList<T> implements IDLSequence
    {
      
@@ -482,6 +631,7 @@ public interface IDLSequence
 
       
       
+      @SuppressWarnings("unchecked")
       @Override
       public void readElement(int i, CDR cdr)
       {
@@ -511,6 +661,7 @@ public interface IDLSequence
 
 
 
+      @SuppressWarnings("unchecked")
       public void set(Object<T> other)
       {
          if(isEnum())
@@ -530,6 +681,23 @@ public interface IDLSequence
                val.set(other.get(i));
             }
          }
+      }
+      
+      @Override
+      public String toString()
+      {
+         StringBuilder builder = new StringBuilder();
+         builder.append("[");
+         for(int i = 0; i < size(); i++)
+         {
+            if(i > 0)
+            {
+               builder.append(", ");
+            }
+            builder.append(get(i));           
+         }
+         builder.append("]");
+         return builder.toString();
       }
    }
 
