@@ -43,7 +43,7 @@ public class $struct.name$ implements IDLStruct<$struct.name$>
     {
         $struct.members : { member | $if(member.typecode.isType_e)$
 	$if(member.typecode.ContentTypeCode.isType_c)$
-	$member.name$_ = new $member.typecode.javaTypename$($member.typecode.Maxsize$, $member.typecode.ContentTypeCode.javaTypename$.values);
+	$member.name$_ = new $member.typecode.javaTypename$($member.typecode.Maxsize$, $member.typecode.ContentTypeCode.javaTypename$.class, $member.typecode.ContentTypeCode.javaTypename$.values);
 	$elseif(member.typecode.ContentTypeCode.primitive)$
 	$member.name$_ = new $member.typecode.javaTypename$($member.typecode.Maxsize$, "$member.typecode.ContentTypeCode.stType$");
 	$elseif(member.typecode.ContentTypeCode.isType_d)$

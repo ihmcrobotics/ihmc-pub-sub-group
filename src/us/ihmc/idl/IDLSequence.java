@@ -391,14 +391,14 @@ public interface IDLSequence
       }
    }
 
-   public static class StringBuilderHolder extends ArrayList<StringBuilder> implements IDLSequence
+   public static class StringBuilderHolder extends PreallocatedList<StringBuilder> implements IDLSequence
    {
       private static final long serialVersionUID = -8682247533370869042L;
       private final int type;
 
       public StringBuilderHolder(int maxSize, String typeCode)
       {
-         super(maxSize);
+         super(StringBuilder.class, () -> new StringBuilder(), maxSize);
          switch (typeCode)
          {
          case "type_d":
@@ -413,15 +413,9 @@ public interface IDLSequence
       }
 
       @Override
-      public void resetQuick()
-      {
-         clear();
-      }
-
-      @Override
       public void readElement(int i, CDR cdr)
       {
-         StringBuilder res = new StringBuilder();
+         StringBuilder res = add();
          switch (type)
          {
          case 0xd:
@@ -431,7 +425,6 @@ public interface IDLSequence
             cdr.read_type_15(res);
             break;
          }
-         add(res);
       }
 
       @Override
@@ -463,22 +456,13 @@ public interface IDLSequence
    /**
     * Generic object and enum type for IDL sequences. 
     * 
-    * This object preallocates the maximum number of instances. 
-    * No setter is provided, use add(), remove() and get(i) to add, remove or get elements and change them in place. 
-    * 
     * @author Jesper Smith
     *
     * @param <T> Element type
     */
-   public static class Object<T extends IDLStruct> implements IDLSequence
+   public static class Object<T extends IDLStruct> extends PreallocatedList<T> implements IDLSequence
    {
-      private final TopicDataType<T> topicDataType;
-      private final Enum[] constants;
-      private final boolean isEnum;
-      
-      private final T[] values;
-      private int pos = -1;
-
+     
       /**
        * 
        * @param maxSize Maximum size of this sequence
@@ -487,123 +471,23 @@ public interface IDLSequence
        */
       public Object(int maxSize, Class<T> clazz, TopicDataType<T> topicDataType)
       {
-         this.values = (T[]) Array.newInstance(clazz, maxSize);
-         for(int i = 0; i < maxSize; i++)
-         {
-            values[i] = topicDataType.createData();
-         }
-         this.topicDataType = topicDataType;
-         this.isEnum = false;
-         this.constants = null;
+         super(clazz, () -> topicDataType.createData() , maxSize);
+         
       }
 
-      public Object(int maxSize, Enum[] constants)
+      public Object(int maxSize, Class<T> clazz, Enum[] constants)
       {
-         if(maxSize > 0)
-         {
-            this.values = (T[]) Array.newInstance(constants[0].getClass(), maxSize);
-         }
-         else
-         {
-            this.values = (T[]) new Object[0];
-         }
-         this.topicDataType = null;
-         this.isEnum = true;
-         this.constants = constants;
+         super(clazz, constants, maxSize);
       }
 
-      /**
-       * Clears the list. 
-       * 
-       * This function just resets the size to 0. The underlying data objects are not emptied or removed.
-       */
-      @Override
-      public void resetQuick()
-      {
-         pos = -1;
-      }
-
-      /**
-       * Add a value and return a handle to the object.
-       * 
-       * Do not use for Enum sequences.
-       * 
-       * @return value at the last position. This object can still hold data.
-       */
-      public T add()
-      {
-         if(isEnum)
-         {
-            throw new RuntimeException("Cannot add() enum to enum sequences. Use add(T) instead.");
-         }
-         if(pos + 1 >= this.values.length)
-         {
-            throw new ArrayIndexOutOfBoundsException("Cannot add element to sequence, max size is violated");
-         }
-         return values[++pos];  
-      }
       
-      /**
-       * Add an enum value.
-       * 
-       * Use for enum sequences 
-       * 
-       * @param Enum value
-       */
-      public void add(T value)
-      {
-         if(!isEnum)
-         {
-            throw new RuntimeException("Cannot add(Enum) to object sequences. Use T add() instead");
-         }
-         if(pos + 1 >= this.values.length)
-         {
-            throw new ArrayIndexOutOfBoundsException("Cannot add element to sequence, max size is violated");
-         }
-         values[++pos] = value; 
-      }
-      
-      /**
-       * Removes the last element in the list. The underlying data object is not emptied or removed
-       */
-      public void remove()
-      {
-         if(pos < 0)
-         {
-            throw new ArrayIndexOutOfBoundsException("List is empty");
-         }
-         --pos;
-      }
-      
-      /**
-       * Get the element at position i. To change the element, use get() and 
-       * 
-       * @param i Position to get element at
-       * @return Element at position i.
-       */
-      public T get(int i)
-      {
-         if(i < 0 || i > pos)
-         {
-            throw new ArrayIndexOutOfBoundsException("Position is not valid in the list, size is " + size() + ", requested element is " + i);
-         }
-         return values[i];
-      }
-      
-      /**
-       * Clears the list
-       */
-      public void clear()
-      {
-         resetQuick();
-      }
       
       @Override
       public void readElement(int i, CDR cdr)
       {
-         if (isEnum)
+         if (isEnum())
          {
-            add((T) constants[cdr.read_type_c()]);
+            add((T) getEnumConstants()[cdr.read_type_c()]);
          }
          else
          {
@@ -615,7 +499,7 @@ public interface IDLSequence
       @Override
       public void writeElement(int i, CDR cdr)
       {
-         if (isEnum)
+         if (isEnum())
          {
             cdr.write_type_c(((Enum) get(i)).ordinal());
          }
@@ -625,18 +509,11 @@ public interface IDLSequence
          }
       }
 
-      /**
-       * Returns the number of active elements in this list
-       */
-      @Override
-      public int size()
-      {
-         return pos + 1;
-      }
+
 
       public void set(Object<T> other)
       {
-         if(isEnum)
+         if(isEnum())
          {
             clear();
             for(int i = 0; i < other.size(); i++)

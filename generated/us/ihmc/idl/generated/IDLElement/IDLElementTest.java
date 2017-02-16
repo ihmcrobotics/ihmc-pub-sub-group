@@ -34,7 +34,7 @@ public class IDLElementTest implements IDLStruct<IDLElementTest>
         	floatSeqTest_ = new IDLSequence.Float (25, "type_5");
         	doubleSeqTest_ = new IDLSequence.Double (25, "type_6");
         	booleanSeqTest_ = new IDLSequence.Boolean (25, "type_7");
-        	colorSeqTest_ = new IDLSequence.Object<us.ihmc.idl.generated.IDLElement.Color> (25, us.ihmc.idl.generated.IDLElement.Color.values);
+        	colorSeqTest_ = new IDLSequence.Object<us.ihmc.idl.generated.IDLElement.Color> (25, us.ihmc.idl.generated.IDLElement.Color.class, us.ihmc.idl.generated.IDLElement.Color.values);
 
 
         	nestedSeqTest_ = new IDLSequence.Object<us.ihmc.idl.generated.IDLElement.NestedElement> (25, us.ihmc.idl.generated.IDLElement.NestedElement.class, new us.ihmc.idl.generated.IDLElement.NestedElementPubSubType());
