@@ -214,7 +214,7 @@ public interface IDLSequence
    public static class Long extends TLongArrayList implements IDLSequence
    {
       private final int type;
-      
+
       public Long(int maxSize, String typeCode)
       {
          super(maxSize);
@@ -316,11 +316,12 @@ public interface IDLSequence
          cdr.write_type_6(get(i));
       }
    }
-   
+
    public static class StringBuilderHolder extends ArrayList<StringBuilder> implements IDLSequence
    {
       private static final long serialVersionUID = -8682247533370869042L;
       private final int type;
+
       public StringBuilderHolder(int maxSize, String typeCode)
       {
          super(maxSize);
@@ -372,13 +373,47 @@ public interface IDLSequence
             break;
          }
       }
-      
+
+   }
+
+   public static class EnumType<T extends Enum<T>> extends ArrayList<T> implements IDLSequence
+   {
+      private final Enum<T>[] enumConstants;
+
+      public EnumType(int maxSize, Class<T> clazz)
+      {
+         super(maxSize);
+         this.enumConstants = clazz.getEnumConstants();
+      }
+
+      @Override
+      public void resetQuick()
+      {
+         clear();
+      }
+
+      @SuppressWarnings("unchecked")
+      @Override
+      public void readElement(int i, CDR cdr)
+      {
+         add((T) enumConstants[cdr.read_type_c()]);
+      }
+
+      @Override
+      public void writeElement(int i, CDR cdr)
+      {
+         cdr.write_type_c(get(i).ordinal());
+      }
+
    }
 
    public static class Object<T extends IDLStruct> extends ArrayList<T> implements IDLSequence
    {
       private static final long serialVersionUID = -5474351057888727678L;
       private final TopicDataType<T> topicDataType;
+      private final Enum[] constants;
+      private final boolean isEnum;
+
       /**
        * 
        * @param maxSize Maximum size of this sequence
@@ -389,6 +424,16 @@ public interface IDLSequence
       {
          super(maxSize);
          this.topicDataType = topicDataType;
+         this.isEnum = false;
+         this.constants = null;
+      }
+
+      public Object(int maxSize, Enum[] constants)
+      {
+         super(maxSize);
+         this.topicDataType = null;
+         this.isEnum = true;
+         this.constants = constants;
       }
 
       @Override
@@ -400,15 +445,29 @@ public interface IDLSequence
       @Override
       public void readElement(int i, CDR cdr)
       {
-         T val = topicDataType.createData();
-         cdr.read_type_a(val);
-         add(val);
+         if (isEnum)
+         {
+            add((T) constants[cdr.read_type_c()]);
+         }
+         else
+         {
+            T val = topicDataType.createData();
+            cdr.read_type_a(val);
+            add(val);
+         }
       }
 
       @Override
       public void writeElement(int i, CDR cdr)
       {
-         cdr.write_type_a(get(i));
+         if (isEnum)
+         {
+            cdr.write_type_c(((Enum) get(i)).ordinal());
+         }
+         else
+         {
+            cdr.write_type_a(get(i));
+         }
       }
    }
 

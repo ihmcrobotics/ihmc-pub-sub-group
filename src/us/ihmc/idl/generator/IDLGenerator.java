@@ -36,31 +36,40 @@ public class IDLGenerator
 
    public static void main(String[] args) throws IOException
    {
-      FileDialog dialog = new FileDialog((Frame) null, "Select idl file", FileDialog.LOAD);
-      dialog.setFile("*.idl");
-      dialog.setVisible(true);
-      String filename = dialog.getFile();
-      if (filename == null)
+      
+      if(args.length == 3)
       {
-         return;
+         execute(args[0], args[1], new File(args[2]));
       }
-
-      String res = JOptionPane.showInputDialog("Desired package path");
-
-      if (res == null)
+      else
       {
-         JOptionPane.showMessageDialog(null, "No package path given");
-         return;
+         FileDialog dialog = new FileDialog((Frame) null, "Select idl file", FileDialog.LOAD);
+         dialog.setFile("*.idl");
+         dialog.setVisible(true);
+         String filename = dialog.getFile();
+         if (filename == null)
+         {
+            return;
+         }
+   
+         String res = JOptionPane.showInputDialog("Desired package path");
+   
+         if (res == null)
+         {
+            JOptionPane.showMessageDialog(null, "No package path given");
+            return;
+         }
+         JFileChooser fileChooser = new JFileChooser();
+         fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+         fileChooser.setCurrentDirectory(new File("."));
+         if (!(fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION))
+         {
+            return;
+         }
+   
+         execute(filename, res, fileChooser.getSelectedFile());
+         dialog.dispose();
       }
-      JFileChooser fileChooser = new JFileChooser();
-      fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-      fileChooser.setCurrentDirectory(new File("."));
-      if (!(fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION))
-      {
-         return;
-      }
-
-      execute(filename, res, fileChooser.getSelectedFile());
    }
 
    private static void execute(String idlFilename, String packageName, File targetDirectory) throws IOException

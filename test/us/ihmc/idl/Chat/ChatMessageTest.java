@@ -30,7 +30,6 @@ public class ChatMessageTest
 
       type.serialize(msg, payload);
 
-      payload.getData().flip();
       byte[] data = new byte[payload.getData().limit()];
       payload.getData().get(data);
 

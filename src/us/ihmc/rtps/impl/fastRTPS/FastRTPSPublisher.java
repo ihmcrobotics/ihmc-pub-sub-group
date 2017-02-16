@@ -102,7 +102,7 @@ public class FastRTPSPublisher implements Publisher
          topicDataType.getKey(data, keyBuffer);
       }
       
-      
+      payload.getData().clear();
       topicDataType.serialize(data, payload);
       impl.create_new_change(change, payload.getData(), payload.getLength(), payload.getEncapsulation(), keyBuffer);
    }
