@@ -1,41 +1,39 @@
 package us.ihmc.idl.generated.Chat;
-import java.util.ArrayList;
 import us.ihmc.idl.IDLSequence;
 import us.ihmc.idl.CDR;
 import us.ihmc.idl.IDLStruct;
+import java.util.Arrays;
 
-public class ChatMessage implements IDLStruct
+public class ChatMessage implements IDLStruct<ChatMessage>
 {
     public ChatMessage()
     {
-                sender_ = new StringBuilder(255);
-                
-                msg_ = new StringBuilder(255);
-                
+        	sender_ = new StringBuilder(255); 
+        	msg_ = new StringBuilder(255); 
         
         
     }
+    @Override
+    public void set(ChatMessage other)
+    {
+        	sender_.setLength(0);
+        	sender_.append(other.sender_);
+        	msg_.setLength(0);
+        	msg_.append(other.msg_);
+    }
 
-        public void setSender(StringBuilder sender)
-        {
-            sender_ = sender;
-        }
 
-        public StringBuilder getSender()
-        {
-            return sender_;
-        }
+    public StringBuilder getSender()
+    {
+        return sender_;
+    }
 
         
-        public void setMsg(StringBuilder msg)
-        {
-            msg_ = msg;
-        }
 
-        public StringBuilder getMsg()
-        {
-            return msg_;
-        }
+    public StringBuilder getMsg()
+    {
+        return msg_;
+    }
 
         
 
@@ -75,6 +73,7 @@ public class ChatMessage implements IDLStruct
 	    return current_alignment - initial_alignment;
 	}
 	
+	@Override
 	public void serialize(CDR cdr)
 	{
 
@@ -88,6 +87,7 @@ public class ChatMessage implements IDLStruct
 	        throw new RuntimeException("msg field exceeds the maximum length");
 	}
 	
+	@Override
 	public void deserialize(CDR cdr)
 	{
 
@@ -105,12 +105,30 @@ public class ChatMessage implements IDLStruct
         ChatMessage otherMyClass = (ChatMessage)other;
         boolean returnedValue = true;
 
-        returnedValue &= this.sender_.equals(otherMyClass.sender_);
+        returnedValue &= us.ihmc.idl.IDLTools.equals(this.sender_, otherMyClass.sender_);
                 
-        returnedValue &= this.msg_.equals(otherMyClass.msg_);
+        returnedValue &= us.ihmc.idl.IDLTools.equals(this.msg_, otherMyClass.msg_);
                 
 
         return returnedValue;
+    }
+    
+     @Override
+    public String toString()
+    {
+		StringBuilder builder = new StringBuilder();
+		
+      	builder.append("ChatMessage {");
+        builder.append("sender=");
+        builder.append(this.sender_);
+
+                builder.append(", ");
+        builder.append("msg=");
+        builder.append(this.msg_);
+
+                
+        builder.append("}");
+		return builder.toString();
     }
 
     private StringBuilder sender_; 
