@@ -14,10 +14,6 @@ public class NestedElement implements IDLStruct
         
     }
 
-        public void setStringTest(StringBuilder stringTest)
-        {
-            stringTest_ = stringTest;
-        }
 
         public StringBuilder getStringTest()
         {

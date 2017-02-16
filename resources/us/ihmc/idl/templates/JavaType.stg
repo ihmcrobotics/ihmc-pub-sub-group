@@ -54,6 +54,9 @@ public class $struct.name$ implements IDLStruct
         $endif$
         $elseif(member.typecode.isType_f)$
         $member.name$_ = new $member.typecode.ContentTypeCode.JavaTypename$[$member.typecode.Dimensions;separator="]["$];
+        $if(!member.typecode.ContentTypeCode.primitive)$
+        $array_init(ctx=ctx, typecodeArr=member.typecode, data=[member.name, "_"], elemInit=["new ", member.typecode.ContentTypeCode.JavaTypename, "()"], loopvar=ctx.nextLoopVarName, dimensions=member.typecode.dimensions)$
+        $endif$
         $elseif(member.typecode.isType_d)$
         $member.name$_ = new $member.typecode.javaTypename$($member.typecode.Maxsize$); 
         $elseif(!member.typecode.primitive)$$member.name$_ = new $member.typecode.javaTypename$();$endif$
@@ -64,10 +67,12 @@ public class $struct.name$ implements IDLStruct
 
     $struct.members : { member |
     $if(!member.typecode.isType_e)$
+    $if(member.typecode.primitive)$
     public void set$member.javaName$($member.typecode.javaTypename$ $member.name$)
     {
         $member.name$_ = $member.name$;
     }
+    $endif$
     $endif$
 
     public $member.typecode.javaTypename$ get$member.javaName$()
