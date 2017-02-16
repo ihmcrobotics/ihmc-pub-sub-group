@@ -59,6 +59,17 @@ else
 $endif$
 >>
 
+array_init(ctx, typecodeArr, data, loopvar, elemInit, dimensions) ::= <<
+$if(first(dimensions))$
+for(int $loopvar$ = 0; $loopvar$ < $data$.length; ++$loopvar$)
+{
+    $array_init(ctx=ctx, typecodeArr=typecodeArr, data=[data, "[", loopvar, "]"], elemInit=elemInit, loopvar=ctx.nextLoopVarName, dimensions=rest(dimensions))$
+}
+$else$
+	$data$ = $elemInit$;	
+$endif$
+>>
+
 array_serialize(ctx, typecodeArr, data, loopvar, dimensions) ::= <<
 $if(first(dimensions))$
 for(int $loopvar$ = 0; $loopvar$ < $data$.length; ++$loopvar$)

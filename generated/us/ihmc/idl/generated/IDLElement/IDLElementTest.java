@@ -28,8 +28,19 @@ public class IDLElementTest implements IDLStruct
                 longArray_ = new int[10];
                 
                 nestedArray_ = new us.ihmc.idl.generated.IDLElement.NestedElement[5][3];
+                for(int b = 0; b < nestedArray_.length; ++b)
+                {
+                    for(int c = 0; c < nestedArray_[b].length; ++c)
+                    {
+                        	nestedArray_[b][c] = new us.ihmc.idl.generated.IDLElement.NestedElement();	
+                    }
+                }
                 
                 stringArray_ = new StringBuilder[4];
+                for(int e = 0; e < stringArray_.length; ++e)
+                {
+                    	stringArray_[e] = new StringBuilder();	
+                }
                 
                 charSeqTest_ = new IDLSequence.Char (25, "type_8");
                 
@@ -209,10 +220,6 @@ public class IDLElementTest implements IDLStruct
         }
 
         
-        public void setNestedElementTest(us.ihmc.idl.generated.IDLElement.NestedElement nestedElementTest)
-        {
-            nestedElementTest_ = nestedElementTest;
-        }
 
         public us.ihmc.idl.generated.IDLElement.NestedElement getNestedElementTest()
         {
@@ -220,10 +227,6 @@ public class IDLElementTest implements IDLStruct
         }
 
         
-        public void setStringTest(StringBuilder stringTest)
-        {
-            stringTest_ = stringTest;
-        }
 
         public StringBuilder getStringTest()
         {
@@ -231,10 +234,6 @@ public class IDLElementTest implements IDLStruct
         }
 
         
-        public void setWstringTest(StringBuilder wstringTest)
-        {
-            wstringTest_ = wstringTest;
-        }
 
         public StringBuilder getWstringTest()
         {
@@ -242,10 +241,6 @@ public class IDLElementTest implements IDLStruct
         }
 
         
-        public void setLongArray(int[] longArray)
-        {
-            longArray_ = longArray;
-        }
 
         public int[] getLongArray()
         {
@@ -253,10 +248,6 @@ public class IDLElementTest implements IDLStruct
         }
 
         
-        public void setNestedArray(us.ihmc.idl.generated.IDLElement.NestedElement[][] nestedArray)
-        {
-            nestedArray_ = nestedArray;
-        }
 
         public us.ihmc.idl.generated.IDLElement.NestedElement[][] getNestedArray()
         {
@@ -264,10 +255,6 @@ public class IDLElementTest implements IDLStruct
         }
 
         
-        public void setStringArray(StringBuilder[] stringArray)
-        {
-            stringArray_ = stringArray;
-        }
 
         public StringBuilder[] getStringArray()
         {
