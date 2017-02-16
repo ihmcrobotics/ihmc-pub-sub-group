@@ -1,5 +1,7 @@
 package us.ihmc.idl;
 
+import java.util.Arrays;
+
 import org.apache.commons.lang3.NotImplementedException;
 
 import gnu.trove.list.array.TByteArrayList;
@@ -598,6 +600,26 @@ public interface IDLSequence
          return builder.toString();
       }
 
+      @Override
+      public boolean equals(java.lang.Object obj)
+      {
+         if (this == obj)
+            return true;
+         if (obj == null)
+            return false;
+         if (getClass() != obj.getClass())
+            return false;
+         StringBuilderHolder other = (StringBuilderHolder) obj;
+         if(size() != other.size())
+            return false;
+         for(int i = 0; i < size(); i++)
+         {
+            if(!IDLTools.equals(get(i), other.get(i)))
+               return false;
+         }
+         
+         return true;
+      }
    }
 
 
