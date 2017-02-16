@@ -37,48 +37,65 @@ public interface $interface.name$
 >>
 
 struct_type(ctx, parent, struct, extension) ::= <<
-public class $struct.name$ implements IDLStruct
+public class $struct.name$ implements IDLStruct<$struct.name$>
 {
     public $struct.name$()
     {
-        $struct.members : { member |
-        $if(member.typecode.isType_e)$
-        $if(member.typecode.ContentTypeCode.isType_c)$
-        $member.name$_ = new $member.typecode.javaTypename$($member.typecode.Maxsize$, $member.typecode.ContentTypeCode.javaTypename$.values);
-        $elseif(member.typecode.ContentTypeCode.primitive)$
-        $member.name$_ = new $member.typecode.javaTypename$($member.typecode.Maxsize$, "$member.typecode.ContentTypeCode.stType$");
-        $elseif(member.typecode.ContentTypeCode.isType_d)$
-        $member.name$_ = new $member.typecode.javaTypename$($member.typecode.Maxsize$, "$member.typecode.ContentTypeCode.stType$");   
-        $else$
-        $member.name$_ = new $member.typecode.javaTypename$($member.typecode.Maxsize$, $member.typecode.ContentTypeCode.JavaTypename$.class, new $member.typecode.ContentTypeCode.JavaTypename$PubSubType());
-        $endif$
-        $elseif(member.typecode.isType_f)$
-        $member.name$_ = new $member.typecode.ContentTypeCode.JavaTypename$[$member.typecode.Dimensions;separator="]["$];
-        $if(!member.typecode.ContentTypeCode.primitive)$
-        $array_init(ctx=ctx, typecodeArr=member.typecode, data=[member.name, "_"], elemInit=["new ", member.typecode.ContentTypeCode.JavaTypename, "()"], loopvar=ctx.nextLoopVarName, dimensions=member.typecode.dimensions)$
-        $endif$
-        $elseif(member.typecode.isType_d)$
-        $member.name$_ = new $member.typecode.javaTypename$($member.typecode.Maxsize$); 
-        $elseif(!member.typecode.primitive)$$member.name$_ = new $member.typecode.javaTypename$();$endif$
-        }; separator="\n"$
+        $struct.members : { member | $if(member.typecode.isType_e)$
+	$if(member.typecode.ContentTypeCode.isType_c)$
+	$member.name$_ = new $member.typecode.javaTypename$($member.typecode.Maxsize$, $member.typecode.ContentTypeCode.javaTypename$.values);
+	$elseif(member.typecode.ContentTypeCode.primitive)$
+	$member.name$_ = new $member.typecode.javaTypename$($member.typecode.Maxsize$, "$member.typecode.ContentTypeCode.stType$");
+	$elseif(member.typecode.ContentTypeCode.isType_d)$
+	$member.name$_ = new $member.typecode.javaTypename$($member.typecode.Maxsize$, "$member.typecode.ContentTypeCode.stType$");   
+	$else$
+	$member.name$_ = new $member.typecode.javaTypename$($member.typecode.Maxsize$, $member.typecode.ContentTypeCode.JavaTypename$.class, new $member.typecode.ContentTypeCode.JavaTypename$PubSubType());
+	$endif$
+	$elseif(member.typecode.isType_f)$
+	$member.name$_ = new $member.typecode.ContentTypeCode.JavaTypename$[$member.typecode.Dimensions;separator="]["$];
+	$if(!member.typecode.ContentTypeCode.primitive)$
+	$array_init(ctx=ctx, typecodeArr=member.typecode, data=[member.name, "_"], elemInit=["new ", member.typecode.ContentTypeCode.JavaTypename, "()"], loopvar=ctx.nextLoopVarName, dimensions=member.typecode.dimensions)$
+	$endif$
+	$elseif(member.typecode.isType_d)$
+	$member.name$_ = new $member.typecode.javaTypename$($member.typecode.Maxsize$); 
+	$elseif(!member.typecode.primitive)$
+	$member.name$_ = new $member.typecode.javaTypename$();
+	$else$
+	$endif$
+}; separator=""$
         
         
+    }
+    @Override
+    public void set($struct.name$ other)
+    {
+        $struct.members : { member | $if(member.typecode.primitive)$
+	$member.name$_ = other.$member.name$_;
+    $elseif(member.typecode.isType_d)$
+	$member.name$_.setLength(0);
+	$member.name$_.append(other.$member.name$_);
+   	$elseif(member.typecode.isType_f)$
+	$array_copy(ctx=ctx, typecodeArr=member.typecode, data=[member.name, "_"], other=["other.", member.name, "_"], loopvar=ctx.nextLoopVarName, dimensions=member.typecode.dimensions)$
+	
+   	$else$
+	$member.name$_.set(other.$member.name$_);
+    $endif$}; separator=""$
     }
 
     $struct.members : { member |
     $if(!member.typecode.isType_e)$
     $if(member.typecode.primitive)$
-    public void set$member.javaName$($member.typecode.javaTypename$ $member.name$)
-    {
-        $member.name$_ = $member.name$;
-    }
+public void set$member.javaName$($member.typecode.javaTypename$ $member.name$)
+{
+    $member.name$_ = $member.name$;
+}
     $endif$
     $endif$
 
-    public $member.typecode.javaTypename$ get$member.javaName$()
-    {
-        return $member.name$_;
-    }
+public $member.typecode.javaTypename$ get$member.javaName$()
+{
+    return $member.name$_;
+}
 
     }; separator="\n"$
 
@@ -112,12 +129,14 @@ public class $struct.name$ implements IDLStruct
 	    return current_alignment - initial_alignment;
 	}
 	
+	@Override
 	public void serialize(CDR cdr)
 	{
 
 	    $struct.members : { member |$object_serialization(ctx=ctx, object=member, postfix="_")$}; separator="\n"$
 	}
 	
+	@Override
 	public void deserialize(CDR cdr)
 	{
 	    $struct.members : { member |$object_deserialization(ctx=ctx, object=member, postfix="_")$}; separator="\n"$
@@ -134,6 +153,9 @@ public class $struct.name$ implements IDLStruct
 
         $struct.members : { member |
         $if(member.typecode.primitive)$returnedValue &= this.$member.name$_ == otherMyClass.$member.name$_;
+        $elseif(member.typecode.isType_d)$returnedValue &= this.$member.name$_.equals(otherMyClass.$member.name$_);
+       	$elseif(member.typecode.isType_f)$
+        	$array_equals(ctx=ctx, typecodeArr=member.typecode, data=[member.name, "_"], loopvar=ctx.nextLoopVarName, other=["otherMyClass.", member.name, "_"], bool=["returnedValue"], dimensions=member.typecode.dimensions)$
         $else$returnedValue &= this.$member.name$_.equals(otherMyClass.$member.name$_);
         $endif$
         }; separator="\n"$
@@ -251,29 +273,14 @@ public class $union.name$
 >>
 
 enum_type(ctx, parent, enum, extension) ::= <<
-public enum $enum.name$ implements IDLStruct
+public enum $enum.name$ implements IDLStruct<$enum.name$>
 {
     $enum.members:{ member |
-    
     	$member.name$,
-        
     }; separator="\n"$
 	;
 	
 	public static $enum.name$[] values = values();
-   @Override
-   public void deserialize(CDR cdr)
-   {
-      // TODO Auto-generated method stub
-      
-   }
-
-   @Override
-   public void serialize(CDR cdr)
-   {
-      // TODO Auto-generated method stub
-      
-   }
 
     $extension$
 }
