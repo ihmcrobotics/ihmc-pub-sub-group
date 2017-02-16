@@ -1,8 +1,6 @@
 package us.ihmc.rtps.example;
 
 import java.io.IOException;
-import java.nio.ByteOrder;
-import java.util.Arrays;
 
 import us.ihmc.idl.generated.Chat.ChatMessage;
 import us.ihmc.idl.generated.Chat.ChatMessagePubSubType;
