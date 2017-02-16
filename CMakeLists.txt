@@ -21,4 +21,5 @@ find_package(JNI REQUIRED)
 
 add_subdirectory(cppsrc/FastRTPS)
 add_subdirectory(swig/FastRTPS)
+add_subdirectory(cppsrc/test)
 

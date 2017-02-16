@@ -9,7 +9,6 @@ public class IDLElementTest implements IDLStruct<IDLElementTest>
     public IDLElementTest()
     {
         	nestedElementTest_ = new us.ihmc.idl.generated.IDLElement.NestedElement();stringTest_ = new StringBuilder(255); 
-        	wstringTest_ = new StringBuilder(255); 
         	longArray_ = new int[10];
         	nestedArray_ = new us.ihmc.idl.generated.IDLElement.NestedElement[5][3];
         	for(int b = 0; b < nestedArray_.length; ++b)
@@ -30,17 +29,15 @@ public class IDLElementTest implements IDLStruct<IDLElementTest>
         	shortSeqTest_ = new IDLSequence.Short (25, "type_1");
         	ushortSeqTest_ = new IDLSequence.Integer (25, "type_3");
         	longSeqTest_ = new IDLSequence.Integer (25, "type_2");
+        	ulongSeqTest_ = new IDLSequence.Long (25, "type_4");
         	longlongSeqtest_ = new IDLSequence.Long (25, "type_11");
         	ulonglongSeqTest_ = new IDLSequence.Long (25, "type_12");
         	floatSeqTest_ = new IDLSequence.Float (25, "type_5");
         	doubleSeqTest_ = new IDLSequence.Double (25, "type_6");
         	booleanSeqTest_ = new IDLSequence.Boolean (25, "type_7");
-        	colorSeqTest_ = new IDLSequence.Object<us.ihmc.idl.generated.IDLElement.Color> (25, us.ihmc.idl.generated.IDLElement.Color.class, us.ihmc.idl.generated.IDLElement.Color.values);
-
-
         	nestedSeqTest_ = new IDLSequence.Object<us.ihmc.idl.generated.IDLElement.NestedElement> (25, us.ihmc.idl.generated.IDLElement.NestedElement.class, new us.ihmc.idl.generated.IDLElement.NestedElementPubSubType());
 
-        	stringSeqTest_ = new IDLSequence.StringBuilderHolder (25, "type_d");   wstringSeqTest_ = new IDLSequence.StringBuilderHolder (25, "type_15");   
+        	stringSeqTest_ = new IDLSequence.StringBuilderHolder (25, "type_d");   
         
         
     }
@@ -62,8 +59,6 @@ public class IDLElementTest implements IDLStruct<IDLElementTest>
         	colorTest_ = other.colorTest_;
         	nestedElementTest_.set(other.nestedElementTest_);stringTest_.setLength(0);
         	stringTest_.append(other.stringTest_);
-        	wstringTest_.setLength(0);
-        	wstringTest_.append(other.wstringTest_);
         	for(int g = 0; g < longArray_.length; ++g)
         	{
         	    	longArray_[g] = other.longArray_[g];	
@@ -81,7 +76,7 @@ public class IDLElementTest implements IDLStruct<IDLElementTest>
         	    	stringArray_[l].setLength(0);
         	    	stringArray_[l].append(other.stringArray_[l]);
         	            	}
-        	charSeqTest_.set(other.charSeqTest_);wcharSeqTest_.set(other.wcharSeqTest_);octetSeqTest_.set(other.octetSeqTest_);shortSeqTest_.set(other.shortSeqTest_);ushortSeqTest_.set(other.ushortSeqTest_);longSeqTest_.set(other.longSeqTest_);longlongSeqtest_.set(other.longlongSeqtest_);ulonglongSeqTest_.set(other.ulonglongSeqTest_);floatSeqTest_.set(other.floatSeqTest_);doubleSeqTest_.set(other.doubleSeqTest_);booleanSeqTest_.set(other.booleanSeqTest_);colorSeqTest_.set(other.colorSeqTest_);nestedSeqTest_.set(other.nestedSeqTest_);stringSeqTest_.set(other.stringSeqTest_);wstringSeqTest_.set(other.wstringSeqTest_);
+        	charSeqTest_.set(other.charSeqTest_);wcharSeqTest_.set(other.wcharSeqTest_);octetSeqTest_.set(other.octetSeqTest_);shortSeqTest_.set(other.shortSeqTest_);ushortSeqTest_.set(other.ushortSeqTest_);longSeqTest_.set(other.longSeqTest_);ulongSeqTest_.set(other.ulongSeqTest_);longlongSeqtest_.set(other.longlongSeqtest_);ulonglongSeqTest_.set(other.ulonglongSeqTest_);floatSeqTest_.set(other.floatSeqTest_);doubleSeqTest_.set(other.doubleSeqTest_);booleanSeqTest_.set(other.booleanSeqTest_);nestedSeqTest_.set(other.nestedSeqTest_);stringSeqTest_.set(other.stringSeqTest_);
     }
 
     public void setCharTest(char charTest)
@@ -242,13 +237,6 @@ public class IDLElementTest implements IDLStruct<IDLElementTest>
 
         
 
-    public StringBuilder getWstringTest()
-    {
-        return wstringTest_;
-    }
-
-        
-
     public int[] getLongArray()
     {
         return longArray_;
@@ -312,6 +300,13 @@ public class IDLElementTest implements IDLStruct<IDLElementTest>
 
         
 
+    public IDLSequence.Long  getUlongSeqTest()
+    {
+        return ulongSeqTest_;
+    }
+
+        
+
     public IDLSequence.Long  getLonglongSeqtest()
     {
         return longlongSeqtest_;
@@ -347,13 +342,6 @@ public class IDLElementTest implements IDLStruct<IDLElementTest>
 
         
 
-    public IDLSequence.Object<us.ihmc.idl.generated.IDLElement.Color>  getColorSeqTest()
-    {
-        return colorSeqTest_;
-    }
-
-        
-
     public IDLSequence.Object<us.ihmc.idl.generated.IDLElement.NestedElement>  getNestedSeqTest()
     {
         return nestedSeqTest_;
@@ -364,13 +352,6 @@ public class IDLElementTest implements IDLStruct<IDLElementTest>
     public IDLSequence.StringBuilderHolder  getStringSeqTest()
     {
         return stringSeqTest_;
-    }
-
-        
-
-    public IDLSequence.StringBuilderHolder  getWstringSeqTest()
-    {
-        return wstringSeqTest_;
     }
 
         
@@ -414,8 +395,6 @@ public class IDLElementTest implements IDLStruct<IDLElementTest>
 	    current_alignment += us.ihmc.idl.generated.IDLElement.NestedElement.getMaxCdrSerializedSize(current_alignment);
 	    current_alignment += 4 + CDR.alignment(current_alignment, 4) + 255 + 1;
 
-	    current_alignment += 4 + CDR.alignment(current_alignment, 4) + 255 + 1;
-
 	    current_alignment += ((10) * 4) + CDR.alignment(current_alignment, 4);
 
 	    for(int a = 0; a < (5 * 3); ++a)
@@ -450,6 +429,10 @@ public class IDLElementTest implements IDLStruct<IDLElementTest>
 
 
 	    current_alignment += 4 + CDR.alignment(current_alignment, 4);
+	    current_alignment += (25 * 4) + CDR.alignment(current_alignment, 4);
+
+
+	    current_alignment += 4 + CDR.alignment(current_alignment, 4);
 	    current_alignment += (25 * 8) + CDR.alignment(current_alignment, 8);
 
 
@@ -470,19 +453,10 @@ public class IDLElementTest implements IDLStruct<IDLElementTest>
 
 
 	    current_alignment += 4 + CDR.alignment(current_alignment, 4);
-	    current_alignment += (25 * 4) + CDR.alignment(current_alignment, 4);
-
-
-	    current_alignment += 4 + CDR.alignment(current_alignment, 4);
 	    for(int a = 0; a < 25; ++a)
 	    {
 	        current_alignment += us.ihmc.idl.generated.IDLElement.NestedElement.getMaxCdrSerializedSize(current_alignment);}
 
-	    current_alignment += 4 + CDR.alignment(current_alignment, 4);
-	    for(int a = 0; a < 25; ++a)
-	    {
-	        current_alignment += 4 + CDR.alignment(current_alignment, 4) + 255 + 1;
-	    }
 	    current_alignment += 4 + CDR.alignment(current_alignment, 4);
 	    for(int a = 0; a < 25; ++a)
 	    {
@@ -531,8 +505,6 @@ public class IDLElementTest implements IDLStruct<IDLElementTest>
 	    current_alignment += us.ihmc.idl.generated.IDLElement.NestedElement.getCdrSerializedSize(data.getNestedElementTest(), current_alignment);
 	    current_alignment += 4 + CDR.alignment(current_alignment, 4) + data.getStringTest().length() + 1;
 
-	    current_alignment += 4 + CDR.alignment(current_alignment, 4) + data.getWstringTest().length() + 1;
-
 	    current_alignment += ((10) * 4) + CDR.alignment(current_alignment, 4);
 	    for(int a = 0; a < data.getNestedArray().length; ++a)
 	    {
@@ -571,6 +543,10 @@ public class IDLElementTest implements IDLStruct<IDLElementTest>
 
 
 	    current_alignment += 4 + CDR.alignment(current_alignment, 4);
+	    current_alignment += (data.getUlongSeqTest().size() * 4) + CDR.alignment(current_alignment, 4);
+
+
+	    current_alignment += 4 + CDR.alignment(current_alignment, 4);
 	    current_alignment += (data.getLonglongSeqtest().size() * 8) + CDR.alignment(current_alignment, 8);
 
 
@@ -591,10 +567,6 @@ public class IDLElementTest implements IDLStruct<IDLElementTest>
 
 
 	    current_alignment += 4 + CDR.alignment(current_alignment, 4);
-	    current_alignment += (data.getColorSeqTest().size() * 4) + CDR.alignment(current_alignment, 4);
-
-
-	    current_alignment += 4 + CDR.alignment(current_alignment, 4);
 	    for(int a = 0; a < data.getNestedSeqTest().size(); ++a)
 	    {
 	        current_alignment += us.ihmc.idl.generated.IDLElement.NestedElement.getCdrSerializedSize(data.getNestedSeqTest().get(a), current_alignment);}
@@ -603,11 +575,6 @@ public class IDLElementTest implements IDLStruct<IDLElementTest>
 	    for(int a = 0; a < data.getStringSeqTest().size(); ++a)
 	    {
 	        current_alignment += 4 + CDR.alignment(current_alignment, 4) + data.getStringSeqTest().get(a).length() + 1;
-	    }
-	    current_alignment += 4 + CDR.alignment(current_alignment, 4);
-	    for(int a = 0; a < data.getWstringSeqTest().size(); ++a)
-	    {
-	        current_alignment += 4 + CDR.alignment(current_alignment, 4) + data.getWstringSeqTest().get(a).length() + 1;
 	    }
 	
 	    return current_alignment - initial_alignment;
@@ -651,10 +618,6 @@ public class IDLElementTest implements IDLStruct<IDLElementTest>
 	    cdr.write_type_d(stringTest_);else
 	        throw new RuntimeException("stringTest field exceeds the maximum length");
 
-	    if(wstringTest_.length() <= 255)
-	    cdr.write_type_15(wstringTest_);else
-	        throw new RuntimeException("wstringTest field exceeds the maximum length");
-
 	    for(int a = 0; a < longArray_.length; ++a)
 	    {
 	        	cdr.write_type_2(longArray_[a]);	
@@ -697,6 +660,10 @@ public class IDLElementTest implements IDLStruct<IDLElementTest>
 	    cdr.write_type_e(longSeqTest_);else
 	        throw new RuntimeException("longSeqTest field exceeds the maximum length");
 
+	    if(ulongSeqTest_.size() <= 25)
+	    cdr.write_type_e(ulongSeqTest_);else
+	        throw new RuntimeException("ulongSeqTest field exceeds the maximum length");
+
 	    if(longlongSeqtest_.size() <= 25)
 	    cdr.write_type_e(longlongSeqtest_);else
 	        throw new RuntimeException("longlongSeqtest field exceeds the maximum length");
@@ -717,10 +684,6 @@ public class IDLElementTest implements IDLStruct<IDLElementTest>
 	    cdr.write_type_e(booleanSeqTest_);else
 	        throw new RuntimeException("booleanSeqTest field exceeds the maximum length");
 
-	    if(colorSeqTest_.size() <= 25)
-	    cdr.write_type_e(colorSeqTest_);else
-	        throw new RuntimeException("colorSeqTest field exceeds the maximum length");
-
 	    if(nestedSeqTest_.size() <= 25)
 	    cdr.write_type_e(nestedSeqTest_);else
 	        throw new RuntimeException("nestedSeqTest field exceeds the maximum length");
@@ -728,10 +691,6 @@ public class IDLElementTest implements IDLStruct<IDLElementTest>
 	    if(stringSeqTest_.size() <= 25)
 	    cdr.write_type_e(stringSeqTest_);else
 	        throw new RuntimeException("stringSeqTest field exceeds the maximum length");
-
-	    if(wstringSeqTest_.size() <= 25)
-	    cdr.write_type_e(wstringSeqTest_);else
-	        throw new RuntimeException("wstringSeqTest field exceeds the maximum length");
 	}
 	
 	@Override
@@ -769,8 +728,6 @@ public class IDLElementTest implements IDLStruct<IDLElementTest>
 
 	    	cdr.read_type_d(stringTest_);	
 
-	    	cdr.read_type_15(wstringTest_);	
-
 	    	for(int a = 0; a < longArray_.length; ++a)
 	    	{
 	    	    	longArray_[a] = cdr.read_type_2();	
@@ -804,6 +761,8 @@ public class IDLElementTest implements IDLStruct<IDLElementTest>
 
 	    	cdr.read_type_e(longSeqTest_);	
 
+	    	cdr.read_type_e(ulongSeqTest_);	
+
 	    	cdr.read_type_e(longlongSeqtest_);	
 
 	    	cdr.read_type_e(ulonglongSeqTest_);	
@@ -814,13 +773,9 @@ public class IDLElementTest implements IDLStruct<IDLElementTest>
 
 	    	cdr.read_type_e(booleanSeqTest_);	
 
-	    	cdr.read_type_e(colorSeqTest_);	
-
 	    	cdr.read_type_e(nestedSeqTest_);	
 
 	    	cdr.read_type_e(stringSeqTest_);	
-
-	    	cdr.read_type_e(wstringSeqTest_);	
 	}
 
     @Override
@@ -875,8 +830,6 @@ public class IDLElementTest implements IDLStruct<IDLElementTest>
                 
         returnedValue &= us.ihmc.idl.IDLTools.equals(this.stringTest_, otherMyClass.stringTest_);
                 
-        returnedValue &= us.ihmc.idl.IDLTools.equals(this.wstringTest_, otherMyClass.wstringTest_);
-                
                 	for(int c = 0; c < longArray_.length; ++c)
                 	{
                 	    returnedValue &= this.longArray_[c] == otherMyClass.longArray_[c];
@@ -904,6 +857,8 @@ public class IDLElementTest implements IDLStruct<IDLElementTest>
                 
         returnedValue &= this.longSeqTest_.equals(otherMyClass.longSeqTest_);
                 
+        returnedValue &= this.ulongSeqTest_.equals(otherMyClass.ulongSeqTest_);
+                
         returnedValue &= this.longlongSeqtest_.equals(otherMyClass.longlongSeqtest_);
                 
         returnedValue &= this.ulonglongSeqTest_.equals(otherMyClass.ulonglongSeqTest_);
@@ -914,13 +869,9 @@ public class IDLElementTest implements IDLStruct<IDLElementTest>
                 
         returnedValue &= this.booleanSeqTest_.equals(otherMyClass.booleanSeqTest_);
                 
-        returnedValue &= this.colorSeqTest_.equals(otherMyClass.colorSeqTest_);
-                
         returnedValue &= this.nestedSeqTest_.equals(otherMyClass.nestedSeqTest_);
                 
         returnedValue &= this.stringSeqTest_.equals(otherMyClass.stringSeqTest_);
-                
-        returnedValue &= this.wstringSeqTest_.equals(otherMyClass.wstringSeqTest_);
                 
 
         return returnedValue;
@@ -992,10 +943,6 @@ public class IDLElementTest implements IDLStruct<IDLElementTest>
         builder.append(this.stringTest_);
 
                 builder.append(", ");
-        builder.append("wstringTest=");
-        builder.append(this.wstringTest_);
-
-                builder.append(", ");
         builder.append("longArray=");
         builder.append(Arrays.toString(this.longArray_));
 
@@ -1032,6 +979,10 @@ public class IDLElementTest implements IDLStruct<IDLElementTest>
         builder.append(this.longSeqTest_);
 
                 builder.append(", ");
+        builder.append("ulongSeqTest=");
+        builder.append(this.ulongSeqTest_);
+
+                builder.append(", ");
         builder.append("longlongSeqtest=");
         builder.append(this.longlongSeqtest_);
 
@@ -1052,20 +1003,12 @@ public class IDLElementTest implements IDLStruct<IDLElementTest>
         builder.append(this.booleanSeqTest_);
 
                 builder.append(", ");
-        builder.append("colorSeqTest=");
-        builder.append(this.colorSeqTest_);
-
-                builder.append(", ");
         builder.append("nestedSeqTest=");
         builder.append(this.nestedSeqTest_);
 
                 builder.append(", ");
         builder.append("stringSeqTest=");
         builder.append(this.stringSeqTest_);
-
-                builder.append(", ");
-        builder.append("wstringSeqTest=");
-        builder.append(this.wstringSeqTest_);
 
                 
         builder.append("}");
@@ -1087,7 +1030,6 @@ public class IDLElementTest implements IDLStruct<IDLElementTest>
     private us.ihmc.idl.generated.IDLElement.Color colorTest_; 
     private us.ihmc.idl.generated.IDLElement.NestedElement nestedElementTest_; 
     private StringBuilder stringTest_; 
-    private StringBuilder wstringTest_; 
     private int[] longArray_; 
     private us.ihmc.idl.generated.IDLElement.NestedElement[][] nestedArray_; 
     private StringBuilder[] stringArray_; 
@@ -1097,14 +1039,13 @@ public class IDLElementTest implements IDLStruct<IDLElementTest>
     private IDLSequence.Short  shortSeqTest_; 
     private IDLSequence.Integer  ushortSeqTest_; 
     private IDLSequence.Integer  longSeqTest_; 
+    private IDLSequence.Long  ulongSeqTest_; 
     private IDLSequence.Long  longlongSeqtest_; 
     private IDLSequence.Long  ulonglongSeqTest_; 
     private IDLSequence.Float  floatSeqTest_; 
     private IDLSequence.Double  doubleSeqTest_; 
     private IDLSequence.Boolean  booleanSeqTest_; 
-    private IDLSequence.Object<us.ihmc.idl.generated.IDLElement.Color>  colorSeqTest_; 
     private IDLSequence.Object<us.ihmc.idl.generated.IDLElement.NestedElement>  nestedSeqTest_; 
     private IDLSequence.StringBuilderHolder  stringSeqTest_; 
-    private IDLSequence.StringBuilderHolder  wstringSeqTest_; 
 
 }

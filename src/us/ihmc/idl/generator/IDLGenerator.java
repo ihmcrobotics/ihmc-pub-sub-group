@@ -72,7 +72,7 @@ public class IDLGenerator
       }
    }
 
-   private static void execute(String idlFilename, String packageName, File targetDirectory) throws IOException
+   public static void execute(String idlFilename, String packageName, File targetDirectory) throws IOException
    {
       System.out.println("Loading templates...");
 
@@ -129,7 +129,7 @@ public class IDLGenerator
       File packageDir = new File(targetDirectory, ctx.getPackageDir());
       if (packageDir.isDirectory() || packageDir.mkdirs())
       {
-         TypesGenerator gen = new TypesGenerator(tmanager, ctx.getPackageDir() + "/", true);
+         TypesGenerator gen = new TypesGenerator(tmanager, true);
          gen.generate(ctx, packageDir.getPath() + "/", ctx.getPackage(), null);
       }
       else
