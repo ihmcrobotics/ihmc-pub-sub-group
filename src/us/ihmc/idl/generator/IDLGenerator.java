@@ -72,6 +72,15 @@ public class IDLGenerator
       }
    }
 
+   /**
+    * Generate java classes from an IDL file
+    * 
+    * @param idlFilename IDL file to parse
+    * @param packageName Target package (IDL Module gets added to this)
+    * @param targetDirectory Directory to save the generated files in. The whole package structure is generated in this directory
+    * 
+    * @throws IOException
+    */
    public static void execute(String idlFilename, String packageName, File targetDirectory) throws IOException
    {
       System.out.println("Loading templates...");

@@ -8,6 +8,11 @@ package us.ihmc.idl.IDLElement;
  */
 public class IDLElementTestCPPData
 {
+
+   /**
+    * Output of the C++ program SerializationTest, found in cppsrc/test
+    */
+
    static byte[] cppData = {(byte) 0x33, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0xa9, (byte) 0x03, (byte) 0x00, (byte) 0x00, (byte) 0x0a, (byte) 0x00,
          (byte) 0xf0, (byte) 0xff, (byte) 0x0f, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x0a, (byte) 0x1d, (byte) 0xff, (byte) 0xff, (byte) 0x92,
          (byte) 0x03, (byte) 0x00, (byte) 0x00, (byte) 0xf3, (byte) 0x49, (byte) 0x9f, (byte) 0xfa, (byte) 0xff, (byte) 0xff, (byte) 0xff, (byte) 0xff,

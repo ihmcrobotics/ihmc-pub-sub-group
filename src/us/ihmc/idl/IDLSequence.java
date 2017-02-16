@@ -1,7 +1,5 @@
 package us.ihmc.idl;
 
-import java.util.Arrays;
-
 import org.apache.commons.lang3.NotImplementedException;
 
 import gnu.trove.list.array.TByteArrayList;
@@ -29,7 +27,7 @@ public interface IDLSequence
    public static class Boolean extends TByteArrayList implements IDLSequence
    {
       public static final byte True = 1;
-      public static final byte False = 1;
+      public static final byte False = 0;
 
       public Boolean(int maxSize, String typeCode)
       {
@@ -49,6 +47,11 @@ public interface IDLSequence
       {
          return get(offset) == True;
       }
+      
+      public void set(int offset, boolean b)
+      {
+         set(offset, b?True : False);
+      }
 
       @Override
       public void readElement(int i, CDR cdr)
@@ -60,7 +63,6 @@ public interface IDLSequence
       public void writeElement(int i, CDR cdr)
       {
          cdr.write_type_7(getBoolean(i));
-         ;
       }
       
       public void set(Boolean other)
@@ -579,7 +581,7 @@ public interface IDLSequence
          resetQuick();
          for(int i = 0; i < other.size(); i++)
          {
-            add(other.get(i));
+            add().append(other.get(i));
          }
       }
       
