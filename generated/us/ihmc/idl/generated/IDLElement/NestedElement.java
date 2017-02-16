@@ -2,6 +2,7 @@ package us.ihmc.idl.generated.IDLElement;
 import us.ihmc.idl.IDLSequence;
 import us.ihmc.idl.CDR;
 import us.ihmc.idl.IDLStruct;
+import java.util.Arrays;
 
 public class NestedElement implements IDLStruct<NestedElement>
 {
@@ -105,13 +106,31 @@ public class NestedElement implements IDLStruct<NestedElement>
         NestedElement otherMyClass = (NestedElement)other;
         boolean returnedValue = true;
 
-        returnedValue &= this.stringTest_.equals(otherMyClass.stringTest_);
+        returnedValue &= us.ihmc.idl.IDLTools.equals(this.stringTest_, otherMyClass.stringTest_);
                 
         returnedValue &= this.longTest_ == otherMyClass.longTest_;
 
                 
 
         return returnedValue;
+    }
+    
+     @Override
+    public String toString()
+    {
+		StringBuilder builder = new StringBuilder();
+		
+      	builder.append("NestedElement {");
+        builder.append("stringTest=");
+        builder.append(this.stringTest_);
+
+                builder.append(", ");
+        builder.append("longTest=");
+        builder.append(this.longTest_);
+
+                
+        builder.append("}");
+		return builder.toString();
     }
 
     private StringBuilder stringTest_; 

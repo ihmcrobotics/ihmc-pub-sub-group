@@ -2,6 +2,7 @@ package us.ihmc.idl.generated.IDLElement;
 import us.ihmc.idl.IDLSequence;
 import us.ihmc.idl.CDR;
 import us.ihmc.idl.IDLStruct;
+import java.util.Arrays;
 
 public class IDLElementTest implements IDLStruct<IDLElementTest>
 {
@@ -872,9 +873,9 @@ public class IDLElementTest implements IDLStruct<IDLElementTest>
                 
         returnedValue &= this.nestedElementTest_.equals(otherMyClass.nestedElementTest_);
                 
-        returnedValue &= this.stringTest_.equals(otherMyClass.stringTest_);
+        returnedValue &= us.ihmc.idl.IDLTools.equals(this.stringTest_, otherMyClass.stringTest_);
                 
-        returnedValue &= this.wstringTest_.equals(otherMyClass.wstringTest_);
+        returnedValue &= us.ihmc.idl.IDLTools.equals(this.wstringTest_, otherMyClass.wstringTest_);
                 
                 	for(int c = 0; c < longArray_.length; ++c)
                 	{
@@ -923,6 +924,152 @@ public class IDLElementTest implements IDLStruct<IDLElementTest>
                 
 
         return returnedValue;
+    }
+    
+     @Override
+    public String toString()
+    {
+		StringBuilder builder = new StringBuilder();
+		
+      	builder.append("IDLElementTest {");
+        builder.append("charTest=");
+        builder.append(this.charTest_);
+
+                builder.append(", ");
+        builder.append("wcharTest=");
+        builder.append(this.wcharTest_);
+
+                builder.append(", ");
+        builder.append("octetTest=");
+        builder.append(this.octetTest_);
+
+                builder.append(", ");
+        builder.append("shortTest=");
+        builder.append(this.shortTest_);
+
+                builder.append(", ");
+        builder.append("ushortTest=");
+        builder.append(this.ushortTest_);
+
+                builder.append(", ");
+        builder.append("longTest=");
+        builder.append(this.longTest_);
+
+                builder.append(", ");
+        builder.append("ulongTest=");
+        builder.append(this.ulongTest_);
+
+                builder.append(", ");
+        builder.append("longlongTest=");
+        builder.append(this.longlongTest_);
+
+                builder.append(", ");
+        builder.append("ulonglongTest=");
+        builder.append(this.ulonglongTest_);
+
+                builder.append(", ");
+        builder.append("floatTest=");
+        builder.append(this.floatTest_);
+
+                builder.append(", ");
+        builder.append("doubleTest=");
+        builder.append(this.doubleTest_);
+
+                builder.append(", ");
+        builder.append("booleanTest=");
+        builder.append(this.booleanTest_);
+
+                builder.append(", ");
+        builder.append("colorTest=");
+        builder.append(this.colorTest_);
+
+                builder.append(", ");
+        builder.append("nestedElementTest=");
+        builder.append(this.nestedElementTest_);
+
+                builder.append(", ");
+        builder.append("stringTest=");
+        builder.append(this.stringTest_);
+
+                builder.append(", ");
+        builder.append("wstringTest=");
+        builder.append(this.wstringTest_);
+
+                builder.append(", ");
+        builder.append("longArray=");
+        builder.append(Arrays.toString(this.longArray_));
+
+                builder.append(", ");
+        builder.append("nestedArray=");
+        builder.append(Arrays.deepToString(this.nestedArray_));
+
+                builder.append(", ");
+        builder.append("stringArray=");
+        builder.append(Arrays.toString(this.stringArray_));
+
+                builder.append(", ");
+        builder.append("charSeqTest=");
+        builder.append(this.charSeqTest_);
+
+                builder.append(", ");
+        builder.append("wcharSeqTest=");
+        builder.append(this.wcharSeqTest_);
+
+                builder.append(", ");
+        builder.append("octetSeqTest=");
+        builder.append(this.octetSeqTest_);
+
+                builder.append(", ");
+        builder.append("shortSeqTest=");
+        builder.append(this.shortSeqTest_);
+
+                builder.append(", ");
+        builder.append("ushortSeqTest=");
+        builder.append(this.ushortSeqTest_);
+
+                builder.append(", ");
+        builder.append("longSeqTest=");
+        builder.append(this.longSeqTest_);
+
+                builder.append(", ");
+        builder.append("longlongSeqtest=");
+        builder.append(this.longlongSeqtest_);
+
+                builder.append(", ");
+        builder.append("ulonglongSeqTest=");
+        builder.append(this.ulonglongSeqTest_);
+
+                builder.append(", ");
+        builder.append("floatSeqTest=");
+        builder.append(this.floatSeqTest_);
+
+                builder.append(", ");
+        builder.append("doubleSeqTest=");
+        builder.append(this.doubleSeqTest_);
+
+                builder.append(", ");
+        builder.append("booleanSeqTest=");
+        builder.append(this.booleanSeqTest_);
+
+                builder.append(", ");
+        builder.append("colorSeqTest=");
+        builder.append(this.colorSeqTest_);
+
+                builder.append(", ");
+        builder.append("nestedSeqTest=");
+        builder.append(this.nestedSeqTest_);
+
+                builder.append(", ");
+        builder.append("stringSeqTest=");
+        builder.append(this.stringSeqTest_);
+
+                builder.append(", ");
+        builder.append("wstringSeqTest=");
+        builder.append(this.wstringSeqTest_);
+
+                
+        builder.append("}");
+		return builder.toString();
     }
 
     private char charTest_; 

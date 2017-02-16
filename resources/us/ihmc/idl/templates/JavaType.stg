@@ -23,6 +23,7 @@ $endif$
 import us.ihmc.idl.IDLSequence;
 import us.ihmc.idl.CDR;
 import us.ihmc.idl.IDLStruct;
+import java.util.Arrays;
 
 $definitions$
 >>
@@ -153,7 +154,7 @@ public $member.typecode.javaTypename$ get$member.javaName$()
 
         $struct.members : { member |
         $if(member.typecode.primitive)$returnedValue &= this.$member.name$_ == otherMyClass.$member.name$_;
-        $elseif(member.typecode.isType_d)$returnedValue &= this.$member.name$_.equals(otherMyClass.$member.name$_);
+        $elseif(member.typecode.isType_d)$returnedValue &= us.ihmc.idl.IDLTools.equals(this.$member.name$_, otherMyClass.$member.name$_);
        	$elseif(member.typecode.isType_f)$
         	$array_equals(ctx=ctx, typecodeArr=member.typecode, data=[member.name, "_"], loopvar=ctx.nextLoopVarName, other=["otherMyClass.", member.name, "_"], bool=["returnedValue"], dimensions=member.typecode.dimensions)$
         $else$returnedValue &= this.$member.name$_.equals(otherMyClass.$member.name$_);
@@ -161,6 +162,25 @@ public $member.typecode.javaTypename$ get$member.javaName$()
         }; separator="\n"$
 
         return returnedValue;
+    }
+    
+     @Override
+    public String toString()
+    {
+		StringBuilder builder = new StringBuilder();
+		
+      	builder.append("$struct.name$ {");
+        $struct.members : { member |
+builder.append("$member.name$=");
+$if(member.typecode.isType_f)$
+$if(first(rest(member.typecode.dimensions)))$builder.append(Arrays.deepToString(this.$member.name$_));
+$else$builder.append(Arrays.toString(this.$member.name$_));
+$endif$
+$else$builder.append(this.$member.name$_);$endif$
+
+        }; separator="builder.append(\", \");\n"$
+        builder.append("}");
+		return builder.toString();
     }
 
     $struct.members : { member |private $member.typecode.javaTypename$ $member.name$_; }; separator="\n"$
