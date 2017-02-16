@@ -1,7 +1,7 @@
 package us.ihmc.rtps.impl.fastRTPS;
 
-import us.ihmc.rtps.attributes.ParticipantAttributes;
-import us.ihmc.rtps.common.Time;
+import us.ihmc.pubsub.attributes.ParticipantAttributes;
+import us.ihmc.pubsub.common.Time;
 
 public class FastRTPSParticipantAttributes extends ParticipantAttributes<RTPSParticipantAttributes>
 {

@@ -1,6 +1,6 @@
 package us.ihmc.rtps.impl.fastRTPS;
 
-import us.ihmc.rtps.attributes.SubscriberAttributes;
+import us.ihmc.pubsub.attributes.SubscriberAttributes;
 
 public class FastRTPSSubscriberAttributes extends SubscriberAttributes<ReaderQos, ReaderTimes, LocatorList_t>
 {

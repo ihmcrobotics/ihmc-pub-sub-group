@@ -4,7 +4,7 @@ import java.nio.ByteBuffer;
 
 import org.apache.commons.lang3.NotImplementedException;
 
-import us.ihmc.rtps.common.SerializedPayload;
+import us.ihmc.pubsub.common.SerializedPayload;
 
 /**
  * Helper class to serialize and deserialize IDL messages.
