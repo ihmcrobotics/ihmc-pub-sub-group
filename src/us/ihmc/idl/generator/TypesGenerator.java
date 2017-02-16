@@ -39,10 +39,9 @@ import java.io.*;
  */
 class TypesGenerator
 {
-    TypesGenerator(TemplateManager tmanager, String outputDir, boolean replace)
+    TypesGenerator(TemplateManager tmanager, boolean replace)
     {
         tmanager_ = tmanager;
-        outputDir_ = outputDir;
         replace_ = replace;
     }
 
@@ -289,7 +288,5 @@ class TypesGenerator
     }
 
     private TemplateManager tmanager_ = null;
-//    private StringTemplateGroup stg_ = null;
-    private String outputDir_ = null;
     private boolean replace_ = false;
 }

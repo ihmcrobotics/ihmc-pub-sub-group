@@ -166,10 +166,10 @@ public interface IDLSequence
       {
          switch (type)
          {
-         case 1:
+         case 8:
             add(cdr.read_type_8());
             break;
-         case 2:
+         case 14:
             add(cdr.read_type_14());
             break;
          }
@@ -180,10 +180,10 @@ public interface IDLSequence
       {
          switch (type)
          {
-         case 1:
+         case 8:
             cdr.write_type_8(get(i));
             break;
-         case 2:
+         case 14:
             cdr.write_type_14(get(i));
             break;
          }

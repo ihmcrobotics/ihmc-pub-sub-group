@@ -175,12 +175,12 @@ public class CDR
    /**
     * Struct
     */
-   public void read_type_a(IDLStruct type)
+   public void read_type_a(IDLStruct<?> type)
    {
       type.deserialize(this);
    }
    
-   public void write_type_a(IDLStruct type)
+   public void write_type_a(IDLStruct<?> type)
    {
       type.serialize(this);
    }
@@ -310,18 +310,16 @@ public class CDR
    }
    
    /**
-    * Wide char (16 bits)
+    * Wide char (32 bits)
     */
    public char read_type_14()
    {
-      align(2);
-      return buf.getChar();
+      return (char) read_type_2();
    }
    
    public void write_type_14(char val)
    {
-      align(2);
-      buf.putChar(val);
+      write_type_2((int) val);
    }
 
    /**
