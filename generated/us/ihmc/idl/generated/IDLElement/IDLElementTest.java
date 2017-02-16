@@ -3,368 +3,374 @@ import us.ihmc.idl.IDLSequence;
 import us.ihmc.idl.CDR;
 import us.ihmc.idl.IDLStruct;
 
-public class IDLElementTest implements IDLStruct
+public class IDLElementTest implements IDLStruct<IDLElementTest>
 {
     public IDLElementTest()
     {
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                nestedElementTest_ = new us.ihmc.idl.generated.IDLElement.NestedElement();        
-                stringTest_ = new StringBuilder(255); 
-                
-                wstringTest_ = new StringBuilder(255); 
-                
-                longArray_ = new int[10];
-                
-                nestedArray_ = new us.ihmc.idl.generated.IDLElement.NestedElement[5][3];
-                for(int b = 0; b < nestedArray_.length; ++b)
-                {
-                    for(int c = 0; c < nestedArray_[b].length; ++c)
-                    {
-                        	nestedArray_[b][c] = new us.ihmc.idl.generated.IDLElement.NestedElement();	
-                    }
-                }
-                
-                stringArray_ = new StringBuilder[4];
-                for(int e = 0; e < stringArray_.length; ++e)
-                {
-                    	stringArray_[e] = new StringBuilder();	
-                }
-                
-                charSeqTest_ = new IDLSequence.Char (25, "type_8");
-                
-                wcharSeqTest_ = new IDLSequence.Char (25, "type_14");
-                
-                octetSeqTest_ = new IDLSequence.Byte (25, "type_9");
-                
-                shortSeqTest_ = new IDLSequence.Short (25, "type_1");
-                
-                ushortSeqTest_ = new IDLSequence.Integer (25, "type_3");
-                
-                longSeqTest_ = new IDLSequence.Integer (25, "type_2");
-                
-                longlongSeqtest_ = new IDLSequence.Long (25, "type_11");
-                
-                ulonglongSeqTest_ = new IDLSequence.Long (25, "type_12");
-                
-                floatSeqTest_ = new IDLSequence.Float (25, "type_5");
-                
-                doubleSeqTest_ = new IDLSequence.Double (25, "type_6");
-                
-                booleanSeqTest_ = new IDLSequence.Boolean (25, "type_7");
-                
-                colorSeqTest_ = new IDLSequence.Object<us.ihmc.idl.generated.IDLElement.Color> (25, us.ihmc.idl.generated.IDLElement.Color.values);
+        	nestedElementTest_ = new us.ihmc.idl.generated.IDLElement.NestedElement();stringTest_ = new StringBuilder(255); 
+        	wstringTest_ = new StringBuilder(255); 
+        	longArray_ = new int[10];
+        	nestedArray_ = new us.ihmc.idl.generated.IDLElement.NestedElement[5][3];
+        	for(int b = 0; b < nestedArray_.length; ++b)
+        	{
+        	    for(int c = 0; c < nestedArray_[b].length; ++c)
+        	    {
+        	        	nestedArray_[b][c] = new us.ihmc.idl.generated.IDLElement.NestedElement();	
+        	    }
+        	}
+        	stringArray_ = new StringBuilder[4];
+        	for(int e = 0; e < stringArray_.length; ++e)
+        	{
+        	    	stringArray_[e] = new StringBuilder();	
+        	}
+        	charSeqTest_ = new IDLSequence.Char (25, "type_8");
+        	wcharSeqTest_ = new IDLSequence.Char (25, "type_14");
+        	octetSeqTest_ = new IDLSequence.Byte (25, "type_9");
+        	shortSeqTest_ = new IDLSequence.Short (25, "type_1");
+        	ushortSeqTest_ = new IDLSequence.Integer (25, "type_3");
+        	longSeqTest_ = new IDLSequence.Integer (25, "type_2");
+        	longlongSeqtest_ = new IDLSequence.Long (25, "type_11");
+        	ulonglongSeqTest_ = new IDLSequence.Long (25, "type_12");
+        	floatSeqTest_ = new IDLSequence.Float (25, "type_5");
+        	doubleSeqTest_ = new IDLSequence.Double (25, "type_6");
+        	booleanSeqTest_ = new IDLSequence.Boolean (25, "type_7");
+        	colorSeqTest_ = new IDLSequence.Object<us.ihmc.idl.generated.IDLElement.Color> (25, us.ihmc.idl.generated.IDLElement.Color.values);
 
 
-                
-                nestedSeqTest_ = new IDLSequence.Object<us.ihmc.idl.generated.IDLElement.NestedElement> (25, us.ihmc.idl.generated.IDLElement.NestedElement.class, new us.ihmc.idl.generated.IDLElement.NestedElementPubSubType());
+        	nestedSeqTest_ = new IDLSequence.Object<us.ihmc.idl.generated.IDLElement.NestedElement> (25, us.ihmc.idl.generated.IDLElement.NestedElement.class, new us.ihmc.idl.generated.IDLElement.NestedElementPubSubType());
 
-                
-                stringSeqTest_ = new IDLSequence.StringBuilderHolder (25, "type_d");           
-                wstringSeqTest_ = new IDLSequence.StringBuilderHolder (25, "type_15");           
+        	stringSeqTest_ = new IDLSequence.StringBuilderHolder (25, "type_d");   wstringSeqTest_ = new IDLSequence.StringBuilderHolder (25, "type_15");   
         
         
     }
+    @Override
+    public void set(IDLElementTest other)
+    {
+        	charTest_ = other.charTest_;
+        	wcharTest_ = other.wcharTest_;
+        	octetTest_ = other.octetTest_;
+        	shortTest_ = other.shortTest_;
+        	ushortTest_ = other.ushortTest_;
+        	longTest_ = other.longTest_;
+        	ulongTest_ = other.ulongTest_;
+        	longlongTest_ = other.longlongTest_;
+        	ulonglongTest_ = other.ulonglongTest_;
+        	floatTest_ = other.floatTest_;
+        	doubleTest_ = other.doubleTest_;
+        	booleanTest_ = other.booleanTest_;
+        	colorTest_ = other.colorTest_;
+        	nestedElementTest_.set(other.nestedElementTest_);stringTest_.setLength(0);
+        	stringTest_.append(other.stringTest_);
+        	wstringTest_.setLength(0);
+        	wstringTest_.append(other.wstringTest_);
+        	for(int g = 0; g < longArray_.length; ++g)
+        	{
+        	    	longArray_[g] = other.longArray_[g];	
 
-        public void setCharTest(char charTest)
-        {
-            charTest_ = charTest;
-        }
+        	}
+        	for(int i = 0; i < nestedArray_.length; ++i)
+        	{
+        	    for(int j = 0; j < nestedArray_[i].length; ++j)
+        	    {
+        	        	other.nestedArray_[i][j].set(nestedArray_[i][j]);
+        	    }
+        	}
+        	for(int l = 0; l < stringArray_.length; ++l)
+        	{
+        	    	stringArray_[l].setLength(0);
+        	    	stringArray_[l].append(other.stringArray_[l]);
+        	            	}
+        	charSeqTest_.set(other.charSeqTest_);wcharSeqTest_.set(other.wcharSeqTest_);octetSeqTest_.set(other.octetSeqTest_);shortSeqTest_.set(other.shortSeqTest_);ushortSeqTest_.set(other.ushortSeqTest_);longSeqTest_.set(other.longSeqTest_);longlongSeqtest_.set(other.longlongSeqtest_);ulonglongSeqTest_.set(other.ulonglongSeqTest_);floatSeqTest_.set(other.floatSeqTest_);doubleSeqTest_.set(other.doubleSeqTest_);booleanSeqTest_.set(other.booleanSeqTest_);colorSeqTest_.set(other.colorSeqTest_);nestedSeqTest_.set(other.nestedSeqTest_);stringSeqTest_.set(other.stringSeqTest_);wstringSeqTest_.set(other.wstringSeqTest_);
+    }
 
-        public char getCharTest()
-        {
-            return charTest_;
-        }
+    public void setCharTest(char charTest)
+    {
+        charTest_ = charTest;
+    }
 
-        
-        public void setWcharTest(char wcharTest)
-        {
-            wcharTest_ = wcharTest;
-        }
-
-        public char getWcharTest()
-        {
-            return wcharTest_;
-        }
-
-        
-        public void setOctetTest(byte octetTest)
-        {
-            octetTest_ = octetTest;
-        }
-
-        public byte getOctetTest()
-        {
-            return octetTest_;
-        }
-
-        
-        public void setShortTest(short shortTest)
-        {
-            shortTest_ = shortTest;
-        }
-
-        public short getShortTest()
-        {
-            return shortTest_;
-        }
-
-        
-        public void setUshortTest(int ushortTest)
-        {
-            ushortTest_ = ushortTest;
-        }
-
-        public int getUshortTest()
-        {
-            return ushortTest_;
-        }
+    public char getCharTest()
+    {
+        return charTest_;
+    }
 
         
-        public void setLongTest(int longTest)
-        {
-            longTest_ = longTest;
-        }
+    public void setWcharTest(char wcharTest)
+    {
+        wcharTest_ = wcharTest;
+    }
 
-        public int getLongTest()
-        {
-            return longTest_;
-        }
-
-        
-        public void setUlongTest(long ulongTest)
-        {
-            ulongTest_ = ulongTest;
-        }
-
-        public long getUlongTest()
-        {
-            return ulongTest_;
-        }
+    public char getWcharTest()
+    {
+        return wcharTest_;
+    }
 
         
-        public void setLonglongTest(long longlongTest)
-        {
-            longlongTest_ = longlongTest;
-        }
+    public void setOctetTest(byte octetTest)
+    {
+        octetTest_ = octetTest;
+    }
 
-        public long getLonglongTest()
-        {
-            return longlongTest_;
-        }
-
-        
-        public void setUlonglongTest(long ulonglongTest)
-        {
-            ulonglongTest_ = ulonglongTest;
-        }
-
-        public long getUlonglongTest()
-        {
-            return ulonglongTest_;
-        }
+    public byte getOctetTest()
+    {
+        return octetTest_;
+    }
 
         
-        public void setFloatTest(float floatTest)
-        {
-            floatTest_ = floatTest;
-        }
+    public void setShortTest(short shortTest)
+    {
+        shortTest_ = shortTest;
+    }
 
-        public float getFloatTest()
-        {
-            return floatTest_;
-        }
-
-        
-        public void setDoubleTest(double doubleTest)
-        {
-            doubleTest_ = doubleTest;
-        }
-
-        public double getDoubleTest()
-        {
-            return doubleTest_;
-        }
+    public short getShortTest()
+    {
+        return shortTest_;
+    }
 
         
-        public void setBooleanTest(boolean booleanTest)
-        {
-            booleanTest_ = booleanTest;
-        }
+    public void setUshortTest(int ushortTest)
+    {
+        ushortTest_ = ushortTest;
+    }
 
-        public boolean getBooleanTest()
-        {
-            return booleanTest_;
-        }
-
-        
-        public void setColorTest(us.ihmc.idl.generated.IDLElement.Color colorTest)
-        {
-            colorTest_ = colorTest;
-        }
-
-        public us.ihmc.idl.generated.IDLElement.Color getColorTest()
-        {
-            return colorTest_;
-        }
+    public int getUshortTest()
+    {
+        return ushortTest_;
+    }
 
         
+    public void setLongTest(int longTest)
+    {
+        longTest_ = longTest;
+    }
 
-        public us.ihmc.idl.generated.IDLElement.NestedElement getNestedElementTest()
-        {
-            return nestedElementTest_;
-        }
-
-        
-
-        public StringBuilder getStringTest()
-        {
-            return stringTest_;
-        }
+    public int getLongTest()
+    {
+        return longTest_;
+    }
 
         
+    public void setUlongTest(long ulongTest)
+    {
+        ulongTest_ = ulongTest;
+    }
 
-        public StringBuilder getWstringTest()
-        {
-            return wstringTest_;
-        }
-
-        
-
-        public int[] getLongArray()
-        {
-            return longArray_;
-        }
+    public long getUlongTest()
+    {
+        return ulongTest_;
+    }
 
         
+    public void setLonglongTest(long longlongTest)
+    {
+        longlongTest_ = longlongTest;
+    }
 
-        public us.ihmc.idl.generated.IDLElement.NestedElement[][] getNestedArray()
-        {
-            return nestedArray_;
-        }
+    public long getLonglongTest()
+    {
+        return longlongTest_;
+    }
 
         
+    public void setUlonglongTest(long ulonglongTest)
+    {
+        ulonglongTest_ = ulonglongTest;
+    }
 
-        public StringBuilder[] getStringArray()
-        {
-            return stringArray_;
-        }
+    public long getUlonglongTest()
+    {
+        return ulonglongTest_;
+    }
+
+        
+    public void setFloatTest(float floatTest)
+    {
+        floatTest_ = floatTest;
+    }
+
+    public float getFloatTest()
+    {
+        return floatTest_;
+    }
+
+        
+    public void setDoubleTest(double doubleTest)
+    {
+        doubleTest_ = doubleTest;
+    }
+
+    public double getDoubleTest()
+    {
+        return doubleTest_;
+    }
+
+        
+    public void setBooleanTest(boolean booleanTest)
+    {
+        booleanTest_ = booleanTest;
+    }
+
+    public boolean getBooleanTest()
+    {
+        return booleanTest_;
+    }
+
+        
+    public void setColorTest(us.ihmc.idl.generated.IDLElement.Color colorTest)
+    {
+        colorTest_ = colorTest;
+    }
+
+    public us.ihmc.idl.generated.IDLElement.Color getColorTest()
+    {
+        return colorTest_;
+    }
 
         
 
-        public IDLSequence.Char  getCharSeqTest()
-        {
-            return charSeqTest_;
-        }
+    public us.ihmc.idl.generated.IDLElement.NestedElement getNestedElementTest()
+    {
+        return nestedElementTest_;
+    }
 
         
 
-        public IDLSequence.Char  getWcharSeqTest()
-        {
-            return wcharSeqTest_;
-        }
+    public StringBuilder getStringTest()
+    {
+        return stringTest_;
+    }
 
         
 
-        public IDLSequence.Byte  getOctetSeqTest()
-        {
-            return octetSeqTest_;
-        }
+    public StringBuilder getWstringTest()
+    {
+        return wstringTest_;
+    }
 
         
 
-        public IDLSequence.Short  getShortSeqTest()
-        {
-            return shortSeqTest_;
-        }
+    public int[] getLongArray()
+    {
+        return longArray_;
+    }
 
         
 
-        public IDLSequence.Integer  getUshortSeqTest()
-        {
-            return ushortSeqTest_;
-        }
+    public us.ihmc.idl.generated.IDLElement.NestedElement[][] getNestedArray()
+    {
+        return nestedArray_;
+    }
 
         
 
-        public IDLSequence.Integer  getLongSeqTest()
-        {
-            return longSeqTest_;
-        }
+    public StringBuilder[] getStringArray()
+    {
+        return stringArray_;
+    }
 
         
 
-        public IDLSequence.Long  getLonglongSeqtest()
-        {
-            return longlongSeqtest_;
-        }
+    public IDLSequence.Char  getCharSeqTest()
+    {
+        return charSeqTest_;
+    }
 
         
 
-        public IDLSequence.Long  getUlonglongSeqTest()
-        {
-            return ulonglongSeqTest_;
-        }
+    public IDLSequence.Char  getWcharSeqTest()
+    {
+        return wcharSeqTest_;
+    }
 
         
 
-        public IDLSequence.Float  getFloatSeqTest()
-        {
-            return floatSeqTest_;
-        }
+    public IDLSequence.Byte  getOctetSeqTest()
+    {
+        return octetSeqTest_;
+    }
 
         
 
-        public IDLSequence.Double  getDoubleSeqTest()
-        {
-            return doubleSeqTest_;
-        }
+    public IDLSequence.Short  getShortSeqTest()
+    {
+        return shortSeqTest_;
+    }
 
         
 
-        public IDLSequence.Boolean  getBooleanSeqTest()
-        {
-            return booleanSeqTest_;
-        }
+    public IDLSequence.Integer  getUshortSeqTest()
+    {
+        return ushortSeqTest_;
+    }
 
         
 
-        public IDLSequence.Object<us.ihmc.idl.generated.IDLElement.Color>  getColorSeqTest()
-        {
-            return colorSeqTest_;
-        }
+    public IDLSequence.Integer  getLongSeqTest()
+    {
+        return longSeqTest_;
+    }
 
         
 
-        public IDLSequence.Object<us.ihmc.idl.generated.IDLElement.NestedElement>  getNestedSeqTest()
-        {
-            return nestedSeqTest_;
-        }
+    public IDLSequence.Long  getLonglongSeqtest()
+    {
+        return longlongSeqtest_;
+    }
 
         
 
-        public IDLSequence.StringBuilderHolder  getStringSeqTest()
-        {
-            return stringSeqTest_;
-        }
+    public IDLSequence.Long  getUlonglongSeqTest()
+    {
+        return ulonglongSeqTest_;
+    }
 
         
 
-        public IDLSequence.StringBuilderHolder  getWstringSeqTest()
-        {
-            return wstringSeqTest_;
-        }
+    public IDLSequence.Float  getFloatSeqTest()
+    {
+        return floatSeqTest_;
+    }
+
+        
+
+    public IDLSequence.Double  getDoubleSeqTest()
+    {
+        return doubleSeqTest_;
+    }
+
+        
+
+    public IDLSequence.Boolean  getBooleanSeqTest()
+    {
+        return booleanSeqTest_;
+    }
+
+        
+
+    public IDLSequence.Object<us.ihmc.idl.generated.IDLElement.Color>  getColorSeqTest()
+    {
+        return colorSeqTest_;
+    }
+
+        
+
+    public IDLSequence.Object<us.ihmc.idl.generated.IDLElement.NestedElement>  getNestedSeqTest()
+    {
+        return nestedSeqTest_;
+    }
+
+        
+
+    public IDLSequence.StringBuilderHolder  getStringSeqTest()
+    {
+        return stringSeqTest_;
+    }
+
+        
+
+    public IDLSequence.StringBuilderHolder  getWstringSeqTest()
+    {
+        return wstringSeqTest_;
+    }
 
         
 
@@ -606,6 +612,7 @@ public class IDLElementTest implements IDLStruct
 	    return current_alignment - initial_alignment;
 	}
 	
+	@Override
 	public void serialize(CDR cdr)
 	{
 
@@ -726,6 +733,7 @@ public class IDLElementTest implements IDLStruct
 	        throw new RuntimeException("wstringSeqTest field exceeds the maximum length");
 	}
 	
+	@Override
 	public void deserialize(CDR cdr)
 	{
 
@@ -824,30 +832,43 @@ public class IDLElementTest implements IDLStruct
         boolean returnedValue = true;
 
         returnedValue &= this.charTest_ == otherMyClass.charTest_;
+
                 
         returnedValue &= this.wcharTest_ == otherMyClass.wcharTest_;
+
                 
         returnedValue &= this.octetTest_ == otherMyClass.octetTest_;
+
                 
         returnedValue &= this.shortTest_ == otherMyClass.shortTest_;
+
                 
         returnedValue &= this.ushortTest_ == otherMyClass.ushortTest_;
+
                 
         returnedValue &= this.longTest_ == otherMyClass.longTest_;
+
                 
         returnedValue &= this.ulongTest_ == otherMyClass.ulongTest_;
+
                 
         returnedValue &= this.longlongTest_ == otherMyClass.longlongTest_;
+
                 
         returnedValue &= this.ulonglongTest_ == otherMyClass.ulonglongTest_;
+
                 
         returnedValue &= this.floatTest_ == otherMyClass.floatTest_;
+
                 
         returnedValue &= this.doubleTest_ == otherMyClass.doubleTest_;
+
                 
         returnedValue &= this.booleanTest_ == otherMyClass.booleanTest_;
+
                 
         returnedValue &= this.colorTest_ == otherMyClass.colorTest_;
+
                 
         returnedValue &= this.nestedElementTest_.equals(otherMyClass.nestedElementTest_);
                 
@@ -855,12 +876,21 @@ public class IDLElementTest implements IDLStruct
                 
         returnedValue &= this.wstringTest_.equals(otherMyClass.wstringTest_);
                 
-        returnedValue &= this.longArray_.equals(otherMyClass.longArray_);
-                
-        returnedValue &= this.nestedArray_.equals(otherMyClass.nestedArray_);
-                
-        returnedValue &= this.stringArray_.equals(otherMyClass.stringArray_);
-                
+                	for(int c = 0; c < longArray_.length; ++c)
+                	{
+                	    returnedValue &= this.longArray_[c] == otherMyClass.longArray_[c];
+
+                	}        
+                	for(int e = 0; e < nestedArray_.length; ++e)
+                	{
+                	    for(int f = 0; f < nestedArray_[e].length; ++f)
+                	    {
+                	        returnedValue &= nestedArray_[e][f].equals(otherMyClass.nestedArray_[e][f]);
+                	    }
+                	}        
+                	for(int h = 0; h < stringArray_.length; ++h)
+                	{
+                	    returnedValue &= this.stringArray_[h].equals(otherMyClass.stringArray_[h]);}        
         returnedValue &= this.charSeqTest_.equals(otherMyClass.charSeqTest_);
                 
         returnedValue &= this.wcharSeqTest_.equals(otherMyClass.wcharSeqTest_);

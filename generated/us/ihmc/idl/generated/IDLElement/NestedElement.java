@@ -3,33 +3,39 @@ import us.ihmc.idl.IDLSequence;
 import us.ihmc.idl.CDR;
 import us.ihmc.idl.IDLStruct;
 
-public class NestedElement implements IDLStruct
+public class NestedElement implements IDLStruct<NestedElement>
 {
     public NestedElement()
     {
-                stringTest_ = new StringBuilder(255); 
-                
-                
+        	stringTest_ = new StringBuilder(255); 
         
         
     }
+    @Override
+    public void set(NestedElement other)
+    {
+        	stringTest_.setLength(0);
+        	stringTest_.append(other.stringTest_);
+        	longTest_ = other.longTest_;
+
+    }
 
 
-        public StringBuilder getStringTest()
-        {
-            return stringTest_;
-        }
+    public StringBuilder getStringTest()
+    {
+        return stringTest_;
+    }
 
         
-        public void setLongTest(int longTest)
-        {
-            longTest_ = longTest;
-        }
+    public void setLongTest(int longTest)
+    {
+        longTest_ = longTest;
+    }
 
-        public int getLongTest()
-        {
-            return longTest_;
-        }
+    public int getLongTest()
+    {
+        return longTest_;
+    }
 
         
 
@@ -69,6 +75,7 @@ public class NestedElement implements IDLStruct
 	    return current_alignment - initial_alignment;
 	}
 	
+	@Override
 	public void serialize(CDR cdr)
 	{
 
@@ -80,6 +87,7 @@ public class NestedElement implements IDLStruct
 	    cdr.write_type_2(longTest_);
 	}
 	
+	@Override
 	public void deserialize(CDR cdr)
 	{
 
@@ -100,6 +108,7 @@ public class NestedElement implements IDLStruct
         returnedValue &= this.stringTest_.equals(otherMyClass.stringTest_);
                 
         returnedValue &= this.longTest_ == otherMyClass.longTest_;
+
                 
 
         return returnedValue;

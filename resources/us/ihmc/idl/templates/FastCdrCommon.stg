@@ -70,6 +70,41 @@ $else$
 $endif$
 >>
 
+array_copy(ctx, typecodeArr, data, loopvar, other, dimensions) ::= <<
+$if(first(dimensions))$
+for(int $loopvar$ = 0; $loopvar$ < $data$.length; ++$loopvar$)
+{
+    $array_copy(ctx=ctx, typecodeArr=typecodeArr, data=[data, "[", loopvar, "]"], other=[other, "[", loopvar, "]"], loopvar=ctx.nextLoopVarName, dimensions=rest(dimensions))$
+}
+$else$
+	$if(typecodeArr.contentTypeCode.primitive)$
+	$data$ = $other$;	
+	$elseif(typecodeArr.contentTypeCode.isType_d)$
+	$data$.setLength(0);
+	$data$.append($other$);
+        	
+	$else$
+	$other$.set($data$);
+	$endif$
+$endif$
+>>
+
+array_equals(ctx, typecodeArr, data, loopvar, other, bool, dimensions) ::= <<
+$if(first(dimensions))$
+for(int $loopvar$ = 0; $loopvar$ < $data$.length; ++$loopvar$)
+{
+    $array_equals(ctx=ctx, typecodeArr=typecodeArr, data=[data, "[", loopvar, "]"], loopvar=ctx.nextLoopVarName, other=[other, "[", loopvar, "]"], bool=bool, dimensions=rest(dimensions))$
+}
+$else$
+$if(typecodeArr.contentTypeCode.primitive)$$bool$ &= this.$data$ == $other$;
+$elseif(typecodeArr.contentTypeCode.isType_d)$$bool$ &= this.$data$.equals($other$);
+$else$$bool$ &= $data$.equals($other$);
+$endif$
+
+$endif$
+>>
+
+
 array_serialize(ctx, typecodeArr, data, loopvar, dimensions) ::= <<
 $if(first(dimensions))$
 for(int $loopvar$ = 0; $loopvar$ < $data$.length; ++$loopvar$)
