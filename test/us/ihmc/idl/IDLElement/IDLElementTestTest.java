@@ -12,10 +12,17 @@ import us.ihmc.idl.generated.IDLElement.IDLElementTestPubSubType;
 import us.ihmc.idl.generated.IDLElement.NestedElement;
 import us.ihmc.rtps.common.SerializedPayload;
 
+/**
+ * Test cases for the IDLElementTest type. 
+ * 
+ * IDLElementTest contains all supported types, this class makes sure it gets correctly serialized, the equals and set methods works
+ * and the serialized byte stream corresponds to one serialized using the c++ classes created by fastrtpsgen. 
+ * 
+ * @author Jesper Smith
+ *
+ */
 public class IDLElementTestTest
 {
-   //Output of the C++ program SerializationTest, found in cppsrc/test
-
    private void populateIDLElementTest(IDLElementTest test)
    {
 
@@ -89,6 +96,226 @@ public class IDLElementTestTest
       }
    }
 
+   public IDLElementTest createPopulatedIDLElementTest()
+   {
+      IDLElementTest idlElementTest = new IDLElementTest();
+      populateIDLElementTest(idlElementTest);
+      return idlElementTest;
+   }
+
+   @Test
+   public void testIDLElementEquals()
+   {
+      IDLElementTest orig = createPopulatedIDLElementTest();
+
+      IDLElementTest test = createPopulatedIDLElementTest();
+      assertEquals(orig, test);
+      test.setCharTest('4');
+      assertNotEquals(orig, test);
+      test = createPopulatedIDLElementTest();
+      assertEquals(orig, test);
+      test.setWcharTest('z');
+      assertNotEquals(orig, test);
+      test = createPopulatedIDLElementTest();
+      assertEquals(orig, test);
+      test.setOctetTest((byte) 0xb);
+      assertNotEquals(orig, test);
+      test = createPopulatedIDLElementTest();
+      assertEquals(orig, test);
+      test.setShortTest((short) -1);
+      assertNotEquals(orig, test);
+      test = createPopulatedIDLElementTest();
+      assertEquals(orig, test);
+      test.setUshortTest(1);
+      assertNotEquals(orig, test);
+      test = createPopulatedIDLElementTest();
+      assertEquals(orig, test);
+      test.setLongTest(-5102);
+      assertNotEquals(orig, test);
+      test = createPopulatedIDLElementTest();
+      assertEquals(orig, test);
+      test.setUlongTest(14);
+      assertNotEquals(orig, test);
+      test = createPopulatedIDLElementTest();
+      assertEquals(orig, test);
+      test.setLonglongTest(-9024141);
+      assertNotEquals(orig, test);
+      test = createPopulatedIDLElementTest();
+      assertEquals(orig, test);
+      test.setUlonglongTest(58142);
+      assertNotEquals(orig, test);
+      test = createPopulatedIDLElementTest();
+      assertEquals(orig, test);
+      test.setFloatTest(25814.2143f);
+      assertNotEquals(orig, test);
+      test = createPopulatedIDLElementTest();
+      assertEquals(orig, test);
+      test.setDoubleTest(918289051.1241);
+      assertNotEquals(orig, test);
+      test = createPopulatedIDLElementTest();
+      assertEquals(orig, test);
+      test.setBooleanTest(false);
+      assertNotEquals(orig, test);
+      test = createPopulatedIDLElementTest();
+      assertEquals(orig, test);
+      test.setColorTest(Color.green);
+      assertNotEquals(orig, test);
+      test = createPopulatedIDLElementTest();
+      assertEquals(orig, test);
+      test.getNestedElementTest().setLongTest(58);
+      assertNotEquals(orig, test);
+      test = createPopulatedIDLElementTest();
+      assertEquals(orig, test);
+      test.getNestedElementTest().getStringTest().setLength(0);
+      test.getNestedElementTest().getStringTest().append("Wested");
+      assertNotEquals(orig, test);
+      test = createPopulatedIDLElementTest();
+      assertEquals(orig, test);
+      test.getStringTest().setLength(0);
+      test.getStringTest().append("Lolololo");
+      assertNotEquals(orig, test);
+      test = createPopulatedIDLElementTest();
+      assertEquals(orig, test);
+
+      for (int i = 0; i < 10; i++)
+      {
+         test.getLongArray()[i] = i * 14 + 1;
+         assertNotEquals(orig, test);
+         test = createPopulatedIDLElementTest();
+         assertEquals(orig, test);
+      }
+
+      for (int a = 0; a < 5; a++)
+      {
+         for (int b = 0; b < 3; b++)
+         {
+            test.getNestedArray()[a][b].setLongTest(a + a * b * 3 + b + 25);
+            assertNotEquals(orig, test);
+            test = createPopulatedIDLElementTest();
+            assertEquals(orig, test);
+            test.getNestedArray()[a][b].getStringTest().setLength(0);
+            test.getNestedArray()[a][b].getStringTest().append("arrayDim:" + a + b + "invalid");
+            assertNotEquals(orig, test);
+            test = createPopulatedIDLElementTest();
+            assertEquals(orig, test);
+         }
+      }
+
+      for (int i = 0; i < 4; i++)
+      {
+         test.getStringArray()[i].setLength(0);
+         ;
+         test.getStringArray()[i].append("arrayDimNew:" + i);
+         assertNotEquals(orig, test);
+         test = createPopulatedIDLElementTest();
+         assertEquals(orig, test);
+      }
+      int c1 = 0, c2 = 0, c3 = 0;
+      for (int s = 1; s < 4; s++)
+      {
+         for (int w = 0; w < 5; w++)
+         {
+            int i = s + s * w;
+
+            switch (s)
+            {
+            case 1:
+               test.getCharSeqTest().set(c1, String.valueOf(i * 2).charAt(0));
+               assertNotEquals(orig, test);
+               test = createPopulatedIDLElementTest();
+               assertEquals(orig, test);
+               test.getWcharSeqTest().set(c1, 'b');
+               assertNotEquals(orig, test);
+               test = createPopulatedIDLElementTest();
+               assertEquals(orig, test);
+               test.getOctetSeqTest().set(c1, (byte) (i * 3));
+               assertNotEquals(orig, test);
+               test = createPopulatedIDLElementTest();
+               assertEquals(orig, test);
+               test.getShortSeqTest().set(c1, (short) (-4 * i + 1));
+               assertNotEquals(orig, test);
+               test = createPopulatedIDLElementTest();
+               assertEquals(orig, test);
+               test.getBooleanSeqTest().set(c1, !test.getBooleanSeqTest().getBoolean(c1));
+               assertNotEquals(orig, test);
+               test = createPopulatedIDLElementTest();
+               assertEquals(orig, test);
+               c1++;
+            case 2:
+               test.getUshortSeqTest().set(c2, i + 5);
+               assertNotEquals(orig, test);
+               test = createPopulatedIDLElementTest();
+               assertEquals(orig, test);
+               test.getLongSeqTest().set(c2, i * 124 - 99);
+               assertNotEquals(orig, test);
+               test = createPopulatedIDLElementTest();
+               assertEquals(orig, test);
+               test.getUlongSeqTest().set(c2, i * 1161);
+               assertNotEquals(orig, test);
+               test = createPopulatedIDLElementTest();
+               assertEquals(orig, test);
+               test.getLonglongSeqtest().set(c2, -243125l + i * 1251);
+               assertNotEquals(orig, test);
+               test = createPopulatedIDLElementTest();
+               assertEquals(orig, test);
+               c2++;
+            case 3:
+               test.getUlonglongSeqTest().set(c3, 242l + i * 100421410l);
+               assertNotEquals(orig, test);
+               test = createPopulatedIDLElementTest();
+               assertEquals(orig, test);
+               test.getFloatSeqTest().set(c3, 525.25f * i);
+               assertNotEquals(orig, test);
+               test = createPopulatedIDLElementTest();
+               assertEquals(orig, test);
+               test.getDoubleSeqTest().set(c3, 19095.921 * i);
+               assertNotEquals(orig, test);
+               test = createPopulatedIDLElementTest();
+               assertEquals(orig, test);
+               NestedElement elem = test.getNestedSeqTest().add();
+               assertNotEquals(orig, test);
+               test = createPopulatedIDLElementTest();
+               assertEquals(orig, test);
+               elem = test.getNestedSeqTest().get(c3);
+               elem.setLongTest(i * 541 + 18);
+               assertNotEquals(orig, test);
+               test = createPopulatedIDLElementTest();
+               assertEquals(orig, test);
+               elem = test.getNestedSeqTest().get(c3);
+               elem.getStringTest().setLength(0);
+               elem.getStringTest().append("dimnew:" + s + w);
+               assertNotEquals(orig, test);
+               test = createPopulatedIDLElementTest();
+               assertEquals(orig, test);
+               StringBuilder builder = test.getStringSeqTest().add();
+               assertNotEquals(orig, test);
+               test = createPopulatedIDLElementTest();
+               assertEquals(orig, test);
+               builder = test.getStringSeqTest().get(c3);
+               builder.append("newsdim:" + s + w);
+               assertNotEquals(orig, test);
+               test = createPopulatedIDLElementTest();
+               assertEquals(orig, test);
+               c3++;
+            }
+         }
+      }
+
+   }
+
+   @Test
+   public void testIDLElementTestSet()
+   {
+      IDLElementTest a = createPopulatedIDLElementTest();
+      IDLElementTest b = new IDLElementTest();
+
+      assertNotEquals(a, b);
+
+      b.set(a);
+
+      assertEquals(a, b);
+   }
+
    @Test
    public void testIDLElementSerializeDeserialize() throws IOException
    {
@@ -101,7 +328,7 @@ public class IDLElementTestTest
 
       IDLElementTest other = new IDLElementTest();
       type.deserialize(payload, other);
-      assertTrue(test.equals(other));
+      assertEquals(test, other);
 
    }
 
@@ -115,16 +342,18 @@ public class IDLElementTestTest
       SerializedPayload payload = new SerializedPayload(type.getTypeSize());
       type.serialize(test, payload);
 
+      byte[] javadata = new byte[payload.getLength()];
+      payload.getData().get(javadata);
+
       IDLElementTest cppElement = new IDLElementTest();
 
       SerializedPayload cppPayload = new SerializedPayload(type.getTypeSize());
       cppPayload.getData().put(IDLElementTestCPPData.cppData);
       cppPayload.getData().flip();
       cppPayload.setLength(IDLElementTestCPPData.cppData.length);
-      System.out.println();
       type.deserialize(cppPayload, cppElement);
-      System.out.println(cppElement);
 
-      assertTrue(test.equals(cppElement));
+      assertArrayEquals(IDLElementTestCPPData.cppData, javadata);
+      assertEquals(cppElement, test);
    }
 }
