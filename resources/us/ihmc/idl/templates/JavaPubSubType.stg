@@ -57,6 +57,7 @@ public class $struct.name$PubSubType implements TopicDataType<$struct.name$>
    {
       serializeCDR.serialize(serializedPayload);
       data.serialize(serializeCDR);
+      serializeCDR.finishSerialize();
    }
 
    @Override
@@ -64,6 +65,7 @@ public class $struct.name$PubSubType implements TopicDataType<$struct.name$>
    {
       deserializeCDR.deserialize(serializedPayload);
       data.deserialize(deserializeCDR);
+      deserializeCDR.finishDeserialize();
    }
 
    @Override

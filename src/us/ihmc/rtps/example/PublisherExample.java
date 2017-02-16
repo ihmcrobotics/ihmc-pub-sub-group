@@ -1,8 +1,9 @@
 package us.ihmc.rtps.example;
 
 import java.io.IOException;
-import java.nio.ByteOrder;
 
+import us.ihmc.idl.generated.Chat.ChatMessage;
+import us.ihmc.idl.generated.Chat.ChatMessagePubSubType;
 import us.ihmc.rtps.Domain;
 import us.ihmc.rtps.DomainFactory;
 import us.ihmc.rtps.DomainFactory.PubSubImplementation;
@@ -62,7 +63,7 @@ public class PublisherExample
       
       Participant participant = domain.createParticipant(attributes, new ParticipantListenerImpl());
       
-      ByteArrayTopicDataType dataType = new ByteArrayTopicDataType(500, "Chat::ChatMessage", ByteOrder.nativeOrder());
+      ChatMessagePubSubType dataType = new ChatMessagePubSubType();
       domain.registerType(participant, dataType);
       
       PublisherAttributes<?,?,?> publisherAttributes = domain.createPublisherAttributes();
@@ -73,14 +74,16 @@ public class PublisherExample
       Publisher publisher = domain.createPublisher(participant, publisherAttributes, new PublisherListenerImpl());
       
       
-      byte[] javaHelloWorld = { 0x05, 0x00, 0x00, 0x00, 0x4a, 0x61, 0x76, 0x61, 0x00, 0x00, 0x00, 0x00, 0x0c, 0x00, 0x00, 0x00, 0x48, 0x65, 0x6c, 0x6c, 0x6f, 0x20, 0x57, 0x6f, 0x72, 0x6c, 0x64, 0x00 };
+      ChatMessage msg = new ChatMessage();
+      msg.getSender().append("Java");
+      msg.getMsg().append("Hello World");
       
 
       while(true)
       {
          try
          {
-            publisher.write(javaHelloWorld);
+            publisher.write(msg);
             Thread.sleep(1000);
          }
          catch (InterruptedException e)

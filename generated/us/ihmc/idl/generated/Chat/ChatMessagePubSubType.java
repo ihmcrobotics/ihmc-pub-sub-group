@@ -24,6 +24,7 @@ public class ChatMessagePubSubType implements TopicDataType<ChatMessage>
    {
       serializeCDR.serialize(serializedPayload);
       data.serialize(serializeCDR);
+      serializeCDR.finishSerialize();
    }
 
    @Override
@@ -31,6 +32,7 @@ public class ChatMessagePubSubType implements TopicDataType<ChatMessage>
    {
       deserializeCDR.deserialize(serializedPayload);
       data.deserialize(deserializeCDR);
+      deserializeCDR.finishDeserialize();
    }
 
    @Override

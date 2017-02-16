@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.nio.ByteOrder;
 import java.util.Arrays;
 
+import us.ihmc.idl.generated.Chat.ChatMessage;
+import us.ihmc.idl.generated.Chat.ChatMessagePubSubType;
 import us.ihmc.rtps.Domain;
 import us.ihmc.rtps.DomainFactory;
 import us.ihmc.rtps.DomainFactory.PubSubImplementation;
@@ -39,7 +41,7 @@ public class SubscriberExample
 
    private class SubscriberListenerImpl implements SubscriberListener
    {
-      private final byte[] data = new byte[500];
+      private final ChatMessage data = new ChatMessage();
       private final SampleInfo info = new SampleInfo();
 
       @Override
@@ -49,7 +51,7 @@ public class SubscriberExample
          {
             if (subscriber.takeNextData(data, info))
             {
-               System.out.println(Arrays.toString(data));
+               System.out.println(data.getSender().toString() + ": " + data.getMsg().toString());
             }
          }
          catch (IOException e)
@@ -80,7 +82,7 @@ public class SubscriberExample
 
       Participant participant = domain.createParticipant(attributes, new ParticipantListenerImpl());
 
-      ByteArrayTopicDataType dataType = new ByteArrayTopicDataType(500, "Chat::ChatMessage", ByteOrder.nativeOrder());
+      ChatMessagePubSubType dataType = new ChatMessagePubSubType();
       domain.registerType(participant, dataType);
 
       SubscriberAttributes<?, ?, ?> subscriberAttributes = domain.createSubscriberAttributes();

@@ -9,13 +9,14 @@ import us.ihmc.rtps.common.SerializedPayload;
 /**
  * Helper class to serialize and deserialize IDL messages.
  * 
- * It should not be neccessary to use this class directly. Use the IDLGenerator to create the neccessary java files to serialize and deserialize messages
+ * It should not be necessary to use this class directly. Use the IDLGenerator to create the neccessary java files to serialize and deserialize messages
  * 
  * @author Jesper Smith
  *
  */
 public class CDR
 {
+   private SerializedPayload payload;
    private ByteBuffer buf;
    
    public static int alignment(int current_alignment, int dataSize)
@@ -27,13 +28,24 @@ public class CDR
    public void serialize(SerializedPayload payload)
    {
       buf = payload.getData();
+      this.payload = payload;
    }
    
    public void deserialize(SerializedPayload payload)
    {
       buf = payload.getData();
+      this.payload = payload;
    }
 
+   public void finishSerialize()
+   {
+      buf.flip();
+      payload.setLength(buf.limit());
+   }
+   
+   public void finishDeserialize()
+   {
+   }
    
    /**
     * Signed short
