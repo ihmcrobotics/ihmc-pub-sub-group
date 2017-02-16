@@ -3,14 +3,14 @@ package us.ihmc.rtps.impl.fastRTPS;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 
-import us.ihmc.rtps.TopicDataType;
-import us.ihmc.rtps.attributes.PublisherAttributes;
-import us.ihmc.rtps.attributes.TopicAttributes.TopicKind;
-import us.ihmc.rtps.common.Guid;
-import us.ihmc.rtps.common.MatchingInfo;
-import us.ihmc.rtps.common.SerializedPayload;
-import us.ihmc.rtps.publisher.Publisher;
-import us.ihmc.rtps.publisher.PublisherListener;
+import us.ihmc.pubsub.TopicDataType;
+import us.ihmc.pubsub.attributes.PublisherAttributes;
+import us.ihmc.pubsub.attributes.TopicAttributes.TopicKind;
+import us.ihmc.pubsub.common.Guid;
+import us.ihmc.pubsub.common.MatchingInfo;
+import us.ihmc.pubsub.common.SerializedPayload;
+import us.ihmc.pubsub.publisher.Publisher;
+import us.ihmc.pubsub.publisher.PublisherListener;
 
 public class FastRTPSPublisher implements Publisher
 {

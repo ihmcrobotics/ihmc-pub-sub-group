@@ -1,7 +1,7 @@
 package us.ihmc.rtps.impl.fastRTPS;
 
-import us.ihmc.rtps.common.DiscoveryStatus;
-import us.ihmc.rtps.participant.ParticipantDiscoveryInfo;
+import us.ihmc.pubsub.common.DiscoveryStatus;
+import us.ihmc.pubsub.participant.ParticipantDiscoveryInfo;
 
 public class FastRTPSParticipantDiscoveryInfo extends ParticipantDiscoveryInfo
 {

@@ -2,9 +2,9 @@ package us.ihmc.idl.generated.Chat;
 
 import java.io.IOException;
 
-import us.ihmc.rtps.common.SerializedPayload;
-import us.ihmc.rtps.TopicDataType;
 import us.ihmc.idl.CDR;
+import us.ihmc.pubsub.TopicDataType;
+import us.ihmc.pubsub.common.SerializedPayload;
 
 public class ChatMessagePubSubType implements TopicDataType<ChatMessage>
 {

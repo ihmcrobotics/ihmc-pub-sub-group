@@ -3,7 +3,7 @@ package us.ihmc.rtps.impl.fastRTPS;
 
 public class FastRTPSAttributes
 {
-   static TopicAttributes createAttributes(us.ihmc.rtps.attributes.TopicAttributes topic)
+   static TopicAttributes createAttributes(us.ihmc.pubsub.attributes.TopicAttributes topic)
    {
       TopicAttributes attributes = new TopicAttributes(topic.getTopicName(), topic.getTopicDataType(),TopicKind_t.swigToEnum(topic.getTopicKind().ordinal()));
       
@@ -24,7 +24,7 @@ public class FastRTPSAttributes
       
    }
    
-   static ThroughputControllerDescriptor createTroughputControllerDescriptor(us.ihmc.rtps.attributes.ThroughputControllerDescriptor throughputController)
+   static ThroughputControllerDescriptor createTroughputControllerDescriptor(us.ihmc.pubsub.attributes.ThroughputControllerDescriptor throughputController)
    {
       ThroughputControllerDescriptor descriptor = new ThroughputControllerDescriptor(throughputController.getBytesPerPeriod(), throughputController.getPeriodMillisecs());
       return descriptor;
