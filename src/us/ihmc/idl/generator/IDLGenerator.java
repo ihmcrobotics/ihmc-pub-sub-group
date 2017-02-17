@@ -46,11 +46,11 @@ public class IDLGenerator
          FileDialog dialog = new FileDialog((Frame) null, "Select idl file", FileDialog.LOAD);
          dialog.setFile("*.idl");
          dialog.setVisible(true);
-         String filename = dialog.getFile();
-         if (filename == null)
+         if (dialog.getFile() == null)
          {
             return;
          }
+         String filename = new File(dialog.getDirectory(), dialog.getFile()).getAbsolutePath();
    
          String res = JOptionPane.showInputDialog("Desired package path");
    
