@@ -1,4 +1,4 @@
-package us.ihmc.idl.generated.IDLElement;
+package us.ihmc.idl.generated.IDLNestedElement;
 
 import java.io.IOException;
 
@@ -6,9 +6,17 @@ import us.ihmc.pubsub.TopicDataType;
 import us.ihmc.pubsub.common.SerializedPayload;
 import us.ihmc.idl.CDR;
 
+/**
+* 
+* Topic data type of the struct "NestedElement" defined in "NestedElement.idl". Use this class to provide the TopicDataType to a Participant. 
+*
+* This file was automatically generated from NestedElement.idl by us.ihmc.idl.generator.IDLGenerator. 
+* Do not update this file directly, edit NestedElement.idl instead.
+*
+*/
 public class NestedElementPubSubType implements TopicDataType<NestedElement>
 {
-	public static final String name = "IDLElement::NestedElement";
+	public static final String name = "IDLNestedElement::NestedElement";
 	private final CDR serializeCDR = new CDR();
 	private final CDR deserializeCDR = new CDR();
 	

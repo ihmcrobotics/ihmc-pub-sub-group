@@ -1,10 +1,7 @@
+#include "idl/NestedElement.idl"
+
 module IDLElement
 {
-	struct NestedElement
-	{
-		string stringTest;
-		long longTest;
-	};
 
 	enum Color
 	{
@@ -28,11 +25,11 @@ module IDLElement
 		double doubleTest;
 		boolean booleanTest;
 		Color colorTest;
-		NestedElement nestedElementTest;
+		IDLNestedElement::NestedElement nestedElementTest;
 		string stringTest;
 		
 		long longArray[10];
-		NestedElement nestedArray[5][3];
+		IDLNestedElement::NestedElement nestedArray[5][3];
 		string stringArray[4];
 		
 		sequence<char, 25> charSeqTest;
@@ -47,7 +44,7 @@ module IDLElement
 		sequence<float, 25> floatSeqTest;
 		sequence<double, 25> doubleSeqTest;
 		sequence<boolean, 25> booleanSeqTest;
-		sequence<NestedElement, 25> nestedSeqTest;
+		sequence<IDLNestedElement::NestedElement, 25> nestedSeqTest;
 		sequence<string, 25> stringSeqTest;
 		
 		

@@ -16,6 +16,7 @@
 group JavaType;
 
 main(ctx, definitions, package) ::= <<
+$fileHeader()$
 $if(package)$
 package $package$;
 $endif$
@@ -29,6 +30,7 @@ $definitions$
 >>
 
 interface(ctx, parent, interface, exports, extension) ::= <<
+$classdescription(type="interface", name=interface.name, filename=[ctx.filename, ".idl"])$
 public interface $interface.name$
 {
     $extension$
@@ -38,6 +40,7 @@ public interface $interface.name$
 >>
 
 struct_type(ctx, parent, struct, extension) ::= <<
+$classdescription(type="class", name=struct.name, filename=[ctx.filename, ".idl"])$
 public class $struct.name$ implements IDLStruct<$struct.name$>
 {
     public $struct.name$()
@@ -101,12 +104,12 @@ public $member.typecode.javaTypename$ get$member.javaName$()
     }; separator="\n"$
 
 
-	static int getMaxCdrSerializedSize()
+	public static int getMaxCdrSerializedSize()
 	{
 		return getMaxCdrSerializedSize(0);
 	}
 
-	static int getMaxCdrSerializedSize(int current_alignment)
+	public static int getMaxCdrSerializedSize(int current_alignment)
 	{
 	    int initial_alignment = current_alignment;
 	            
@@ -116,12 +119,12 @@ public $member.typecode.javaTypename$ get$member.javaName$()
 	}
 
 
-	static int getCdrSerializedSize($struct.name$ data)
+	public final static int getCdrSerializedSize($struct.name$ data)
 	{
 		return getCdrSerializedSize(data, 0);
 	}
 
-	static int getCdrSerializedSize($struct.name$ data, int current_alignment)
+	public final static int getCdrSerializedSize($struct.name$ data, int current_alignment)
 	{
 	    int initial_alignment = current_alignment;
 	            
@@ -131,14 +134,14 @@ public $member.typecode.javaTypename$ get$member.javaName$()
 	}
 	
 	@Override
-	public void serialize(CDR cdr)
+	public final void serialize(CDR cdr)
 	{
 
 	    $struct.members : { member |$object_serialization(ctx=ctx, object=member, postfix="_")$}; separator="\n"$
 	}
 	
 	@Override
-	public void deserialize(CDR cdr)
+	public final void deserialize(CDR cdr)
 	{
 	    $struct.members : { member |$object_deserialization(ctx=ctx, object=member, postfix="_")$}; separator="\n"$
 	}
@@ -190,6 +193,7 @@ $else$builder.append(this.$member.name$_);$endif$
 >>
 
 union_type(ctx, parent, union, extension) ::= <<
+$classdescription(type="union", name=union.name, filename=[ctx.filename, ".idl"])$
 public class $union.name$
 {
     public $union.name$()
@@ -293,6 +297,7 @@ public class $union.name$
 >>
 
 enum_type(ctx, parent, enum, extension) ::= <<
+$classdescription(type="enum", name=enum.name, filename=[ctx.filename, ".idl"])$
 public enum $enum.name$ implements IDLStruct<$enum.name$>
 {
     $enum.members:{ member |

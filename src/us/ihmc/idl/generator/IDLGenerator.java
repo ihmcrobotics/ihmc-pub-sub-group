@@ -2,16 +2,19 @@ package us.ihmc.idl.generator;
 
 import java.awt.FileDialog;
 import java.awt.Frame;
+import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.Reader;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
-import org.antlr.v4.runtime.ANTLRFileStream;
+import org.anarres.cpp.CppReader;
+import org.anarres.cpp.Feature;
+import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 
 import com.eprosima.idl.generator.manager.TemplateGroup;
@@ -28,6 +31,8 @@ import com.eprosima.log.ColorMessage;
 /**
  * The IDL file parser and code generator. 
  * 
+ * Includes are resolved against the path of the source .idl and the current directory.
+ * 
  * @author Jesper Smith
  *
  */
@@ -36,10 +41,10 @@ public class IDLGenerator
 
    public static void main(String[] args) throws IOException
    {
-      
-      if(args.length == 3)
+
+      if (args.length == 3)
       {
-         execute(args[0], args[1], new File(args[2]));
+         execute(new File(args[0]), args[1], new File(args[2]));
       }
       else
       {
@@ -50,10 +55,10 @@ public class IDLGenerator
          {
             return;
          }
-         String filename = new File(dialog.getDirectory(), dialog.getFile()).getAbsolutePath();
-   
+         File file = new File(dialog.getDirectory(), dialog.getFile());
+
          String res = JOptionPane.showInputDialog("Desired package path");
-   
+
          if (res == null)
          {
             JOptionPane.showMessageDialog(null, "No package path given");
@@ -66,10 +71,34 @@ public class IDLGenerator
          {
             return;
          }
-   
-         execute(filename, res, fileChooser.getSelectedFile());
+
+         execute(file, res, fileChooser.getSelectedFile());
          dialog.dispose();
       }
+   }
+
+   private static Reader createPreProcessedInputStream(File idlFile) throws IOException
+   {
+
+      PreprocessorFilter preprocessor = new PreprocessorFilter();
+      preprocessor.addFeature(Feature.KEEPALLCOMMENTS);
+      preprocessor.addFeature(Feature.KEEPCOMMENTS);
+      preprocessor.addFeature(Feature.LINEMARKERS);
+      preprocessor.addFeature(Feature.INCLUDENEXT);
+
+      ArrayList<String> includePath = new ArrayList<>();
+      includePath.add(idlFile.getParent());
+      includePath.add(new File(".").getAbsolutePath());
+
+      preprocessor.setSystemIncludePath(includePath);
+      preprocessor.setQuoteIncludePath(includePath);
+      
+      preprocessor.addInput(idlFile);
+
+      
+      CppReader reader = new CppReader(preprocessor);
+      return new BufferedReader(reader);
+
    }
 
    /**
@@ -81,9 +110,12 @@ public class IDLGenerator
     * 
     * @throws IOException
     */
-   public static void execute(String idlFilename, String packageName, File targetDirectory) throws IOException
+   public static void execute(File idlFile, String packageName, File targetDirectory) throws IOException
    {
       System.out.println("Loading templates...");
+      System.out.println(idlFile.getAbsoluteFile());
+      createPreProcessedInputStream(idlFile);
+      String idlFilename = idlFile.getAbsolutePath();
 
       Field field;
       try
@@ -118,9 +150,10 @@ public class IDLGenerator
       TemplateGroup maintemplates = tmanager.createTemplateGroup("main");
       maintemplates.setAttribute("ctx", ctx);
 
-      try
+      if(idlFile.exists())
       {
-         ANTLRFileStream input = new ANTLRFileStream(idlFilename);
+         Reader reader = createPreProcessedInputStream(idlFile);
+         ANTLRInputStream input = new ANTLRInputStream(reader);
          IDLLexer lexer = new IDLLexer(input);
          lexer.setContext(ctx);
          CommonTokenStream tokens = new CommonTokenStream(lexer);
@@ -129,22 +162,22 @@ public class IDLGenerator
 
          parser.specification(ctx, tmanager, maintemplates);
 
+         File packageDir = new File(targetDirectory, ctx.getPackageDir());
+         if (packageDir.isDirectory() || packageDir.mkdirs())
+         {
+            TypesGenerator gen = new TypesGenerator(tmanager, true);
+            gen.generate(ctx, packageDir.getPath() + "/", ctx.getPackage(), null);
+         }
+         else
+         {
+            System.out.println("Cannot create output dir " + packageDir);
+         }
       }
-      catch (FileNotFoundException ex)
+      else
       {
          System.out.println(ColorMessage.error("FileNotFounException") + "The File " + idlFilename + " was not found.");
       }
 
-      File packageDir = new File(targetDirectory, ctx.getPackageDir());
-      if (packageDir.isDirectory() || packageDir.mkdirs())
-      {
-         TypesGenerator gen = new TypesGenerator(tmanager, true);
-         gen.generate(ctx, packageDir.getPath() + "/", ctx.getPackage(), null);
-      }
-      else
-      {
-         System.out.println("Cannot create output dir " + packageDir);
-      }
    }
 
 }

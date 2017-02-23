@@ -1,6 +1,8 @@
 package us.ihmc.idl.IDLElement;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 import java.io.IOException;
 
@@ -9,7 +11,7 @@ import org.junit.Test;
 import us.ihmc.idl.generated.IDLElement.Color;
 import us.ihmc.idl.generated.IDLElement.IDLElementTest;
 import us.ihmc.idl.generated.IDLElement.IDLElementTestPubSubType;
-import us.ihmc.idl.generated.IDLElement.NestedElement;
+import us.ihmc.idl.generated.IDLNestedElement.NestedElement;
 import us.ihmc.pubsub.common.SerializedPayload;
 
 /**

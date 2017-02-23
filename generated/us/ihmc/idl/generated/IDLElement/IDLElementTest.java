@@ -1,21 +1,42 @@
+// Copyright 2017 Florida Institute for Human And Machine Cognition (IHMC)
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 package us.ihmc.idl.generated.IDLElement;
 import us.ihmc.idl.IDLSequence;
 import us.ihmc.idl.CDR;
 import us.ihmc.idl.IDLStruct;
 import java.util.Arrays;
 
+/**
+* 
+* Definition of the class "IDLElementTest" defined in IDLElementTest.idl. 
+*
+* This file was automatically generated from IDLElementTest.idl by us.ihmc.idl.generator.IDLGenerator. 
+* Do not update this file directly, edit IDLElementTest.idl instead.
+*
+*/
 public class IDLElementTest implements IDLStruct<IDLElementTest>
 {
     public IDLElementTest()
     {
-        	nestedElementTest_ = new us.ihmc.idl.generated.IDLElement.NestedElement();stringTest_ = new StringBuilder(255); 
+        	nestedElementTest_ = new us.ihmc.idl.generated.IDLNestedElement.NestedElement();stringTest_ = new StringBuilder(255); 
         	longArray_ = new int[10];
-        	nestedArray_ = new us.ihmc.idl.generated.IDLElement.NestedElement[5][3];
+        	nestedArray_ = new us.ihmc.idl.generated.IDLNestedElement.NestedElement[5][3];
         	for(int b = 0; b < nestedArray_.length; ++b)
         	{
         	    for(int c = 0; c < nestedArray_[b].length; ++c)
         	    {
-        	        	nestedArray_[b][c] = new us.ihmc.idl.generated.IDLElement.NestedElement();	
+        	        	nestedArray_[b][c] = new us.ihmc.idl.generated.IDLNestedElement.NestedElement();	
         	    }
         	}
         	stringArray_ = new StringBuilder[4];
@@ -35,7 +56,7 @@ public class IDLElementTest implements IDLStruct<IDLElementTest>
         	floatSeqTest_ = new IDLSequence.Float (25, "type_5");
         	doubleSeqTest_ = new IDLSequence.Double (25, "type_6");
         	booleanSeqTest_ = new IDLSequence.Boolean (25, "type_7");
-        	nestedSeqTest_ = new IDLSequence.Object<us.ihmc.idl.generated.IDLElement.NestedElement> (25, us.ihmc.idl.generated.IDLElement.NestedElement.class, new us.ihmc.idl.generated.IDLElement.NestedElementPubSubType());
+        	nestedSeqTest_ = new IDLSequence.Object<us.ihmc.idl.generated.IDLNestedElement.NestedElement> (25, us.ihmc.idl.generated.IDLNestedElement.NestedElement.class, new us.ihmc.idl.generated.IDLNestedElement.NestedElementPubSubType());
 
         	stringSeqTest_ = new IDLSequence.StringBuilderHolder (25, "type_d");   
         
@@ -223,7 +244,7 @@ public class IDLElementTest implements IDLStruct<IDLElementTest>
 
         
 
-    public us.ihmc.idl.generated.IDLElement.NestedElement getNestedElementTest()
+    public us.ihmc.idl.generated.IDLNestedElement.NestedElement getNestedElementTest()
     {
         return nestedElementTest_;
     }
@@ -244,7 +265,7 @@ public class IDLElementTest implements IDLStruct<IDLElementTest>
 
         
 
-    public us.ihmc.idl.generated.IDLElement.NestedElement[][] getNestedArray()
+    public us.ihmc.idl.generated.IDLNestedElement.NestedElement[][] getNestedArray()
     {
         return nestedArray_;
     }
@@ -342,7 +363,7 @@ public class IDLElementTest implements IDLStruct<IDLElementTest>
 
         
 
-    public IDLSequence.Object<us.ihmc.idl.generated.IDLElement.NestedElement>  getNestedSeqTest()
+    public IDLSequence.Object<us.ihmc.idl.generated.IDLNestedElement.NestedElement>  getNestedSeqTest()
     {
         return nestedSeqTest_;
     }
@@ -357,12 +378,12 @@ public class IDLElementTest implements IDLStruct<IDLElementTest>
         
 
 
-	static int getMaxCdrSerializedSize()
+	public static int getMaxCdrSerializedSize()
 	{
 		return getMaxCdrSerializedSize(0);
 	}
 
-	static int getMaxCdrSerializedSize(int current_alignment)
+	public static int getMaxCdrSerializedSize(int current_alignment)
 	{
 	    int initial_alignment = current_alignment;
 	            
@@ -392,14 +413,14 @@ public class IDLElementTest implements IDLStruct<IDLElementTest>
 
 	    current_alignment += 4 + CDR.alignment(current_alignment, 4);
 
-	    current_alignment += us.ihmc.idl.generated.IDLElement.NestedElement.getMaxCdrSerializedSize(current_alignment);
+	    current_alignment += us.ihmc.idl.generated.IDLNestedElement.NestedElement.getMaxCdrSerializedSize(current_alignment);
 	    current_alignment += 4 + CDR.alignment(current_alignment, 4) + 255 + 1;
 
 	    current_alignment += ((10) * 4) + CDR.alignment(current_alignment, 4);
 
 	    for(int a = 0; a < (5 * 3); ++a)
 	    {
-	        current_alignment += us.ihmc.idl.generated.IDLElement.NestedElement.getMaxCdrSerializedSize(current_alignment);}
+	        current_alignment += us.ihmc.idl.generated.IDLNestedElement.NestedElement.getMaxCdrSerializedSize(current_alignment);}
 	    for(int a = 0; a < (4); ++a)
 	    {
 	        current_alignment += 4 + CDR.alignment(current_alignment, 4) + 255 + 1;
@@ -455,7 +476,7 @@ public class IDLElementTest implements IDLStruct<IDLElementTest>
 	    current_alignment += 4 + CDR.alignment(current_alignment, 4);
 	    for(int a = 0; a < 25; ++a)
 	    {
-	        current_alignment += us.ihmc.idl.generated.IDLElement.NestedElement.getMaxCdrSerializedSize(current_alignment);}
+	        current_alignment += us.ihmc.idl.generated.IDLNestedElement.NestedElement.getMaxCdrSerializedSize(current_alignment);}
 
 	    current_alignment += 4 + CDR.alignment(current_alignment, 4);
 	    for(int a = 0; a < 25; ++a)
@@ -467,12 +488,12 @@ public class IDLElementTest implements IDLStruct<IDLElementTest>
 	}
 
 
-	static int getCdrSerializedSize(IDLElementTest data)
+	public final static int getCdrSerializedSize(IDLElementTest data)
 	{
 		return getCdrSerializedSize(data, 0);
 	}
 
-	static int getCdrSerializedSize(IDLElementTest data, int current_alignment)
+	public final static int getCdrSerializedSize(IDLElementTest data, int current_alignment)
 	{
 	    int initial_alignment = current_alignment;
 	            
@@ -502,7 +523,7 @@ public class IDLElementTest implements IDLStruct<IDLElementTest>
 
 	    current_alignment += 4 + CDR.alignment(current_alignment, 4);
 
-	    current_alignment += us.ihmc.idl.generated.IDLElement.NestedElement.getCdrSerializedSize(data.getNestedElementTest(), current_alignment);
+	    current_alignment += us.ihmc.idl.generated.IDLNestedElement.NestedElement.getCdrSerializedSize(data.getNestedElementTest(), current_alignment);
 	    current_alignment += 4 + CDR.alignment(current_alignment, 4) + data.getStringTest().length() + 1;
 
 	    current_alignment += ((10) * 4) + CDR.alignment(current_alignment, 4);
@@ -510,7 +531,7 @@ public class IDLElementTest implements IDLStruct<IDLElementTest>
 	    {
 	        for(int b = 0; b < data.getNestedArray()[a].length; ++b)
 	        {
-	                current_alignment += us.ihmc.idl.generated.IDLElement.NestedElement.getCdrSerializedSize(data.getNestedArray()[a][b], current_alignment);
+	                current_alignment += us.ihmc.idl.generated.IDLNestedElement.NestedElement.getCdrSerializedSize(data.getNestedArray()[a][b], current_alignment);
 	        }
 	    }
 	    for(int a = 0; a < data.getStringArray().length; ++a)
@@ -569,7 +590,7 @@ public class IDLElementTest implements IDLStruct<IDLElementTest>
 	    current_alignment += 4 + CDR.alignment(current_alignment, 4);
 	    for(int a = 0; a < data.getNestedSeqTest().size(); ++a)
 	    {
-	        current_alignment += us.ihmc.idl.generated.IDLElement.NestedElement.getCdrSerializedSize(data.getNestedSeqTest().get(a), current_alignment);}
+	        current_alignment += us.ihmc.idl.generated.IDLNestedElement.NestedElement.getCdrSerializedSize(data.getNestedSeqTest().get(a), current_alignment);}
 
 	    current_alignment += 4 + CDR.alignment(current_alignment, 4);
 	    for(int a = 0; a < data.getStringSeqTest().size(); ++a)
@@ -581,7 +602,7 @@ public class IDLElementTest implements IDLStruct<IDLElementTest>
 	}
 	
 	@Override
-	public void serialize(CDR cdr)
+	public final void serialize(CDR cdr)
 	{
 
 
@@ -694,7 +715,7 @@ public class IDLElementTest implements IDLStruct<IDLElementTest>
 	}
 	
 	@Override
-	public void deserialize(CDR cdr)
+	public final void deserialize(CDR cdr)
 	{
 
 	    	charTest_ = cdr.read_type_8();	
@@ -1028,10 +1049,10 @@ public class IDLElementTest implements IDLStruct<IDLElementTest>
     private double doubleTest_; 
     private boolean booleanTest_; 
     private us.ihmc.idl.generated.IDLElement.Color colorTest_; 
-    private us.ihmc.idl.generated.IDLElement.NestedElement nestedElementTest_; 
+    private us.ihmc.idl.generated.IDLNestedElement.NestedElement nestedElementTest_; 
     private StringBuilder stringTest_; 
     private int[] longArray_; 
-    private us.ihmc.idl.generated.IDLElement.NestedElement[][] nestedArray_; 
+    private us.ihmc.idl.generated.IDLNestedElement.NestedElement[][] nestedArray_; 
     private StringBuilder[] stringArray_; 
     private IDLSequence.Char  charSeqTest_; 
     private IDLSequence.Char  wcharSeqTest_; 
@@ -1045,7 +1066,7 @@ public class IDLElementTest implements IDLStruct<IDLElementTest>
     private IDLSequence.Float  floatSeqTest_; 
     private IDLSequence.Double  doubleSeqTest_; 
     private IDLSequence.Boolean  booleanSeqTest_; 
-    private IDLSequence.Object<us.ihmc.idl.generated.IDLElement.NestedElement>  nestedSeqTest_; 
+    private IDLSequence.Object<us.ihmc.idl.generated.IDLNestedElement.NestedElement>  nestedSeqTest_; 
     private IDLSequence.StringBuilderHolder  stringSeqTest_; 
 
 }

@@ -14,11 +14,18 @@ public class Context extends com.eprosima.idl.context.Context
    private String m_onlypackage;
    private String m_packageDir;
    
-   Context(String arg0, String arg1, ArrayList<String> arg2)
+   private String m_file;
+   
+   Context(String onlyFileName, String idlFilename, ArrayList<String> arg2)
    {
-      super(arg0, arg1, arg2);
+      super(onlyFileName, idlFilename, arg2);
+      this.m_file = idlFilename;
       
       setPackage("us.ihmc.idl");
+
+      createAnnotationDeclaration("startInclude", null);
+      createAnnotationDeclaration("endInclude", null);
+
    }
 
    
@@ -32,6 +39,11 @@ public class Context extends com.eprosima.idl.context.Context
        }
    }
 
+   public String getIDLFileName()
+   {
+      return m_file;
+   }
+   
    public boolean isIsPackageEmpty()
    {
        return m_package.isEmpty();
