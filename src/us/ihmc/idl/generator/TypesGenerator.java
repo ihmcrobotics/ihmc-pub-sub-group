@@ -45,6 +45,7 @@ import com.eprosima.log.ColorMessage;
 class TypesGenerator
 {
 
+   private static final String PUB_SUB_TYPE_NAME = "PubSubType";
    TypesGenerator(TemplateManager tmanager, boolean replace)
    {
       tmanager_ = tmanager;
@@ -64,7 +65,7 @@ class TypesGenerator
       if (returnedValue)
       {
          StringTemplateGroup javaPubSubTypeTemplate = tmanager_.createStringTemplateGroup("JavaPubSubType");
-         returnedValue = processDefinitions(javaPubSubTypeTemplate, context, definitions, packagDir, packag, "PubSubType", extensions);
+         returnedValue = processDefinitions(javaPubSubTypeTemplate, context, definitions, packagDir, packag, PUB_SUB_TYPE_NAME, extensions);
       }
 
       return returnedValue;
@@ -168,30 +169,33 @@ class TypesGenerator
                if (isInScope(context, typedecl.getScopeFile()))
                {
 
-                  // get StringTemplate of the structure
-                  StringTemplate typest = processTypeDeclaration(stg_, context, typedecl, extensions);
-
-                  if (typest != null)
+                  if(!moduleNamePostfix.equals(PUB_SUB_TYPE_NAME) || typedecl.getTypeCode().getKind() != TypeCode.KIND_ENUM)
                   {
-                     // Save file.
-                     StringTemplate st = stg_.getInstanceOf("main");
-                     st.setAttribute("ctx", context);
-                     st.setAttribute("definitions", typest.toString());
-                     st.setAttribute("package", (!packag.isEmpty() ? packag : null));
-
-                     StringTemplate extensionst = null;
-                     String extensionname = null;
-                     if (extensions != null && (extensionname = extensions.get("main")) != null)
+                     // get StringTemplate of the structure
+                     StringTemplate typest = processTypeDeclaration(stg_, context, typedecl, extensions);
+   
+                     if (typest != null)
                      {
-                        extensionst = stg_.getInstanceOf(extensionname);
-                        extensionst.setAttribute("ctx", context);
-                        st.setAttribute("extension", extensionst.toString());
-                     }
-
-                     if (!writeFile(packagDir + typedecl.getName() + moduleNamePostfix + ".java", st))
-                     {
-                        System.out.println(ColorMessage.error() + "Cannot write file " + packagDir + typedecl.getName() + ".java");
-                        return false;
+                        // Save file.
+                        StringTemplate st = stg_.getInstanceOf("main");
+                        st.setAttribute("ctx", context);
+                        st.setAttribute("definitions", typest.toString());
+                        st.setAttribute("package", (!packag.isEmpty() ? packag : null));
+   
+                        StringTemplate extensionst = null;
+                        String extensionname = null;
+                        if (extensions != null && (extensionname = extensions.get("main")) != null)
+                        {
+                           extensionst = stg_.getInstanceOf(extensionname);
+                           extensionst.setAttribute("ctx", context);
+                           st.setAttribute("extension", extensionst.toString());
+                        }
+   
+                        if (!writeFile(packagDir + typedecl.getName() + moduleNamePostfix + ".java", st))
+                        {
+                           System.out.println(ColorMessage.error() + "Cannot write file " + packagDir + typedecl.getName() + ".java");
+                           return false;
+                        }
                      }
                   }
                }
