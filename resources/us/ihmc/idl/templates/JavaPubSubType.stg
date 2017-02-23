@@ -30,6 +30,7 @@ $definitions$
 >>
 
 interface(ctx, parent, interface, exports, extension) ::= <<
+$javadocpubsub(type="interface", name=interface.name, filename=[ctx.filename, ".idl"])$
 public class $interface.name$PubSubType 
 {
     $extension$
@@ -39,6 +40,7 @@ public class $interface.name$PubSubType
 >>
 
 struct_type(ctx, parent, struct, extension) ::= <<
+$javadocpubsub(type="struct", name=struct.name, filename=[ctx.filename, ".idl"])$
 public class $struct.name$PubSubType implements TopicDataType<$struct.name$>
 {
 	public static final String name = "$struct.scopedname$";
@@ -90,7 +92,15 @@ public class $struct.name$PubSubType implements TopicDataType<$struct.name$>
 >>
 
 union_type(ctx, parent, union, extension) ::= <<
+/**
+* No pub sub type for Union types is provided. Use struct to define topic data types.
+*
+*/
 >>
 
 enum_type(ctx, parent, enum, extension) ::= <<
+/**
+* No pub sub type for Enum types is provided. Use structs to define topic data types.
+*
+*/
 >>

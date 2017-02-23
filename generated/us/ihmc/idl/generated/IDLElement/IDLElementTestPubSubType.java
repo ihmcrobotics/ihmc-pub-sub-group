@@ -6,6 +6,14 @@ import us.ihmc.pubsub.TopicDataType;
 import us.ihmc.pubsub.common.SerializedPayload;
 import us.ihmc.idl.CDR;
 
+/**
+* 
+* Topic data type of the struct "IDLElementTest" defined in "IDLElementTest.idl". Use this class to provide the TopicDataType to a Participant. 
+*
+* This file was automatically generated from IDLElementTest.idl by us.ihmc.idl.generator.IDLGenerator. 
+* Do not update this file directly, edit IDLElementTest.idl instead.
+*
+*/
 public class IDLElementTestPubSubType implements TopicDataType<IDLElementTest>
 {
 	public static final String name = "IDLElement::IDLElementTest";

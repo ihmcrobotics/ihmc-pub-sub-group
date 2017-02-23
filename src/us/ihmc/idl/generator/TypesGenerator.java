@@ -14,21 +14,26 @@
 
 package us.ihmc.idl.generator;
 
-import com.eprosima.log.ColorMessage;
-import com.eprosima.idl.generator.manager.TemplateManager;
-import com.eprosima.idl.context.Context;
-import com.eprosima.idl.parser.typecode.TypeCode;
-import com.eprosima.idl.parser.tree.Definition;
-import com.eprosima.idl.parser.tree.Export;
-import com.eprosima.idl.parser.tree.Module;
-import com.eprosima.idl.parser.tree.Interface;
-import com.eprosima.idl.parser.tree.TypeDeclaration;
-
-import org.antlr.stringtemplate.*;
-
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Map;
-import java.io.*;
+
+import org.antlr.stringtemplate.StringTemplate;
+import org.antlr.stringtemplate.StringTemplateGroup;
+
+import com.eprosima.idl.generator.manager.TemplateManager;
+import com.eprosima.idl.parser.tree.Definition;
+import com.eprosima.idl.parser.tree.Export;
+import com.eprosima.idl.parser.tree.Interface;
+import com.eprosima.idl.parser.tree.Module;
+import com.eprosima.idl.parser.tree.TypeDeclaration;
+import com.eprosima.idl.parser.typecode.TypeCode;
+import com.eprosima.log.ColorMessage;
 
 /**
  * Internal class for the code generator
@@ -39,254 +44,277 @@ import java.io.*;
  */
 class TypesGenerator
 {
-    TypesGenerator(TemplateManager tmanager, boolean replace)
-    {
-        tmanager_ = tmanager;
-        replace_ = replace;
-    }
 
-    /*!
-     * @brief This function generates data types in Java.
-     * It uses a context that was processed by the IDL parser.
-     */
-    boolean generate(Context context, String packagDir, String packag, Map<String, String> extensions)
-    {
-        ArrayList<Definition> definitions = context.getDefinitions();
-        
-        StringTemplateGroup javaTypeTemplate = tmanager_.createStringTemplateGroup("JavaType");
-        boolean returnedValue = processDefinitions(javaTypeTemplate, context, definitions, packagDir, packag, "", extensions);
-        if(returnedValue)
-        {
-           StringTemplateGroup javaPubSubTypeTemplate = tmanager_.createStringTemplateGroup("JavaPubSubType");
-           returnedValue = processDefinitions(javaPubSubTypeTemplate, context, definitions, packagDir, packag, "PubSubType", extensions);
-        }
+   TypesGenerator(TemplateManager tmanager, boolean replace)
+   {
+      tmanager_ = tmanager;
+      replace_ = replace;
+   }
 
+   /*
+    * @brief This function generates data types in Java. It uses a context that
+    * was processed by the IDL parser.
+    */
+   boolean generate(Context context, String packagDir, String packag, Map<String, String> extensions)
+   {
+      ArrayList<Definition> definitions = context.getDefinitions();
 
-        return returnedValue;
-    }
+      StringTemplateGroup javaTypeTemplate = tmanager_.createStringTemplateGroup("JavaType");
+      boolean returnedValue = processDefinitions(javaTypeTemplate, context, definitions, packagDir, packag, "", extensions);
+      if (returnedValue)
+      {
+         StringTemplateGroup javaPubSubTypeTemplate = tmanager_.createStringTemplateGroup("JavaPubSubType");
+         returnedValue = processDefinitions(javaPubSubTypeTemplate, context, definitions, packagDir, packag, "PubSubType", extensions);
+      }
 
-    private boolean processDefinitions(StringTemplateGroup stg_, Context context, ArrayList<Definition> definitions, String packagDir, String packag, String moduleNamePostfix, Map<String, String> extensions)
-    {
-        if(definitions != null)
-        {
-            for(Definition definition : definitions)
+      return returnedValue;
+   }
+
+   private boolean isInScope(Context context, String filename)
+   {
+      Path input = Paths.get(context.getIDLFileName());
+      Path current = Paths.get(filename);
+      try
+      {
+         return Files.isSameFile(input, current);
+      }
+      catch (IOException e)
+      {
+         e.printStackTrace();
+         return false; // Probably not the same file;
+      }
+   }
+
+   private boolean processDefinitions(StringTemplateGroup stg_, Context context, ArrayList<Definition> definitions, String packagDir, String packag,
+                                      String moduleNamePostfix, Map<String, String> extensions)
+   {
+      if (definitions != null)
+      {
+         for (Definition definition : definitions)
+         {
+            if (definition.isIsModule())
             {
-                if(definition.isIsModule())
-                {
-                    Module module = (Module)definition;
+               Module module = (Module) definition;
+               if (isInScope(context, module.getScopeFile()))
+               {
+                  // Create directory for module.
+                  String outputDir = packagDir + module.getName();
+                  File dir = new File(outputDir);
 
-                    // Create directory for module.
-                    String outputDir = packagDir  + module.getName();
-                    File dir = new File(outputDir);
-
-                    if(!dir.exists())
-                    {
-                        if(!dir.mkdir())
-                        {
-                            System.out.println(ColorMessage.error() + "Cannot create directory for module " + module.getName());
-                            return false;
-                        }
-                    }
-                    
-                    if(!processDefinitions(stg_, context, module.getDefinitions(), outputDir + File.separator,
-                            packag + "." + module.getName(), moduleNamePostfix, extensions))
+                  if (!dir.exists())
+                  {
+                     if (!dir.mkdir())
+                     {
+                        System.out.println(ColorMessage.error() + "Cannot create directory for module " + module.getName());
                         return false;
-                }
-                else if(definition.isIsInterface())
-                {
-                    Interface ifc = (Interface)definition;
+                     }
+                  }
 
-                    // Create StringTemplate of the interface
-                    StringTemplate ifcst = stg_.getInstanceOf("interface");
-                    ifcst.setAttribute("ctx", context);
-                    ifcst.setAttribute("parent", ifc.getParent());
-                    ifcst.setAttribute("interface", ifc);
+                  if (!processDefinitions(stg_, context, module.getDefinitions(), outputDir + File.separator, packag + "." + module.getName(),
+                                          moduleNamePostfix, extensions))
+                     return false;
+               }
+            }
+            else if (definition.isIsInterface())
+            {
+               Interface ifc = (Interface) definition;
+               if (isInScope(context, ifc.getScopeFile()))
+               {
+                  // Create StringTemplate of the interface
+                  StringTemplate ifcst = stg_.getInstanceOf("interface");
+                  ifcst.setAttribute("ctx", context);
+                  ifcst.setAttribute("parent", ifc.getParent());
+                  ifcst.setAttribute("interface", ifc);
 
-                    StringTemplate extensionst = null;
-                    String extensionname = null;
-                    if(extensions != null && (extensionname = extensions.get("interface")) != null)
-                    {
+                  StringTemplate extensionst = null;
+                  String extensionname = null;
+                  if (extensions != null && (extensionname = extensions.get("interface")) != null)
+                  {
+                     extensionst = stg_.getInstanceOf(extensionname);
+                     extensionst.setAttribute("ctx", context);
+                     extensionst.setAttribute("parent", ifc.getParent());
+                     extensionst.setAttribute("interface", ifc);
+                     ifcst.setAttribute("extension", extensionst.toString());
+                  }
+
+                  if (processExports(stg_, context, ifc.getExports(), ifcst, extensions))
+                  {
+                     // Save file.
+                     StringTemplate st = stg_.getInstanceOf("main");
+                     st.setAttribute("ctx", context);
+                     st.setAttribute("definitions", ifcst.toString());
+                     st.setAttribute("package", (!packag.isEmpty() ? packag : null));
+
+                     if (extensions != null && (extensionname = extensions.get("main")) != null)
+                     {
                         extensionst = stg_.getInstanceOf(extensionname);
                         extensionst.setAttribute("ctx", context);
-                        extensionst.setAttribute("parent", ifc.getParent());
-                        extensionst.setAttribute("interface", ifc);
-                        ifcst.setAttribute("extension", extensionst.toString());
-                    }
-                    
-                    if(processExports(stg_, context, ifc.getExports(), ifcst, extensions))
-                    {
-                        // Save file.
-                        StringTemplate st = stg_.getInstanceOf("main");
-                        st.setAttribute("ctx", context);
-                        st.setAttribute("definitions", ifcst.toString());
-                        st.setAttribute("package", (!packag.isEmpty() ? packag : null));
+                        st.setAttribute("extension", extensionst.toString());
+                     }
 
-                        if(extensions != null && (extensionname = extensions.get("main")) != null)
-                        {
-                            extensionst = stg_.getInstanceOf(extensionname);
-                            extensionst.setAttribute("ctx", context);
-                            st.setAttribute("extension", extensionst.toString());
-                        }
-
-                        if(!writeFile(packagDir + ifc.getName() + moduleNamePostfix + ".java", st))
-                        {
-                            System.out.println(ColorMessage.error() + "Cannot write file " + packagDir + ifc.getName() + ".java");
-                            return false;
-                        }
-                    }
-                    else
+                     if (!writeFile(packagDir + ifc.getName() + moduleNamePostfix + ".java", st))
+                     {
+                        System.out.println(ColorMessage.error() + "Cannot write file " + packagDir + ifc.getName() + ".java");
                         return false;
-                }
-                else if(definition.isIsTypeDeclaration())
-                {
-                    TypeDeclaration typedecl = (TypeDeclaration)definition;
-
-                    // get StringTemplate of the structure
-                    StringTemplate typest = processTypeDeclaration(stg_, context, typedecl, extensions);
-
-                    if(typest != null)
-                    {
-                        // Save file.
-                        StringTemplate st = stg_.getInstanceOf("main");
-                        st.setAttribute("ctx", context);
-                        st.setAttribute("definitions", typest.toString());
-                        st.setAttribute("package", (!packag.isEmpty() ? packag : null));
-
-                        StringTemplate extensionst = null;
-                        String extensionname = null;
-                        if(extensions != null && (extensionname = extensions.get("main")) != null)
-                        {
-                            extensionst = stg_.getInstanceOf(extensionname);
-                            extensionst.setAttribute("ctx", context);
-                            st.setAttribute("extension", extensionst.toString());
-                        }
-
-                        if(!writeFile(packagDir + typedecl.getName() + moduleNamePostfix + ".java", st))
-                        {
-                            System.out.println(ColorMessage.error() + "Cannot write file " + packagDir + typedecl.getName() + ".java");
-                            return false;
-                        }
-                    }
-                }
+                     }
+                  }
+                  else
+                     return false;
+               }
             }
-        }
-
-        return true;
-    }
-
-    boolean processExports(StringTemplateGroup stg_, Context context, ArrayList<Export> exports, StringTemplate ifcst, Map<String, String> extensions)
-    {
-        for(Export export : exports)
-        {
-            if(export.isIsTypeDeclaration())
+            else if (definition.isIsTypeDeclaration())
             {
-                TypeDeclaration typedecl = (TypeDeclaration)export;
+               TypeDeclaration typedecl = (TypeDeclaration) definition;
+               if (isInScope(context, typedecl.getScopeFile()))
+               {
 
-                // get StringTemplate of the structure
-                StringTemplate typest = processTypeDeclaration(stg_, context, typedecl, extensions);
+                  // get StringTemplate of the structure
+                  StringTemplate typest = processTypeDeclaration(stg_, context, typedecl, extensions);
 
-                if(typest != null)
-                {
-                    // Add type stringtemplate to interface stringtemplate.
-                    ifcst.setAttribute("exports", typest.toString());
-                }
+                  if (typest != null)
+                  {
+                     // Save file.
+                     StringTemplate st = stg_.getInstanceOf("main");
+                     st.setAttribute("ctx", context);
+                     st.setAttribute("definitions", typest.toString());
+                     st.setAttribute("package", (!packag.isEmpty() ? packag : null));
+
+                     StringTemplate extensionst = null;
+                     String extensionname = null;
+                     if (extensions != null && (extensionname = extensions.get("main")) != null)
+                     {
+                        extensionst = stg_.getInstanceOf(extensionname);
+                        extensionst.setAttribute("ctx", context);
+                        st.setAttribute("extension", extensionst.toString());
+                     }
+
+                     if (!writeFile(packagDir + typedecl.getName() + moduleNamePostfix + ".java", st))
+                     {
+                        System.out.println(ColorMessage.error() + "Cannot write file " + packagDir + typedecl.getName() + ".java");
+                        return false;
+                     }
+                  }
+               }
             }
-        }
+         }
+      }
 
-        return true;
-    }
+      return true;
+   }
 
-    StringTemplate processTypeDeclaration(StringTemplateGroup stg_, Context context, TypeDeclaration typedecl, Map<String, String> extensions)
-    {
-        StringTemplate typest = null, extensionst = null;
-        String extensionname = null;
-        System.out.println("processTypesDeclaration " + typedecl.getName());
+   boolean processExports(StringTemplateGroup stg_, Context context, ArrayList<Export> exports, StringTemplate ifcst, Map<String, String> extensions)
+   {
+      for (Export export : exports)
+      {
+         if (export.isIsTypeDeclaration())
+         {
+            TypeDeclaration typedecl = (TypeDeclaration) export;
 
-        if(typedecl.getTypeCode().getKind() == TypeCode.KIND_STRUCT)
-        {
-            typest = stg_.getInstanceOf("struct_type");
-            typest.setAttribute("struct", typedecl.getTypeCode());
+            // get StringTemplate of the structure
+            StringTemplate typest = processTypeDeclaration(stg_, context, typedecl, extensions);
 
-            // Get extension
-            if(extensions != null && (extensionname =  extensions.get("struct_type")) != null)
+            if (typest != null)
             {
-                extensionst = stg_.getInstanceOf(extensionname);
-                extensionst.setAttribute("struct", typedecl.getTypeCode()); 
+               // Add type stringtemplate to interface stringtemplate.
+               ifcst.setAttribute("exports", typest.toString());
             }
-        }
-        else if(typedecl.getTypeCode().getKind() == TypeCode.KIND_UNION)
-        {
-            typest = stg_.getInstanceOf("union_type");
-            typest.setAttribute("union", typedecl.getTypeCode());
+         }
+      }
 
-            // Get extension
-            if(extensions != null && (extensionname =  extensions.get("union_type")) != null)
-            {
-                extensionst = stg_.getInstanceOf(extensionname);
-                extensionst.setAttribute("union", typedecl.getTypeCode()); 
-            }
-        }
-        else if(typedecl.getTypeCode().getKind() == TypeCode.KIND_ENUM)
-        {
-            typest = stg_.getInstanceOf("enum_type");
-            typest.setAttribute("enum", typedecl.getTypeCode());
+      return true;
+   }
 
-            // Get extension
-            if(extensions != null && (extensionname =  extensions.get("enum_type")) != null)
-            {
-                extensionst = stg_.getInstanceOf(extensionname);
-                extensionst.setAttribute("enum", typedecl.getTypeCode()); 
-            }
-        }
+   StringTemplate processTypeDeclaration(StringTemplateGroup stg_, Context context, TypeDeclaration typedecl, Map<String, String> extensions)
+   {
+      StringTemplate typest = null, extensionst = null;
+      String extensionname = null;
+      System.out.println("processTypesDeclaration " + typedecl.getName());
 
-        if(typest != null)
-        {
-            // Generate extension
-            if(extensionst != null)
-            {
-                extensionst.setAttribute("ctx", context); 
-                extensionst.setAttribute("parent", typedecl.getParent()); 
-                typest.setAttribute("extension", extensionst.toString());
-            }
+      if (typedecl.getTypeCode().getKind() == TypeCode.KIND_STRUCT)
+      {
+         typest = stg_.getInstanceOf("struct_type");
+         typest.setAttribute("struct", typedecl.getTypeCode());
 
-            // Main stringtemplate
-            typest.setAttribute("ctx", context);
-            typest.setAttribute("parent", typedecl.getParent());
-        }
+         // Get extension
+         if (extensions != null && (extensionname = extensions.get("struct_type")) != null)
+         {
+            extensionst = stg_.getInstanceOf(extensionname);
+            extensionst.setAttribute("struct", typedecl.getTypeCode());
+         }
+      }
+      else if (typedecl.getTypeCode().getKind() == TypeCode.KIND_UNION)
+      {
+         typest = stg_.getInstanceOf("union_type");
+         typest.setAttribute("union", typedecl.getTypeCode());
 
-        return typest;
-    }
+         // Get extension
+         if (extensions != null && (extensionname = extensions.get("union_type")) != null)
+         {
+            extensionst = stg_.getInstanceOf(extensionname);
+            extensionst.setAttribute("union", typedecl.getTypeCode());
+         }
+      }
+      else if (typedecl.getTypeCode().getKind() == TypeCode.KIND_ENUM)
+      {
+         typest = stg_.getInstanceOf("enum_type");
+         typest.setAttribute("enum", typedecl.getTypeCode());
 
-    private boolean writeFile(String file, StringTemplate template)
-    {
-        boolean returnedValue = false;
-        
-        try
-        {
-            File handle = new File(file);
-            
-            if(!handle.exists() || replace_)
-            {
-                FileWriter fw = new FileWriter(file);
-                String data = template.toString();
-                fw.write(data, 0, data.length());
-                fw.close();
-            }
-            else
-            {
-                System.out.println("INFO: " + file + " exists. Skipping.");
-            }
+         // Get extension
+         if (extensions != null && (extensionname = extensions.get("enum_type")) != null)
+         {
+            extensionst = stg_.getInstanceOf(extensionname);
+            extensionst.setAttribute("enum", typedecl.getTypeCode());
+         }
+      }
 
-            returnedValue = true;
-        }
-        catch(IOException e)
-        {
-            e.printStackTrace();
-        }   
+      if (typest != null)
+      {
+         // Generate extension
+         if (extensionst != null)
+         {
+            extensionst.setAttribute("ctx", context);
+            extensionst.setAttribute("parent", typedecl.getParent());
+            typest.setAttribute("extension", extensionst.toString());
+         }
 
-        return returnedValue;
-    }
+         // Main stringtemplate
+         typest.setAttribute("ctx", context);
+         typest.setAttribute("parent", typedecl.getParent());
+      }
 
-    private TemplateManager tmanager_ = null;
-    private boolean replace_ = false;
+      return typest;
+   }
+
+   private boolean writeFile(String file, StringTemplate template)
+   {
+      boolean returnedValue = false;
+
+      try
+      {
+         File handle = new File(file);
+
+         if (!handle.exists() || replace_)
+         {
+            FileWriter fw = new FileWriter(file);
+            String data = template.toString();
+            fw.write(data, 0, data.length());
+            fw.close();
+         }
+         else
+         {
+            System.out.println("INFO: " + file + " exists. Skipping.");
+         }
+
+         returnedValue = true;
+      }
+      catch (IOException e)
+      {
+         e.printStackTrace();
+      }
+
+      return returnedValue;
+   }
+
+   private TemplateManager tmanager_ = null;
+   private boolean replace_ = false;
 }
