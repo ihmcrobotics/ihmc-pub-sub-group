@@ -6,6 +6,14 @@ import us.ihmc.pubsub.TopicDataType;
 import us.ihmc.pubsub.common.SerializedPayload;
 import us.ihmc.idl.CDR;
 
+/**
+* 
+* Topic data type of the struct "ChatMessage" defined in "ChatMessage.idl". Use this class to provide the TopicDataType to a Participant. 
+*
+* This file was automatically generated from ChatMessage.idl by us.ihmc.idl.generator.IDLGenerator. 
+* Do not update this file directly, edit ChatMessage.idl instead.
+*
+*/
 public class ChatMessagePubSubType implements TopicDataType<ChatMessage>
 {
 	public static final String name = "Chat::ChatMessage";

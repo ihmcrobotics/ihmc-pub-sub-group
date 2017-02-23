@@ -1,9 +1,30 @@
+// Copyright 2017 Florida Institute for Human And Machine Cognition (IHMC)
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 package us.ihmc.idl.generated.Chat;
 import us.ihmc.idl.IDLSequence;
 import us.ihmc.idl.CDR;
 import us.ihmc.idl.IDLStruct;
 import java.util.Arrays;
 
+/**
+* 
+* Definition of the class "ChatMessage" defined in ChatMessage.idl. 
+*
+* This file was automatically generated from ChatMessage.idl by us.ihmc.idl.generator.IDLGenerator. 
+* Do not update this file directly, edit ChatMessage.idl instead.
+*
+*/
 public class ChatMessage implements IDLStruct<ChatMessage>
 {
     public ChatMessage()
@@ -38,12 +59,12 @@ public class ChatMessage implements IDLStruct<ChatMessage>
         
 
 
-	static int getMaxCdrSerializedSize()
+	public static int getMaxCdrSerializedSize()
 	{
 		return getMaxCdrSerializedSize(0);
 	}
 
-	static int getMaxCdrSerializedSize(int current_alignment)
+	public static int getMaxCdrSerializedSize(int current_alignment)
 	{
 	    int initial_alignment = current_alignment;
 	            
@@ -56,12 +77,12 @@ public class ChatMessage implements IDLStruct<ChatMessage>
 	}
 
 
-	static int getCdrSerializedSize(ChatMessage data)
+	public final static int getCdrSerializedSize(ChatMessage data)
 	{
 		return getCdrSerializedSize(data, 0);
 	}
 
-	static int getCdrSerializedSize(ChatMessage data, int current_alignment)
+	public final static int getCdrSerializedSize(ChatMessage data, int current_alignment)
 	{
 	    int initial_alignment = current_alignment;
 	            
@@ -74,7 +95,7 @@ public class ChatMessage implements IDLStruct<ChatMessage>
 	}
 	
 	@Override
-	public void serialize(CDR cdr)
+	public final void serialize(CDR cdr)
 	{
 
 
@@ -88,7 +109,7 @@ public class ChatMessage implements IDLStruct<ChatMessage>
 	}
 	
 	@Override
-	public void deserialize(CDR cdr)
+	public final void deserialize(CDR cdr)
 	{
 
 	    	cdr.read_type_d(sender_);	
