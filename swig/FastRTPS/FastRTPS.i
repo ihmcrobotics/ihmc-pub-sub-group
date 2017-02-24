@@ -7,6 +7,8 @@
 %include "std_vector.i"
 %include "carrays.i"
 
+%array_functions(unsigned char, charArray);
+
 
 // Disable detachedment of threads in the director. This avoids a memory leak due to spinning up a lot of Java threads
 %insert("runtime") %{
@@ -101,6 +103,7 @@ namespace rtps{
         CHANGED_QOS_RTPSPARTICIPANT,
         REMOVED_RTPSPARTICIPANT
     };
+
 }}}
 
 %include <fastrtps/rtps/common/Locator.h>
@@ -157,6 +160,8 @@ namespace rtps{
     REMOVED_MATCHING //!< REMOVED_MATCHING, publisher/subscriber removed
 
     };
+
+
 }}}
 %include <fastrtps/rtps/flowcontrol/FlowController.h>
 %include <fastrtps/rtps/flowcontrol/ThroughputController.h>
@@ -182,7 +187,8 @@ namespace rtps{
 %feature("director") NativeParticipantListener;
 %feature("director") NativePublisherListener;
 %feature("director") NativeSubscriberListener;
-
+%feature("director") NativeParticipantPublisherEDPListener;
+%feature("director") NativeParticipantSubscriberEDPListener;
 
 namespace us{
 namespace ihmc{
@@ -193,6 +199,8 @@ namespace fastRTPS{
 %ignore NativePublisherImpl::getGuid();
 %ignore NativePublisherImpl::getTopicKind;
 %ignore NativeSubscriberImpl::remove_change_sub;
+%ignore NativeParticipantPublisherEDPListener::getReaderListener;
+%ignore NativeParticipantSubscriberEDPListener::getReaderListener;
 }}}}}
 %{
 #include "nativeparticipantimpl.h"
@@ -200,6 +208,27 @@ namespace fastRTPS{
 #include "nativesubscriberimpl.h"
 #include "loglevel.h"
 #include "sampleinfomarshaller.h"
+
+octet getLocatorOctet(int octet, Locator_t* locator)
+{
+    return locator->address[octet];
+}
+
+void setLocatorOctet(Locator_t* locator, int oct, octet value)
+{
+    locator->address[oct] = value;
+}
+
+Locator_t* getLocator(LocatorList_t* list, int index)
+{
+    if(index > list->size() || index < 0)
+    {
+        return nullptr;
+    }
+    LocatorListIterator element = list->begin() + index;
+    std::advance(element, index);
+    return &(*element);
+}
 
 using namespace us::ihmc::rtps::impl::fastRTPS;
 %}
@@ -210,5 +239,6 @@ using namespace us::ihmc::rtps::impl::fastRTPS;
 %include "nativesubscriberimpl.h"
 %include "loglevel.h"
 
-
-
+octet getLocatorOctet(int octet, Locator_t* locator);
+void setLocatorOctet(Locator_t* locator, int oct, octet value);
+Locator_t* getLocator(LocatorList_t* list, int index);

@@ -4,7 +4,6 @@ plugins {
 
 apply plugin: 'java'
 apply plugin: 'maven-publish'
-apply plugin: 'application'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
