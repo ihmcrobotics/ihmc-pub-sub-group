@@ -4,6 +4,7 @@
 
 #include <fastrtps/rtps/common/Guid.h>
 #include <fastrtps/rtps/common/Types.h>
+#include <fastrtps/rtps/common/InstanceHandle.h>
 
 
 namespace us{
@@ -37,6 +38,14 @@ namespace fastRTPS{
             for(int g_c = 0; g_c < EntityId_t::size; g_c++)
             {
                 dest->guid[GuidPrefix_t::size + g_c] = src.entityId.value[g_c];
+            }
+        }
+
+        static void guidcpy(const eprosima::fastrtps::rtps::InstanceHandle_t& src, GuidUnion *dest)
+        {
+            for(int g_c = 0; g_c < GuidPrefix_t::size + EntityId_t::size; g_c++)
+            {
+                dest->guid[g_c] = src.value[g_c];
             }
         }
     };

@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.1)
-project(IHMCJavaRTPS)
+project(IHMCPubSub)
 
 find_package(Boost REQUIRED COMPONENTS system thread date_time)
 
