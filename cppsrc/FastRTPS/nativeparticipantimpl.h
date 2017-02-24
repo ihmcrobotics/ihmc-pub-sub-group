@@ -5,6 +5,7 @@
 #include <fastrtps/rtps/participant/RTPSParticipantListener.h>
 #include <fastrtps/rtps/participant/RTPSParticipant.h>
 #include <fastrtps/rtps/RTPSDomain.h>
+#include <fastrtps/rtps/reader/ReaderListener.h>
 
 #include "fastrtpsexception.h"
 #include "commonfunctions.h"
@@ -26,6 +27,45 @@ namespace fastRTPS{
         virtual ~NativeParticipantListener() {}
     };
 
+    class NativeParticipantPublisherEDPListener
+    {
+    public:
+        NativeParticipantPublisherEDPListener() : readerListener(this) {}
+        virtual void publisherTopicChange(bool isAlive, int64_t guidHigh, int64_t guidLow, LocatorList_t* unicastLocatorList, LocatorList_t* multicastLocatorList, int64_t participantGuidHigh, int64_t participantGuidLow,
+                                          std::string typeName, std::string topicName, int32_t userDefinedId, int64_t typeMaxSerialized,  TopicKind_t topicKind, WriterQos* writerQoS) {}
+        virtual ~NativeParticipantPublisherEDPListener() {}
+        ReaderListener* getReaderListener() { return &readerListener; }
+    private:
+        class MyRTPSReaderListener : public ReaderListener
+        {
+        public:
+            MyRTPSReaderListener(NativeParticipantPublisherEDPListener* listener) : mp_listener(listener) {}
+            virtual void onNewCacheChangeAdded(RTPSReader* reader, const CacheChange_t* const change);
+        private:
+            NativeParticipantPublisherEDPListener* mp_listener;
+        } readerListener;
+    };
+
+    class NativeParticipantSubscriberEDPListener
+    {
+    public:
+        NativeParticipantSubscriberEDPListener() : readerListener(this) {}
+        virtual void subscriberTopicChange(bool isAlive, int64_t guidHigh, int64_t guidLow, bool expectsInlineQos,  LocatorList_t* unicastLocatorList, LocatorList_t* multicastLocatorList, int64_t participantGuidHigh, int64_t participantGuidLow,
+                                           std::string typeName, std::string topicName, int32_t userDefinedId, TopicKind_t topicKind, ReaderQos* readerQoS) {}
+        virtual ~NativeParticipantSubscriberEDPListener() {}
+        ReaderListener* getReaderListener() { return &readerListener; }
+    private:
+        class MyRTPSReaderListener : public ReaderListener
+        {
+        public:
+            MyRTPSReaderListener(NativeParticipantSubscriberEDPListener* listener) : mp_listener(listener) {}
+            virtual void onNewCacheChangeAdded(RTPSReader* reader, const CacheChange_t* const change);
+        private:
+            NativeParticipantSubscriberEDPListener* mp_listener;
+        } readerListener;
+    };
+
+
     class NativeParticipantImpl
     {
     public:
@@ -33,6 +73,7 @@ namespace fastRTPS{
         int64_t getGuidLow();
         int64_t getGuidHigh();
         RTPSParticipant* getParticipant();
+        void registerEDPReaderListeners(NativeParticipantPublisherEDPListener* publisherListener, NativeParticipantSubscriberEDPListener* subscriberListener) throw(FastRTPSException);
         virtual ~NativeParticipantImpl();
 
     private:

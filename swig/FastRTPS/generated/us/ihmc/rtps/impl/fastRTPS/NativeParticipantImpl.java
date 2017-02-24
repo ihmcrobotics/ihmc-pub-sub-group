@@ -47,4 +47,8 @@ public class NativeParticipantImpl {
     return FastRTPSJNI.NativeParticipantImpl_getGuidHigh(swigCPtr, this);
   }
 
+  public void registerEDPReaderListeners(NativeParticipantPublisherEDPListener publisherListener, NativeParticipantSubscriberEDPListener subscriberListener) throws java.io.IOException {
+    FastRTPSJNI.NativeParticipantImpl_registerEDPReaderListeners(swigCPtr, this, NativeParticipantPublisherEDPListener.getCPtr(publisherListener), publisherListener, NativeParticipantSubscriberEDPListener.getCPtr(subscriberListener), subscriberListener);
+  }
+
 }

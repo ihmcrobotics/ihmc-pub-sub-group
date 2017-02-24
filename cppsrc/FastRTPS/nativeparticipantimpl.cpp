@@ -1,5 +1,8 @@
 #include "nativeparticipantimpl.h"
 #include <fastrtps/log/Log.h>
+#include <fastrtps/rtps/builtin/data/WriterProxyData.h>
+#include <fastrtps/rtps/builtin/data/ReaderProxyData.h>
+
 using namespace us::ihmc::rtps::impl::fastRTPS;
 
 NativeParticipantImpl::NativeParticipantImpl(RTPSParticipantAttributes& rtps, NativeParticipantListener* listener) throw(FastRTPSException) :
@@ -14,7 +17,6 @@ NativeParticipantImpl::NativeParticipantImpl(RTPSParticipantAttributes& rtps, Na
         throw FastRTPSException("Problem creating RTPSParticipant");
     }
 
-    std::cout << "Part GUID " << part->getGuid() << std::endl;
     logInfo(PARTICIPANT,"Guid: " << part->getGuid());
     CommonFunctions::guidcpy(part->getGuid(), &guid);
 
@@ -59,4 +61,66 @@ std::string NativeParticipantListener::getName(int64_t infoPtr)
     return ((RTPSParticipantDiscoveryInfo*) infoPtr)->m_RTPSParticipantName;
 }
 
+void NativeParticipantImpl::registerEDPReaderListeners(NativeParticipantPublisherEDPListener *publisherListener, NativeParticipantSubscriberEDPListener *subscriberListener) throw(FastRTPSException)
+{
+    std::pair<StatefulReader*,StatefulReader*> EDP_Readers = this->part->getEDPReaders();
+    if(EDP_Readers.first == nullptr || EDP_Readers.second == nullptr)
+    {
+        throw FastRTPSException("No Endpoint Discovery Protocol Readers provided, Participant is connected in static mode.");
+    }
 
+    if(publisherListener != nullptr)
+    {
+        EDP_Readers.second->setListener(publisherListener->getReaderListener());
+    }
+    if(subscriberListener != nullptr)
+    {
+        EDP_Readers.first->setListener(subscriberListener->getReaderListener());
+    }
+}
+
+void NativeParticipantPublisherEDPListener::MyRTPSReaderListener::onNewCacheChangeAdded(RTPSReader *reader, const CacheChange_t * const change_in)
+{
+    CacheChange_t* change = (CacheChange_t*) change_in;
+    if(change->kind == ALIVE){
+
+        WriterProxyData proxyData;
+        CDRMessage_t tempMsg;
+        tempMsg.msg_endian = change->serializedPayload.encapsulation == PL_CDR_BE ? BIGEND:LITTLEEND;
+        tempMsg.length = change->serializedPayload.length;
+        memcpy(tempMsg.buffer,change->serializedPayload.data,tempMsg.length);
+        if(proxyData.readFromCDRMessage(&tempMsg)){
+
+            GuidUnion guid;
+            CommonFunctions::guidcpy(proxyData.guid(), &guid);
+            GuidUnion participantGuid;
+            CommonFunctions::guidcpy(proxyData.RTPSParticipantKey(), &participantGuid);
+
+            mp_listener->publisherTopicChange(proxyData.isAlive(), guid.primitive.high, guid.primitive.low, &proxyData.unicastLocatorList(), &proxyData.multicastLocatorList(), participantGuid.primitive.high, participantGuid.primitive.low,
+                                              proxyData.typeName(), proxyData.topicName(), proxyData.userDefinedId(), proxyData.typeMaxSerialized(), proxyData.topicKind(), &proxyData.m_qos);
+        }
+    }
+}
+
+void NativeParticipantSubscriberEDPListener::MyRTPSReaderListener::onNewCacheChangeAdded(RTPSReader* reader, const CacheChange_t* const change_in)
+{
+    CacheChange_t* change = (CacheChange_t*) change_in;
+    if(change->kind == ALIVE){
+
+        ReaderProxyData proxyData;
+        CDRMessage_t tempMsg;
+        tempMsg.msg_endian = change->serializedPayload.encapsulation == PL_CDR_BE ? BIGEND:LITTLEEND;
+        tempMsg.length = change->serializedPayload.length;
+        memcpy(tempMsg.buffer,change->serializedPayload.data,tempMsg.length);
+        if(proxyData.readFromCDRMessage(&tempMsg)){
+
+            GuidUnion guid;
+            CommonFunctions::guidcpy(proxyData.m_guid, &guid);
+            GuidUnion participantGuid;
+            CommonFunctions::guidcpy(proxyData.m_RTPSParticipantKey, &participantGuid);
+
+            mp_listener->subscriberTopicChange(proxyData.m_isAlive, guid.primitive.high, guid.primitive.low, proxyData.m_expectsInlineQos, &proxyData.m_unicastLocatorList, &proxyData.m_multicastLocatorList, participantGuid.primitive.high, participantGuid.primitive.low,
+                                               proxyData.m_typeName, proxyData.m_topicName, proxyData.m_userDefinedId, proxyData.m_topicKind, &proxyData.m_qos);
+        }
+    }
+}

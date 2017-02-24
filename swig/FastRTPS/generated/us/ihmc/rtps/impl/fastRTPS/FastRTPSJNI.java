@@ -9,6 +9,10 @@
 package us.ihmc.rtps.impl.fastRTPS;
 
 public class FastRTPSJNI {
+  public final static native long new_charArray(int jarg1);
+  public final static native void delete_charArray(long jarg1);
+  public final static native short charArray_getitem(long jarg1, int jarg2);
+  public final static native void charArray_setitem(long jarg1, int jarg2, short jarg3);
   public final static native long new_octetVector__SWIG_0();
   public final static native long new_octetVector__SWIG_1(long jarg1);
   public final static native long octetVector_size(long jarg1, octetVector jarg1_);
@@ -541,9 +545,22 @@ public class FastRTPSJNI {
   public final static native long new_NativeParticipantListener();
   public final static native void NativeParticipantListener_director_connect(NativeParticipantListener obj, long cptr, boolean mem_own, boolean weak_global);
   public final static native void NativeParticipantListener_change_ownership(NativeParticipantListener obj, long cptr, boolean take_or_release);
+  public final static native long new_NativeParticipantPublisherEDPListener();
+  public final static native void NativeParticipantPublisherEDPListener_publisherTopicChange(long jarg1, NativeParticipantPublisherEDPListener jarg1_, boolean jarg2, long jarg3, long jarg4, long jarg5, LocatorList_t jarg5_, long jarg6, LocatorList_t jarg6_, long jarg7, long jarg8, String jarg9, String jarg10, int jarg11, long jarg12, int jarg13, long jarg14, WriterQos jarg14_);
+  public final static native void NativeParticipantPublisherEDPListener_publisherTopicChangeSwigExplicitNativeParticipantPublisherEDPListener(long jarg1, NativeParticipantPublisherEDPListener jarg1_, boolean jarg2, long jarg3, long jarg4, long jarg5, LocatorList_t jarg5_, long jarg6, LocatorList_t jarg6_, long jarg7, long jarg8, String jarg9, String jarg10, int jarg11, long jarg12, int jarg13, long jarg14, WriterQos jarg14_);
+  public final static native void delete_NativeParticipantPublisherEDPListener(long jarg1);
+  public final static native void NativeParticipantPublisherEDPListener_director_connect(NativeParticipantPublisherEDPListener obj, long cptr, boolean mem_own, boolean weak_global);
+  public final static native void NativeParticipantPublisherEDPListener_change_ownership(NativeParticipantPublisherEDPListener obj, long cptr, boolean take_or_release);
+  public final static native long new_NativeParticipantSubscriberEDPListener();
+  public final static native void NativeParticipantSubscriberEDPListener_subscriberTopicChange(long jarg1, NativeParticipantSubscriberEDPListener jarg1_, boolean jarg2, long jarg3, long jarg4, boolean jarg5, long jarg6, LocatorList_t jarg6_, long jarg7, LocatorList_t jarg7_, long jarg8, long jarg9, String jarg10, String jarg11, int jarg12, int jarg13, long jarg14, ReaderQos jarg14_);
+  public final static native void NativeParticipantSubscriberEDPListener_subscriberTopicChangeSwigExplicitNativeParticipantSubscriberEDPListener(long jarg1, NativeParticipantSubscriberEDPListener jarg1_, boolean jarg2, long jarg3, long jarg4, boolean jarg5, long jarg6, LocatorList_t jarg6_, long jarg7, LocatorList_t jarg7_, long jarg8, long jarg9, String jarg10, String jarg11, int jarg12, int jarg13, long jarg14, ReaderQos jarg14_);
+  public final static native void delete_NativeParticipantSubscriberEDPListener(long jarg1);
+  public final static native void NativeParticipantSubscriberEDPListener_director_connect(NativeParticipantSubscriberEDPListener obj, long cptr, boolean mem_own, boolean weak_global);
+  public final static native void NativeParticipantSubscriberEDPListener_change_ownership(NativeParticipantSubscriberEDPListener obj, long cptr, boolean take_or_release);
   public final static native long new_NativeParticipantImpl(long jarg1, RTPSParticipantAttributes jarg1_, long jarg2, NativeParticipantListener jarg2_) throws java.io.IOException;
   public final static native long NativeParticipantImpl_getGuidLow(long jarg1, NativeParticipantImpl jarg1_);
   public final static native long NativeParticipantImpl_getGuidHigh(long jarg1, NativeParticipantImpl jarg1_);
+  public final static native void NativeParticipantImpl_registerEDPReaderListeners(long jarg1, NativeParticipantImpl jarg1_, long jarg2, NativeParticipantPublisherEDPListener jarg2_, long jarg3, NativeParticipantSubscriberEDPListener jarg3_) throws java.io.IOException;
   public final static native void delete_NativeParticipantImpl(long jarg1);
   public final static native void NativePublisherListener_onWriterMatched(long jarg1, NativePublisherListener jarg1_, int jarg2, long jarg3, long jarg4);
   public final static native void NativePublisherListener_onWriterMatchedSwigExplicitNativePublisherListener(long jarg1, NativePublisherListener jarg1_, int jarg2, long jarg3, long jarg4);
@@ -589,6 +606,9 @@ public class FastRTPSJNI {
   public final static native void LogLevel_setLogLevel(int jarg1);
   public final static native long new_LogLevel();
   public final static native void delete_LogLevel(long jarg1);
+  public final static native short getLocatorOctet(int jarg1, long jarg2, Locator_t jarg2_);
+  public final static native void setLocatorOctet(long jarg1, Locator_t jarg1_, int jarg2, short jarg3);
+  public final static native long getLocator(long jarg1, LocatorList_t jarg1_, int jarg2);
   public final static native long DurabilityQosPolicy_SWIGUpcast(long jarg1);
   public final static native long DeadlineQosPolicy_SWIGUpcast(long jarg1);
   public final static native long LatencyBudgetQosPolicy_SWIGUpcast(long jarg1);
@@ -612,6 +632,12 @@ public class FastRTPSJNI {
 
   public static void SwigDirector_NativeParticipantListener_onParticipantDiscovery(NativeParticipantListener jself, long infoPtr, long guidHigh, long guidLow, int status) {
     jself.onParticipantDiscovery(infoPtr, guidHigh, guidLow, DISCOVERY_STATUS.swigToEnum(status));
+  }
+  public static void SwigDirector_NativeParticipantPublisherEDPListener_publisherTopicChange(NativeParticipantPublisherEDPListener jself, boolean isAlive, long guidHigh, long guidLow, long unicastLocatorList, long multicastLocatorList, long participantGuidHigh, long participantGuidLow, String typeName, String topicName, int userDefinedId, long typeMaxSerialized, int topicKind, long writerQoS) {
+    jself.publisherTopicChange(isAlive, guidHigh, guidLow, (unicastLocatorList == 0) ? null : new LocatorList_t(unicastLocatorList, false), (multicastLocatorList == 0) ? null : new LocatorList_t(multicastLocatorList, false), participantGuidHigh, participantGuidLow, typeName, topicName, userDefinedId, typeMaxSerialized, TopicKind_t.swigToEnum(topicKind), (writerQoS == 0) ? null : new WriterQos(writerQoS, false));
+  }
+  public static void SwigDirector_NativeParticipantSubscriberEDPListener_subscriberTopicChange(NativeParticipantSubscriberEDPListener jself, boolean isAlive, long guidHigh, long guidLow, boolean expectsInlineQos, long unicastLocatorList, long multicastLocatorList, long participantGuidHigh, long participantGuidLow, String typeName, String topicName, int userDefinedId, int topicKind, long readerQoS) {
+    jself.subscriberTopicChange(isAlive, guidHigh, guidLow, expectsInlineQos, (unicastLocatorList == 0) ? null : new LocatorList_t(unicastLocatorList, false), (multicastLocatorList == 0) ? null : new LocatorList_t(multicastLocatorList, false), participantGuidHigh, participantGuidLow, typeName, topicName, userDefinedId, TopicKind_t.swigToEnum(topicKind), (readerQoS == 0) ? null : new ReaderQos(readerQoS, false));
   }
   public static void SwigDirector_NativePublisherListener_onWriterMatched(NativePublisherListener jself, int status, long guidHigh, long guidLow) {
     jself.onWriterMatched(MatchingStatus.swigToEnum(status), guidHigh, guidLow);
