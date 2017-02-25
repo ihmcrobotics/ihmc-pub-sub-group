@@ -11,16 +11,15 @@ public class Locator
    /**
     * Specifies the locator type
     */
-   public enum Kind 
+   public enum Kind
    {
-      LOCATOR_KIND_RESERVED,
-      LOCATOR_KIND_UDPv4,
-      LOCATOR_KIND_UDPv6
+      LOCATOR_KIND_RESERVED, LOCATOR_KIND_UDPv4, LOCATOR_KIND_UDPv6
    }
+
    private final byte address[] = new byte[16];
    private Kind kind;
    private int port;
-   
+
    /**
     * Default constructor
     */
@@ -29,7 +28,7 @@ public class Locator
       this.kind = Kind.LOCATOR_KIND_UDPv4;
       this.port = 0;
    }
-   
+
    /**
     * Set IPv4 address as 4 octets.
     * 
@@ -42,7 +41,7 @@ public class Locator
     */
    public void setIPv4Adress(byte o1, byte o2, byte o3, byte o4)
    {
-      if(this.kind != Kind.LOCATOR_KIND_UDPv4)
+      if (this.kind != Kind.LOCATOR_KIND_UDPv4)
       {
          throw new RuntimeException("Trying to set IPv4 address on locator that is not of kind LOCATOR_KIND_UDPv4");
       }
@@ -51,7 +50,7 @@ public class Locator
       address[14] = o3;
       address[15] = o4;
    }
-   
+
    /**
     * Set IPv6 address as 8 groups
     * 
@@ -66,23 +65,22 @@ public class Locator
     * 
     * @throws RuntimeException if locator kind is not LOCATOR_KIND_UDPv6
     */
-   public void setIPv6Address(int group0, int group1, int group2, int group3, 
-                              int group4, int group5, int group6, int group7)
+   public void setIPv6Address(int group0, int group1, int group2, int group3, int group4, int group5, int group6, int group7)
    {
-      if(this.kind != Kind.LOCATOR_KIND_UDPv6)
+      if (this.kind != Kind.LOCATOR_KIND_UDPv6)
       {
          throw new RuntimeException("Trying to set IPv4 address on locator that is not of kind LOCATOR_KIND_UDPv6");
       }
-      address[0]  = (byte) (group0 >> 8);
-      address[1]  = (byte) group0;
-      address[2]  = (byte) (group1 >> 8);
-      address[3]  = (byte) group1;
-      address[4]  = (byte) (group2 >> 8);
-      address[5]  = (byte) group2;
-      address[6]  = (byte) (group3 >> 8);
-      address[7]  = (byte) group3;
-      address[8]  = (byte) (group4 >> 8);
-      address[9]  = (byte) group4;
+      address[0] = (byte) (group0 >> 8);
+      address[1] = (byte) group0;
+      address[2] = (byte) (group1 >> 8);
+      address[3] = (byte) group1;
+      address[4] = (byte) (group2 >> 8);
+      address[5] = (byte) group2;
+      address[6] = (byte) (group3 >> 8);
+      address[7] = (byte) group3;
+      address[8] = (byte) (group4 >> 8);
+      address[9] = (byte) group4;
       address[10] = (byte) (group5 >> 8);
       address[11] = (byte) group5;
       address[12] = (byte) (group6 >> 8);
@@ -90,7 +88,7 @@ public class Locator
       address[14] = (byte) (group7 >> 8);
       address[15] = (byte) group7;
    }
-   
+
    /**
     * Get a single octet of the address
     * 
@@ -101,7 +99,7 @@ public class Locator
    {
       return address[octet];
    }
-   
+
    /**
     * 
     * @return Locator Kind
@@ -110,7 +108,7 @@ public class Locator
    {
       return kind;
    }
-   
+
    /**
     * 
     * @return Locator port
@@ -128,7 +126,7 @@ public class Locator
    {
       this.kind = kind;
    }
-   
+
    /**
     * 
     * @param port new port for this locator
@@ -142,5 +140,51 @@ public class Locator
    {
       address[i] = locatorOctet;
    }
-   
+
+   public String toString()
+   {
+      switch (kind)
+      {
+      case LOCATOR_KIND_UDPv4:
+      {
+         StringBuilder builder = new StringBuilder();
+         builder.append(Kind.LOCATOR_KIND_UDPv4.toString());
+         builder.append(" ");
+         for (int i = 12; i < 16; i++)
+         {
+            builder.append((int) address[i] & 0xFF);
+            if (i < 15)
+            {
+               builder.append(".");
+            }
+         }
+         builder.append(":");
+         builder.append(port);
+         return builder.toString();
+      }
+      case LOCATOR_KIND_UDPv6:
+      {
+         StringBuilder builder = new StringBuilder();
+         builder.append(Kind.LOCATOR_KIND_UDPv6.toString());
+         builder.append(" ");
+         for (int i = 0; i < 16; i += 2)
+         {
+            int group = (address[i] & 0xFF) << 8;
+            group += (address[i+1] & 0xFF);
+            
+            builder.append(group);
+            if (i < 15)
+            {
+               builder.append("::");
+            }
+         }
+         builder.append(":");
+         builder.append(port);
+         return builder.toString();
+      }
+      case LOCATOR_KIND_RESERVED:
+      default:
+         return Kind.LOCATOR_KIND_RESERVED.toString();
+      }
+   }
 }
