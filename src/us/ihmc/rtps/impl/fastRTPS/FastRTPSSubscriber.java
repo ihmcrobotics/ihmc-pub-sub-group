@@ -75,7 +75,7 @@ public class FastRTPSSubscriber implements Subscriber
       @Override
       public boolean getKey(long cacheChangePtr, short encoding, int dataLength)
       {
-         impl.getData(cacheChangePtr, payload.getData());
+         impl.getData(cacheChangePtr, payload.getData().capacity(), payload.getData());
          preparePayload(encoding, dataLength);
          if (!topicDataType.isGetKeyDefined())
          {
@@ -189,7 +189,7 @@ public class FastRTPSSubscriber implements Subscriber
       boolean ret = false;
       impl.lock();
       {
-         long cacheChange = impl.readnextData(payload.getData(), sampleInfoMarshaller, topicKind, ownershipQosPolicyKind);
+         long cacheChange = impl.readnextData(payload.getData().capacity(), payload.getData(), sampleInfoMarshaller, topicKind, ownershipQosPolicyKind);
          if (cacheChange != 0)
          {
             if (sampleInfoMarshaller.getChangeKind() == ChangeKind_t.ALIVE.swigValue())
@@ -231,7 +231,7 @@ public class FastRTPSSubscriber implements Subscriber
       boolean ret = false;
       impl.lock();
       {
-         long cacheChange = impl.takeNextData(payload.getData(), sampleInfoMarshaller, topicKind, ownershipQosPolicyKind);
+         long cacheChange = impl.takeNextData(payload.getData().capacity(), payload.getData(), sampleInfoMarshaller, topicKind, ownershipQosPolicyKind);
          if (cacheChange != 0)
          {
 
