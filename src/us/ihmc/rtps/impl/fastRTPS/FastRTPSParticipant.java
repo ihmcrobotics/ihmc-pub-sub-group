@@ -41,10 +41,17 @@ class FastRTPSParticipant implements Participant
       @Override
       public void onParticipantDiscovery(long infoPtr, long guidHigh, long guidLow, DISCOVERY_STATUS status)
       {
-         if (participantListener != null)
+         try
          {
-            discoveryInfo.updateInfo(status, this, infoPtr, guidHigh, guidLow);
-            participantListener.onParticipantDiscovery(FastRTPSParticipant.this, discoveryInfo);
+            if (participantListener != null)
+            {
+               discoveryInfo.updateInfo(status, this, infoPtr, guidHigh, guidLow);
+               participantListener.onParticipantDiscovery(FastRTPSParticipant.this, discoveryInfo);
+            }
+         }
+         catch (Throwable e)
+         {
+            e.printStackTrace();
          }
       }
    }
@@ -63,33 +70,40 @@ class FastRTPSParticipant implements Participant
                                        long participantGuidHigh, long participantGuidLow, String typeName, String topicName, int userDefinedId,
                                        long typeMaxSerialized, TopicKind_t topicKind, WriterQos writerQoS)
       {
-         Guid guid = new Guid();
-         guid.fromPrimitives(guidHigh, guidLow);
-
-         Guid participantGuid = new Guid();
-         participantGuid.fromPrimitives(participantGuidHigh, participantGuidLow);
-
-         ArrayList<Locator> unicastLocatorListOut = new ArrayList<>();
-         ArrayList<Locator> multicastLocatorListOut = new ArrayList<>();
-
-         for (int i = 0; i < unicastLocatorList.size(); i++)
+         try
          {
-            Locator out = new Locator();
-            FastRTPSCommonFunctions.convertToJavaLocator(FastRTPS.getLocator(unicastLocatorList, i), out);
-            unicastLocatorListOut.add(out);
-         }
+            Guid guid = new Guid();
+            guid.fromPrimitives(guidHigh, guidLow);
 
-         for (int i = 0; i < multicastLocatorList.size(); i++)
+            Guid participantGuid = new Guid();
+            participantGuid.fromPrimitives(participantGuidHigh, participantGuidLow);
+
+            ArrayList<Locator> unicastLocatorListOut = new ArrayList<>();
+            ArrayList<Locator> multicastLocatorListOut = new ArrayList<>();
+
+            for (int i = 0; i < unicastLocatorList.size(); i++)
+            {
+               Locator out = new Locator();
+               FastRTPSCommonFunctions.convertToJavaLocator(FastRTPS.getLocator(unicastLocatorList, i), out);
+               unicastLocatorListOut.add(out);
+            }
+
+            for (int i = 0; i < multicastLocatorList.size(); i++)
+            {
+               Locator out = new Locator();
+               FastRTPSCommonFunctions.convertToJavaLocator(FastRTPS.getLocator(multicastLocatorList, i), out);
+               multicastLocatorListOut.add(out);
+            }
+
+            WriterQosHolder<WriterQos> writerQosOut = new WriterQosHolder<WriterQos>(writerQoS);
+
+            listener.publisherTopicChange(isAlive, guid, unicastLocatorListOut, multicastLocatorListOut, participantGuid, typeName, topicName, userDefinedId,
+                                          typeMaxSerialized, FastRTPSCommonFunctions.toJavaTopicKind(topicKind), writerQosOut);
+         }
+         catch (Throwable e)
          {
-            Locator out = new Locator();
-            FastRTPSCommonFunctions.convertToJavaLocator(FastRTPS.getLocator(multicastLocatorList, i), out);
-            multicastLocatorListOut.add(out);
+            e.printStackTrace();
          }
-
-         WriterQosHolder<WriterQos> writerQosOut = new WriterQosHolder<WriterQos>(writerQoS);
-
-         listener.publisherTopicChange(isAlive, guid, unicastLocatorListOut, multicastLocatorListOut, participantGuid, typeName, topicName, userDefinedId,
-                                       typeMaxSerialized, FastRTPSCommonFunctions.toJavaTopicKind(topicKind), writerQosOut);
 
       }
    }
@@ -108,34 +122,40 @@ class FastRTPSParticipant implements Participant
                                         LocatorList_t multicastLocatorList, long participantGuidHigh, long participantGuidLow, String typeName,
                                         String topicName, int userDefinedId, TopicKind_t topicKind, ReaderQos readerQoS)
       {
-
-         Guid guid = new Guid();
-         guid.fromPrimitives(guidHigh, guidLow);
-
-         Guid participantGuid = new Guid();
-         participantGuid.fromPrimitives(participantGuidHigh, participantGuidLow);
-
-         ArrayList<Locator> unicastLocatorListOut = new ArrayList<>();
-         ArrayList<Locator> multicastLocatorListOut = new ArrayList<>();
-
-         for (int i = 0; i < unicastLocatorList.size(); i++)
+         try
          {
-            Locator out = new Locator();
-            FastRTPSCommonFunctions.convertToJavaLocator(FastRTPS.getLocator(unicastLocatorList, i), out);
-            unicastLocatorListOut.add(out);
-         }
+            Guid guid = new Guid();
+            guid.fromPrimitives(guidHigh, guidLow);
 
-         for (int i = 0; i < multicastLocatorList.size(); i++)
+            Guid participantGuid = new Guid();
+            participantGuid.fromPrimitives(participantGuidHigh, participantGuidLow);
+
+            ArrayList<Locator> unicastLocatorListOut = new ArrayList<>();
+            ArrayList<Locator> multicastLocatorListOut = new ArrayList<>();
+
+            for (int i = 0; i < unicastLocatorList.size(); i++)
+            {
+               Locator out = new Locator();
+               FastRTPSCommonFunctions.convertToJavaLocator(FastRTPS.getLocator(unicastLocatorList, i), out);
+               unicastLocatorListOut.add(out);
+            }
+
+            for (int i = 0; i < multicastLocatorList.size(); i++)
+            {
+               Locator out = new Locator();
+               FastRTPSCommonFunctions.convertToJavaLocator(FastRTPS.getLocator(multicastLocatorList, i), out);
+               multicastLocatorListOut.add(out);
+            }
+
+            ReaderQosHolder<ReaderQos> readerQosOut = new ReaderQosHolder<>(readerQoS);
+
+            listener.subscriberTopicChange(isAlive, guid, expectsInlineQos, unicastLocatorListOut, multicastLocatorListOut, participantGuid, typeName,
+                                           topicName, userDefinedId, FastRTPSCommonFunctions.toJavaTopicKind(topicKind), readerQosOut);
+         }
+         catch (Throwable e)
          {
-            Locator out = new Locator();
-            FastRTPSCommonFunctions.convertToJavaLocator(FastRTPS.getLocator(multicastLocatorList, i), out);
-            multicastLocatorListOut.add(out);
+            e.printStackTrace();
          }
-
-         ReaderQosHolder<ReaderQos> readerQosOut = new ReaderQosHolder<>(readerQoS);
-
-         listener.subscriberTopicChange(isAlive, guid, expectsInlineQos, unicastLocatorListOut, multicastLocatorListOut, participantGuid, typeName, topicName,
-                                        userDefinedId, FastRTPSCommonFunctions.toJavaTopicKind(topicKind), readerQosOut);
       }
    }
 
@@ -388,7 +408,7 @@ class FastRTPSParticipant implements Participant
             : new NativeParticipantPublisherEDPListenerImpl(publisherEndpointDiscoveryListener);
       NativeParticipantSubscriberEDPListenerImpl nativeParticipantSubscriberEDPListenerImpl = subscriberEndpointDiscoveryListener == null ? null
             : new NativeParticipantSubscriberEDPListenerImpl(subscriberEndpointDiscoveryListener);
-      
+
       impl.registerEDPReaderListeners(nativeParticipantPublisherEDPListenerImpl, nativeParticipantSubscriberEDPListenerImpl);
    }
 
