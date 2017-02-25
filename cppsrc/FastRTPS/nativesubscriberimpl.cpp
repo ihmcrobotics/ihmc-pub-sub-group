@@ -140,7 +140,7 @@ void NativeSubscriberImpl::updateMarshaller(SampleInfoMarshaller* marshaller, Ca
     marshaller->relatedSampleIdentity_sequenceNumberLow = relatedSequenceNumber.low;
 }
 
-int64_t NativeSubscriberImpl::readnextData(unsigned char* data, SampleInfoMarshaller* marshaller, TopicKind_t topicKind, OwnershipQosPolicyKind ownerShipQosKind)
+int64_t NativeSubscriberImpl::readnextData(int32_t maxDataLength, unsigned char* data, SampleInfoMarshaller* marshaller, TopicKind_t topicKind, OwnershipQosPolicyKind ownerShipQosKind)
 {
     CacheChange_t* change;
     WriterProxy * wp;
@@ -154,9 +154,14 @@ int64_t NativeSubscriberImpl::readnextData(unsigned char* data, SampleInfoMarsha
 
         if(change->kind == ALIVE)
         {
+            size_t length = change->serializedPayload.length;
+            if(length > maxDataLength)
+            {
+                length = maxDataLength;
+            }
             marshaller->encapsulation = change->serializedPayload.encapsulation;
             marshaller->dataLength = change->serializedPayload.length;
-            memcpy(data, change->serializedPayload.data, change->serializedPayload.length);
+            memcpy(data, change->serializedPayload.data, length);
         }
 
         updateMarshaller(marshaller, change, wp, topicKind, ownerShipQosKind);
@@ -167,7 +172,7 @@ int64_t NativeSubscriberImpl::readnextData(unsigned char* data, SampleInfoMarsha
     return 0;
 }
 
-int64_t NativeSubscriberImpl::takeNextData(unsigned char* data, SampleInfoMarshaller* marshaller, TopicKind_t topicKind, OwnershipQosPolicyKind ownerShipQosKind)
+int64_t NativeSubscriberImpl::takeNextData(int32_t maxDataLength, unsigned char* data, SampleInfoMarshaller* marshaller, TopicKind_t topicKind, OwnershipQosPolicyKind ownerShipQosKind)
 {
     CacheChange_t* change;
     WriterProxy * wp;
@@ -187,7 +192,13 @@ int64_t NativeSubscriberImpl::takeNextData(unsigned char* data, SampleInfoMarsha
         {
             marshaller->encapsulation = change->serializedPayload.encapsulation;
             marshaller->dataLength = change->serializedPayload.length;
-            memcpy(data, change->serializedPayload.data, change->serializedPayload.length);
+
+            size_t length = change->serializedPayload.length;
+            if(length > maxDataLength)
+            {
+                length = maxDataLength;
+            }
+            memcpy(data, change->serializedPayload.data, length);
         }
 
         updateMarshaller(marshaller, change, wp, topicKind, ownerShipQosKind);
@@ -211,9 +222,15 @@ void NativeSubscriberImpl::updateKey(int64_t cacheChangePtr, unsigned char *key)
     memcpy(change->instanceHandle.value, key, 16);
 }
 
-void NativeSubscriberImpl::getData(int64_t cacheChangePtr, unsigned char *data)
+void NativeSubscriberImpl::getData(int64_t cacheChangePtr, int32_t maxDataLength, unsigned char *data)
 {
     CacheChange_t* change = (CacheChange_t*) cacheChangePtr;
+
+    size_t length = change->serializedPayload.length;
+    if(length > maxDataLength)
+    {
+        length = maxDataLength;
+    }
     memcpy(data, change->serializedPayload.data, change->serializedPayload.length);
 }
 
