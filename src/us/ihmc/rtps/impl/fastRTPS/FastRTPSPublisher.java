@@ -23,30 +23,36 @@ public class FastRTPSPublisher implements Publisher
    private TopicAttributes fastRTPSAttributes;
    private ThroughputControllerDescriptor throughputController;
    private final Guid guid = new Guid();
-   
+
    private final ByteBuffer keyBuffer = ByteBuffer.allocateDirect(16);
 
-   
-   
    private class NativePublisherListenerImpl extends NativePublisherListener
    {
       private final MatchingInfo matchingInfo = new MatchingInfo();
-      
+
       @Override
-      public void onWriterMatched(MatchingStatus status, long guidHigh, long guidLow) 
+      public void onWriterMatched(MatchingStatus status, long guidHigh, long guidLow)
       {
-         if(listener != null)
+         try
          {
-            matchingInfo.getGuid().fromPrimitives(guidHigh, guidLow);
-            matchingInfo.setStatus(MatchingInfo.MatchingStatus.values[status.swigValue()]);
-            listener.onPublicationMatched(FastRTPSPublisher.this, matchingInfo);
+            if (listener != null)
+            {
+               matchingInfo.getGuid().fromPrimitives(guidHigh, guidLow);
+               matchingInfo.setStatus(MatchingInfo.MatchingStatus.values[status.swigValue()]);
+               listener.onPublicationMatched(FastRTPSPublisher.this, matchingInfo);
+            }
+         }
+         catch (Throwable e)
+         {
+            e.printStackTrace();
          }
       }
 
    }
-   
+
    @SuppressWarnings("unchecked")
-   public FastRTPSPublisher(TopicDataType<?> topicDataType, FastRTPSPublisherAttributes attributes, PublisherListener listener, NativeParticipantImpl participant)
+   public FastRTPSPublisher(TopicDataType<?> topicDataType, FastRTPSPublisherAttributes attributes, PublisherListener listener,
+                            NativeParticipantImpl participant)
          throws IOException, IllegalArgumentException
    {
       if (!attributes.getUnicastLocatorList().isValid())
@@ -66,11 +72,10 @@ public class FastRTPSPublisher implements Publisher
       this.topicDataType = (TopicDataType<Object>) topicDataType;
       this.listener = listener;
       this.payload = new SerializedPayload(topicDataType.getTypeSize());
-      
+
       fastRTPSAttributes = attributes.createFastRTPSTopicAttributes();
       throughputController = attributes.createTroughputControllerDescriptor();
 
-      
       WriterQos qos = attributes.getQos();
       if (!qos.checkQos() || !fastRTPSAttributes.checkQos())
       {
@@ -81,7 +86,6 @@ public class FastRTPSPublisher implements Publisher
                                      MemoryManagementPolicy_t.swigToEnum(attributes.getHistoryMemoryPolicy().ordinal()), fastRTPSAttributes, qos,
                                      attributes.getTimes(), attributes.getUnicastLocatorList(), attributes.getMulticastLocatorList(),
                                      attributes.getOutLocatorList(), throughputController, participant, new NativePublisherListenerImpl());
-      
 
       guid.fromPrimitives(impl.getGuidHigh(), impl.getGuidLow());
 
@@ -96,12 +100,12 @@ public class FastRTPSPublisher implements Publisher
 
    private void createNewChange(Object data, ChangeKind_t change) throws IOException
    {
-      if(attributes.getTopic().getTopicKind() == TopicKind.WITH_KEY)
+      if (attributes.getTopic().getTopicKind() == TopicKind.WITH_KEY)
       {
          keyBuffer.clear();
          topicDataType.getKey(data, keyBuffer);
       }
-      
+
       payload.getData().clear();
       topicDataType.serialize(data, payload);
       impl.create_new_change(change, payload.getData(), payload.getLength(), payload.getEncapsulation(), keyBuffer);
@@ -154,7 +158,7 @@ public class FastRTPSPublisher implements Publisher
    public int removeAllChange() throws IOException
    {
       int removed = impl.removeAllChange();
-      if(removed >= 0)
+      if (removed >= 0)
       {
          return removed;
       }
