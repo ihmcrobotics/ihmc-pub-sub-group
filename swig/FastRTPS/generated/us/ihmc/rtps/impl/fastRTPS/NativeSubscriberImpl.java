@@ -55,24 +55,24 @@ public class NativeSubscriberImpl {
     FastRTPSJNI.NativeSubscriberImpl_unlock(swigCPtr, this);
   }
 
-  public long readnextData(java.nio.ByteBuffer data, SampleInfoMarshaller marshaller, TopicKind_t topicKind, OwnershipQosPolicyKind ownerShipQosKind) {
+  public long readnextData(int maxDataLength, java.nio.ByteBuffer data, SampleInfoMarshaller marshaller, TopicKind_t topicKind, OwnershipQosPolicyKind ownerShipQosKind) {
   assert data.isDirect() : "Buffer must be allocated direct.";
     {
-      return FastRTPSJNI.NativeSubscriberImpl_readnextData(swigCPtr, this, data, SampleInfoMarshaller.getCPtr(marshaller), marshaller, topicKind.swigValue(), ownerShipQosKind.swigValue());
+      return FastRTPSJNI.NativeSubscriberImpl_readnextData(swigCPtr, this, maxDataLength, data, SampleInfoMarshaller.getCPtr(marshaller), marshaller, topicKind.swigValue(), ownerShipQosKind.swigValue());
     }
   }
 
-  public long takeNextData(java.nio.ByteBuffer data, SampleInfoMarshaller marshaller, TopicKind_t topicKind, OwnershipQosPolicyKind ownerShipQosKind) {
+  public long takeNextData(int maxDataLength, java.nio.ByteBuffer data, SampleInfoMarshaller marshaller, TopicKind_t topicKind, OwnershipQosPolicyKind ownerShipQosKind) {
   assert data.isDirect() : "Buffer must be allocated direct.";
     {
-      return FastRTPSJNI.NativeSubscriberImpl_takeNextData(swigCPtr, this, data, SampleInfoMarshaller.getCPtr(marshaller), marshaller, topicKind.swigValue(), ownerShipQosKind.swigValue());
+      return FastRTPSJNI.NativeSubscriberImpl_takeNextData(swigCPtr, this, maxDataLength, data, SampleInfoMarshaller.getCPtr(marshaller), marshaller, topicKind.swigValue(), ownerShipQosKind.swigValue());
     }
   }
 
-  public void getData(long cacheChangePtr, java.nio.ByteBuffer data) {
+  public void getData(long cacheChangePtr, int maxDataLength, java.nio.ByteBuffer data) {
   assert data.isDirect() : "Buffer must be allocated direct.";
     {
-      FastRTPSJNI.NativeSubscriberImpl_getData(swigCPtr, this, cacheChangePtr, data);
+      FastRTPSJNI.NativeSubscriberImpl_getData(swigCPtr, this, cacheChangePtr, maxDataLength, data);
     }
   }
 

@@ -9850,83 +9850,89 @@ SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_NativeSubscr
 }
 
 
-SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_NativeSubscriberImpl_1readnextData(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jobject jarg2, jlong jarg3, jobject jarg3_, jint jarg4, jint jarg5) {
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_NativeSubscriberImpl_1readnextData(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2, jobject jarg3, jlong jarg4, jobject jarg4_, jint jarg5, jint jarg6) {
   jlong jresult = 0 ;
   us::ihmc::rtps::impl::fastRTPS::NativeSubscriberImpl *arg1 = (us::ihmc::rtps::impl::fastRTPS::NativeSubscriberImpl *) 0 ;
-  unsigned char *arg2 = (unsigned char *) 0 ;
-  us::ihmc::rtps::impl::fastRTPS::SampleInfoMarshaller *arg3 = (us::ihmc::rtps::impl::fastRTPS::SampleInfoMarshaller *) 0 ;
-  eprosima::fastrtps::rtps::TopicKind_t arg4 ;
-  eprosima::fastrtps::OwnershipQosPolicyKind arg5 ;
-  int64_t result;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  (void)jarg3_;
-  arg1 = *(us::ihmc::rtps::impl::fastRTPS::NativeSubscriberImpl **)&jarg1; 
-  {
-    arg2 = (unsigned char *) jenv->GetDirectBufferAddress(jarg2); 
-    if (arg2 == NULL) {
-      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, "Unable to get address of a java.nio.ByteBuffer direct byte buffer. Buffer must be a direct buffer and not a non-direct buffer.");  
-    }  
-  }
-  arg3 = *(us::ihmc::rtps::impl::fastRTPS::SampleInfoMarshaller **)&jarg3; 
-  arg4 = (eprosima::fastrtps::rtps::TopicKind_t)jarg4; 
-  arg5 = (eprosima::fastrtps::OwnershipQosPolicyKind)jarg5; 
-  result = (int64_t)(arg1)->readnextData(arg2,arg3,arg4,arg5);
-  jresult = (jlong)result; 
-  
-  return jresult;
-}
-
-
-SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_NativeSubscriberImpl_1takeNextData(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jobject jarg2, jlong jarg3, jobject jarg3_, jint jarg4, jint jarg5) {
-  jlong jresult = 0 ;
-  us::ihmc::rtps::impl::fastRTPS::NativeSubscriberImpl *arg1 = (us::ihmc::rtps::impl::fastRTPS::NativeSubscriberImpl *) 0 ;
-  unsigned char *arg2 = (unsigned char *) 0 ;
-  us::ihmc::rtps::impl::fastRTPS::SampleInfoMarshaller *arg3 = (us::ihmc::rtps::impl::fastRTPS::SampleInfoMarshaller *) 0 ;
-  eprosima::fastrtps::rtps::TopicKind_t arg4 ;
-  eprosima::fastrtps::OwnershipQosPolicyKind arg5 ;
-  int64_t result;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  (void)jarg3_;
-  arg1 = *(us::ihmc::rtps::impl::fastRTPS::NativeSubscriberImpl **)&jarg1; 
-  {
-    arg2 = (unsigned char *) jenv->GetDirectBufferAddress(jarg2); 
-    if (arg2 == NULL) {
-      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, "Unable to get address of a java.nio.ByteBuffer direct byte buffer. Buffer must be a direct buffer and not a non-direct buffer.");  
-    }  
-  }
-  arg3 = *(us::ihmc::rtps::impl::fastRTPS::SampleInfoMarshaller **)&jarg3; 
-  arg4 = (eprosima::fastrtps::rtps::TopicKind_t)jarg4; 
-  arg5 = (eprosima::fastrtps::OwnershipQosPolicyKind)jarg5; 
-  result = (int64_t)(arg1)->takeNextData(arg2,arg3,arg4,arg5);
-  jresult = (jlong)result; 
-  
-  return jresult;
-}
-
-
-SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_NativeSubscriberImpl_1getData(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg3) {
-  us::ihmc::rtps::impl::fastRTPS::NativeSubscriberImpl *arg1 = (us::ihmc::rtps::impl::fastRTPS::NativeSubscriberImpl *) 0 ;
-  int64_t arg2 ;
+  int32_t arg2 ;
   unsigned char *arg3 = (unsigned char *) 0 ;
+  us::ihmc::rtps::impl::fastRTPS::SampleInfoMarshaller *arg4 = (us::ihmc::rtps::impl::fastRTPS::SampleInfoMarshaller *) 0 ;
+  eprosima::fastrtps::rtps::TopicKind_t arg5 ;
+  eprosima::fastrtps::OwnershipQosPolicyKind arg6 ;
+  int64_t result;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
+  (void)jarg4_;
   arg1 = *(us::ihmc::rtps::impl::fastRTPS::NativeSubscriberImpl **)&jarg1; 
-  arg2 = (int64_t)jarg2; 
+  arg2 = (int32_t)jarg2; 
   {
     arg3 = (unsigned char *) jenv->GetDirectBufferAddress(jarg3); 
     if (arg3 == NULL) {
       SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, "Unable to get address of a java.nio.ByteBuffer direct byte buffer. Buffer must be a direct buffer and not a non-direct buffer.");  
     }  
   }
-  (arg1)->getData(arg2,arg3);
+  arg4 = *(us::ihmc::rtps::impl::fastRTPS::SampleInfoMarshaller **)&jarg4; 
+  arg5 = (eprosima::fastrtps::rtps::TopicKind_t)jarg5; 
+  arg6 = (eprosima::fastrtps::OwnershipQosPolicyKind)jarg6; 
+  result = (int64_t)(arg1)->readnextData(arg2,arg3,arg4,arg5,arg6);
+  jresult = (jlong)result; 
+  
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_NativeSubscriberImpl_1takeNextData(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2, jobject jarg3, jlong jarg4, jobject jarg4_, jint jarg5, jint jarg6) {
+  jlong jresult = 0 ;
+  us::ihmc::rtps::impl::fastRTPS::NativeSubscriberImpl *arg1 = (us::ihmc::rtps::impl::fastRTPS::NativeSubscriberImpl *) 0 ;
+  int32_t arg2 ;
+  unsigned char *arg3 = (unsigned char *) 0 ;
+  us::ihmc::rtps::impl::fastRTPS::SampleInfoMarshaller *arg4 = (us::ihmc::rtps::impl::fastRTPS::SampleInfoMarshaller *) 0 ;
+  eprosima::fastrtps::rtps::TopicKind_t arg5 ;
+  eprosima::fastrtps::OwnershipQosPolicyKind arg6 ;
+  int64_t result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg4_;
+  arg1 = *(us::ihmc::rtps::impl::fastRTPS::NativeSubscriberImpl **)&jarg1; 
+  arg2 = (int32_t)jarg2; 
+  {
+    arg3 = (unsigned char *) jenv->GetDirectBufferAddress(jarg3); 
+    if (arg3 == NULL) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, "Unable to get address of a java.nio.ByteBuffer direct byte buffer. Buffer must be a direct buffer and not a non-direct buffer.");  
+    }  
+  }
+  arg4 = *(us::ihmc::rtps::impl::fastRTPS::SampleInfoMarshaller **)&jarg4; 
+  arg5 = (eprosima::fastrtps::rtps::TopicKind_t)jarg5; 
+  arg6 = (eprosima::fastrtps::OwnershipQosPolicyKind)jarg6; 
+  result = (int64_t)(arg1)->takeNextData(arg2,arg3,arg4,arg5,arg6);
+  jresult = (jlong)result; 
+  
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_NativeSubscriberImpl_1getData(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jint jarg3, jobject jarg4) {
+  us::ihmc::rtps::impl::fastRTPS::NativeSubscriberImpl *arg1 = (us::ihmc::rtps::impl::fastRTPS::NativeSubscriberImpl *) 0 ;
+  int64_t arg2 ;
+  int32_t arg3 ;
+  unsigned char *arg4 = (unsigned char *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(us::ihmc::rtps::impl::fastRTPS::NativeSubscriberImpl **)&jarg1; 
+  arg2 = (int64_t)jarg2; 
+  arg3 = (int32_t)jarg3; 
+  {
+    arg4 = (unsigned char *) jenv->GetDirectBufferAddress(jarg4); 
+    if (arg4 == NULL) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, "Unable to get address of a java.nio.ByteBuffer direct byte buffer. Buffer must be a direct buffer and not a non-direct buffer.");  
+    }  
+  }
+  (arg1)->getData(arg2,arg3,arg4);
   
 }
 

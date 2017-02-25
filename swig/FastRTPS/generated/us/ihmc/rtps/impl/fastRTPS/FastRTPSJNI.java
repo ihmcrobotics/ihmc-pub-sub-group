@@ -591,9 +591,9 @@ public class FastRTPSJNI {
   public final static native long NativeSubscriberImpl_getGuidHigh(long jarg1, NativeSubscriberImpl jarg1_);
   public final static native void NativeSubscriberImpl_lock(long jarg1, NativeSubscriberImpl jarg1_);
   public final static native void NativeSubscriberImpl_unlock(long jarg1, NativeSubscriberImpl jarg1_);
-  public final static native long NativeSubscriberImpl_readnextData(long jarg1, NativeSubscriberImpl jarg1_, java.nio.ByteBuffer jarg2, long jarg3, SampleInfoMarshaller jarg3_, int jarg4, int jarg5);
-  public final static native long NativeSubscriberImpl_takeNextData(long jarg1, NativeSubscriberImpl jarg1_, java.nio.ByteBuffer jarg2, long jarg3, SampleInfoMarshaller jarg3_, int jarg4, int jarg5);
-  public final static native void NativeSubscriberImpl_getData(long jarg1, NativeSubscriberImpl jarg1_, long jarg2, java.nio.ByteBuffer jarg3);
+  public final static native long NativeSubscriberImpl_readnextData(long jarg1, NativeSubscriberImpl jarg1_, int jarg2, java.nio.ByteBuffer jarg3, long jarg4, SampleInfoMarshaller jarg4_, int jarg5, int jarg6);
+  public final static native long NativeSubscriberImpl_takeNextData(long jarg1, NativeSubscriberImpl jarg1_, int jarg2, java.nio.ByteBuffer jarg3, long jarg4, SampleInfoMarshaller jarg4_, int jarg5, int jarg6);
+  public final static native void NativeSubscriberImpl_getData(long jarg1, NativeSubscriberImpl jarg1_, long jarg2, int jarg3, java.nio.ByteBuffer jarg4);
   public final static native void NativeSubscriberImpl_updateKey(long jarg1, NativeSubscriberImpl jarg1_, long jarg2, java.nio.ByteBuffer jarg3);
   public final static native boolean NativeSubscriberImpl_received_change(long jarg1, NativeSubscriberImpl jarg1_, long jarg2, long jarg3);
   public final static native boolean NativeSubscriberImpl_remove_change_sub_swig(long jarg1, NativeSubscriberImpl jarg1_, long jarg2);
