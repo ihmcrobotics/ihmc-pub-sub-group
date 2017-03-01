@@ -20,8 +20,8 @@ public class FastRTPSReaderQosHolder implements ReaderQosHolder<ReaderQos>
 
    public FastRTPSReaderQosHolder(ReaderQos readerQos)
    {
-      this.readerQos = readerQos;
-      ownMemory = false;
+      this();
+      this.readerQos.setQos(readerQos, true);
    }
 
    public void delete()
