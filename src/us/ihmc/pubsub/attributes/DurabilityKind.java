@@ -1,0 +1,6 @@
+package us.ihmc.pubsub.attributes;
+
+public enum DurabilityKind
+{
+   VOLATILE_DURABILITY_QOS, TRANSIENT_LOCAL_DURABILITY_QOS, TRANSIENT_DURABILITY_QOS, PERSISTENT_DURABILITY_QOS
+}
