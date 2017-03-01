@@ -2,24 +2,19 @@ package us.ihmc.pubsub.attributes;
 
 /**
  * Holder for the QoS Parameters. 
- * 
- * Defaults to BEST_EFFORT relability
- * 
+ *  
  * @author Jesper Smith
  *
  * @param <T>
  */
-public abstract class WriterQosHolder <T> implements QosInterface
+public interface WriterQosHolder <T> extends QosInterface
 {
-   private final T writerQos;
    
-   public WriterQosHolder(T writerQos)
-   {
-      this.writerQos = writerQos;
-   }
+   public T getWriterQos();
    
-   public T getWriterQos()
+   @Override
+   default boolean isWriter()
    {
-      return writerQos;
+      return true;
    }
 }
