@@ -3,8 +3,10 @@ package us.ihmc.rtps.impl.fastRTPS;
 import java.util.ArrayList;
 import java.util.List;
 
+import us.ihmc.pubsub.attributes.DurabilityKind;
 import us.ihmc.pubsub.attributes.Locator;
 import us.ihmc.pubsub.attributes.Locator.Kind;
+import us.ihmc.pubsub.attributes.OwnerShipPolicyKind;
 import us.ihmc.pubsub.attributes.ReliabilityKind;
 import us.ihmc.pubsub.attributes.TopicAttributes.TopicKind;
 
@@ -157,6 +159,72 @@ public class FastRTPSCommonFunctions
       else
       {
          return ReliabilityKind.RELIABLE;
+      }
+   }
+   
+   public static DurabilityKind toJavaDurabilityKind(DurabilityQosPolicyKind_t kind)
+   {
+      if(kind == DurabilityQosPolicyKind_t.PERSISTENT_DURABILITY_QOS)
+      {
+         return DurabilityKind.PERSISTENT_DURABILITY_QOS;
+      }
+      else if (kind == DurabilityQosPolicyKind_t.TRANSIENT_DURABILITY_QOS)
+      {
+         return DurabilityKind.TRANSIENT_DURABILITY_QOS;
+      }
+      else if (kind == DurabilityQosPolicyKind_t.TRANSIENT_LOCAL_DURABILITY_QOS)
+      {
+         return DurabilityKind.TRANSIENT_LOCAL_DURABILITY_QOS;
+      }
+      else if (kind == DurabilityQosPolicyKind_t.VOLATILE_DURABILITY_QOS)
+      {
+         return DurabilityKind.VOLATILE_DURABILITY_QOS;
+      }
+      return null;
+   }
+   
+   public static DurabilityQosPolicyKind_t toCppDurabilityKind(DurabilityKind kind)
+   {
+      if(kind == DurabilityKind.PERSISTENT_DURABILITY_QOS)
+      {
+         return DurabilityQosPolicyKind_t.PERSISTENT_DURABILITY_QOS;
+      }
+      else if (kind == DurabilityKind.TRANSIENT_DURABILITY_QOS)
+      {
+         return DurabilityQosPolicyKind_t.TRANSIENT_DURABILITY_QOS;
+      }
+      else if (kind == DurabilityKind.TRANSIENT_LOCAL_DURABILITY_QOS)
+      {
+         return DurabilityQosPolicyKind_t.TRANSIENT_LOCAL_DURABILITY_QOS;
+      }
+      else if (kind == DurabilityKind.VOLATILE_DURABILITY_QOS)
+      {
+         return DurabilityQosPolicyKind_t.VOLATILE_DURABILITY_QOS;
+      }
+      return null;
+   }
+   
+   public static OwnerShipPolicyKind toJavaOwnershipQosPolicyKind(OwnershipQosPolicyKind kind)
+   {
+      if(kind == OwnershipQosPolicyKind.EXCLUSIVE_OWNERSHIP_QOS)
+      {
+         return OwnerShipPolicyKind.EXCLUSIVE_OWNERSHIP_QOS;
+      }
+      else
+      {
+         return OwnerShipPolicyKind.SHARED_OWNERSHIP_QOS;
+      }
+   }
+   
+   public static OwnershipQosPolicyKind toCppOwnershipQosPolicyKind(OwnerShipPolicyKind kind)
+   {
+      if(kind == OwnerShipPolicyKind.EXCLUSIVE_OWNERSHIP_QOS)
+      {
+         return OwnershipQosPolicyKind.EXCLUSIVE_OWNERSHIP_QOS;
+      }
+      else
+      {
+         return OwnershipQosPolicyKind.SHARED_OWNERSHIP_QOS;
       }
    }
 }
