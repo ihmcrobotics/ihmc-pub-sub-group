@@ -16,7 +16,6 @@ public abstract class WriterQosHolder <T> implements QosInterface
    public WriterQosHolder(T writerQos)
    {
       this.writerQos = writerQos;
-      setReliabilityKind(ReliabilityKind.BEST_EFFORT);
    }
    
    public T getWriterQos()
