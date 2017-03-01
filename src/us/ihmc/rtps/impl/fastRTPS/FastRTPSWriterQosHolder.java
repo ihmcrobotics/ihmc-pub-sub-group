@@ -23,8 +23,8 @@ public class FastRTPSWriterQosHolder implements WriterQosHolder<WriterQos>
 
    FastRTPSWriterQosHolder(WriterQos writerQos)
    {
-      this.writerQos = writerQos;
-      ownMemory = false;
+      this();
+      this.writerQos.setQos(writerQos, true);
 
    }
 
