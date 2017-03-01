@@ -55,15 +55,25 @@ public class FastRTPSPublisher implements Publisher
                             NativeParticipantImpl participant)
          throws IOException, IllegalArgumentException
    {
-      if (!attributes.getUnicastLocatorList().isValid())
+      LocatorList_t unicastLocatorList = new LocatorList_t();
+      FastRTPSCommonFunctions.convertToCPPLocatorList(attributes.getUnicastLocatorList(), unicastLocatorList);
+      LocatorList_t multicastLocatorList = new LocatorList_t();
+      FastRTPSCommonFunctions.convertToCPPLocatorList(attributes.getMulticastLocatorList(), multicastLocatorList);
+      LocatorList_t outLocatorList = new LocatorList_t();
+      FastRTPSCommonFunctions.convertToCPPLocatorList(attributes.getOutLocatorList(), outLocatorList);
+      
+      
+      
+      
+      if (!unicastLocatorList.isValid())
       {
          throw new IllegalArgumentException("Unicast Locator List for Publisher contains invalid Locator");
       }
-      if (!attributes.getMulticastLocatorList().isValid())
+      if (!multicastLocatorList.isValid())
       {
          throw new IllegalArgumentException(" Multicast Locator List for Publisher contains invalid Locator");
       }
-      if (!attributes.getOutLocatorList().isValid())
+      if (!outLocatorList.isValid())
       {
          throw new IllegalArgumentException("Output Locator List for Publisher contains invalid Locator");
       }
@@ -76,7 +86,7 @@ public class FastRTPSPublisher implements Publisher
       fastRTPSAttributes = attributes.createFastRTPSTopicAttributes();
       throughputController = attributes.createTroughputControllerDescriptor();
 
-      WriterQos qos = attributes.getQos();
+      WriterQos qos = attributes.getQos().getWriterQos();
       if (!qos.checkQos() || !fastRTPSAttributes.checkQos())
       {
          throw new IllegalArgumentException("Invalid QoS settings");
@@ -84,10 +94,14 @@ public class FastRTPSPublisher implements Publisher
 
       impl = new NativePublisherImpl(attributes.getEntityID(), attributes.getUserDefinedID(), topicDataType.getTypeSize(),
                                      MemoryManagementPolicy_t.swigToEnum(attributes.getHistoryMemoryPolicy().ordinal()), fastRTPSAttributes, qos,
-                                     attributes.getTimes(), attributes.getUnicastLocatorList(), attributes.getMulticastLocatorList(),
-                                     attributes.getOutLocatorList(), throughputController, participant, new NativePublisherListenerImpl());
+                                     attributes.getTimes(), unicastLocatorList, multicastLocatorList,
+                                     outLocatorList, throughputController, participant, new NativePublisherListenerImpl());
 
       guid.fromPrimitives(impl.getGuidHigh(), impl.getGuidLow());
+      
+      unicastLocatorList.delete();
+      multicastLocatorList.delete();
+      outLocatorList.delete();
 
    }
 
@@ -118,7 +132,7 @@ public class FastRTPSPublisher implements Publisher
    }
 
    @Override
-   public PublisherAttributes<?, ?, ?> getAttributes()
+   public PublisherAttributes<?, ?> getAttributes()
    {
       return attributes;
    }

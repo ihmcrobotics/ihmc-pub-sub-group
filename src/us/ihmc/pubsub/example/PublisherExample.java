@@ -66,7 +66,7 @@ public class PublisherExample
       ChatMessagePubSubType dataType = new ChatMessagePubSubType();
       domain.registerType(participant, dataType);
       
-      PublisherAttributes<?,?,?> publisherAttributes = domain.createPublisherAttributes();
+      PublisherAttributes<?,?> publisherAttributes = domain.createPublisherAttributes();
       publisherAttributes.getTopic().setTopicKind(TopicKind.NO_KEY);
       publisherAttributes.getTopic().setTopicDataType(dataType.getName());
       publisherAttributes.getTopic().setTopicName("ChatBox");

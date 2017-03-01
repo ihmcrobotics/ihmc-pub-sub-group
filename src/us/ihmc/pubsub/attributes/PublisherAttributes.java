@@ -1,5 +1,8 @@
 package us.ihmc.pubsub.attributes;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Class PublisherAttributes, used by the user to define the attributes of a Publisher.
  * 
@@ -7,7 +10,7 @@ package us.ihmc.pubsub.attributes;
  *
  * @param <T>
  */
-public class PublisherAttributes<WriterQos_t, WriterTimes_t, LocatorList_t>
+public class PublisherAttributes<WriterQos_t, WriterTimes_t>
 {
 
    private int userDefinedID = -1;
@@ -15,21 +18,17 @@ public class PublisherAttributes<WriterQos_t, WriterTimes_t, LocatorList_t>
    protected final MemoryManagementPolicy historyMemoryPolicy = MemoryManagementPolicy.PREALLOCATED_MEMORY_MODE;
 
    protected final TopicAttributes topic = new TopicAttributes();
-   protected final WriterQos_t qos;
+   protected final WriterQosHolder<WriterQos_t> qos;
    protected final WriterTimes_t times;
-   protected final LocatorList_t unicastLocatorList;
-   protected final LocatorList_t multicastLocatorList;
-   protected final LocatorList_t outLocatorList;
+   protected final ArrayList<Locator> unicastLocatorList = new ArrayList<>();
+   protected final ArrayList<Locator> multicastLocatorList = new ArrayList<>();
+   protected final ArrayList<Locator> outLocatorList = new ArrayList<>();
    protected final ThroughputControllerDescriptor throughputController = new ThroughputControllerDescriptor();
 
-   protected PublisherAttributes(WriterQos_t qos, WriterTimes_t times, LocatorList_t unicastLocatorList, LocatorList_t multicastLocatorList,
-                              LocatorList_t outLocatorList)
+   protected PublisherAttributes(WriterQosHolder<WriterQos_t> qos, WriterTimes_t times)
    {
       this.qos = qos;
       this.times = times;
-      this.unicastLocatorList = unicastLocatorList;
-      this.multicastLocatorList = multicastLocatorList;
-      this.outLocatorList = outLocatorList;
    }
 
    public int getUserDefinedID()
@@ -62,7 +61,7 @@ public class PublisherAttributes<WriterQos_t, WriterTimes_t, LocatorList_t>
       return topic;
    }
 
-   public WriterQos_t getQos()
+   public WriterQosHolder<WriterQos_t> getQos()
    {
       return qos;
    }
@@ -72,17 +71,17 @@ public class PublisherAttributes<WriterQos_t, WriterTimes_t, LocatorList_t>
       return times;
    }
 
-   public LocatorList_t getUnicastLocatorList()
+   public List<Locator> getUnicastLocatorList()
    {
       return unicastLocatorList;
    }
 
-   public LocatorList_t getMulticastLocatorList()
+   public List<Locator> getMulticastLocatorList()
    {
       return multicastLocatorList;
    }
 
-   public LocatorList_t getOutLocatorList()
+   public List<Locator> getOutLocatorList()
    {
       return outLocatorList;
    }
