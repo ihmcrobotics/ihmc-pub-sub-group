@@ -9,6 +9,7 @@ import us.ihmc.pubsub.DomainFactory;
 import us.ihmc.pubsub.DomainFactory.PubSubImplementation;
 import us.ihmc.pubsub.attributes.ParticipantAttributes;
 import us.ihmc.pubsub.attributes.PublisherAttributes;
+import us.ihmc.pubsub.attributes.ReliabilityKind;
 import us.ihmc.pubsub.attributes.TopicAttributes.TopicKind;
 import us.ihmc.pubsub.common.LogLevel;
 import us.ihmc.pubsub.common.MatchingInfo;
@@ -70,6 +71,7 @@ public class PublisherExample
       publisherAttributes.getTopic().setTopicKind(TopicKind.NO_KEY);
       publisherAttributes.getTopic().setTopicDataType(dataType.getName());
       publisherAttributes.getTopic().setTopicName("ChatBox");
+      publisherAttributes.getQos().setReliabilityKind(ReliabilityKind.RELIABLE);
       
       Publisher publisher = domain.createPublisher(participant, publisherAttributes, new PublisherListenerImpl());
       

@@ -34,6 +34,6 @@ public interface SubscriberEndpointDiscoveryListener
     */
    void subscriberTopicChange(boolean isAlive, Guid guid, boolean expectsInlineQos, ArrayList<Locator> unicastLocatorList,
                               ArrayList<Locator> multicastLocatorList, Guid participantGuid, String typeName, String topicName, int userDefinedId,
-                              TopicKind javaTopicKind, ReaderQosHolder<ReaderQos> readerQosHolder);
+                              TopicKind javaTopicKind, ReaderQosHolder<?> readerQosHolder);
 
 }
