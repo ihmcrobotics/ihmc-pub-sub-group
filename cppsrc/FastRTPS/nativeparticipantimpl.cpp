@@ -113,7 +113,7 @@ void NativeParticipantSubscriberEDPListener::MyRTPSReaderListener::onNewCacheCha
         tempMsg.length = change->serializedPayload.length;
         memcpy(tempMsg.buffer,change->serializedPayload.data,tempMsg.length);
         if(proxyData.readFromCDRMessage(&tempMsg)){
-
+            std::cout << " Qos" << proxyData.m_qos.m_reliability.kind << std::endl;
             GuidUnion guid;
             CommonFunctions::guidcpy(proxyData.m_guid, &guid);
             GuidUnion participantGuid;

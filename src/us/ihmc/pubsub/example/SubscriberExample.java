@@ -8,6 +8,7 @@ import us.ihmc.pubsub.Domain;
 import us.ihmc.pubsub.DomainFactory;
 import us.ihmc.pubsub.DomainFactory.PubSubImplementation;
 import us.ihmc.pubsub.attributes.ParticipantAttributes;
+import us.ihmc.pubsub.attributes.ReliabilityKind;
 import us.ihmc.pubsub.attributes.SubscriberAttributes;
 import us.ihmc.pubsub.attributes.TopicAttributes.TopicKind;
 import us.ihmc.pubsub.common.LogLevel;
@@ -87,6 +88,7 @@ public class SubscriberExample
       subscriberAttributes.getTopic().setTopicKind(TopicKind.NO_KEY);
       subscriberAttributes.getTopic().setTopicDataType(dataType.getName());
       subscriberAttributes.getTopic().setTopicName("ChatBox");
+      subscriberAttributes.getQos().setReliabilityKind(ReliabilityKind.RELIABLE);
 
       domain.createSubscriber(participant, subscriberAttributes, new SubscriberListenerImpl());
 

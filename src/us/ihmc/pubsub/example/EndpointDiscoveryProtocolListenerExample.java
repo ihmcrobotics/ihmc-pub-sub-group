@@ -18,7 +18,6 @@ import us.ihmc.pubsub.participant.ParticipantDiscoveryInfo;
 import us.ihmc.pubsub.participant.ParticipantListener;
 import us.ihmc.pubsub.participant.PublisherEndpointDiscoveryListener;
 import us.ihmc.pubsub.participant.SubscriberEndpointDiscoveryListener;
-import us.ihmc.rtps.impl.fastRTPS.ReaderQos;
 
 public class EndpointDiscoveryProtocolListenerExample
 {
@@ -60,7 +59,7 @@ public class EndpointDiscoveryProtocolListenerExample
       @Override
       public void subscriberTopicChange(boolean isAlive, Guid guid, boolean expectsInlineQos, ArrayList<Locator> unicastLocatorList,
                                         ArrayList<Locator> multicastLocatorList, Guid participantGuid, String typeName, String topicName, int userDefinedId,
-                                        TopicKind javaTopicKind, ReaderQosHolder<ReaderQos> readerQosHolder)
+                                        TopicKind javaTopicKind, ReaderQosHolder<?> readerQosHolder)
       {
          System.out.println("New subscriber topic change");
          System.out.println("Is alive: " + isAlive);
