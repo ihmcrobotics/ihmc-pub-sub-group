@@ -10,7 +10,6 @@ import us.ihmc.pubsub.attributes.PublisherAttributes;
 import us.ihmc.pubsub.attributes.ReaderQosHolder;
 import us.ihmc.pubsub.attributes.SubscriberAttributes;
 import us.ihmc.pubsub.attributes.TopicAttributes.TopicKind;
-import us.ihmc.pubsub.attributes.WriterQosHolder;
 import us.ihmc.pubsub.common.Guid;
 import us.ihmc.pubsub.participant.Participant;
 import us.ihmc.pubsub.participant.ParticipantListener;
@@ -95,7 +94,7 @@ class FastRTPSParticipant implements Participant
                multicastLocatorListOut.add(out);
             }
 
-            WriterQosHolder<WriterQos> writerQosOut = new WriterQosHolder<WriterQos>(writerQoS);
+            FastRTPSWriterQosHolder writerQosOut = new FastRTPSWriterQosHolder(writerQoS);
 
             listener.publisherTopicChange(isAlive, guid, unicastLocatorListOut, multicastLocatorListOut, participantGuid, typeName, topicName, userDefinedId,
                                           typeMaxSerialized, FastRTPSCommonFunctions.toJavaTopicKind(topicKind), writerQosOut);
@@ -147,7 +146,7 @@ class FastRTPSParticipant implements Participant
                multicastLocatorListOut.add(out);
             }
 
-            ReaderQosHolder<ReaderQos> readerQosOut = new ReaderQosHolder<>(readerQoS);
+            ReaderQosHolder<ReaderQos> readerQosOut = new FastRTPSReaderQosHolder(readerQoS);
 
             listener.subscriberTopicChange(isAlive, guid, expectsInlineQos, unicastLocatorListOut, multicastLocatorListOut, participantGuid, typeName,
                                            topicName, userDefinedId, FastRTPSCommonFunctions.toJavaTopicKind(topicKind), readerQosOut);
@@ -268,7 +267,7 @@ class FastRTPSParticipant implements Participant
       return null;
    }
 
-   synchronized FastRTPSPublisher createPublisher(PublisherAttributes<?, ?, ?> publisherAttributes, PublisherListener listener)
+   synchronized FastRTPSPublisher createPublisher(PublisherAttributes<?, ?> publisherAttributes, PublisherListener listener)
          throws IOException, IllegalArgumentException
    {
       TopicDataType<?> topicDataType = getRegisteredType(publisherAttributes.getTopic().getTopicDataType());
@@ -302,7 +301,7 @@ class FastRTPSParticipant implements Participant
       }
    }
 
-   synchronized Subscriber createSubscriber(SubscriberAttributes<?, ?, ?> subscriberAttributes, SubscriberListener listener) throws IOException
+   synchronized Subscriber createSubscriber(SubscriberAttributes<?, ?> subscriberAttributes, SubscriberListener listener) throws IOException
    {
       TopicDataType<?> topicDataType = getRegisteredType(subscriberAttributes.getTopic().getTopicDataType());
       if (topicDataType == null)

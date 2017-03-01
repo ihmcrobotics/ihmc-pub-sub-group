@@ -2,11 +2,11 @@ package us.ihmc.rtps.impl.fastRTPS;
 
 import us.ihmc.pubsub.attributes.SubscriberAttributes;
 
-public class FastRTPSSubscriberAttributes extends SubscriberAttributes<ReaderQos, ReaderTimes, LocatorList_t>
+public class FastRTPSSubscriberAttributes extends SubscriberAttributes<ReaderQos, ReaderTimes>
 {
    public FastRTPSSubscriberAttributes()
    {
-      super(new ReaderQos(), new ReaderTimes(), new LocatorList_t(), new LocatorList_t(), new LocatorList_t());
+      super(new FastRTPSReaderQosHolder(), new ReaderTimes());
    }
 
    TopicAttributes createFastRTPSTopicAttributes()
@@ -16,11 +16,8 @@ public class FastRTPSSubscriberAttributes extends SubscriberAttributes<ReaderQos
 
    public void delete()
    {
-      this.qos.delete();
+      ((FastRTPSReaderQosHolder)this.qos).delete();
       this.times.delete();
-      this.unicastLocatorList.delete();
-      this.multicastLocatorList.delete();
-      this.outLocatorList.delete();
    }
 
    @Override

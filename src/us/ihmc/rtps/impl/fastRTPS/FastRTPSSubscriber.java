@@ -114,30 +114,40 @@ public class FastRTPSSubscriber implements Subscriber
          throws IOException
    {
 
-      if (!attributes.getUnicastLocatorList().isValid())
+      LocatorList_t unicastLocatorList = new LocatorList_t();
+      FastRTPSCommonFunctions.convertToCPPLocatorList(attributes.getUnicastLocatorList(), unicastLocatorList);
+      LocatorList_t multicastLocatorList = new LocatorList_t();
+      FastRTPSCommonFunctions.convertToCPPLocatorList(attributes.getMulticastLocatorList(), multicastLocatorList);
+      LocatorList_t outLocatorList = new LocatorList_t();
+      FastRTPSCommonFunctions.convertToCPPLocatorList(attributes.getOutLocatorList(), outLocatorList);
+      
+      
+      
+      
+      if (!unicastLocatorList.isValid())
       {
-         throw new IllegalArgumentException("Unicast Locator List for Publisher contains invalid Locator");
+         throw new IllegalArgumentException("Unicast Locator List for Subscriber contains invalid Locator");
       }
-      if (!attributes.getMulticastLocatorList().isValid())
+      if (!multicastLocatorList.isValid())
       {
-         throw new IllegalArgumentException(" Multicast Locator List for Publisher contains invalid Locator");
+         throw new IllegalArgumentException(" Multicast Locator List for Subscriber contains invalid Locator");
       }
-      if (!attributes.getOutLocatorList().isValid())
+      if (!outLocatorList.isValid())
       {
-         throw new IllegalArgumentException("Output Locator List for Publisher contains invalid Locator");
+         throw new IllegalArgumentException("Output Locator List for Subscriber contains invalid Locator");
       }
 
+      ReaderQos qos = attributes.getQos().getReaderQos();
       this.attributes = attributes;
       this.topicDataType = (TopicDataType<Object>) topicDataType;
       this.topicData = topicDataType.createData();
       this.listener = listener;
       this.payload = new SerializedPayload(topicDataType.getTypeSize());
       this.topicKind = TopicKind_t.swigToEnum(attributes.getTopic().getTopicKind().ordinal());
-      this.ownershipQosPolicyKind = attributes.getQos().getM_ownership().getKind();
+      this.ownershipQosPolicyKind = qos.getM_ownership().getKind();
 
       fastRTPSAttributes = attributes.createFastRTPSTopicAttributes();
 
-      ReaderQos qos = attributes.getQos();
       if (!qos.checkQos() || !fastRTPSAttributes.checkQos())
       {
          throw new IllegalArgumentException("Invalid QoS settings");
@@ -145,11 +155,15 @@ public class FastRTPSSubscriber implements Subscriber
 
       impl = new NativeSubscriberImpl(attributes.getEntityID(), attributes.getUserDefinedID(), topicDataType.getTypeSize(),
                                       MemoryManagementPolicy_t.swigToEnum(attributes.getHistoryMemoryPolicy().ordinal()), fastRTPSAttributes, qos,
-                                      attributes.getTimes(), attributes.getUnicastLocatorList(), attributes.getMulticastLocatorList(),
-                                      attributes.getMulticastLocatorList(), attributes.isExpectsInlineQos(), participantImpl,
+                                      attributes.getTimes(), unicastLocatorList, multicastLocatorList, outLocatorList, attributes.isExpectsInlineQos(), participantImpl,
                                       new NativeSubscriberListenerImpl());
 
       guid.fromPrimitives(impl.getGuidHigh(), impl.getGuidLow());
+      
+      
+      unicastLocatorList.delete();
+      multicastLocatorList.delete();
+      outLocatorList.delete();
    }
 
    @Override
@@ -267,7 +281,7 @@ public class FastRTPSSubscriber implements Subscriber
    }
 
    @Override
-   public SubscriberAttributes<?, ?, ?> getAttributes()
+   public SubscriberAttributes<?, ?> getAttributes()
    {
       return attributes;
    }

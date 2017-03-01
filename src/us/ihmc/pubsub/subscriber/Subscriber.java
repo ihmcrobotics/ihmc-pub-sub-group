@@ -58,7 +58,7 @@ public interface Subscriber
     * 
     * @return Attributes of the subscriber
     */
-   public SubscriberAttributes<?, ?, ?> getAttributes();
+   public SubscriberAttributes<?, ?> getAttributes();
    
    /**
     * Returns there is a clean state with all Publishers. It occurs when the Subscriber received all samples sent by Publishers. In other words, its WriterProxies are up to date.

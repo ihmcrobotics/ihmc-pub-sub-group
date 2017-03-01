@@ -1,15 +1,25 @@
 package us.ihmc.pubsub.attributes;
 
-public class ReaderQosHolder <T>
+/**
+ * Holder for the QoS Parameters. 
+ * 
+ * Defaults to BEST_EFFORT relability
+ * 
+ * @author Jesper Smith
+ *
+ * @param <T>
+ */
+public abstract class ReaderQosHolder <T> implements QosInterface
 {
    private final T readerQos;
    
    public ReaderQosHolder(T readerQos)
    {
       this.readerQos = readerQos;
+      setReliabilityKind(ReliabilityKind.BEST_EFFORT);
    }
    
-   T getWriterQos()
+   public T getReaderQos()
    {
       return readerQos;
    }

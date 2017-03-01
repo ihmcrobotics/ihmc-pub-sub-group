@@ -61,7 +61,7 @@ public interface Domain
     * @throws IOException If the publisher cannot be made
     * @throws IllegalArgumentException If the attributes are invalid for this publisher
     */
-   public Publisher createPublisher(Participant participant, PublisherAttributes<?,?,?> publisherAttributes, PublisherListener listener) throws IOException, IllegalArgumentException;
+   public Publisher createPublisher(Participant participant, PublisherAttributes<?, ?> publisherAttributes, PublisherListener listener) throws IOException, IllegalArgumentException;
    
    /**
     * Create a Subscriber in a Participant.
@@ -73,7 +73,7 @@ public interface Domain
     * @throws IOException If the subscriber cannot be made
     * @throws IllegalArgumentException If the attributes are invalid for this subscriber
     */
-   public Subscriber createSubscriber(Participant participant, SubscriberAttributes<?, ?, ?> subscriberAttributes, SubscriberListener listener) throws IOException, IllegalArgumentException;
+   public Subscriber createSubscriber(Participant participant, SubscriberAttributes<?, ?> subscriberAttributes, SubscriberListener listener) throws IOException, IllegalArgumentException;
 
    /**
     * Remove a Participant and all associated publishers and subscribers.
@@ -151,7 +151,7 @@ public interface Domain
     * 
     * @return Implementation specific version of SubscriberAttributes
     */
-   public SubscriberAttributes<?, ?, ?> createSubscriberAttributes();
+   public SubscriberAttributes<?, ?> createSubscriberAttributes();
    
    /**
     * Generate an implementation specific version of PublisherAttributes
@@ -160,7 +160,7 @@ public interface Domain
     * 
     * @return Implementation specific version of PublisherAttributes
     */
-   public PublisherAttributes<?, ?, ?> createPublisherAttributes();
+   public PublisherAttributes<?, ?> createPublisherAttributes();
    
    
    /**

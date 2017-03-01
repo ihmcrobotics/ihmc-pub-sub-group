@@ -3,8 +3,6 @@ package us.ihmc.pubsub.example;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.naming.PartialResultException;
-
 import us.ihmc.pubsub.Domain;
 import us.ihmc.pubsub.DomainFactory;
 import us.ihmc.pubsub.DomainFactory.PubSubImplementation;
