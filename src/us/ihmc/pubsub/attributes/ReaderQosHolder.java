@@ -16,7 +16,6 @@ public abstract class ReaderQosHolder <T> implements QosInterface
    public ReaderQosHolder(T readerQos)
    {
       this.readerQos = readerQos;
-      setReliabilityKind(ReliabilityKind.BEST_EFFORT);
    }
    
    public T getReaderQos()
