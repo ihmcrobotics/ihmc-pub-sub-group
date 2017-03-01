@@ -83,7 +83,7 @@ public class SubscriberExample
       ChatMessagePubSubType dataType = new ChatMessagePubSubType();
       domain.registerType(participant, dataType);
 
-      SubscriberAttributes<?, ?, ?> subscriberAttributes = domain.createSubscriberAttributes();
+      SubscriberAttributes<?, ?> subscriberAttributes = domain.createSubscriberAttributes();
       subscriberAttributes.getTopic().setTopicKind(TopicKind.NO_KEY);
       subscriberAttributes.getTopic().setTopicDataType(dataType.getName());
       subscriberAttributes.getTopic().setTopicName("ChatBox");

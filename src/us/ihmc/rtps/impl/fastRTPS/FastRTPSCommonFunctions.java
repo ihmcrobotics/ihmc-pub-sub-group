@@ -1,7 +1,11 @@
 package us.ihmc.rtps.impl.fastRTPS;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import us.ihmc.pubsub.attributes.Locator;
 import us.ihmc.pubsub.attributes.Locator.Kind;
+import us.ihmc.pubsub.attributes.ReliabilityKind;
 import us.ihmc.pubsub.attributes.TopicAttributes.TopicKind;
 
 public class FastRTPSCommonFunctions
@@ -9,6 +13,30 @@ public class FastRTPSCommonFunctions
    private static final int LOCATOR_KIND_RESERVED = 0;
    private static final int LOCATOR_KIND_UDPv4 = 1;
    private static final int LOCATOR_KIND_UDPv6 = 2;
+
+   public static LocatorList_t convertToCPPLocatorList(List<Locator> in, LocatorList_t out)
+   {
+      out.clear();
+      for (int i = 0; i < in.size(); i++)
+      {
+         Locator_t cLocator = new Locator_t();
+         convertToCPPLocator(in.get(i), cLocator);
+         out.push_back(cLocator);
+         cLocator.delete();
+      }
+      return out;
+   }
+
+   public static void convertToJavaLocatorList(LocatorList_t in, ArrayList<Locator> out)
+   {
+      for (int i = 0; i < in.size(); i++)
+      {
+         Locator javaLocator = new Locator();
+         convertToJavaLocator(FastRTPS.getLocator(in, i), javaLocator);
+
+         out.add(javaLocator);
+      }
+   }
 
    public static void convertToJavaLocator(Locator_t in, Locator out)
    {
@@ -84,4 +112,51 @@ public class FastRTPSCommonFunctions
       }
    }
 
+   public static ReliabilityQosPolicyKind toCppReliabilityQosPolicyKind(ReliabilityKind reliabilityKind)
+   {
+      switch(reliabilityKind)
+      {
+      case BEST_EFFORT:
+         return ReliabilityQosPolicyKind.BEST_EFFORT_RELIABILITY_QOS;
+      case RELIABLE:
+         return ReliabilityQosPolicyKind.RELIABLE_RELIABILITY_QOS;
+      }
+      return null;
+   }
+   
+   public static ReliabilityKind toJavaReliabilityKind(ReliabilityQosPolicyKind reliabilityKind_t)
+   {
+      if(reliabilityKind_t == ReliabilityQosPolicyKind.BEST_EFFORT_RELIABILITY_QOS)
+      {
+         return ReliabilityKind.BEST_EFFORT;
+      }
+      else
+      {
+         return ReliabilityKind.RELIABLE;
+      }
+   }
+   
+   public static ReliabilityKind_t toCppReliabilityKind(ReliabilityKind reliabilityKind)
+   {
+      switch(reliabilityKind)
+      {
+      case BEST_EFFORT:
+         return ReliabilityKind_t.BEST_EFFORT;
+      case RELIABLE:
+         return ReliabilityKind_t.RELIABLE;
+      }
+      return null;
+   }
+   
+   public static ReliabilityKind toJavaReliabilityKind(ReliabilityKind_t reliabilityKind_t)
+   {
+      if(reliabilityKind_t == ReliabilityKind_t.BEST_EFFORT)
+      {
+         return ReliabilityKind.BEST_EFFORT;
+      }
+      else
+      {
+         return ReliabilityKind.RELIABLE;
+      }
+   }
 }

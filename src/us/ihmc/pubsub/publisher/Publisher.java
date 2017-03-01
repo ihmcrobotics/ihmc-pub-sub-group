@@ -75,5 +75,5 @@ public interface Publisher
     * 
     * @return the Attributes of the Publisher
     */
-   public PublisherAttributes<?, ?, ?> getAttributes();
+   public PublisherAttributes<?, ?> getAttributes();
 }
