@@ -36,6 +36,8 @@ public class FastRTPSSubscriber implements Subscriber
    private final TopicKind_t topicKind;
    private final OwnershipQosPolicyKind ownershipQosPolicyKind;
 
+   private final NativeSubscriberListenerImpl nativeListenerImpl = new NativeSubscriberListenerImpl();
+
    private class NativeSubscriberListenerImpl extends NativeSubscriberListener
    {
       @Override
@@ -156,10 +158,12 @@ public class FastRTPSSubscriber implements Subscriber
       impl = new NativeSubscriberImpl(attributes.getEntityID(), attributes.getUserDefinedID(), topicDataType.getTypeSize(),
                                       MemoryManagementPolicy_t.swigToEnum(attributes.getHistoryMemoryPolicy().ordinal()), fastRTPSAttributes, qos,
                                       attributes.getTimes(), unicastLocatorList, multicastLocatorList, outLocatorList, attributes.isExpectsInlineQos(), participantImpl,
-                                      new NativeSubscriberListenerImpl());
+                                      nativeListenerImpl);
 
       guid.fromPrimitives(impl.getGuidHigh(), impl.getGuidLow());
       
+      // Register reader after impl has been assigned, this avoids race conditions due to impl being null during a callback
+      impl.registerReader(fastRTPSAttributes, qos);
       
       unicastLocatorList.delete();
       multicastLocatorList.delete();
@@ -296,6 +300,7 @@ public class FastRTPSSubscriber implements Subscriber
    {
       fastRTPSAttributes.delete();
       impl.delete();
+      nativeListenerImpl.delete();
    }
 
    TopicDataType<Object> getTopicDataType()

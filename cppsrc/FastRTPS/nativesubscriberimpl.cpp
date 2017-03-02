@@ -76,11 +76,17 @@ NativeSubscriberImpl::NativeSubscriberImpl(int32_t entityId,
     }
 
 
-    //REGISTER THE READER
-    participant->getParticipant()->registerReader(mp_reader,*topic,*qos);
-
     CommonFunctions::guidcpy(mp_reader->getGuid(), &guidUnion);
+    logInfo(SUBSCRIBER, "Guid: " << mp_writer->getGuid());
 
+
+
+}
+
+void NativeSubscriberImpl::registerReader(TopicAttributes *topic, ReaderQos *qos) throw(FastRTPSException)
+{
+    //REGISTER THE READER
+    rtpsParticipant->registerReader(mp_reader,*topic,*qos);
 }
 
 bool NativeSubscriberImpl::isInCleanState()

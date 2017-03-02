@@ -51,9 +51,10 @@ public class SubscriberExample
             if (subscriber.takeNextData(data, info))
             {
                System.out.println(data.getSender().toString() + ": " + data.getMsg().toString());
+               Thread.sleep(10);
             }
          }
-         catch (IOException e)
+         catch (IOException | InterruptedException e)
          {
             e.printStackTrace();
          }
