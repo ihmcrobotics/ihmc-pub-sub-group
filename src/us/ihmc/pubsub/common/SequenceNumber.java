@@ -1,7 +1,7 @@
 package us.ihmc.pubsub.common;
 
 /**
- * Structure SequenceNumber_t, different for each change in the same writer
+ * Structure SequenceNumber, different for each change in the same writer
  * 
  * @author Jesper Smith
  *
@@ -11,6 +11,9 @@ public class SequenceNumber
    private int high;
    private long low;
 
+   /**
+    * @return High 32 bits for sequence number
+    */
    public int getHigh()
    {
       return high;
@@ -21,6 +24,10 @@ public class SequenceNumber
       this.high = high;
    }
 
+   /**
+    * 
+    * @return Low 32bits for sequence number
+    */
    public long getLow()
    {
       return low;
@@ -37,7 +44,13 @@ public class SequenceNumber
       this.low = low;
    }
    
-   public boolean lt(SequenceNumber other)
+   /**
+    * Check if this < other
+    * 
+    * @param other 
+    * @return true if this < other
+    */
+   public boolean lessThan(SequenceNumber other)
    {
       if(high > other.high)
       {
@@ -55,6 +68,30 @@ public class SequenceNumber
          }
       }
       return false;
+   }
+
+   /**
+    * Get this sequence number as 64 bit long
+    * 
+    * @return sequence number as long, -1 if not defined
+    */
+   public long get()
+   {
+      return getAsLong();
+   }
+   
+   /**
+    * Get this sequence number as 64 bit long
+    * 
+    * @return sequence number as long, -1 if not defined
+    */
+   private long getAsLong()
+   {
+      if(high == -1)
+      {
+         return -1;
+      }
+      return (((long) high) << 32) + low;
    }
 
    @Override

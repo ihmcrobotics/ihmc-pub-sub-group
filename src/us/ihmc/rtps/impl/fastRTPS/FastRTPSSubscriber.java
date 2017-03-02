@@ -184,6 +184,8 @@ public class FastRTPSSubscriber implements Subscriber
 
    private void updateSampleInfo(SampleInfoMarshaller marshaller, SampleInfo info, ByteBuffer keyBuffer)
    {
+      
+      info.setDataLength(marshaller.getDataLength());
       info.setOwnershipStrength(marshaller.getOwnershipStrength());
       info.setSampleKind(ChangeKind.values[marshaller.getChangeKind()]);
 
@@ -277,7 +279,7 @@ public class FastRTPSSubscriber implements Subscriber
             }
 
             impl.remove_change_sub_swig(cacheChange);
-            return true;
+            ret = true;
          }
       }
       impl.unlock();
