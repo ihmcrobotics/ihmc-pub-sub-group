@@ -8,6 +8,7 @@ package us.ihmc.pubsub.common;
  */
 public class SampleInfo
 {
+   private int dataLength;
    private ChangeKind sampleKind;
    private int ownershipStrength;
    private final Time sourceTimestamp = new Time();
@@ -61,6 +62,23 @@ public class SampleInfo
    public SampleIdentity getRelatedSampleIdentity()
    {
       return relatedSampleIdentity;
+   }
+
+   /**
+    * @return the size of this sample in bytes
+    */
+   public int getDataLength()
+   {
+      return dataLength;
+   }
+
+   /**
+    * Set the size of this sample in bytes
+    * @param dataLength
+    */
+   public void setDataLength(int dataLength)
+   {
+      this.dataLength = dataLength;
    }
 
 }
