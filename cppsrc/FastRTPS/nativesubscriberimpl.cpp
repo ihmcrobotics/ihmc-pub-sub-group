@@ -111,10 +111,10 @@ void NativeSubscriberImpl::updateMarshaller(SampleInfoMarshaller* marshaller, Ca
 {
     GuidUnion guid;
     CommonFunctions::guidcpy(change->writerGUID, &guid);
-    marshaller->relatedSampleIdentity_GuidHigh = guid.primitive.high;
-    marshaller->relatedSampleIdentity_GuidLow = guid.primitive.low;
-    marshaller->relatedSampleIdentity_sequenceNumberHigh = change->sequenceNumber.high;
-    marshaller->relatedSampleIdentity_sequenceNumberLow = change->sequenceNumber.low;
+    marshaller->sampleIdentity_GuidHigh = guid.primitive.high;
+    marshaller->sampleIdentity_GuidLow = guid.primitive.low;
+    marshaller->sampleIdentity_sequenceNumberHigh = change->sequenceNumber.high;
+    marshaller->sampleIdentity_sequenceNumberLow = change->sequenceNumber.low;
     marshaller->time_seconds = change->sourceTimestamp.seconds;
     marshaller->time_fraction = change->sourceTimestamp.fraction;
 
@@ -122,6 +122,10 @@ void NativeSubscriberImpl::updateMarshaller(SampleInfoMarshaller* marshaller, Ca
     if(ownerShipQosKind == EXCLUSIVE_OWNERSHIP_QOS)
     {
         marshaller->ownershipStrength = wp->m_att.ownershipStrength;
+    }
+    else
+    {
+        marshaller->ownershipStrength = -1;
     }
 
     memcpy(marshaller->instanceHandle_value, change->instanceHandle.value, 16);
