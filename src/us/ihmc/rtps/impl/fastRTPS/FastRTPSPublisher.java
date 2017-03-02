@@ -25,6 +25,7 @@ public class FastRTPSPublisher implements Publisher
    private final Guid guid = new Guid();
 
    private final ByteBuffer keyBuffer = ByteBuffer.allocateDirect(16);
+   private final NativePublisherListenerImpl nativeListenerImpl = new NativePublisherListenerImpl();
 
    private class NativePublisherListenerImpl extends NativePublisherListener
    {
@@ -95,9 +96,12 @@ public class FastRTPSPublisher implements Publisher
       impl = new NativePublisherImpl(attributes.getEntityID(), attributes.getUserDefinedID(), topicDataType.getTypeSize(),
                                      MemoryManagementPolicy_t.swigToEnum(attributes.getHistoryMemoryPolicy().ordinal()), fastRTPSAttributes, qos,
                                      attributes.getTimes(), unicastLocatorList, multicastLocatorList,
-                                     outLocatorList, throughputController, participant, new NativePublisherListenerImpl());
+                                     outLocatorList, throughputController, participant, nativeListenerImpl);
 
       guid.fromPrimitives(impl.getGuidHigh(), impl.getGuidLow());
+      
+      // Register writer after impl has been assigned, this avoids race conditions due to impl being null during a callback
+      impl.registerWriter(fastRTPSAttributes, qos);
       
       unicastLocatorList.delete();
       multicastLocatorList.delete();
@@ -142,6 +146,7 @@ public class FastRTPSPublisher implements Publisher
       fastRTPSAttributes.delete();
       throughputController.delete();
       impl.delete();
+      nativeListenerImpl.delete();
    }
 
    @Override

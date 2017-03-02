@@ -48,10 +48,14 @@ NativePublisherImpl::NativePublisherImpl(
 
     mp_writer = RTPSDomain::createRTPSWriter(participant->getParticipant(), watt, &publisherhistory, &writerListener);
     CommonFunctions::guidcpy(mp_writer->getGuid(), &guid);
-    this->rtpsParticipant->registerWriter(mp_writer,*topic,*qos);
 
     logInfo(PUBLISHER, "Guid: " << mp_writer->getGuid());
 
+}
+
+void NativePublisherImpl::registerWriter(TopicAttributes *topic, WriterQos *qos) throw(FastRTPSException)
+{
+    this->rtpsParticipant->registerWriter(mp_writer,*topic,*qos);
 }
 
 NativePublisherImpl::~NativePublisherImpl()

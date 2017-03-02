@@ -39,6 +39,10 @@ public class NativeSubscriberImpl {
     this(FastRTPSJNI.new_NativeSubscriberImpl(entityId, userDefinedID, maximumPayloadSize, memoryManagementPolicy.swigValue(), TopicAttributes.getCPtr(topic), topic, ReaderQos.getCPtr(qos), qos, ReaderTimes.getCPtr(times), times, LocatorList_t.getCPtr(unicastLocatorList), unicastLocatorList, LocatorList_t.getCPtr(multicastLocatorList), multicastLocatorList, LocatorList_t.getCPtr(outLocatorList), outLocatorList, expectsInlineQos, NativeParticipantImpl.getCPtr(participant), participant, NativeSubscriberListener.getCPtr(listener), listener), true);
   }
 
+  public void registerReader(TopicAttributes topic, ReaderQos qos) throws java.io.IOException {
+    FastRTPSJNI.NativeSubscriberImpl_registerReader(swigCPtr, this, TopicAttributes.getCPtr(topic), topic, ReaderQos.getCPtr(qos), qos);
+  }
+
   public long getGuidLow() {
     return FastRTPSJNI.NativeSubscriberImpl_getGuidLow(swigCPtr, this);
   }

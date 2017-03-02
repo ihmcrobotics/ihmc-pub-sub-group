@@ -44,7 +44,8 @@ namespace fastRTPS{
                 ThroughputControllerDescriptor* throughputController,
                 NativeParticipantImpl* participant,
                 NativePublisherListener* listener) throw(FastRTPSException);
-
+        void registerWriter(TopicAttributes* topic,
+                            WriterQos* qos) throw(FastRTPSException);
         virtual ~NativePublisherImpl();
 
         void create_new_change(ChangeKind_t changeKind, unsigned char* data, int32_t dataLength, int16_t encapsulation, octet* key) throw(FastRTPSException);
