@@ -33,6 +33,11 @@ class FastRTPSParticipant implements Participant
 
    private final Guid guid = new Guid();
 
+   private final NativeParticipantListenerImpl nativeListener = new NativeParticipantListenerImpl();
+
+   private NativeParticipantPublisherEDPListenerImpl nativeParticipantPublisherEDPListenerImpl = null;
+   private NativeParticipantSubscriberEDPListenerImpl nativeParticipantSubscriberEDPListenerImpl = null;
+
    private class NativeParticipantListenerImpl extends NativeParticipantListener
    {
       private final FastRTPSParticipantDiscoveryInfo discoveryInfo = new FastRTPSParticipantDiscoveryInfo();
@@ -160,17 +165,17 @@ class FastRTPSParticipant implements Participant
 
    FastRTPSParticipant(ParticipantAttributes<?> att, ParticipantListener participantListener) throws IOException, IllegalArgumentException
    {
+      //Set listener first, can be called before the constructor returns
+      this.participantListener = participantListener;
       if (att instanceof FastRTPSParticipantAttributes)
       {
          this.attributes = (FastRTPSParticipantAttributes) att;
-         impl = new NativeParticipantImpl(attributes.rtps(), new NativeParticipantListenerImpl());
+         impl = new NativeParticipantImpl(attributes.rtps(), nativeListener);
       }
       else
       {
          throw new IllegalArgumentException("ParticipantAttributes<?> is not of base class FastRTPSParticipantAttributes");
       }
-
-      this.participantListener = participantListener;
       getGuid(guid);
 
    }
@@ -182,6 +187,16 @@ class FastRTPSParticipant implements Participant
          publishers.get(i).delete();
       }
       impl.delete();
+      nativeListener.delete();
+      if(nativeParticipantPublisherEDPListenerImpl != null)
+      {
+         nativeParticipantPublisherEDPListenerImpl.delete();
+      }
+      
+      if(nativeParticipantSubscriberEDPListenerImpl != null)
+      {
+         nativeParticipantSubscriberEDPListenerImpl.delete();
+      }
    }
 
    private void getGuid(Guid guid)
@@ -403,9 +418,9 @@ class FastRTPSParticipant implements Participant
                                                   SubscriberEndpointDiscoveryListener subscriberEndpointDiscoveryListener)
          throws IOException
    {
-      NativeParticipantPublisherEDPListenerImpl nativeParticipantPublisherEDPListenerImpl = publisherEndpointDiscoveryListener == null ? null
+      nativeParticipantPublisherEDPListenerImpl = publisherEndpointDiscoveryListener == null ? null
             : new NativeParticipantPublisherEDPListenerImpl(publisherEndpointDiscoveryListener);
-      NativeParticipantSubscriberEDPListenerImpl nativeParticipantSubscriberEDPListenerImpl = subscriberEndpointDiscoveryListener == null ? null
+      nativeParticipantSubscriberEDPListenerImpl = subscriberEndpointDiscoveryListener == null ? null
             : new NativeParticipantSubscriberEDPListenerImpl(subscriberEndpointDiscoveryListener);
 
       impl.registerEDPReaderListeners(nativeParticipantPublisherEDPListenerImpl, nativeParticipantSubscriberEDPListenerImpl);

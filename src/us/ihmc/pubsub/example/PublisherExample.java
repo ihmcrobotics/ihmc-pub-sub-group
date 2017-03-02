@@ -86,7 +86,7 @@ public class PublisherExample
          try
          {
             publisher.write(msg);
-            Thread.sleep(1000);
+            Thread.sleep(100);
          }
          catch (InterruptedException e)
          {

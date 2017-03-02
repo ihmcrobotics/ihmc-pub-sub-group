@@ -39,6 +39,10 @@ public class NativePublisherImpl {
     this(FastRTPSJNI.new_NativePublisherImpl(entityId, userDefinedID, maximumPayloadSize, memoryManagementPolicy.swigValue(), TopicAttributes.getCPtr(topic), topic, WriterQos.getCPtr(qos), qos, WriterTimes.getCPtr(times), times, LocatorList_t.getCPtr(unicastLocatorList), unicastLocatorList, LocatorList_t.getCPtr(multicastLocatorList), multicastLocatorList, LocatorList_t.getCPtr(outLocatorList), outLocatorList, ThroughputControllerDescriptor.getCPtr(throughputController), throughputController, NativeParticipantImpl.getCPtr(participant), participant, NativePublisherListener.getCPtr(listener), listener), true);
   }
 
+  public void registerWriter(TopicAttributes topic, WriterQos qos) throws java.io.IOException {
+    FastRTPSJNI.NativePublisherImpl_registerWriter(swigCPtr, this, TopicAttributes.getCPtr(topic), topic, WriterQos.getCPtr(qos), qos);
+  }
+
   public void create_new_change(ChangeKind_t changeKind, java.nio.ByteBuffer data, int dataLength, short encapsulation, java.nio.ByteBuffer key) throws java.io.IOException {
   assert data.isDirect() : "Buffer must be allocated direct.";
   assert key.isDirect() : "Buffer must be allocated direct.";

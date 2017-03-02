@@ -9463,6 +9463,34 @@ SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_new_1Native
 }
 
 
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_NativePublisherImpl_1registerWriter(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_, jlong jarg3, jobject jarg3_) {
+  us::ihmc::rtps::impl::fastRTPS::NativePublisherImpl *arg1 = (us::ihmc::rtps::impl::fastRTPS::NativePublisherImpl *) 0 ;
+  eprosima::fastrtps::TopicAttributes *arg2 = (eprosima::fastrtps::TopicAttributes *) 0 ;
+  eprosima::fastrtps::WriterQos *arg3 = (eprosima::fastrtps::WriterQos *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  (void)jarg3_;
+  arg1 = *(us::ihmc::rtps::impl::fastRTPS::NativePublisherImpl **)&jarg1; 
+  arg2 = *(eprosima::fastrtps::TopicAttributes **)&jarg2; 
+  arg3 = *(eprosima::fastrtps::WriterQos **)&jarg3; 
+  try {
+    (arg1)->registerWriter(arg2,arg3);
+  }
+  catch(FastRTPSException &_e) {
+    {
+      jclass excep = jenv->FindClass("java/io/IOException");
+      if (excep)
+      jenv->ThrowNew(excep, (&_e)->what());
+      return ;
+    }
+  }
+  
+}
+
+
 SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_delete_1NativePublisherImpl(JNIEnv *jenv, jclass jcls, jlong jarg1) {
   us::ihmc::rtps::impl::fastRTPS::NativePublisherImpl *arg1 = (us::ihmc::rtps::impl::fastRTPS::NativePublisherImpl *) 0 ;
   
@@ -9795,6 +9823,34 @@ SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_new_1Native
   
   *(us::ihmc::rtps::impl::fastRTPS::NativeSubscriberImpl **)&jresult = result; 
   return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_NativeSubscriberImpl_1registerReader(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_, jlong jarg3, jobject jarg3_) {
+  us::ihmc::rtps::impl::fastRTPS::NativeSubscriberImpl *arg1 = (us::ihmc::rtps::impl::fastRTPS::NativeSubscriberImpl *) 0 ;
+  eprosima::fastrtps::TopicAttributes *arg2 = (eprosima::fastrtps::TopicAttributes *) 0 ;
+  eprosima::fastrtps::ReaderQos *arg3 = (eprosima::fastrtps::ReaderQos *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  (void)jarg3_;
+  arg1 = *(us::ihmc::rtps::impl::fastRTPS::NativeSubscriberImpl **)&jarg1; 
+  arg2 = *(eprosima::fastrtps::TopicAttributes **)&jarg2; 
+  arg3 = *(eprosima::fastrtps::ReaderQos **)&jarg3; 
+  try {
+    (arg1)->registerReader(arg2,arg3);
+  }
+  catch(FastRTPSException &_e) {
+    {
+      jclass excep = jenv->FindClass("java/io/IOException");
+      if (excep)
+      jenv->ThrowNew(excep, (&_e)->what());
+      return ;
+    }
+  }
+  
 }
 
 

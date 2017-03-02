@@ -66,6 +66,9 @@ namespace fastRTPS{
                 NativeParticipantImpl* participant,
                 NativeSubscriberListener* listener) throw(FastRTPSException);
 
+        void registerReader(TopicAttributes* topic,
+                            ReaderQos* qos) throw(FastRTPSException);
+
         int64_t getGuidLow()
         {
             return guidUnion.primitive.low;
