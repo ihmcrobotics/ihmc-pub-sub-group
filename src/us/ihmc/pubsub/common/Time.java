@@ -54,4 +54,9 @@ public class Time
       this.fraction = fraction;
    }
 
+   
+   public String toString()
+   {
+      return String.format("%.2f", seconds + (fraction / Math.pow(2, 32)));
+   }
 }
