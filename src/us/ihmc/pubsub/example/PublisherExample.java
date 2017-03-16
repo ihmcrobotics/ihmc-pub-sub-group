@@ -72,6 +72,7 @@ public class PublisherExample
       publisherAttributes.getTopic().setTopicDataType(dataType.getName());
       publisherAttributes.getTopic().setTopicName("ChatBox");
       publisherAttributes.getQos().setReliabilityKind(ReliabilityKind.RELIABLE);
+      publisherAttributes.getQos().addPartition("us/ihmc/");
       
       Publisher publisher = domain.createPublisher(participant, publisherAttributes, new PublisherListenerImpl());
       

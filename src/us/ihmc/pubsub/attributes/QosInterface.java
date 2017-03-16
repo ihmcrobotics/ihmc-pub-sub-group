@@ -1,5 +1,7 @@
 package us.ihmc.pubsub.attributes;
 
+import java.util.List;
+
 public interface QosInterface
 {
 
@@ -41,6 +43,19 @@ public interface QosInterface
     * @param ownerShipPolicyKind the desired ownership policy
     */
    void setOwnershipPolicyKind(OwnerShipPolicyKind ownerShipPolicyKind);
+   
+   
+   /**
+    * Add partition to the list of partitions this endpoint is connected to
+    * @param name
+    */
+   public abstract void addPartition(String name);
+   
+   /**
+    * 
+    * @return list of partitions this endpoint is connected to
+    */
+   public abstract List<String> getPartitions();
    
    /**
     * 
