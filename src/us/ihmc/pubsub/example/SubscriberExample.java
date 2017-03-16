@@ -90,7 +90,7 @@ public class SubscriberExample
       subscriberAttributes.getTopic().setTopicDataType(dataType.getName());
       subscriberAttributes.getTopic().setTopicName("ChatBox");
       subscriberAttributes.getQos().setReliabilityKind(ReliabilityKind.BEST_EFFORT);
-
+      subscriberAttributes.getQos().addPartition("us/ihmc/");
       domain.createSubscriber(participant, subscriberAttributes, new SubscriberListenerImpl());
 
       while (true)

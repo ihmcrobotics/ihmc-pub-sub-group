@@ -1,5 +1,9 @@
 package us.ihmc.rtps.impl.fastRTPS;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import us.ihmc.pubsub.attributes.DurabilityKind;
 import us.ihmc.pubsub.attributes.OwnerShipPolicyKind;
 import us.ihmc.pubsub.attributes.ReliabilityKind;
@@ -78,4 +82,24 @@ public class FastRTPSWriterQosHolder implements WriterQosHolder<WriterQos>
    {
       getWriterQos().getM_ownership().setKind(FastRTPSCommonFunctions.toCppOwnershipQosPolicyKind(ownerShipPolicyKind));
    }
+   
+   @Override
+   public void addPartition(String name)
+   {
+      getWriterQos().getM_partition().push_back(name);
+   }
+
+   @Override
+   public List<String> getPartitions()
+   {
+      ArrayList<String> partitions = new ArrayList<>();
+      stringVector CppPartitions = getWriterQos().getM_partition().getNames();
+      for(int i = 0; i < CppPartitions.size(); i++)
+      {
+         partitions.add(CppPartitions.get(i));
+      }
+      
+      return Collections.unmodifiableList(partitions);
+   }
+   
 }
