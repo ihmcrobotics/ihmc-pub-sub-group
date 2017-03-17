@@ -27,6 +27,21 @@ public interface IDLStruct <T extends IDLStruct<?>>
    
    
    /**
+    * Serialization method used internally to serialize nested structs
+    * 
+    * @param ser
+    */
+   default void deserialize(InterchangeSerializer ser) { throw new NotImplementedException("Not implemented"); };
+   
+   /**
+    * Deserialization method used internally to deserialize nested structs
+    * 
+    * @param ser
+    */
+   default void serialize(InterchangeSerializer ser) { throw new NotImplementedException("Not implemented"); };
+   
+   
+   /**
     * Setter method used internally to set nested struct sequences.
     * 
     * @param other
