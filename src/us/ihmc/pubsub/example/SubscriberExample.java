@@ -10,6 +10,8 @@ import us.ihmc.pubsub.DomainFactory.PubSubImplementation;
 import us.ihmc.pubsub.attributes.ParticipantAttributes;
 import us.ihmc.pubsub.attributes.ReliabilityKind;
 import us.ihmc.pubsub.attributes.SubscriberAttributes;
+import us.ihmc.pubsub.attributes.DurabilityKind;
+import us.ihmc.pubsub.attributes.HistoryQosPolicy.HistoryQosPolicyKind;
 import us.ihmc.pubsub.attributes.TopicAttributes.TopicKind;
 import us.ihmc.pubsub.common.LogLevel;
 import us.ihmc.pubsub.common.MatchingInfo;
@@ -20,6 +22,8 @@ import us.ihmc.pubsub.participant.ParticipantDiscoveryInfo;
 import us.ihmc.pubsub.participant.ParticipantListener;
 import us.ihmc.pubsub.subscriber.Subscriber;
 import us.ihmc.pubsub.subscriber.SubscriberListener;
+import us.ihmc.rtps.impl.fastRTPS.FastRTPSReaderQosHolder;
+import us.ihmc.rtps.impl.fastRTPS.ReaderQos;
 
 public class SubscriberExample
 {
@@ -89,8 +93,15 @@ public class SubscriberExample
       subscriberAttributes.getTopic().setTopicKind(TopicKind.NO_KEY);
       subscriberAttributes.getTopic().setTopicDataType(dataType.getName());
       subscriberAttributes.getTopic().setTopicName("ChatBox");
-      subscriberAttributes.getQos().setReliabilityKind(ReliabilityKind.BEST_EFFORT);
-      subscriberAttributes.getQos().addPartition("us/ihmc/");
+      subscriberAttributes.getQos().setReliabilityKind(ReliabilityKind.RELIABLE);
+      subscriberAttributes.getQos().addPartition("us/ihmc");
+      
+      subscriberAttributes.getQos().setDurabilityKind(DurabilityKind.TRANSIENT_LOCAL_DURABILITY_QOS);
+      subscriberAttributes.getTopic().getHistoryQos().setKind(HistoryQosPolicyKind.KEEP_ALL_HISTORY_QOS);
+
+      
+      
+      
       domain.createSubscriber(participant, subscriberAttributes, new SubscriberListenerImpl());
 
       while (true)
