@@ -576,6 +576,13 @@ public interface IDLSequence
          }
       }
       
+      public void add(String string)
+      {
+         StringBuilder elem = add();
+         elem.setLength(0);
+         elem.append(string);
+      }
+      
       public void set(StringBuilderHolder other)
       {
          resetQuick();
