@@ -10,6 +10,8 @@ import us.ihmc.pubsub.DomainFactory.PubSubImplementation;
 import us.ihmc.pubsub.attributes.ParticipantAttributes;
 import us.ihmc.pubsub.attributes.PublisherAttributes;
 import us.ihmc.pubsub.attributes.ReliabilityKind;
+import us.ihmc.pubsub.attributes.DurabilityKind;
+import us.ihmc.pubsub.attributes.HistoryQosPolicy.HistoryQosPolicyKind;
 import us.ihmc.pubsub.attributes.TopicAttributes.TopicKind;
 import us.ihmc.pubsub.common.LogLevel;
 import us.ihmc.pubsub.common.MatchingInfo;
@@ -19,6 +21,8 @@ import us.ihmc.pubsub.participant.ParticipantDiscoveryInfo;
 import us.ihmc.pubsub.participant.ParticipantListener;
 import us.ihmc.pubsub.publisher.Publisher;
 import us.ihmc.pubsub.publisher.PublisherListener;
+import us.ihmc.rtps.impl.fastRTPS.ReaderQos;
+import us.ihmc.rtps.impl.fastRTPS.WriterQos;
 
 public class PublisherExample
 {
@@ -72,20 +76,27 @@ public class PublisherExample
       publisherAttributes.getTopic().setTopicDataType(dataType.getName());
       publisherAttributes.getTopic().setTopicName("ChatBox");
       publisherAttributes.getQos().setReliabilityKind(ReliabilityKind.RELIABLE);
-      publisherAttributes.getQos().addPartition("us/ihmc/");
+      publisherAttributes.getQos().addPartition("us/ihmc");
+      
+      publisherAttributes.getQos().setDurabilityKind(DurabilityKind.TRANSIENT_LOCAL_DURABILITY_QOS);
+      publisherAttributes.getTopic().getHistoryQos().setKind(HistoryQosPolicyKind.KEEP_LAST_HISTORY_QOS);
+      publisherAttributes.getTopic().getHistoryQos().setDepth(50);
+      
       
       Publisher publisher = domain.createPublisher(participant, publisherAttributes, new PublisherListenerImpl());
       
       
       ChatMessage msg = new ChatMessage();
       msg.getSender().append("Java");
-      msg.getMsg().append("Hello World");
       
-
+      int i = 0;
       while(true)
       {
          try
          {
+            msg.getMsg().setLength(0);
+            msg.getMsg().append("Hello World ");
+            msg.getMsg().append(i++);
             publisher.write(msg);
             Thread.sleep(1000);
          }
