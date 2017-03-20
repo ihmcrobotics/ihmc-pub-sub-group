@@ -1,19 +1,7 @@
-// Copyright 2017 Florida Institute for Human And Machine Cognition (IHMC)
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//     http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
 package us.ihmc.idl.generated.Chat;
 import us.ihmc.idl.IDLSequence;
 import us.ihmc.idl.CDR;
+import us.ihmc.idl.InterchangeSerializer;
 import us.ihmc.idl.IDLStruct;
 import java.util.Arrays;
 
@@ -43,6 +31,16 @@ public class ChatMessage implements IDLStruct<ChatMessage>
         	msg_.append(other.msg_);
     }
 
+        public void setSender(String sender)
+        {
+        	sender_.setLength(0);
+        	sender_.append(sender);
+        }
+        
+        public String getSenderAsString()
+        {
+        	return getSender().toString();
+        }
 
     public StringBuilder getSender()
     {
@@ -50,6 +48,16 @@ public class ChatMessage implements IDLStruct<ChatMessage>
     }
 
         
+        public void setMsg(String msg)
+        {
+        	msg_.setLength(0);
+        	msg_.append(msg);
+        }
+        
+        public String getMsgAsString()
+        {
+        	return getMsg().toString();
+        }
 
     public StringBuilder getMsg()
     {
@@ -115,6 +123,24 @@ public class ChatMessage implements IDLStruct<ChatMessage>
 	    	cdr.read_type_d(sender_);	
 
 	    	cdr.read_type_d(msg_);	
+	}
+	
+	@Override
+	public final void serialize(InterchangeSerializer ser)
+	{
+			    ser.write_type_d("sender", sender_);
+			    
+			    ser.write_type_d("msg", msg_);
+			    
+	}
+	
+	@Override
+	public final void deserialize(InterchangeSerializer ser)
+	{
+	    			ser.read_type_d("sender", sender_);	
+	    	    
+	    			ser.read_type_d("msg", msg_);	
+	    	    
 	}
 
     @Override
