@@ -21,16 +21,28 @@ public interface InterchangeSerializer
    /**
     * Unsigned short
     */
-   public int read_type_3(String name);
+   default int read_type_3(String name)
+   {
+      return read_type_1(name) & 0xFFFF;
+   }
    
-   public void write_type_3(String name, int val);
+   default void write_type_3(String name, int val)
+   {
+      write_type_1(name, (short) val);
+   }
    
    /**
     * Unsigned int
     */
-   public long read_type_4(String name);
+   default long read_type_4(String name)
+   {
+      return read_type_2(name) & 0xFFFFFFFF;
+   }
    
-   public void write_type_4(String name, long val);
+   default void write_type_4(String name, long val)
+   {
+      write_type_2(name, (int) val);
+   }
    
    /**
     * Float
@@ -77,9 +89,15 @@ public interface InterchangeSerializer
    /**
     * Union
     */
-   public Object read_type_b(String name);
+   default Object read_type_b(String name)
+   {
+      throw new NotImplementedException("Union types are not implemented yet");
+   }
    
-   public void write_type_b(String name, Object object);
+   default void write_type_b(String name, Object object)
+   {
+      throw new NotImplementedException("Union types are not implemented yet");     
+   }
    
    /**
     * Enum
@@ -110,6 +128,8 @@ public interface InterchangeSerializer
    public <T> void write_type_f(String name, T[] arr);
    public void read_type_f(String name, boolean[] arr);
    public void write_type_f(String name, boolean[] arr);
+   public void read_type_f(String name, byte[] arr);
+   public void write_type_f(String name, byte[] arr);
    public void read_type_f(String name, char[] arr);
    public void write_type_f(String name, char[] arr);
    public void read_type_f(String name, short[] arr);
@@ -160,15 +180,9 @@ public interface InterchangeSerializer
    /**
     * Wide char (32 bits)
     */
-   default char read_type_14(String name)
-   {
-      return (char) read_type_2(name);
-   }
+   public char read_type_14(String name);
    
-   default void write_type_14(String name, char val)
-   {
-      write_type_2(name, (int) val);
-   }
+   public void write_type_14(String name, char val);
 
    /**
     * Wide string
