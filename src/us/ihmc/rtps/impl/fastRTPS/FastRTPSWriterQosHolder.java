@@ -6,6 +6,7 @@ import java.util.List;
 
 import us.ihmc.pubsub.attributes.DurabilityKind;
 import us.ihmc.pubsub.attributes.OwnerShipPolicyKind;
+import us.ihmc.pubsub.attributes.PublishModeKind;
 import us.ihmc.pubsub.attributes.ReliabilityKind;
 import us.ihmc.pubsub.attributes.WriterQosHolder;
 
@@ -100,6 +101,18 @@ public class FastRTPSWriterQosHolder implements WriterQosHolder<WriterQos>
       }
       
       return Collections.unmodifiableList(partitions);
+   }
+
+   @Override
+   public void setPublishMode(PublishModeKind publishMode)
+   {
+      getWriterQos().getM_publishMode().setKind(FastRTPSCommonFunctions.toCppPublishModeKind(publishMode));
+   }
+
+   @Override
+   public PublishModeKind getPublishMode()
+   {
+      return FastRTPSCommonFunctions.toJavaPublishModeKind(getWriterQos().getM_publishMode().getKind());
    }
    
 }

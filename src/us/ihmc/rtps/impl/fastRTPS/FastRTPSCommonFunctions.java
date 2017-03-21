@@ -7,6 +7,7 @@ import us.ihmc.pubsub.attributes.DurabilityKind;
 import us.ihmc.pubsub.attributes.Locator;
 import us.ihmc.pubsub.attributes.Locator.Kind;
 import us.ihmc.pubsub.attributes.OwnerShipPolicyKind;
+import us.ihmc.pubsub.attributes.PublishModeKind;
 import us.ihmc.pubsub.attributes.ReliabilityKind;
 import us.ihmc.pubsub.attributes.TopicAttributes.TopicKind;
 
@@ -227,4 +228,29 @@ public class FastRTPSCommonFunctions
          return OwnershipQosPolicyKind.SHARED_OWNERSHIP_QOS;
       }
    }
+   
+   public static PublishModeQosPolicyKind_t toCppPublishModeKind(PublishModeKind kind)
+   {
+      if(kind == PublishModeKind.ASYNCHRONOUS_PUBLISH_MODE)
+      {
+         return PublishModeQosPolicyKind_t.ASYNCHRONOUS_PUBLISH_MODE;
+      }
+      else
+      {
+         return PublishModeQosPolicyKind_t.SYNCHRONOUS_PUBLISH_MODE;
+      }
+   }
+   
+   public static PublishModeKind toJavaPublishModeKind(PublishModeQosPolicyKind_t kind)
+   {
+      if(kind == PublishModeQosPolicyKind_t.ASYNCHRONOUS_PUBLISH_MODE)
+      {
+         return PublishModeKind.ASYNCHRONOUS_PUBLISH_MODE;
+      }
+      else
+      {
+         return PublishModeKind.SYNCHRONOUS_PUBLISH_MODE;
+      }
+   }
+   
 }
