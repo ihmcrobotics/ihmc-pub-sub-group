@@ -3,8 +3,6 @@ package us.ihmc.idl;
 import java.lang.reflect.Array;
 import java.util.Arrays;
 
-import gnu.trove.list.array.TDoubleArrayList;
-
 /**
  * Preallocated list of Objects or Enums.
  * 
@@ -52,6 +50,37 @@ public class PreallocatedList<T>
       T createInstance();
    }
 
+   /**
+    * Returns the elements in this list as array
+    * 
+    * This method allocates a new array
+    * 
+    * @return new array of length size();
+    */
+   public T[] toArray()
+   {
+      @SuppressWarnings("unchecked")
+      T[] array = (T[]) Array.newInstance(clazz, size());
+      System.arraycopy(values, 0, array, 0, size());
+      return array;
+   }
+   
+   /**
+    * Copies the elements in this list to dest
+    * 
+    * @param dest Destination array. Has to be at least length size()
+    * @throws IndexOutOfBoundsException if the destination array is smaller than size()
+    */
+   public void toArray(T[] dest)
+   {
+      if(dest.length < size())
+      {
+         throw new IndexOutOfBoundsException("Cannot copy data in destination array, insufficient space.");
+      }
+      System.arraycopy(values, 0, dest, 0, size());
+
+   }
+   
    /**
     * 
     * @return true if this is a List of enums
