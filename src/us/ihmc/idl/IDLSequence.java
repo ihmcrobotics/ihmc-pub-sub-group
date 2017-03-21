@@ -576,11 +576,27 @@ public interface IDLSequence
          }
       }
       
+      /**
+       * Directly add a string value.
+       * 
+       * @param string
+       */
       public void add(String string)
       {
          StringBuilder elem = add();
          elem.setLength(0);
          elem.append(string);
+      }
+      
+      /**
+       * Get value at index i as string
+       * 
+       * @param i index
+       * @return string value corresponding to index i
+       */
+      public String getString(int i)
+      {
+         return get(i).toString();
       }
       
       public void set(StringBuilderHolder other)
@@ -589,6 +605,35 @@ public interface IDLSequence
          for(int i = 0; i < other.size(); i++)
          {
             add().append(other.get(i));
+         }
+      }
+      
+      /**
+       * Create a new string array with all elements in this sequence.
+       * 
+       * @return string array
+       */
+      public String[] toStringArray()
+      {
+         String[] dest = new String[size()];
+         toArray(dest);
+         return dest;
+      }
+      
+      /**
+       * Copy the data into a string array
+       * 
+       * @param dest string array of length > size()
+       */
+      public void toArray(String[] dest)
+      {
+         if(dest.length < size())
+         {
+            throw new IndexOutOfBoundsException("Cannot copy data in destination array, insufficient space.");
+         }
+         for(int i = 0; i < size(); i++)
+         {
+            dest[i] = getString(i);
          }
       }
       
