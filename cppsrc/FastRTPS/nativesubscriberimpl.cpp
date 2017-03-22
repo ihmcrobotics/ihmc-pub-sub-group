@@ -14,10 +14,7 @@
 // limitations under the License.
 
 #include "nativesubscriberimpl.h"
-#include "commonfunctions.h"
 #include <fastrtps/rtps/reader/WriterProxy.h>
-#include <mutex>
-#include <thread>
 
 using namespace us::ihmc::rtps::impl::fastRTPS;
 
