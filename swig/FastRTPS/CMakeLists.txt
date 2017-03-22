@@ -5,6 +5,7 @@ FIND_PACKAGE(SWIG REQUIRED)
 
 INCLUDE(${SWIG_USE_FILE})
 SET(CMAKE_SWIG_OUTDIR "${CMAKE_CURRENT_SOURCE_DIR}/generated/us/ihmc/rtps/impl/fastRTPS")
+
 INCLUDE_DIRECTORIES("${CMAKE_CURRENT_SOURCE_DIR}/../../cppsrc/FastRTPS")
 
 
@@ -16,9 +17,10 @@ if(CMAKE_COMPILER_IS_GNUCXX)
 	SET(SWIG_OPT_LINKER_FLAGS ${SWIG_OPT_LINKER_FLAGS} -static-libgcc -static-libstdc++)
 endif()
 
-
-
 SWIG_ADD_LIBRARY(FastRTPSWrapper LANGUAGE java TYPE MODULE SOURCES FastRTPS.i)
 ADD_DEPENDENCIES(FastRTPSWrapper FastRTPSNativeImpl)
 SWIG_LINK_LIBRARIES(FastRTPSWrapper FastRTPSNativeImpl ${SWIG_OPT_LINKER_FLAGS})
 INSTALL(TARGETS FastRTPSWrapper RUNTIME DESTINATION resources/us/ihmc/rtps/impl/fastRTPS LIBRARY DESTINATION resources/us/ihmc/rtps/impl/fastRTPS)
+if(APPLE)
+    set_target_properties(FastRTPSWrapper PROPERTIES SUFFIX ".dylib")
+endif(APPLE)
