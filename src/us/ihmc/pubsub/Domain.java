@@ -3,6 +3,7 @@ package us.ihmc.pubsub;
 import java.io.IOException;
 
 import us.ihmc.pubsub.attributes.ParticipantAttributes;
+import us.ihmc.pubsub.attributes.PublishModeKind;
 import us.ihmc.pubsub.attributes.PublisherAttributes;
 import us.ihmc.pubsub.attributes.SubscriberAttributes;
 import us.ihmc.pubsub.attributes.TopicAttributes.TopicKind;
@@ -242,6 +243,8 @@ public interface Domain
     * Topic.TopicName: topicName
     * Topic.QoS.partitions: partitions
     * 
+    * if topicDataType.getTypeSize() > 65kB QoS.publishMode will be set to ASYNCHRONOUS_PUBLISH_MODE
+    * 
     * Furthermore, if topicDataType has not been registered with the participant then it will be registered.
     * 
     * @param participant Participant to register the topicDataType with.
@@ -271,6 +274,12 @@ public interface Domain
             
          }
       }
+      
+      if(topicDataType.getTypeSize() > 65000)
+      {
+         publisherAttributes.getQos().setPublishMode(PublishModeKind.ASYNCHRONOUS_PUBLISH_MODE);
+      }
+      
       return publisherAttributes;
 
    }
