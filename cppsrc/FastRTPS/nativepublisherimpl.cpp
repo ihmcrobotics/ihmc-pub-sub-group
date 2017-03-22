@@ -14,9 +14,6 @@
  * limitations under the License.
  */
 #include "nativepublisherimpl.h"
-#include "commonfunctions.h"
-#include <fastrtps/rtps/RTPSDomain.h>
-#include <fastrtps/log/Log.h>
 
 using namespace eprosima::fastrtps::rtps;
 using namespace us::ihmc::rtps::impl::fastRTPS;
