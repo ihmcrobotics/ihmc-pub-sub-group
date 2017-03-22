@@ -25,7 +25,19 @@ public class ByteBufferPubSubType implements TopicDataType<ByteBuffer>
 {
    private final String name;
    private final int maxSize;
-   
+
+   private static int align(int size)
+   {
+      int adv = (size % 4);
+
+      if (adv != 0)
+      {
+         size += (4 - adv);
+      }
+
+      return size;
+   }
+
    /**
     * Constructor for the ByteBuffer pub/sub type.
     * 
@@ -34,35 +46,42 @@ public class ByteBufferPubSubType implements TopicDataType<ByteBuffer>
     */
    public ByteBufferPubSubType(String name, int maxSize)
    {
-      this.name = name + "::" + maxSize;
-      this.maxSize = maxSize;
+
+      this.maxSize = align(maxSize) + 4; // add integer wiht actual data size to the data 
+      this.name = name + "::" + this.maxSize;
    }
-   
+
    @Override
    public void serialize(ByteBuffer data, SerializedPayload serializedPayload) throws IOException
    {
-      if(data.remaining() > maxSize)
+      if (data.remaining() + 4 > maxSize)
       {
          throw new IOException("Data size is larger than the maximum size");
       }
-      
+
       ByteBuffer target = serializedPayload.getData();
       target.clear();
+      target.putInt(data.remaining());
       target.put(data);
       target.flip();
-      serializedPayload.setLength(target.limit());
+      serializedPayload.setLength(align(target.limit()));
    }
 
    @Override
    public void deserialize(SerializedPayload serializedPayload, ByteBuffer data) throws IOException
    {
-      if(serializedPayload.getLength() > data.remaining())
+
+      ByteBuffer src = serializedPayload.getData();
+
+      int length = src.getInt();
+      if (length > data.remaining())
       {
          throw new IOException("ByteBuffer data does not have enough space remaining to accept the incoming message.");
       }
-      
-      ByteBuffer src = serializedPayload.getData();
-      data.put(src);
+      for (int i = 0; i < length; i++)
+      {
+         data.put(src.get());
+      }
    }
 
    @Override
