@@ -186,6 +186,10 @@ class FastRTPSParticipant implements Participant
       {
          publishers.get(i).delete();
       }
+      for (int i = 0; i < subscribers.size(); i++)
+      {
+         subscribers.get(i).delete();
+      }
       impl.delete();
       nativeListener.delete();
       if(nativeParticipantPublisherEDPListenerImpl != null)
