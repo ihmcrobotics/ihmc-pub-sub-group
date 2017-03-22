@@ -217,6 +217,14 @@ public class PreallocatedList<T>
    {
       return pos + 1;
    }
+   
+   /**
+    * @return the maximum capacity of this list
+    */
+   public int capacity()
+   {
+      return values.length;
+   }
 
    @Override
    public int hashCode()
