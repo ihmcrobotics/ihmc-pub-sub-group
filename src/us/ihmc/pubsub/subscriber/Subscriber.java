@@ -20,10 +20,28 @@ public interface Subscriber
    /**
     * Method to block the current thread until an unread message is available.
     * 
+    * Note: if a listener is registered this function will return on a new message, even if the listener reads it.
+    * 
     * This method does not allocate memory
     * 
+    * @throws InterruptedException
     */
-   public void waitForUnreadMessage();
+   default void waitForUnreadMessage() throws InterruptedException
+   {
+      waitForUnreadMessage(0);
+   }
+
+   /**
+    * Method to block the current thread until an unread message is available.
+    * 
+    * Note: if a listener is registered this function will return on a new message, even if the listener reads it. 
+    * 
+    * This method does not allocate memory
+    * 
+    * @param timeoutInMilliseconds Timeout in milli seconds. Will wait forever if set to 0
+    * @throws InterruptedException
+    */
+   public void waitForUnreadMessage(int timeoutInMilliseconds) throws InterruptedException;
    
    /**
     * Read next unread Data from the Subscriber.
