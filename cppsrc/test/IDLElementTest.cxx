@@ -31,8 +31,6 @@ namespace { char dummy; }
 #include <fastcdr/exceptions/BadParamException.h>
 using namespace eprosima::fastcdr::exception;
 
-#include <utility>
-
 IDLElement::NestedElement::NestedElement()
 {
 
