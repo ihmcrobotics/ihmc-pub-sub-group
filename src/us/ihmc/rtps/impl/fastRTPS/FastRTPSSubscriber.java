@@ -18,6 +18,10 @@ import us.ihmc.pubsub.subscriber.SubscriberListener;
 public class FastRTPSSubscriber implements Subscriber
 {
 
+   // We use synchronization objects here because ReentrantLocks allocate memory
+   private final Object newMessageNotification = new Object();
+   private long unreadCountForMessageNotification = 0;
+   
    private final NativeSubscriberImpl impl;
 
    private final FastRTPSSubscriberAttributes attributes;
@@ -28,6 +32,7 @@ public class FastRTPSSubscriber implements Subscriber
    private TopicAttributes fastRTPSAttributes;
    private final Guid guid = new Guid();
    private final MatchingInfo matchingInfo = new MatchingInfo();
+   
 
    private final ByteBuffer keyBuffer = ByteBuffer.allocateDirect(16);
 
@@ -63,10 +68,17 @@ public class FastRTPSSubscriber implements Subscriber
       {
          try
          {
+            synchronized(newMessageNotification)
+            {
+               unreadCountForMessageNotification = impl.getUnreadCount();
+               newMessageNotification.notifyAll();
+            }
+            
             if (listener != null)
             {
                listener.onNewDataMessage(FastRTPSSubscriber.this);
             }
+
          }
          catch (Throwable e)
          {
@@ -177,18 +189,21 @@ public class FastRTPSSubscriber implements Subscriber
    }
 
    @Override
-   public void waitForUnreadMessage()
+   public void waitForUnreadMessage(int timeoutInMilliseconds) throws InterruptedException
    {
-      impl.waitForUnreadMessage();
-      
-//      if(impl.getUnreadCount()==0)
-//      {
-//          do
-//          {
-//              waitSemaphore();
-//          }
-//          while(getUnreadCount() == 0);
-//      }
+      synchronized (newMessageNotification)
+      {
+         unreadCountForMessageNotification = impl.getUnreadCount();
+         
+         long startTime = System.nanoTime();
+         int timeRemaining = timeoutInMilliseconds;
+         
+         while (unreadCountForMessageNotification == 0 && timeRemaining > 0)
+         {
+            newMessageNotification.wait(timeoutInMilliseconds);
+            timeRemaining -= (System.nanoTime() - startTime) / 1000000;
+         }
+      }
    }
 
    private void updateSampleInfo(SampleInfoMarshaller marshaller, SampleInfo info, ByteBuffer keyBuffer)
