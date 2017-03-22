@@ -111,7 +111,7 @@ public class NativeSubscriberImpl {
     FastRTPSJNI.NativeSubscriberImpl_decreaseUnreadCount(swigCPtr, this);
   }
 
-  public java.math.BigInteger getUnreadCount() {
+  public long getUnreadCount() {
     return FastRTPSJNI.NativeSubscriberImpl_getUnreadCount(swigCPtr, this);
   }
 
