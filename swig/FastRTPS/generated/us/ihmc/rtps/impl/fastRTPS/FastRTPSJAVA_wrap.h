@@ -31,7 +31,7 @@ class SwigDirector_NativeParticipantPublisherEDPListener : public us::ihmc::rtps
 public:
     void swig_connect_director(JNIEnv *jenv, jobject jself, jclass jcls, bool swig_mem_own, bool weak_global);
     SwigDirector_NativeParticipantPublisherEDPListener(JNIEnv *jenv);
-    virtual void publisherTopicChange(bool isAlive, int64_t guidHigh, int64_t guidLow, eprosima::fastrtps::rtps::LocatorList_t *unicastLocatorList, eprosima::fastrtps::rtps::LocatorList_t *multicastLocatorList, int64_t participantGuidHigh, int64_t participantGuidLow, std::string typeName, std::string topicName, int32_t userDefinedId, int64_t typeMaxSerialized, eprosima::fastrtps::rtps::TopicKind_t topicKind, WriterQos *writerQoS);
+    virtual void publisherTopicChange(bool isAlive, int64_t guidHigh, int64_t guidLow, eprosima::fastrtps::rtps::LocatorList_t *unicastLocatorList, eprosima::fastrtps::rtps::LocatorList_t *multicastLocatorList, int64_t participantGuidHigh, int64_t participantGuidLow, std::string typeName, std::string topicName, int32_t userDefinedId, int64_t typeMaxSerialized, eprosima::fastrtps::rtps::TopicKind_t topicKind, eprosima::fastrtps::WriterQos *writerQoS);
     virtual ~SwigDirector_NativeParticipantPublisherEDPListener();
 public:
     bool swig_overrides(int n) {
@@ -46,7 +46,7 @@ class SwigDirector_NativeParticipantSubscriberEDPListener : public us::ihmc::rtp
 public:
     void swig_connect_director(JNIEnv *jenv, jobject jself, jclass jcls, bool swig_mem_own, bool weak_global);
     SwigDirector_NativeParticipantSubscriberEDPListener(JNIEnv *jenv);
-    virtual void subscriberTopicChange(bool isAlive, int64_t guidHigh, int64_t guidLow, bool expectsInlineQos, eprosima::fastrtps::rtps::LocatorList_t *unicastLocatorList, eprosima::fastrtps::rtps::LocatorList_t *multicastLocatorList, int64_t participantGuidHigh, int64_t participantGuidLow, std::string typeName, std::string topicName, int32_t userDefinedId, eprosima::fastrtps::rtps::TopicKind_t topicKind, ReaderQos *readerQoS);
+    virtual void subscriberTopicChange(bool isAlive, int64_t guidHigh, int64_t guidLow, bool expectsInlineQos, eprosima::fastrtps::rtps::LocatorList_t *unicastLocatorList, eprosima::fastrtps::rtps::LocatorList_t *multicastLocatorList, int64_t participantGuidHigh, int64_t participantGuidLow, std::string typeName, std::string topicName, int32_t userDefinedId, eprosima::fastrtps::rtps::TopicKind_t topicKind, eprosima::fastrtps::ReaderQos *readerQoS);
     virtual ~SwigDirector_NativeParticipantSubscriberEDPListener();
 public:
     bool swig_overrides(int n) {

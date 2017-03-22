@@ -120,6 +120,15 @@ public class BuiltinAttributes {
     return (cPtr == 0) ? null : new LocatorList_t(cPtr, false);
   }
 
+  public void setInitialPeersList(LocatorList_t value) {
+    FastRTPSJNI.BuiltinAttributes_initialPeersList_set(swigCPtr, this, LocatorList_t.getCPtr(value), value);
+  }
+
+  public LocatorList_t getInitialPeersList() {
+    long cPtr = FastRTPSJNI.BuiltinAttributes_initialPeersList_get(swigCPtr, this);
+    return (cPtr == 0) ? null : new LocatorList_t(cPtr, false);
+  }
+
   public BuiltinAttributes() {
     this(FastRTPSJNI.new_BuiltinAttributes(), true);
   }

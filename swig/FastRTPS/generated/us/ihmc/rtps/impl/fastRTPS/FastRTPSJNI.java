@@ -122,6 +122,8 @@ public class FastRTPSJNI {
   public final static native long BuiltinAttributes_metatrafficUnicastLocatorList_get(long jarg1, BuiltinAttributes jarg1_);
   public final static native void BuiltinAttributes_metatrafficMulticastLocatorList_set(long jarg1, BuiltinAttributes jarg1_, long jarg2, LocatorList_t jarg2_);
   public final static native long BuiltinAttributes_metatrafficMulticastLocatorList_get(long jarg1, BuiltinAttributes jarg1_);
+  public final static native void BuiltinAttributes_initialPeersList_set(long jarg1, BuiltinAttributes jarg1_, long jarg2, LocatorList_t jarg2_);
+  public final static native long BuiltinAttributes_initialPeersList_get(long jarg1, BuiltinAttributes jarg1_);
   public final static native long new_BuiltinAttributes();
   public final static native void delete_BuiltinAttributes(long jarg1);
   public final static native String BuiltinAttributes_getStaticEndpointXMLFilename(long jarg1, BuiltinAttributes jarg1_);
@@ -603,7 +605,7 @@ public class FastRTPSJNI {
   public final static native boolean NativeSubscriberImpl_isInCleanState(long jarg1, NativeSubscriberImpl jarg1_);
   public final static native void NativeSubscriberImpl_increaseUnreadCount(long jarg1, NativeSubscriberImpl jarg1_);
   public final static native void NativeSubscriberImpl_decreaseUnreadCount(long jarg1, NativeSubscriberImpl jarg1_);
-  public final static native java.math.BigInteger NativeSubscriberImpl_getUnreadCount(long jarg1, NativeSubscriberImpl jarg1_);
+  public final static native long NativeSubscriberImpl_getUnreadCount(long jarg1, NativeSubscriberImpl jarg1_);
   public final static native void delete_NativeSubscriberImpl(long jarg1);
   public final static native void LogLevel_setLogLevel(int jarg1);
   public final static native long new_LogLevel();
