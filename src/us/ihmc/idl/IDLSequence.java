@@ -28,7 +28,8 @@ public interface IDLSequence
    {
       public static final byte True = 1;
       public static final byte False = 0;
-
+      private final int maxSize;
+      
       public Boolean(int maxSize, String typeCode)
       {
          super(maxSize);
@@ -36,6 +37,7 @@ public interface IDLSequence
          {
             throw new NotImplementedException(typeCode + " is not implemented for Sequence");
          }
+         this.maxSize = maxSize;
       }
 
       public void add(boolean value)
@@ -91,10 +93,17 @@ public interface IDLSequence
          return builder.toString();
       }
 
+      @Override
+      public int capacity()
+      {
+         return maxSize;
+      }
+
    }
 
    public static class Byte extends TByteArrayList implements IDLSequence
    {
+      private final int maxSize;
       public Byte(int maxSize, String typeCode)
       {
          super(maxSize);
@@ -102,6 +111,7 @@ public interface IDLSequence
          {
             throw new NotImplementedException(typeCode + " is not implemented for Sequence");
          }
+         this.maxSize = maxSize;
       }
 
       @Override
@@ -141,12 +151,18 @@ public interface IDLSequence
          builder.append("]");
          return builder.toString();
       }
+
+      @Override
+      public int capacity()
+      {
+         return maxSize;
+      }
    }
 
    public static class Char extends TCharArrayList implements IDLSequence
    {
       private final int type;
-
+      private final int maxSize;
       public Char(int maxSize, String typeCode)
       {
          super(maxSize);
@@ -161,6 +177,7 @@ public interface IDLSequence
          default:
             throw new NotImplementedException(typeCode + " is not implemented for Sequence");
          }
+         this.maxSize = maxSize;
       }
 
       @Override
@@ -216,10 +233,17 @@ public interface IDLSequence
          builder.append("]");
          return builder.toString();
       }
+
+      @Override
+      public int capacity()
+      {
+         return maxSize;
+      }
    }
 
    public static class Short extends TShortArrayList implements IDLSequence
    {
+      private final int maxSize;
       public Short(int maxSize, String typeCode)
       {
          super(maxSize);
@@ -227,6 +251,7 @@ public interface IDLSequence
          {
             throw new NotImplementedException(typeCode + " is not implemented for Sequence");
          }
+         this.maxSize = maxSize;
       }
 
       @Override
@@ -266,11 +291,18 @@ public interface IDLSequence
          builder.append("]");
          return builder.toString();
       }
+
+      @Override
+      public int capacity()
+      {
+         return maxSize;
+      }
    }
 
    public static class Integer extends TIntArrayList implements IDLSequence
    {
       private final int type;
+      private final int maxSize;
 
       public Integer(int maxSize, String typeCode)
       {
@@ -286,6 +318,7 @@ public interface IDLSequence
          default:
             throw new NotImplementedException(typeCode + " is not implemented for Sequence");
          }
+         this.maxSize = maxSize;
       }
 
       @Override
@@ -341,12 +374,18 @@ public interface IDLSequence
          builder.append("]");
          return builder.toString();
       }
+
+      @Override
+      public int capacity()
+      {
+         return maxSize;
+      }
    }
 
    public static class Long extends TLongArrayList implements IDLSequence
    {
       private final int type;
-
+      private final int maxSize;
       public Long(int maxSize, String typeCode)
       {
          super(maxSize);
@@ -364,6 +403,7 @@ public interface IDLSequence
          default:
             throw new NotImplementedException(typeCode + " is not implemented for Sequence");
          }
+         this.maxSize = maxSize;
       }
 
       @Override
@@ -425,10 +465,17 @@ public interface IDLSequence
          builder.append("]");
          return builder.toString();
       }
+
+      @Override
+      public int capacity()
+      {
+         return maxSize;
+      }
    }
 
    public static class Float extends TFloatArrayList implements IDLSequence
    {
+      private final int maxSize;
       public Float(int maxSize, String typeCode)
       {
          super(maxSize);
@@ -436,6 +483,7 @@ public interface IDLSequence
          {
             throw new NotImplementedException(typeCode + " is not implemented for Sequence");
          }
+         this.maxSize = maxSize;
       }
 
       @Override
@@ -475,10 +523,17 @@ public interface IDLSequence
          builder.append("]");
          return builder.toString();
       }
+
+      @Override
+      public int capacity()
+      {
+         return maxSize;
+      }
    }
 
    public static class Double extends TDoubleArrayList implements IDLSequence
    {
+      private final int maxSize;
       public Double(int maxSize, String typeCode)
       {
          super(maxSize);
@@ -486,6 +541,7 @@ public interface IDLSequence
          {
             throw new NotImplementedException(typeCode + " is not implemented for Sequence");
          }
+         this.maxSize = maxSize;
       }
 
       @Override
@@ -524,6 +580,12 @@ public interface IDLSequence
          }
          builder.append("]");
          return builder.toString();
+      }
+
+      @Override
+      public int capacity()
+      {
+         return maxSize;
       }
    }
 
@@ -674,6 +736,7 @@ public interface IDLSequence
          
          return true;
       }
+
    }
 
 
@@ -775,6 +838,7 @@ public interface IDLSequence
          builder.append("]");
          return builder.toString();
       }
+
    }
 
    public void resetQuick();
@@ -784,5 +848,7 @@ public interface IDLSequence
    public void writeElement(int i, CDR cdr);
 
    public int size();
+   
+   public int capacity();
 
 }
