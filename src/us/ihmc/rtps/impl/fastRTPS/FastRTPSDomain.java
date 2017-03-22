@@ -24,6 +24,9 @@ public class FastRTPSDomain implements Domain
    public FastRTPSDomain()
    {
       NativeLibraryLoader.loadLibrary("us.ihmc.rtps.impl.fastRTPS", "FastRTPSWrapper");
+      Runtime.getRuntime().addShutdownHook(new Thread((Runnable) () -> {
+         stopAll();
+      })); 
    }
 
    @Override
@@ -150,7 +153,10 @@ public class FastRTPSDomain implements Domain
    @Override
    public synchronized void stopAll()
    {
-
+      for(int i = 0; i < participants.size(); i++)
+      {
+         removeParticipant(participants.get(i));
+      }
    }
 
    @Override
