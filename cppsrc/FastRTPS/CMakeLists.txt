@@ -1,10 +1,9 @@
 cmake_minimum_required(VERSION 3.1)
 project(IHMCPubSub)
 
-find_package(Boost REQUIRED COMPONENTS system thread date_time)
 
 add_library(FastRTPSNativeImpl nativeparticipantimpl nativepublisherimpl publisherhistory nativesubscriberimpl loglevel)
-target_link_libraries(FastRTPSNativeImpl ${Boost_LIBRARIES} fastcdr fastrtps)
+target_link_libraries(FastRTPSNativeImpl fastcdr fastrtps)
 
 
 set_property(TARGET FastRTPSNativeImpl PROPERTY POSITION_INDEPENDENT_CODE TRUE)
