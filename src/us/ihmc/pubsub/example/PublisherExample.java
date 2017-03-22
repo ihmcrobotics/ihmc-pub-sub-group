@@ -7,11 +7,11 @@ import us.ihmc.idl.generated.Chat.ChatMessagePubSubType;
 import us.ihmc.pubsub.Domain;
 import us.ihmc.pubsub.DomainFactory;
 import us.ihmc.pubsub.DomainFactory.PubSubImplementation;
+import us.ihmc.pubsub.attributes.DurabilityKind;
+import us.ihmc.pubsub.attributes.HistoryQosPolicy.HistoryQosPolicyKind;
 import us.ihmc.pubsub.attributes.ParticipantAttributes;
 import us.ihmc.pubsub.attributes.PublisherAttributes;
 import us.ihmc.pubsub.attributes.ReliabilityKind;
-import us.ihmc.pubsub.attributes.DurabilityKind;
-import us.ihmc.pubsub.attributes.HistoryQosPolicy.HistoryQosPolicyKind;
 import us.ihmc.pubsub.attributes.TopicAttributes.TopicKind;
 import us.ihmc.pubsub.common.LogLevel;
 import us.ihmc.pubsub.common.MatchingInfo;
@@ -21,8 +21,6 @@ import us.ihmc.pubsub.participant.ParticipantDiscoveryInfo;
 import us.ihmc.pubsub.participant.ParticipantListener;
 import us.ihmc.pubsub.publisher.Publisher;
 import us.ihmc.pubsub.publisher.PublisherListener;
-import us.ihmc.rtps.impl.fastRTPS.ReaderQos;
-import us.ihmc.rtps.impl.fastRTPS.WriterQos;
 
 public class PublisherExample
 {

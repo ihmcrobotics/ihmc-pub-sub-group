@@ -6,6 +6,8 @@
 #include <fastrtps/rtps/common/Types.h>
 #include <fastrtps/rtps/common/InstanceHandle.h>
 
+using namespace eprosima::fastrtps::rtps;
+
 
 namespace us{
 namespace ihmc{

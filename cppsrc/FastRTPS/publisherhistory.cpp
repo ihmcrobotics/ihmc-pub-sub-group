@@ -23,8 +23,7 @@
 
 #include <fastrtps/log/Log.h>
 
-#include <boost/thread/recursive_mutex.hpp>
-#include <boost/thread/lock_guard.hpp>
+#include <mutex>
 
 
 extern ::rtps::WriteParams WRITE_PARAM_DEFAULT;
@@ -56,7 +55,7 @@ bool NativePublisherHistory::add_pub_change(CacheChange_t* change) throw(FastRTP
         throw FastRTPSException("You need to create a Writer with this History before using it");
     }
 
-    boost::lock_guard<boost::recursive_mutex> guard(*this->mp_mutex);
+    std::lock_guard<std::recursive_mutex> guard(*this->mp_mutex);
     if(m_isHistoryFull && !this->mp_pubImpl->clean_history(1))
     {
         return false;
@@ -196,7 +195,7 @@ bool NativePublisherHistory::removeAllChange(size_t* removed)
 {
 
     size_t rem = 0;
-    boost::lock_guard<boost::recursive_mutex> guard(*this->mp_mutex);
+    std::lock_guard<std::recursive_mutex> guard(*this->mp_mutex);
 
     while(m_changes.size()>0)
     {
@@ -220,7 +219,7 @@ bool NativePublisherHistory::removeMinChange() throw(FastRTPSException)
         throw FastRTPSException("You need to create a Writer with this History before using it");
     }
 
-    boost::lock_guard<boost::recursive_mutex> guard(*this->mp_mutex);
+    std::lock_guard<std::recursive_mutex> guard(*this->mp_mutex);
     if(m_changes.size()>0)
         return remove_change_pub(m_changes.front());
     return false;
@@ -234,7 +233,7 @@ bool NativePublisherHistory::remove_change_pub(CacheChange_t* change,t_v_Inst_Ca
         throw FastRTPSException("You need to create a Writer with this History before using it");
     }
 
-    boost::lock_guard<boost::recursive_mutex> guard(*this->mp_mutex);
+    std::lock_guard<std::recursive_mutex> guard(*this->mp_mutex);
     if(mp_pubImpl->getTopicKind() == NO_KEY)
     {
         if(this->remove_change(change))

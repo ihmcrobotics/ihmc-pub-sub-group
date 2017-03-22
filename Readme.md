@@ -15,6 +15,7 @@ This step is optional, the native libraries have been included in the source cod
 
 Prerequisites
 - Install FastRTPS using the README.md found on https://github.com/eProsima/Fast-RTPS. Use -DCMAKE_BUILD_TYPE=Debug if you want to enable info level debug. 
+	- Current libraries are compiled with commit ad59a6c
 - Set the environment variable FASTRTPSHOME to point to your FastRTPS installation prefix
 
 ### Linux
