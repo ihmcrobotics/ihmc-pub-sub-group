@@ -742,6 +742,7 @@ static void octetArray_setitem(unsigned char *ary, int index, unsigned char valu
 
 #include <fastrtps/rtps/common/Locator.h>
 #include <fastrtps/rtps/common/Time_t.h>
+#include <fastrtps/rtps/flowcontrol/ThroughputControllerDescriptor.h>
 #include <fastrtps/rtps/flowcontrol/ThroughputController.h>
 #include <fastrtps/rtps/attributes/RTPSParticipantAttributes.h>
 
@@ -868,7 +869,7 @@ void SwigDirector_NativeParticipantListener::swig_connect_director(JNIEnv *jenv,
 SwigDirector_NativeParticipantPublisherEDPListener::SwigDirector_NativeParticipantPublisherEDPListener(JNIEnv *jenv) : us::ihmc::rtps::impl::fastRTPS::NativeParticipantPublisherEDPListener(), Swig::Director(jenv) {
 }
 
-void SwigDirector_NativeParticipantPublisherEDPListener::publisherTopicChange(bool isAlive, int64_t guidHigh, int64_t guidLow, eprosima::fastrtps::rtps::LocatorList_t *unicastLocatorList, eprosima::fastrtps::rtps::LocatorList_t *multicastLocatorList, int64_t participantGuidHigh, int64_t participantGuidLow, std::string typeName, std::string topicName, int32_t userDefinedId, int64_t typeMaxSerialized, eprosima::fastrtps::rtps::TopicKind_t topicKind, WriterQos *writerQoS) {
+void SwigDirector_NativeParticipantPublisherEDPListener::publisherTopicChange(bool isAlive, int64_t guidHigh, int64_t guidLow, eprosima::fastrtps::rtps::LocatorList_t *unicastLocatorList, eprosima::fastrtps::rtps::LocatorList_t *multicastLocatorList, int64_t participantGuidHigh, int64_t participantGuidLow, std::string typeName, std::string topicName, int32_t userDefinedId, int64_t typeMaxSerialized, eprosima::fastrtps::rtps::TopicKind_t topicKind, eprosima::fastrtps::WriterQos *writerQoS) {
   JNIEnvWrapper swigjnienv(this) ;
   JNIEnv * jenv = swigjnienv.getJNIEnv() ;
   jobject swigjobj = (jobject) NULL ;
@@ -906,7 +907,7 @@ void SwigDirector_NativeParticipantPublisherEDPListener::publisherTopicChange(bo
     juserDefinedId = (jint) userDefinedId;
     jtypeMaxSerialized = (jlong) typeMaxSerialized;
     jtopicKind = (jint) topicKind;
-    *((WriterQos **)&jwriterQoS) = (WriterQos *) writerQoS; 
+    *((eprosima::fastrtps::WriterQos **)&jwriterQoS) = (eprosima::fastrtps::WriterQos *) writerQoS; 
     jenv->CallStaticVoidMethod(Swig::jclass_FastRTPSJNI, Swig::director_method_ids[1], swigjobj, jisAlive, jguidHigh, jguidLow, junicastLocatorList, jmulticastLocatorList, jparticipantGuidHigh, jparticipantGuidLow, jtypeName, jtopicName, juserDefinedId, jtypeMaxSerialized, jtopicKind, jwriterQoS);
     jthrowable swigerror = jenv->ExceptionOccurred();
     if (swigerror) {
@@ -964,7 +965,7 @@ void SwigDirector_NativeParticipantPublisherEDPListener::swig_connect_director(J
 SwigDirector_NativeParticipantSubscriberEDPListener::SwigDirector_NativeParticipantSubscriberEDPListener(JNIEnv *jenv) : us::ihmc::rtps::impl::fastRTPS::NativeParticipantSubscriberEDPListener(), Swig::Director(jenv) {
 }
 
-void SwigDirector_NativeParticipantSubscriberEDPListener::subscriberTopicChange(bool isAlive, int64_t guidHigh, int64_t guidLow, bool expectsInlineQos, eprosima::fastrtps::rtps::LocatorList_t *unicastLocatorList, eprosima::fastrtps::rtps::LocatorList_t *multicastLocatorList, int64_t participantGuidHigh, int64_t participantGuidLow, std::string typeName, std::string topicName, int32_t userDefinedId, eprosima::fastrtps::rtps::TopicKind_t topicKind, ReaderQos *readerQoS) {
+void SwigDirector_NativeParticipantSubscriberEDPListener::subscriberTopicChange(bool isAlive, int64_t guidHigh, int64_t guidLow, bool expectsInlineQos, eprosima::fastrtps::rtps::LocatorList_t *unicastLocatorList, eprosima::fastrtps::rtps::LocatorList_t *multicastLocatorList, int64_t participantGuidHigh, int64_t participantGuidLow, std::string typeName, std::string topicName, int32_t userDefinedId, eprosima::fastrtps::rtps::TopicKind_t topicKind, eprosima::fastrtps::ReaderQos *readerQoS) {
   JNIEnvWrapper swigjnienv(this) ;
   JNIEnv * jenv = swigjnienv.getJNIEnv() ;
   jobject swigjobj = (jobject) NULL ;
@@ -1002,7 +1003,7 @@ void SwigDirector_NativeParticipantSubscriberEDPListener::subscriberTopicChange(
     Swig::LocalRefGuard topicName_refguard(jenv, jtopicName); 
     juserDefinedId = (jint) userDefinedId;
     jtopicKind = (jint) topicKind;
-    *((ReaderQos **)&jreaderQoS) = (ReaderQos *) readerQoS; 
+    *((eprosima::fastrtps::ReaderQos **)&jreaderQoS) = (eprosima::fastrtps::ReaderQos *) readerQoS; 
     jenv->CallStaticVoidMethod(Swig::jclass_FastRTPSJNI, Swig::director_method_ids[2], swigjobj, jisAlive, jguidHigh, jguidLow, jexpectsInlineQos, junicastLocatorList, jmulticastLocatorList, jparticipantGuidHigh, jparticipantGuidLow, jtypeName, jtopicName, juserDefinedId, jtopicKind, jreaderQoS);
     jthrowable swigerror = jenv->ExceptionOccurred();
     if (swigerror) {
@@ -2976,6 +2977,35 @@ SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_BuiltinAttr
   (void)jarg1_;
   arg1 = *(eprosima::fastrtps::rtps::BuiltinAttributes **)&jarg1; 
   result = (eprosima::fastrtps::rtps::LocatorList_t *)& ((arg1)->metatrafficMulticastLocatorList);
+  *(eprosima::fastrtps::rtps::LocatorList_t **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_BuiltinAttributes_1initialPeersList_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  eprosima::fastrtps::rtps::BuiltinAttributes *arg1 = (eprosima::fastrtps::rtps::BuiltinAttributes *) 0 ;
+  eprosima::fastrtps::rtps::LocatorList_t *arg2 = (eprosima::fastrtps::rtps::LocatorList_t *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  arg1 = *(eprosima::fastrtps::rtps::BuiltinAttributes **)&jarg1; 
+  arg2 = *(eprosima::fastrtps::rtps::LocatorList_t **)&jarg2; 
+  if (arg1) (arg1)->initialPeersList = *arg2;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_BuiltinAttributes_1initialPeersList_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  eprosima::fastrtps::rtps::BuiltinAttributes *arg1 = (eprosima::fastrtps::rtps::BuiltinAttributes *) 0 ;
+  eprosima::fastrtps::rtps::LocatorList_t *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::rtps::BuiltinAttributes **)&jarg1; 
+  result = (eprosima::fastrtps::rtps::LocatorList_t *)& ((arg1)->initialPeersList);
   *(eprosima::fastrtps::rtps::LocatorList_t **)&jresult = result; 
   return jresult;
 }
@@ -8954,7 +8984,7 @@ SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_NativePartic
   int32_t arg11 ;
   int64_t arg12 ;
   eprosima::fastrtps::rtps::TopicKind_t arg13 ;
-  WriterQos *arg14 = (WriterQos *) 0 ;
+  eprosima::fastrtps::WriterQos *arg14 = (eprosima::fastrtps::WriterQos *) 0 ;
   
   (void)jenv;
   (void)jcls;
@@ -8989,7 +9019,7 @@ SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_NativePartic
   arg11 = (int32_t)jarg11; 
   arg12 = (int64_t)jarg12; 
   arg13 = (eprosima::fastrtps::rtps::TopicKind_t)jarg13; 
-  arg14 = *(WriterQos **)&jarg14; 
+  arg14 = *(eprosima::fastrtps::WriterQos **)&jarg14; 
   (arg1)->publisherTopicChange(arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10,arg11,arg12,arg13,arg14);
 }
 
@@ -9008,7 +9038,7 @@ SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_NativePartic
   int32_t arg11 ;
   int64_t arg12 ;
   eprosima::fastrtps::rtps::TopicKind_t arg13 ;
-  WriterQos *arg14 = (WriterQos *) 0 ;
+  eprosima::fastrtps::WriterQos *arg14 = (eprosima::fastrtps::WriterQos *) 0 ;
   
   (void)jenv;
   (void)jcls;
@@ -9043,7 +9073,7 @@ SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_NativePartic
   arg11 = (int32_t)jarg11; 
   arg12 = (int64_t)jarg12; 
   arg13 = (eprosima::fastrtps::rtps::TopicKind_t)jarg13; 
-  arg14 = *(WriterQos **)&jarg14; 
+  arg14 = *(eprosima::fastrtps::WriterQos **)&jarg14; 
   (arg1)->us::ihmc::rtps::impl::fastRTPS::NativeParticipantPublisherEDPListener::publisherTopicChange(arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10,arg11,arg12,arg13,arg14);
 }
 
@@ -9104,7 +9134,7 @@ SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_NativePartic
   std::string arg11 ;
   int32_t arg12 ;
   eprosima::fastrtps::rtps::TopicKind_t arg13 ;
-  ReaderQos *arg14 = (ReaderQos *) 0 ;
+  eprosima::fastrtps::ReaderQos *arg14 = (eprosima::fastrtps::ReaderQos *) 0 ;
   
   (void)jenv;
   (void)jcls;
@@ -9139,7 +9169,7 @@ SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_NativePartic
   jenv->ReleaseStringUTFChars(jarg11, arg11_pstr); 
   arg12 = (int32_t)jarg12; 
   arg13 = (eprosima::fastrtps::rtps::TopicKind_t)jarg13; 
-  arg14 = *(ReaderQos **)&jarg14; 
+  arg14 = *(eprosima::fastrtps::ReaderQos **)&jarg14; 
   (arg1)->subscriberTopicChange(arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10,arg11,arg12,arg13,arg14);
 }
 
@@ -9158,7 +9188,7 @@ SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_NativePartic
   std::string arg11 ;
   int32_t arg12 ;
   eprosima::fastrtps::rtps::TopicKind_t arg13 ;
-  ReaderQos *arg14 = (ReaderQos *) 0 ;
+  eprosima::fastrtps::ReaderQos *arg14 = (eprosima::fastrtps::ReaderQos *) 0 ;
   
   (void)jenv;
   (void)jcls;
@@ -9193,7 +9223,7 @@ SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_NativePartic
   jenv->ReleaseStringUTFChars(jarg11, arg11_pstr); 
   arg12 = (int32_t)jarg12; 
   arg13 = (eprosima::fastrtps::rtps::TopicKind_t)jarg13; 
-  arg14 = *(ReaderQos **)&jarg14; 
+  arg14 = *(eprosima::fastrtps::ReaderQos **)&jarg14; 
   (arg1)->us::ihmc::rtps::impl::fastRTPS::NativeParticipantSubscriberEDPListener::subscriberTopicChange(arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10,arg11,arg12,arg13,arg14);
 }
 
@@ -10098,33 +10128,17 @@ SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_NativeSubscr
 }
 
 
-SWIGEXPORT jobject JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_NativeSubscriberImpl_1getUnreadCount(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
-  jobject jresult = 0 ;
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_NativeSubscriberImpl_1getUnreadCount(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
   us::ihmc::rtps::impl::fastRTPS::NativeSubscriberImpl *arg1 = (us::ihmc::rtps::impl::fastRTPS::NativeSubscriberImpl *) 0 ;
-  uint64_t result;
+  int64_t result;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
   arg1 = *(us::ihmc::rtps::impl::fastRTPS::NativeSubscriberImpl **)&jarg1; 
-  result = (uint64_t)(arg1)->getUnreadCount();
-  {
-    jbyteArray ba = jenv->NewByteArray(9);
-    jbyte* bae = jenv->GetByteArrayElements(ba, 0);
-    jclass clazz = jenv->FindClass("java/math/BigInteger");
-    jmethodID mid = jenv->GetMethodID(clazz, "<init>", "([B)V");
-    jobject bigint;
-    int i;
-    
-    bae[0] = 0;
-    for(i=1; i<9; i++ ) {
-      bae[i] = (jbyte)(result>>8*(8-i));
-    }
-    
-    jenv->ReleaseByteArrayElements(ba, bae, 0);
-    bigint = jenv->NewObject(clazz, mid, ba);
-    jresult = bigint;
-  }
+  result = (int64_t)(arg1)->getUnreadCount();
+  jresult = (jlong)result; 
   return jresult;
 }
 

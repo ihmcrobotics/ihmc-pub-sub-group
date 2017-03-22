@@ -180,6 +180,15 @@ public class FastRTPSSubscriber implements Subscriber
    public void waitForUnreadMessage()
    {
       impl.waitForUnreadMessage();
+      
+      if(impl.getUnreadCount()==0)
+      {
+          do
+          {
+              waitSemaphore();
+          }
+          while(getUnreadCount() == 0);
+      }
    }
 
    private void updateSampleInfo(SampleInfoMarshaller marshaller, SampleInfo info, ByteBuffer keyBuffer)

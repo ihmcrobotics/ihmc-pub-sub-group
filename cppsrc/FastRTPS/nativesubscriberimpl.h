@@ -106,7 +106,7 @@ namespace fastRTPS{
                 --m_unreadCacheCount;
         }
 
-        inline uint64_t getUnreadCount()
+        inline int64_t getUnreadCount()
         {
             return m_unreadCacheCount;
         }
