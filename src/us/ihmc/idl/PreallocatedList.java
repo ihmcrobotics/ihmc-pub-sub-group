@@ -204,6 +204,11 @@ public class PreallocatedList<T>
 
    /**
     * Clears the list
+    * 
+    * This function just resets the size to 0. 
+    * 
+    * The underlying data objects are not emptied or removed, however this may change in future releases
+    *  
     */
    public void clear()
    {
@@ -226,6 +231,15 @@ public class PreallocatedList<T>
       return values.length;
    }
 
+   /**
+    * 
+    * @return the remaining space in this sequence (capacity() - size())
+    */
+   public int remaining()
+   {
+      return capacity() - size();
+   }
+   
    @Override
    public int hashCode()
    {
