@@ -16,8 +16,7 @@
 #include "nativesubscriberimpl.h"
 #include "commonfunctions.h"
 #include <fastrtps/rtps/reader/WriterProxy.h>
-#include <boost/thread/lock_guard.hpp>
-#include <boost/thread/recursive_mutex.hpp>
+#include <mutex>
 #include <thread>
 
 using namespace us::ihmc::rtps::impl::fastRTPS;
@@ -253,7 +252,7 @@ bool NativeSubscriberImpl::received_change(CacheChange_t* a_change, size_t unkno
         return false;
     }
 
-    boost::lock_guard<boost::recursive_mutex> guard(*mp_mutex);
+    std::lock_guard<std::recursive_mutex> guard(*mp_mutex);
 
     //NO KEY HISTORY
     if(topicKind == NO_KEY)
@@ -512,7 +511,7 @@ bool NativeSubscriberImpl::remove_change_sub(CacheChange_t* change,t_v_Inst_Cach
         return false;
     }
 
-    boost::lock_guard<boost::recursive_mutex> guard(*mp_mutex);
+    std::lock_guard<std::recursive_mutex> guard(*mp_mutex);
     if(this->topicKind == NO_KEY)
     {
         if(this->remove_change(change))
