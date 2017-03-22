@@ -841,14 +841,52 @@ public interface IDLSequence
 
    }
 
+   /**
+    * Set the current position to zero. 
+    * 
+    * The internal elements will not get reset to their default values.
+    * Newly added elements will retain values from the old elements.
+    * 
+    * 
+    */
    public void resetQuick();
 
-   public void readElement(int i, CDR cdr);
-
-   public void writeElement(int i, CDR cdr);
-
+   /**
+    * 
+    * @return the current number of elements in this sequence
+    */
    public int size();
    
+   /**
+    * 
+    * @return the maximum number of elements in this sequence
+    */
    public int capacity();
+   
+   /**
+    * 
+    * @return the remaining space in this sequence (capacity() - size())
+    */
+   default int remaining()
+   {
+      return capacity() - size();
+   }
+
+   
+   /**
+    * Internal function to deserialize 
+    * 
+    * @param i
+    * @param cdr
+    */
+   public void readElement(int i, CDR cdr);
+
+   /**
+    * Internal function to serialize 
+    * 
+    * @param i
+    * @param cdr
+    */
+   public void writeElement(int i, CDR cdr);
 
 }
