@@ -11,3 +11,6 @@ hs_err_*
 *.swp
 *.autosave
 Win32
+.idea/
+**/*.iml
+cmake-build-debug/
