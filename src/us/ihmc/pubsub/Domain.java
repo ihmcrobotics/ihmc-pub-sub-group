@@ -5,7 +5,9 @@ import java.io.IOException;
 import us.ihmc.pubsub.attributes.ParticipantAttributes;
 import us.ihmc.pubsub.attributes.PublisherAttributes;
 import us.ihmc.pubsub.attributes.SubscriberAttributes;
+import us.ihmc.pubsub.attributes.TopicAttributes.TopicKind;
 import us.ihmc.pubsub.common.LogLevel;
+import us.ihmc.pubsub.common.Time;
 import us.ihmc.pubsub.participant.Participant;
 import us.ihmc.pubsub.participant.ParticipantListener;
 import us.ihmc.pubsub.publisher.Publisher;
@@ -171,4 +173,105 @@ public interface Domain
     * @return Implementation specific version of ParticipantAttributes
     */
    public ParticipantAttributes<?> createParticipantAttributes();
+   
+   /**
+    * Create an implementation specific version of ParticipantAttributes with the following options set
+    * 
+    * - DomainId: domainId
+    * - LeaseDuration: Time.Infinite
+    * - Name: name
+    * 
+    * @param domainId desired domainId for these attributes
+    * @param name desired name for these attributes
+    * @return Implementation specific version of ParticipantAttributes with reasonable defaults
+    */
+   default ParticipantAttributes<?> createDefaultParticipantAttributes(int domainId, String name)
+   {
+      ParticipantAttributes<?> participantAttributes = createParticipantAttributes();
+      participantAttributes.setDomainId(domainId);
+      participantAttributes.setLeaseDuration(Time.Infinite);
+      participantAttributes.setName(name);
+      return participantAttributes;
+   }
+   
+   /**
+    * Create an implementation specific version of SubscriberAttributes with the following options set
+    * 
+    * Topic.TopicKind: WITH_KEY if topicDataType.isGetKeyDefined() is true, NO_KEY otherwise
+    * Topic.TopicDataType: topicDataType.getName();
+    * Topic.TopicName: topicName
+    * Topic.QoS.partitions: partitions
+    * 
+    * Furthermore, if topicDataType has not been registered with the participant then it will be registered.
+    * 
+    * @param participant Participant to register the topicDataType with.
+    * @param topicDataType Topic data type.
+    * @param topicName Topic name.
+    * @param partitions [Optional] partitions this topic subscribes on. If none are given, no partitions will be set.
+    * 
+    * @return Implementation specific version of SubscriberAttributes with reasonable defaults.
+    */
+   default SubscriberAttributes<?, ?> createDefaultSubscriberAttributes(Participant participant, TopicDataType<?> topicDataType, String topicName, String... partitions)
+   {
+      TopicDataType<?> registeredType = getRegisteredType(participant, topicDataType.getName());
+      if(registeredType == null)
+      {
+         registerType(participant, topicDataType);        
+      }
+      
+      SubscriberAttributes<?, ?> subscriberAttributes = createSubscriberAttributes();
+      subscriberAttributes.getTopic().setTopicKind(topicDataType.isGetKeyDefined() ? TopicKind.WITH_KEY : TopicKind.NO_KEY);
+      subscriberAttributes.getTopic().setTopicDataType(topicDataType.getName());
+      subscriberAttributes.getTopic().setTopicName(topicName);
+      if(partitions != null)
+      {
+         for(String partition : partitions)
+         {
+            subscriberAttributes.getQos().addPartition(partition);
+            
+         }
+      }
+      return subscriberAttributes;
+   }
+   
+   /**
+    * Create an implementation specific version of PublisherAttributes with the following options set
+    * 
+    * Topic.TopicKind: WITH_KEY if topicDataType.isGetKeyDefined() is true, NO_KEY otherwise
+    * Topic.TopicDataType: topicDataType.getName();
+    * Topic.TopicName: topicName
+    * Topic.QoS.partitions: partitions
+    * 
+    * Furthermore, if topicDataType has not been registered with the participant then it will be registered.
+    * 
+    * @param participant Participant to register the topicDataType with.
+    * @param topicDataType Topic data type.
+    * @param topicName Topic name.
+    * @param partitions [Optional] partitions this topic publishes on. If none are given, no partitions will be set.
+    * 
+    * @return Implementation specific version of PublisherAttributes with reasonable defaults.
+    */
+   default PublisherAttributes<?, ?> createDefaultPublisherAttributes(Participant participant, TopicDataType<?> topicDataType, String topicName, String... partitions)
+   {
+      TopicDataType<?> registeredType = getRegisteredType(participant, topicDataType.getName());
+      if(registeredType == null)
+      {
+         registerType(participant, topicDataType);        
+      }
+      
+      PublisherAttributes<?, ?> publisherAttributes = createPublisherAttributes();
+      publisherAttributes.getTopic().setTopicKind(topicDataType.isGetKeyDefined() ? TopicKind.WITH_KEY : TopicKind.NO_KEY);
+      publisherAttributes.getTopic().setTopicDataType(topicDataType.getName());
+      publisherAttributes.getTopic().setTopicName(topicName);
+      if(partitions != null)
+      {
+         for(String partition : partitions)
+         {
+            publisherAttributes.getQos().addPartition(partition);
+            
+         }
+      }
+      return publisherAttributes;
+
+   }
 }
