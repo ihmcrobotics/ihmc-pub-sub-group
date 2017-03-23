@@ -3,14 +3,25 @@ package us.ihmc.rtps.impl.fastRTPS;
 import us.ihmc.pubsub.attributes.ParticipantAttributes;
 import us.ihmc.pubsub.common.Time;
 
-public class FastRTPSParticipantAttributes extends ParticipantAttributes<RTPSParticipantAttributes>
+public class FastRTPSParticipantAttributes extends ParticipantAttributes
 {
-   private final BuiltinAttributes builtin;
+   private final RTPSParticipantAttributes rtps = new RTPSParticipantAttributes();
+   private final BuiltinAttributes builtin = rtps.getBuiltin();
    private final Time_t time = new Time_t();
+   
    public FastRTPSParticipantAttributes()
    {
-      super(new RTPSParticipantAttributes());
-      this.builtin = rtps().getBuiltin();
+      super();
+   }
+   
+
+   /**
+    * @return Implementation specific representation of the underlying RTPS layer attributes. 
+    */
+   @SuppressWarnings("unchecked")
+   public RTPSParticipantAttributes rtps()
+   {
+      return rtps;
    }
 
    @Override

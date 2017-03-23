@@ -2,12 +2,15 @@ package us.ihmc.rtps.impl.fastRTPS;
 
 import us.ihmc.pubsub.attributes.PublisherAttributes;
 
-public class FastRTPSPublisherAttributes extends PublisherAttributes<WriterQos, WriterTimes>
+public class FastRTPSPublisherAttributes extends PublisherAttributes
 {
+   private final WriterTimes times = new WriterTimes();
+   private final FastRTPSWriterQosHolder qos = new FastRTPSWriterQosHolder();
+
 
    FastRTPSPublisherAttributes()
    {
-      super(new FastRTPSWriterQosHolder(), new WriterTimes());
+      super();
    }
    
    TopicAttributes createFastRTPSTopicAttributes()
@@ -30,6 +33,19 @@ public class FastRTPSPublisherAttributes extends PublisherAttributes<WriterQos, 
    public void finalize()
    {
       delete();
+   }
+
+   @Override
+   public FastRTPSWriterQosHolder getQos()
+   {
+      return qos;
+   }
+
+   @SuppressWarnings("unchecked")
+   @Override
+   public WriterTimes getTimes()
+   {
+      return times;
    }
    
 }

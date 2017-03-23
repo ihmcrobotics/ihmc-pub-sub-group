@@ -10,11 +10,13 @@ import us.ihmc.pubsub.attributes.PublishModeKind;
 import us.ihmc.pubsub.attributes.ReliabilityKind;
 import us.ihmc.pubsub.attributes.WriterQosHolder;
 
-public class FastRTPSWriterQosHolder implements WriterQosHolder<WriterQos>
+public class FastRTPSWriterQosHolder implements WriterQosHolder
 {
    private final boolean ownMemory;
    private final WriterQos writerQos;
 
+
+   @SuppressWarnings("unchecked")
    public WriterQos getWriterQos()
    {
       return writerQos;

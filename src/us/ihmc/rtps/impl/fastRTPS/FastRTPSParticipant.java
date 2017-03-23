@@ -151,7 +151,7 @@ class FastRTPSParticipant implements Participant
                multicastLocatorListOut.add(out);
             }
 
-            ReaderQosHolder<ReaderQos> readerQosOut = new FastRTPSReaderQosHolder(readerQoS);
+            ReaderQosHolder readerQosOut = new FastRTPSReaderQosHolder(readerQoS);
 
             listener.subscriberTopicChange(isAlive, guid, expectsInlineQos, unicastLocatorListOut, multicastLocatorListOut, participantGuid, typeName,
                                            topicName, userDefinedId, FastRTPSCommonFunctions.toJavaTopicKind(topicKind), readerQosOut);
@@ -163,7 +163,7 @@ class FastRTPSParticipant implements Participant
       }
    }
 
-   FastRTPSParticipant(ParticipantAttributes<?> att, ParticipantListener participantListener) throws IOException, IllegalArgumentException
+   FastRTPSParticipant(ParticipantAttributes att, ParticipantListener participantListener) throws IOException, IllegalArgumentException
    {
       //Set listener first, can be called before the constructor returns
       this.participantListener = participantListener;
@@ -286,7 +286,7 @@ class FastRTPSParticipant implements Participant
       return null;
    }
 
-   synchronized FastRTPSPublisher createPublisher(PublisherAttributes<?, ?> publisherAttributes, PublisherListener listener)
+   synchronized FastRTPSPublisher createPublisher(PublisherAttributes publisherAttributes, PublisherListener listener)
          throws IOException, IllegalArgumentException
    {
       TopicDataType<?> topicDataType = getRegisteredType(publisherAttributes.getTopic().getTopicDataType());
@@ -320,7 +320,7 @@ class FastRTPSParticipant implements Participant
       }
    }
 
-   synchronized Subscriber createSubscriber(SubscriberAttributes<?, ?> subscriberAttributes, SubscriberListener listener) throws IOException
+   synchronized Subscriber createSubscriber(SubscriberAttributes subscriberAttributes, SubscriberListener listener) throws IOException
    {
       TopicDataType<?> topicDataType = getRegisteredType(subscriberAttributes.getTopic().getTopicDataType());
       if (topicDataType == null)

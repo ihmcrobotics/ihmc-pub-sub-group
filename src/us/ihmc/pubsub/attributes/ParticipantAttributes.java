@@ -9,25 +9,24 @@ import us.ihmc.pubsub.common.Time;
  * 
  * @author Jesper Smith
  */
-public abstract class ParticipantAttributes <T>
+public abstract class ParticipantAttributes
 {
-   private final T rtps;
    
-   /**
-    * @param rtps Implementation specific representation of the underlying RTPS layer attributes. 
-    */
-   protected ParticipantAttributes(T rtps)
+   
+   protected ParticipantAttributes()
    {
-      this.rtps = rtps;
    }
    
+   
    /**
+    * Get implementation specific representation of the underlying RTPS layer attributes.
+    * 
+    * Implementations:
+    *    FastRTPS: us.ihmc.rtps.impl.fastRTPS.RTPSParticipantAttributes
+    * 
     * @return Implementation specific representation of the underlying RTPS layer attributes. 
     */
-   public T rtps()
-   {
-      return rtps;
-   }
+   public abstract <T> T rtps();
    
    /**
     * Convenience function to set the participant name in an implementation agnostic manner

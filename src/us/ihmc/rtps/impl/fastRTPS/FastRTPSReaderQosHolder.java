@@ -9,7 +9,7 @@ import us.ihmc.pubsub.attributes.OwnerShipPolicyKind;
 import us.ihmc.pubsub.attributes.ReaderQosHolder;
 import us.ihmc.pubsub.attributes.ReliabilityKind;
 
-public class FastRTPSReaderQosHolder implements ReaderQosHolder<ReaderQos>
+public class FastRTPSReaderQosHolder implements ReaderQosHolder
 {
    private final boolean ownMemory;
 
@@ -54,6 +54,7 @@ public class FastRTPSReaderQosHolder implements ReaderQosHolder<ReaderQos>
       return FastRTPSCommonFunctions.toJavaReliabilityKind(getReaderQos().getM_reliability().getKind());
    }
 
+   @SuppressWarnings("unchecked")
    @Override
    public ReaderQos getReaderQos()
    {

@@ -41,7 +41,7 @@ public class EndpointDiscoveryProtocolListenerExample
       @Override
       public void publisherTopicChange(boolean isAlive, Guid guid, ArrayList<Locator> unicastLocatorList, ArrayList<Locator> multicastLocatorList,
                                        Guid participantGuid, String typeName, String topicName, int userDefinedId, long typeMaxSerialized, TopicKind topicKind,
-                                       WriterQosHolder<?> writerQosHolder)
+                                       WriterQosHolder writerQosHolder)
       {
          System.out.println("New publisher topic change");
          System.out.println("Is alive: " + isAlive);
@@ -59,7 +59,7 @@ public class EndpointDiscoveryProtocolListenerExample
       @Override
       public void subscriberTopicChange(boolean isAlive, Guid guid, boolean expectsInlineQos, ArrayList<Locator> unicastLocatorList,
                                         ArrayList<Locator> multicastLocatorList, Guid participantGuid, String typeName, String topicName, int userDefinedId,
-                                        TopicKind javaTopicKind, ReaderQosHolder<?> readerQosHolder)
+                                        TopicKind javaTopicKind, ReaderQosHolder readerQosHolder)
       {
          System.out.println("New subscriber topic change");
          System.out.println("Is alive: " + isAlive);
@@ -76,7 +76,7 @@ public class EndpointDiscoveryProtocolListenerExample
    {
       Domain domain = DomainFactory.getDomain(PubSubImplementation.FAST_RTPS);
       
-      ParticipantAttributes<?> attributes = domain.createParticipantAttributes();
+      ParticipantAttributes attributes = domain.createParticipantAttributes();
       attributes.setDomainId(1);
       attributes.setLeaseDuration(Time.Infinite);
       attributes.setName("EndpointDiscoveryProtocolListenerExample");

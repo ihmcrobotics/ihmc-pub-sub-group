@@ -7,10 +7,18 @@ package us.ihmc.pubsub.attributes;
  *
  * @param <T>
  */
-public interface ReaderQosHolder <T> extends QosInterface
+public interface ReaderQosHolder extends QosInterface
 {
 
-   public T getReaderQos();
+   /**
+    * Function to get an implementation specific version of the reader QoS parameters.
+    * 
+    * Versions:
+    *    FastRTPS: us.ihmc.rtps.impl.fastRTPS.ReaderQos
+    * 
+    * @return Reader QoS parameters
+    */
+   public <T> T getReaderQos();
    
    @Override
    default boolean isWriter()

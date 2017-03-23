@@ -12,11 +12,9 @@ import java.util.List;
  * @param <ReaderTimes_t>
  * @param <LocatorList_t>
  */
-public abstract class SubscriberAttributes<ReaderQoS_t, ReaderTimes_t>
+public abstract class SubscriberAttributes
 {
    protected final TopicAttributes topic = new TopicAttributes();
-   protected final ReaderQosHolder<ReaderQoS_t> qos;
-   protected final ReaderTimes_t times;
    protected final ArrayList<Locator> unicastLocatorList = new ArrayList<>();
    protected final ArrayList<Locator> multicastLocatorList = new ArrayList<>();
    protected final ArrayList<Locator> outLocatorList = new ArrayList<>();
@@ -26,10 +24,8 @@ public abstract class SubscriberAttributes<ReaderQoS_t, ReaderTimes_t>
    private boolean expectsInlineQos;
    private MemoryManagementPolicy historyMemoryPolicy = MemoryManagementPolicy.PREALLOCATED_MEMORY_MODE;
 
-   public SubscriberAttributes(ReaderQosHolder<ReaderQoS_t> qos, ReaderTimes_t times)
+   public SubscriberAttributes()
    {
-      this.qos = qos;
-      this.times = times;
    }
 
    public int getUserDefinedID()
@@ -77,15 +73,20 @@ public abstract class SubscriberAttributes<ReaderQoS_t, ReaderTimes_t>
       return topic;
    }
 
-   public ReaderQosHolder<ReaderQoS_t> getQos()
-   {
-      return qos;
-   }
+   /** 
+    * @return holder for Qos settings
+    */
+   public abstract ReaderQosHolder getQos();
 
-   public ReaderTimes_t getTimes()
-   {
-      return times;
-   }
+   /** 
+    * Get implementation specific version of reader times.
+    * 
+    * Implementations: 
+    *    FastRTPS: us.ihmc.rtps.impl.fastRTPS.ReaderTimes
+    * 
+    * @return implementation specific version of reader times.
+    */
+   public abstract <T> T getTimes();
 
    public List<Locator> getUnicastLocatorList()
    {
