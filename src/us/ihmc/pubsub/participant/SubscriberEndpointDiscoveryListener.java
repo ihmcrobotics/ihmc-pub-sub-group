@@ -6,7 +6,6 @@ import us.ihmc.pubsub.attributes.Locator;
 import us.ihmc.pubsub.attributes.ReaderQosHolder;
 import us.ihmc.pubsub.attributes.TopicAttributes.TopicKind;
 import us.ihmc.pubsub.common.Guid;
-import us.ihmc.rtps.impl.fastRTPS.ReaderQos;
 
 /**
  * Listener for the subscriber endpoint discovery protocol
@@ -34,6 +33,6 @@ public interface SubscriberEndpointDiscoveryListener
     */
    void subscriberTopicChange(boolean isAlive, Guid guid, boolean expectsInlineQos, ArrayList<Locator> unicastLocatorList,
                               ArrayList<Locator> multicastLocatorList, Guid participantGuid, String typeName, String topicName, int userDefinedId,
-                              TopicKind javaTopicKind, ReaderQosHolder<?> readerQosHolder);
+                              TopicKind javaTopicKind, ReaderQosHolder readerQosHolder);
 
 }

@@ -25,11 +25,13 @@ public interface Participant
    /**
     * Get the ParticipantAttributes.
     * 
+    * To access implementation specific features, cast the ParticipantAttributes to their implementation specific version.
+    * 
     * This method does not allocate memory
     * 
     * @return ParticipantAttributes.
     */
-   public ParticipantAttributes<?> getAttributes();
+   public ParticipantAttributes getAttributes();
    
    
    /**

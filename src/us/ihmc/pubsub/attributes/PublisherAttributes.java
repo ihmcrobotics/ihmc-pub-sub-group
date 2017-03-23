@@ -10,7 +10,7 @@ import java.util.List;
  *
  * @param <T>
  */
-public class PublisherAttributes<WriterQos_t, WriterTimes_t>
+public abstract class PublisherAttributes
 {
 
    private int userDefinedID = -1;
@@ -18,17 +18,13 @@ public class PublisherAttributes<WriterQos_t, WriterTimes_t>
    protected final MemoryManagementPolicy historyMemoryPolicy = MemoryManagementPolicy.PREALLOCATED_MEMORY_MODE;
 
    protected final TopicAttributes topic = new TopicAttributes();
-   protected final WriterQosHolder<WriterQos_t> qos;
-   protected final WriterTimes_t times;
    protected final ArrayList<Locator> unicastLocatorList = new ArrayList<>();
    protected final ArrayList<Locator> multicastLocatorList = new ArrayList<>();
    protected final ArrayList<Locator> outLocatorList = new ArrayList<>();
    protected final ThroughputControllerDescriptor throughputController = new ThroughputControllerDescriptor();
 
-   protected PublisherAttributes(WriterQosHolder<WriterQos_t> qos, WriterTimes_t times)
+   protected PublisherAttributes()
    {
-      this.qos = qos;
-      this.times = times;
    }
 
    public int getUserDefinedID()
@@ -56,20 +52,30 @@ public class PublisherAttributes<WriterQos_t, WriterTimes_t>
       return historyMemoryPolicy;
    }
 
+   /**
+    * 
+    * @return topic attributes
+    */
    public TopicAttributes getTopic()
    {
       return topic;
    }
 
-   public WriterQosHolder<WriterQos_t> getQos()
-   {
-      return qos;
-   }
+   /**
+    * 
+    * @return Holder for Qos settings
+    */
+   public abstract WriterQosHolder getQos();
 
-   public WriterTimes_t getTimes()
-   {
-      return times;
-   }
+   /** 
+    * Get implementation specific version of writer times.
+    * 
+    * Implementations: 
+    *    FastRTPS: us.ihmc.rtps.impl.fastRTPS.WriterTimes
+    * 
+    * @return implementation specific version of writer times.
+    */
+   public abstract <T> T getTimes();
 
    public List<Locator> getUnicastLocatorList()
    {

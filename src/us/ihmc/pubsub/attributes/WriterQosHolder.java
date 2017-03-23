@@ -7,10 +7,19 @@ package us.ihmc.pubsub.attributes;
  *
  * @param <T>
  */
-public interface WriterQosHolder <T> extends QosInterface
+public interface WriterQosHolder extends QosInterface
 {
    
-   public T getWriterQos();
+   
+   /**
+    * Get implementation specific version of the WriterQos parameters
+    * 
+    * Implementations:
+    *    FastRTPS: us.ihmc.rtps.impl.fastRTPS.WriterQos
+    * 
+    * @return implementation specific writerQos
+    */
+   public <T> T getWriterQos();
    
    @Override
    default boolean isWriter()

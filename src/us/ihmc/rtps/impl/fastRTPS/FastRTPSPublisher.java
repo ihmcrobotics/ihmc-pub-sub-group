@@ -136,7 +136,7 @@ public class FastRTPSPublisher implements Publisher
    }
 
    @Override
-   public PublisherAttributes<?, ?> getAttributes()
+   public PublisherAttributes getAttributes()
    {
       return attributes;
    }

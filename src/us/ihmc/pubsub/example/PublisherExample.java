@@ -57,7 +57,7 @@ public class PublisherExample
       
       domain.setLogLevel(LogLevel.WARNING);
 
-      ParticipantAttributes<?> attributes = domain.createParticipantAttributes();
+      ParticipantAttributes attributes = domain.createParticipantAttributes();
       attributes.setDomainId(1);
       attributes.setLeaseDuration(Time.Infinite);
       attributes.setName("PublisherExample");
@@ -69,13 +69,13 @@ public class PublisherExample
       ChatMessagePubSubType dataType = new ChatMessagePubSubType();
       domain.registerType(participant, dataType);
       
-      PublisherAttributes<?,?> publisherAttributes = domain.createPublisherAttributes();
+      PublisherAttributes publisherAttributes = domain.createPublisherAttributes();
       publisherAttributes.getTopic().setTopicKind(TopicKind.NO_KEY);
       publisherAttributes.getTopic().setTopicDataType(dataType.getName());
       publisherAttributes.getTopic().setTopicName("ChatBox");
       publisherAttributes.getQos().setReliabilityKind(ReliabilityKind.RELIABLE);
       publisherAttributes.getQos().addPartition("us/ihmc");
-      
+            
       publisherAttributes.getQos().setDurabilityKind(DurabilityKind.TRANSIENT_LOCAL_DURABILITY_QOS);
       publisherAttributes.getTopic().getHistoryQos().setKind(HistoryQosPolicyKind.KEEP_LAST_HISTORY_QOS);
       publisherAttributes.getTopic().getHistoryQos().setDepth(50);

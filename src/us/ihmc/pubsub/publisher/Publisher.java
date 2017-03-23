@@ -73,7 +73,9 @@ public interface Publisher
    /**
     * This method does not allocate memory
     * 
+    * 
+    * 
     * @return the Attributes of the Publisher
     */
-   public PublisherAttributes<?, ?> getAttributes();
+   public PublisherAttributes getAttributes();
 }

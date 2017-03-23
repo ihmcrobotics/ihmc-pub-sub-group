@@ -30,7 +30,7 @@ public class FastRTPSDomain implements Domain
    }
 
    @Override
-   public synchronized Participant createParticipant(ParticipantAttributes<?> participantAttributes, ParticipantListener participantListener) throws IOException
+   public synchronized Participant createParticipant(ParticipantAttributes participantAttributes, ParticipantListener participantListener) throws IOException
    {
       FastRTPSParticipant participant = new FastRTPSParticipant(participantAttributes, participantListener);
       participants.add(participant);
@@ -38,7 +38,7 @@ public class FastRTPSDomain implements Domain
    }
 
    @Override
-   public synchronized Publisher createPublisher(Participant participant, PublisherAttributes<?, ?> publisherAttributes, PublisherListener listener)
+   public synchronized Publisher createPublisher(Participant participant, PublisherAttributes publisherAttributes, PublisherListener listener)
          throws IOException, IllegalArgumentException
    {
       for (int i = 0; i < participants.size(); i++)
@@ -53,7 +53,7 @@ public class FastRTPSDomain implements Domain
    }
 
    @Override
-   public Subscriber createSubscriber(Participant participant, SubscriberAttributes<?, ?> subscriberAttributes, SubscriberListener listener)
+   public Subscriber createSubscriber(Participant participant, SubscriberAttributes subscriberAttributes, SubscriberListener listener)
          throws IOException, IllegalArgumentException
    {
       for (int i = 0; i < participants.size(); i++)
@@ -172,7 +172,7 @@ public class FastRTPSDomain implements Domain
    }
 
    @Override
-   public ParticipantAttributes<?> createParticipantAttributes()
+   public FastRTPSParticipantAttributes createParticipantAttributes()
    {
       return new FastRTPSParticipantAttributes();
    }
