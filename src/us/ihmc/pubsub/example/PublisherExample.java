@@ -12,7 +12,6 @@ import us.ihmc.pubsub.attributes.HistoryQosPolicy.HistoryQosPolicyKind;
 import us.ihmc.pubsub.attributes.ParticipantAttributes;
 import us.ihmc.pubsub.attributes.PublisherAttributes;
 import us.ihmc.pubsub.attributes.ReliabilityKind;
-import us.ihmc.pubsub.attributes.TopicAttributes.TopicKind;
 import us.ihmc.pubsub.common.LogLevel;
 import us.ihmc.pubsub.common.MatchingInfo;
 import us.ihmc.pubsub.common.Time;
@@ -69,13 +68,7 @@ public class PublisherExample
       ChatMessagePubSubType dataType = new ChatMessagePubSubType();
       domain.registerType(participant, dataType);
       
-      PublisherAttributes publisherAttributes = domain.createPublisherAttributes();
-      publisherAttributes.getTopic().setTopicKind(TopicKind.NO_KEY);
-      publisherAttributes.getTopic().setTopicDataType(dataType.getName());
-      publisherAttributes.getTopic().setTopicName("ChatBox");
-      publisherAttributes.getQos().setReliabilityKind(ReliabilityKind.RELIABLE);
-      publisherAttributes.getQos().addPartition("us/ihmc");
-            
+      PublisherAttributes publisherAttributes = domain.createDefaultPublisherAttributes(participant, dataType, "ChatBox", ReliabilityKind.RELIABLE, "us/ihmc");           
       publisherAttributes.getQos().setDurabilityKind(DurabilityKind.TRANSIENT_LOCAL_DURABILITY_QOS);
       publisherAttributes.getTopic().getHistoryQos().setKind(HistoryQosPolicyKind.KEEP_LAST_HISTORY_QOS);
       publisherAttributes.getTopic().getHistoryQos().setDepth(50);
