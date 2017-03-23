@@ -34,6 +34,6 @@ public interface PublisherEndpointDiscoveryListener
     */
    void publisherTopicChange(boolean isAlive, Guid guid, ArrayList<Locator> unicastLocatorList, ArrayList<Locator> multicastLocatorList,
                              Guid participantGuid, String typeName, String topicName, int userDefinedId, long typeMaxSerialized, TopicKind topicKind,
-                             WriterQosHolder<?> writerQosHolder);
+                             WriterQosHolder writerQosHolder);
 
 }

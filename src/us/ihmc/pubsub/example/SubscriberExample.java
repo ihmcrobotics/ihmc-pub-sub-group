@@ -77,7 +77,7 @@ public class SubscriberExample
 
       domain.setLogLevel(LogLevel.WARNING);
 
-      ParticipantAttributes<?> attributes = domain.createParticipantAttributes();
+      ParticipantAttributes attributes = domain.createParticipantAttributes();
       attributes.setDomainId(1);
       attributes.setLeaseDuration(Time.Infinite);
       attributes.setName("SubscriberExample");
@@ -87,7 +87,7 @@ public class SubscriberExample
       ChatMessagePubSubType dataType = new ChatMessagePubSubType();
       domain.registerType(participant, dataType);
 
-      SubscriberAttributes<?, ?> subscriberAttributes = domain.createSubscriberAttributes();
+      SubscriberAttributes subscriberAttributes = domain.createSubscriberAttributes();
       subscriberAttributes.getTopic().setTopicKind(TopicKind.NO_KEY);
       subscriberAttributes.getTopic().setTopicDataType(dataType.getName());
       subscriberAttributes.getTopic().setTopicName("ChatBox");

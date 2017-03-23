@@ -5,6 +5,7 @@ import java.io.IOException;
 import us.ihmc.pubsub.attributes.ParticipantAttributes;
 import us.ihmc.pubsub.attributes.PublishModeKind;
 import us.ihmc.pubsub.attributes.PublisherAttributes;
+import us.ihmc.pubsub.attributes.ReliabilityKind;
 import us.ihmc.pubsub.attributes.SubscriberAttributes;
 import us.ihmc.pubsub.attributes.TopicAttributes.TopicKind;
 import us.ihmc.pubsub.common.LogLevel;
@@ -48,7 +49,7 @@ public interface Domain
     * @throws IOException If no participant can be made
     * 
     */
-   public Participant createParticipant(ParticipantAttributes<?> att, ParticipantListener participantListener) throws IOException;
+   public Participant createParticipant(ParticipantAttributes att, ParticipantListener participantListener) throws IOException;
 
    /**
     * Create a Publisher in a Participant.
@@ -64,7 +65,7 @@ public interface Domain
     * @throws IOException If the publisher cannot be made
     * @throws IllegalArgumentException If the attributes are invalid for this publisher
     */
-   public Publisher createPublisher(Participant participant, PublisherAttributes<?, ?> publisherAttributes, PublisherListener listener) throws IOException, IllegalArgumentException;
+   public Publisher createPublisher(Participant participant, PublisherAttributes publisherAttributes, PublisherListener listener) throws IOException, IllegalArgumentException;
    
    /**
     * Create a Subscriber in a Participant.
@@ -76,7 +77,7 @@ public interface Domain
     * @throws IOException If the subscriber cannot be made
     * @throws IllegalArgumentException If the attributes are invalid for this subscriber
     */
-   public Subscriber createSubscriber(Participant participant, SubscriberAttributes<?, ?> subscriberAttributes, SubscriberListener listener) throws IOException, IllegalArgumentException;
+   public Subscriber createSubscriber(Participant participant, SubscriberAttributes subscriberAttributes, SubscriberListener listener) throws IOException, IllegalArgumentException;
 
    /**
     * Remove a Participant and all associated publishers and subscribers.
@@ -154,7 +155,7 @@ public interface Domain
     * 
     * @return Implementation specific version of SubscriberAttributes
     */
-   public SubscriberAttributes<?, ?> createSubscriberAttributes();
+   public SubscriberAttributes createSubscriberAttributes();
    
    /**
     * Generate an implementation specific version of PublisherAttributes
@@ -163,17 +164,19 @@ public interface Domain
     * 
     * @return Implementation specific version of PublisherAttributes
     */
-   public PublisherAttributes<?, ?> createPublisherAttributes();
+   public PublisherAttributes createPublisherAttributes();
    
    
    /**
     * Generate an implementation specific version of ParticipantAttributes
     * 
+    * To access implementation specific features, cast the ParticipantAttributes to their implementation specific version.
+    * 
     * This method allocates memory
     * 
     * @return Implementation specific version of ParticipantAttributes
     */
-   public ParticipantAttributes<?> createParticipantAttributes();
+   public ParticipantAttributes createParticipantAttributes();
    
    /**
     * Create an implementation specific version of ParticipantAttributes with the following options set
@@ -182,13 +185,15 @@ public interface Domain
     * - LeaseDuration: Time.Infinite
     * - Name: name
     * 
+    * To access implementation specific features, cast the ParticipantAttributes to their implementation specific version.
+    * 
     * @param domainId desired domainId for these attributes
     * @param name desired name for these attributes
     * @return Implementation specific version of ParticipantAttributes with reasonable defaults
     */
-   default ParticipantAttributes<?> createDefaultParticipantAttributes(int domainId, String name)
+   default ParticipantAttributes createDefaultParticipantAttributes(int domainId, String name)
    {
-      ParticipantAttributes<?> participantAttributes = createParticipantAttributes();
+      ParticipantAttributes participantAttributes = createParticipantAttributes();
       participantAttributes.setDomainId(domainId);
       participantAttributes.setLeaseDuration(Time.Infinite);
       participantAttributes.setName(name);
@@ -201,6 +206,7 @@ public interface Domain
     * Topic.TopicKind: WITH_KEY if topicDataType.isGetKeyDefined() is true, NO_KEY otherwise
     * Topic.TopicDataType: topicDataType.getName();
     * Topic.TopicName: topicName
+    * Topic.QoS.ReliabilityKind: reliablityKind
     * Topic.QoS.partitions: partitions
     * 
     * Furthermore, if topicDataType has not been registered with the participant then it will be registered.
@@ -208,11 +214,12 @@ public interface Domain
     * @param participant Participant to register the topicDataType with.
     * @param topicDataType Topic data type.
     * @param topicName Topic name.
+    * @param ReliabilityKind the default for subscribers is BEST_EFFORT
     * @param partitions [Optional] partitions this topic subscribes on. If none are given, no partitions will be set.
     * 
     * @return Implementation specific version of SubscriberAttributes with reasonable defaults.
     */
-   default SubscriberAttributes<?, ?> createDefaultSubscriberAttributes(Participant participant, TopicDataType<?> topicDataType, String topicName, String... partitions)
+   default SubscriberAttributes createDefaultSubscriberAttributes(Participant participant, TopicDataType<?> topicDataType, String topicName, ReliabilityKind reliabilityKind, String... partitions)
    {
       TopicDataType<?> registeredType = getRegisteredType(participant, topicDataType.getName());
       if(registeredType == null)
@@ -220,10 +227,11 @@ public interface Domain
          registerType(participant, topicDataType);        
       }
       
-      SubscriberAttributes<?, ?> subscriberAttributes = createSubscriberAttributes();
+      SubscriberAttributes subscriberAttributes = createSubscriberAttributes();
       subscriberAttributes.getTopic().setTopicKind(topicDataType.isGetKeyDefined() ? TopicKind.WITH_KEY : TopicKind.NO_KEY);
       subscriberAttributes.getTopic().setTopicDataType(topicDataType.getName());
       subscriberAttributes.getTopic().setTopicName(topicName);
+      subscriberAttributes.getQos().setReliabilityKind(reliabilityKind);
       if(partitions != null)
       {
          for(String partition : partitions)
@@ -242,7 +250,7 @@ public interface Domain
     * Topic.TopicDataType: topicDataType.getName();
     * Topic.TopicName: topicName
     * Topic.QoS.partitions: partitions
-    * 
+    * Topic.QoS.ReliabilityKind: reliablityKind
     * if topicDataType.getTypeSize() > 65kB QoS.publishMode will be set to ASYNCHRONOUS_PUBLISH_MODE
     * 
     * Furthermore, if topicDataType has not been registered with the participant then it will be registered.
@@ -250,11 +258,12 @@ public interface Domain
     * @param participant Participant to register the topicDataType with.
     * @param topicDataType Topic data type.
     * @param topicName Topic name.
+    * @param ReliabilityKind the default for publishers is RELIABLE
     * @param partitions [Optional] partitions this topic publishes on. If none are given, no partitions will be set.
     * 
     * @return Implementation specific version of PublisherAttributes with reasonable defaults.
     */
-   default PublisherAttributes<?, ?> createDefaultPublisherAttributes(Participant participant, TopicDataType<?> topicDataType, String topicName, String... partitions)
+   default PublisherAttributes createDefaultPublisherAttributes(Participant participant, TopicDataType<?> topicDataType, String topicName, ReliabilityKind reliablity, String... partitions)
    {
       TopicDataType<?> registeredType = getRegisteredType(participant, topicDataType.getName());
       if(registeredType == null)
@@ -262,10 +271,11 @@ public interface Domain
          registerType(participant, topicDataType);        
       }
       
-      PublisherAttributes<?, ?> publisherAttributes = createPublisherAttributes();
+      PublisherAttributes publisherAttributes = createPublisherAttributes();
       publisherAttributes.getTopic().setTopicKind(topicDataType.isGetKeyDefined() ? TopicKind.WITH_KEY : TopicKind.NO_KEY);
       publisherAttributes.getTopic().setTopicDataType(topicDataType.getName());
       publisherAttributes.getTopic().setTopicName(topicName);
+      publisherAttributes.getQos().setReliabilityKind(reliablity);
       if(partitions != null)
       {
          for(String partition : partitions)

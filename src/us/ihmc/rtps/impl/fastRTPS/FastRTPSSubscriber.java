@@ -311,7 +311,7 @@ public class FastRTPSSubscriber implements Subscriber
    }
 
    @Override
-   public SubscriberAttributes<?, ?> getAttributes()
+   public SubscriberAttributes getAttributes()
    {
       return attributes;
    }
