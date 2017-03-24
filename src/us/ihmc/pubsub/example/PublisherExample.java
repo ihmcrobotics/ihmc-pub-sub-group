@@ -93,16 +93,14 @@ public class PublisherExample
       
       
       ChatMessage msg = new ChatMessage();
-      msg.getSender().append("Java");
+      msg.setSender("Java");
       
       int i = 0;
       while(true)
       {
          try
          {
-            msg.getMsg().setLength(0);
-            msg.getMsg().append("Hello World ");
-            msg.getMsg().append(i++);
+            msg.setMsg("Hello World " + (i++));
             publisher.write(msg);
             Thread.sleep(1000);
          }
