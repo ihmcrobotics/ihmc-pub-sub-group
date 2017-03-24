@@ -12,7 +12,7 @@ The API is designed to avoid allocating memory except during initialization.
 - [IHMC Pub/Sub serializers extra](https://github.com/ihmcrobotics/ihmc-pub-sub-serializers-extra): Optional serializer to generated JSON, BSON, YAML, Java Properties and XML(limited) output from .idl messages. 
 
 ## License
-The IHMC Java RTPS Visualizer is licensed under the Apache 2.0. See LICENSE.txt
+The IHMC Pub/Sub library is licensed under the Apache 2.0. See LICENSE.txt
 
 ## Usage
 
