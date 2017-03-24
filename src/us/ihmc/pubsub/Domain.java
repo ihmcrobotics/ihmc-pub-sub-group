@@ -50,6 +50,24 @@ public interface Domain
     * 
     */
    public Participant createParticipant(ParticipantAttributes att, ParticipantListener participantListener) throws IOException;
+   
+   /**
+    * Create a Participant without a listener.
+    * 
+    * This method may allocate memory and is thread-safe
+    * 
+    * @param att Participant Attributes. Implementation specific specific participant attributes, see {@link #createParticipantAttributes() createParticipantAttributes}.
+    * @param participantListener. Listener for newly discovered participants. Can be null
+    * 
+    * @return Participant handle
+    * 
+    * @throws IOException If no participant can be made
+    * 
+    */
+   default Participant createParticipant(ParticipantAttributes att) throws IOException
+   {
+      return createParticipant(att, null);
+   }
 
    /**
     * Create a Publisher in a Participant.
@@ -66,6 +84,24 @@ public interface Domain
     * @throws IllegalArgumentException If the attributes are invalid for this publisher
     */
    public Publisher createPublisher(Participant participant, PublisherAttributes publisherAttributes, PublisherListener listener) throws IOException, IllegalArgumentException;
+
+   /**
+    * Create a Publisher in a Participant without a listener.
+    * 
+    * This method may allocate memory and is thread-safe
+    * 
+    * @param participant where you want to create the publisher
+    * @param publisherAttributes Implementation specific publisher attributes, see {@link #createPublisherAttributes() createPublisherAttributes()}
+    * 
+    * @return Publisher handle
+    * 
+    * @throws IOException If the publisher cannot be made
+    * @throws IllegalArgumentException If the attributes are invalid for this publisher
+    */
+   default Publisher createPublisher(Participant participant, PublisherAttributes publisherAttributes) throws IOException, IllegalArgumentException
+   {
+      return createPublisher(participant, publisherAttributes, null);
+   }
    
    /**
     * Create a Subscriber in a Participant.
@@ -78,6 +114,21 @@ public interface Domain
     * @throws IllegalArgumentException If the attributes are invalid for this subscriber
     */
    public Subscriber createSubscriber(Participant participant, SubscriberAttributes subscriberAttributes, SubscriberListener listener) throws IOException, IllegalArgumentException;
+   
+   /**
+    * Create a Subscriber in a Participant without a listener.
+    * 
+    * @param participant the participant where you want to create the Publisher.
+    * @param subscriberAttributes Implementation specific subscriber attributes, see {@link #createSubscriberAttributes() createSubscriberAttributes()}
+    * 
+    * @return Subscriber handle
+    * @throws IOException If the subscriber cannot be made
+    * @throws IllegalArgumentException If the attributes are invalid for this subscriber
+    */
+   default Subscriber createSubscriber(Participant participant, SubscriberAttributes subscriberAttribute) throws IOException, IllegalArgumentException
+   {
+      return createSubscriber(participant, subscriberAttribute, null);
+   }
 
    /**
     * Remove a Participant and all associated publishers and subscribers.
