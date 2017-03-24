@@ -191,7 +191,7 @@ public interface Domain
     * @param name desired name for these attributes
     * @return Implementation specific version of ParticipantAttributes with reasonable defaults
     */
-   default ParticipantAttributes createDefaultParticipantAttributes(int domainId, String name)
+   default ParticipantAttributes createParticipantAttributes(int domainId, String name)
    {
       ParticipantAttributes participantAttributes = createParticipantAttributes();
       participantAttributes.setDomainId(domainId);
@@ -219,7 +219,7 @@ public interface Domain
     * 
     * @return Implementation specific version of SubscriberAttributes with reasonable defaults.
     */
-   default SubscriberAttributes createDefaultSubscriberAttributes(Participant participant, TopicDataType<?> topicDataType, String topicName, ReliabilityKind reliabilityKind, String... partitions)
+   default SubscriberAttributes createSubscriberAttributes(Participant participant, TopicDataType<?> topicDataType, String topicName, ReliabilityKind reliabilityKind, String... partitions)
    {
       TopicDataType<?> registeredType = getRegisteredType(participant, topicDataType.getName());
       if(registeredType == null)
@@ -263,7 +263,7 @@ public interface Domain
     * 
     * @return Implementation specific version of PublisherAttributes with reasonable defaults.
     */
-   default PublisherAttributes createDefaultPublisherAttributes(Participant participant, TopicDataType<?> topicDataType, String topicName, ReliabilityKind reliablity, String... partitions)
+   default PublisherAttributes createPublisherAttributes(Participant participant, TopicDataType<?> topicDataType, String topicName, ReliabilityKind reliablity, String... partitions)
    {
       TopicDataType<?> registeredType = getRegisteredType(participant, topicDataType.getName());
       if(registeredType == null)
