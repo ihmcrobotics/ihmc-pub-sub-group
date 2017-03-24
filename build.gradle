@@ -23,17 +23,28 @@ sourceSets {
 			srcDirs += ['swig/FastRTPS/generated']
 			srcDirs += ['generated']
 		}
-		
+	}
+	
+	code{
+		java {
+			srcDirs += ['src', 'test']
+		}
 	}
 	
 	
 }
 
+
+
 license {
     header rootProject.file('license-header.txt')
-    ext.year = Calendar.getInstance().get(Calendar.YEAR)    
-    exclude('swig/**')
+    ext.year = Calendar.getInstance().get(Calendar.YEAR)
     strictCheck true
+       
+    sourceSets = project.container(SourceSet)
+    sourceSets.add(project.sourceSets.code)
+    
+
     
 }
 
