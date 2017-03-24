@@ -1,5 +1,6 @@
 plugins {
    id 'us.ihmc.gradle.ihmc-build' version '0.0.9'
+   id "com.github.hierynomus.license" version "0.13.1"
 }
 
 apply plugin: 'java'
@@ -25,6 +26,15 @@ sourceSets {
 		
 	}
 	
+	
+}
+
+license {
+    header rootProject.file('license-header.txt')
+    ext.year = Calendar.getInstance().get(Calendar.YEAR)    
+    exclude('swig/**')
+    strictCheck true
+    
 }
 
 
