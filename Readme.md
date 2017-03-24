@@ -6,10 +6,10 @@ Common Data Representation (CDR) format, allowing interoperability with DDS doma
 The API is designed to avoid allocating memory except during initialization. 
 
 ## Toolchain
-- [https://github.com/ihmcrobotics/ihmc-pub-sub](IHMC Pub/Sub): IHMC Pub/Sub RTPS library
-- [https://github.com/ihmcrobotics/ihmc-pub-sub-generator](IHMC Pub/Sub generator): Gradle plugin and standalone application to generate java classes from .idl messages.
-- [https://github.com/ihmcrobotics/ihmc-rtps-visualizer](IHMC RTPS Visualizer): GUI to display partitions, topics, participants, subscribers, publisher and publisher data on a RTPS domain.
-- [https://github.com/ihmcrobotics/ihmc-pub-sub-serializers-extra](IHMC Pub/Sub serializers extra): Optional serializer to generated JSON, BSON, YAML, Java Properties and XML(limited) output from .idl messages. 
+- [IHMC Pub/Sub](https://github.com/ihmcrobotics/ihmc-pub-sub): IHMC Pub/Sub RTPS library
+- [IHMC Pub/Sub generator](https://github.com/ihmcrobotics/ihmc-pub-sub-generator): Gradle plugin and standalone application to generate java classes from .idl messages.
+- [IHMC RTPS Visualizer](https://github.com/ihmcrobotics/ihmc-rtps-visualizer): GUI to display partitions, topics, participants, subscribers, publisher and publisher data on a RTPS domain.
+- [IHMC Pub/Sub serializers extra](https://github.com/ihmcrobotics/ihmc-pub-sub-serializers-extra): Optional serializer to generated JSON, BSON, YAML, Java Properties and XML(limited) output from .idl messages. 
 
 ## License
 The IHMC Java RTPS Visualizer is licensed under the Apache 2.0. See LICENSE.txt
@@ -17,7 +17,7 @@ The IHMC Java RTPS Visualizer is licensed under the Apache 2.0. See LICENSE.txt
 ## Usage
 
 ## Generating Java code from .idl messages
-Use the [https://github.com/ihmcrobotics/ihmc-pub-sub-generator](IHMC Pub/Sub generator) to compile your .idl messages into [MessageType].java and [MessagePubSubType].java.
+Use the [IHMC Pub/Sub generator](https://github.com/ihmcrobotics/ihmc-pub-sub-generator) to compile your .idl messages into [MessageType].java and [MessagePubSubType].java.
 
 ### Gradle
 Add the IHMC Pub Sub library as dependency
