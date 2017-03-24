@@ -125,9 +125,9 @@ public interface Domain
     * @throws IOException If the subscriber cannot be made
     * @throws IllegalArgumentException If the attributes are invalid for this subscriber
     */
-   default Subscriber createSubscriber(Participant participant, SubscriberAttributes subscriberAttribute) throws IOException, IllegalArgumentException
+   default Subscriber createSubscriber(Participant participant, SubscriberAttributes subscriberAttributes) throws IOException, IllegalArgumentException
    {
-      return createSubscriber(participant, subscriberAttribute, null);
+      return createSubscriber(participant, subscriberAttributes, null);
    }
 
    /**
