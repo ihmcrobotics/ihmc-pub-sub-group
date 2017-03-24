@@ -86,7 +86,7 @@ public class SubscriberExample
       ChatMessagePubSubType dataType = new ChatMessagePubSubType();
       domain.registerType(participant, dataType);
 
-      SubscriberAttributes subscriberAttributes = domain.createDefaultSubscriberAttributes(participant, dataType, "ChatBox", ReliabilityKind.RELIABLE, "us/ihmc");      
+      SubscriberAttributes subscriberAttributes = domain.createSubscriberAttributes(participant, dataType, "ChatBox", ReliabilityKind.RELIABLE, "us/ihmc");      
       subscriberAttributes.getQos().setDurabilityKind(DurabilityKind.TRANSIENT_LOCAL_DURABILITY_QOS);
       subscriberAttributes.getTopic().getHistoryQos().setKind(HistoryQosPolicyKind.KEEP_ALL_HISTORY_QOS);
 
