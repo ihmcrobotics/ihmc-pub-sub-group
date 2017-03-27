@@ -17,6 +17,26 @@ ENDIF(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
 
 find_package(JNI REQUIRED)
 
+include(ExternalProject)
+SET(FAST_RTPS_INSTALL_PREFIX "${PROJECT_BINARY_DIR}/thirdparty/Fast-RTPS-install")
+ExternalProject_Add(FastRTPS
+    SOURCE_DIR "${PROJECT_SOURCE_DIR}/thirdparty/Fast-RTPS"
+    BINARY_DIR "${PROJECT_BINARY_DIR}/thirdparty/Fast-RTPS-build"
+    STAMP_DIR "${PROJECT_BINARY_DIR}/thirdparty/Fast-RTPS-stamp"
+    INSTALL_DIR "${FAST_RTPS_INSTALL_PREFIX}"
+    TMP_DIR "${PROJECT_BINARY_DIR}/thirdparty/Fast-RTPS-tmp"
+    CMAKE_GENERATOR "${CMAKE_GENERATOR}"
+    CMAKE_ARGS
+        "-DEPROSIMA_BUILD=ON"
+        "-DCMAKE_BUILD_TYPE=Release"
+        "-DCOMPILE_EXAMPLES=OFF"
+        "-DBUILD_SHARED_LIBS=OFF"
+        "-DCMAKE_INSTALL_PREFIX=${FAST_RTPS_INSTALL_PREFIX}"
+        "-DCMAKE_POSITION_INDEPENDENT_CODE=true"
+)
+link_directories("${FAST_RTPS_INSTALL_PREFIX}/lib")
+INCLUDE_DIRECTORIES("${FAST_RTPS_INSTALL_PREFIX}/include")
+
 
 
 add_subdirectory(cppsrc/FastRTPS)
