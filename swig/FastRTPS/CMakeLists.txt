@@ -12,7 +12,7 @@ SET_SOURCE_FILES_PROPERTIES(FastRTPS.i PROPERTIES CPLUSPLUS ON)
 SET_PROPERTY(SOURCE FastRTPS.i PROPERTY SWIG_FLAGS "-package" "us.ihmc.rtps.impl.fastRTPS")
 
 
-SWIG_ADD_MODULE(FastRTPSWrapper java FastRTPS.i)
+SWIG_ADD_LIBRARY(FastRTPSWrapper LANGUAGE java TYPE MODULE SOURCES FastRTPS.i)
 ADD_DEPENDENCIES(FastRTPSWrapper FastRTPSNativeImpl)
 SWIG_LINK_LIBRARIES(FastRTPSWrapper FastRTPSNativeImpl -static-libgcc -static-libstdc++)
 INSTALL(TARGETS FastRTPSWrapper RUNTIME DESTINATION resources/us/ihmc/rtps/impl/fastRTPS LIBRARY DESTINATION resources/us/ihmc/rtps/impl/fastRTPS)

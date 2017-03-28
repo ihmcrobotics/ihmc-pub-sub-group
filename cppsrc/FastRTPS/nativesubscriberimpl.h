@@ -43,7 +43,7 @@ namespace fastRTPS{
     public:
         virtual void onReaderMatched(MatchingStatus status, int64_t guidHigh, int64_t guidLow) {}
         virtual void onNewCacheChangeAdded() {}
-        virtual bool getKey(int64_t cacheChangePtr, int16_t encoding, int32_t dataLength) {}
+        virtual bool getKey(int64_t cacheChangePtr, int16_t encoding, int32_t dataLength) { return false; }
         virtual ~NativeSubscriberListener() {}
     };
 

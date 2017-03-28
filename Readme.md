@@ -19,6 +19,19 @@ The IHMC Pub/Sub library is licensed under the Apache 2.0. See LICENSE.txt
 ## Generating Java code from .idl messages
 Use the [IHMC Pub/Sub generator](https://github.com/ihmcrobotics/ihmc-pub-sub-generator) to compile your .idl messages into [MessageType].java and [MessagePubSubType].java.
 
+### Supported operating systems
+IHMC Pub Sub has a native component that is compiled for different operating systems
+#### Linux
+- Tested on Ubuntu 16.04 and Ubuntu 16.10
+- Requires OpenJDK JRE 8 or compatible JRE
+- Native library is compiled statically, should work on most distributions
+
+#### Windows 
+- Tested on Windows 10
+- Requires Oracle JRE 8 or compatible JRE. [Download](https://java.com/en/download/)
+- Requires Microsoft Visual C++ 2017 Redistributable (x64). [Download](https://go.microsoft.com/fwlink/?LinkId=746572)
+
+
 ### Gradle
 Add the IHMC Pub Sub library as dependency
 ```
@@ -130,12 +143,15 @@ gradle publishToMavenLocal
 
 This step is optional, the native libraries have been included in the source code repository.
 
-Prerequisites
-- Install FastRTPS using the README.md found on https://github.com/eProsima/Fast-RTPS. Use -DCMAKE_BUILD_TYPE=Debug if you want to enable info level debug. 
-	- Current libraries are compiled with commit ad59a6c
-- Set the environment variable FASTRTPSHOME to point to your FastRTPS installation prefix
+FastRTPS is included as a GIT submodule. The CMake build system will automatically build FastRTPS if neccessary.
 
 #### Linux
+Requirements
+- CMake 3.1 or later
+- GNU C++
+- Swig 3.0.8 or later
+- OpenJDK 1.8
+
 ```
 mkdir build
 cd build
@@ -143,6 +159,31 @@ cmake ..
 make 
 make install
 ```
+
+#### Windows
+Requirements:
+- CMake [https://cmake.org/download/](https://cmake.org/download/). Recommended edition: Windows win64-x64 installer
+- Visual Studio 2017 Community [https://www.visualstudio.com/downloads/](https://www.visualstudio.com/downloads/). 
+	- Make sure to select "Desktop Development with C++" and select "MFC and ATL support (x86 and x64)" under Optional.
+- Swig: Version 3.0.8 or later
+	- Unpack in C:\swigwin-3.0.8 or modify later commands accordingly
+- JDK 1.8
+- 64 bit Git for Windows  setup [https://git-scm.com/download/win](https://git-scm.com/download/win).
+	- Make sure to have "Use Git from the Windows Command Prompt" selected so it gets added to your path.
+
+##### Configuration:
+Use CMake GUI to create the Visual Studio makefiles.
+- Start the x64 Native Tools Command Prompt for VS 2017
+- Create [source directory]]\build
+- cd [source directory]\build
+- Run "C:\Program Files\CMake\bin\cmake.exe" -G "Visual Studio 15 2017 Win64" -DSWIG_EXECUTABLE="C:\swigwin-3.0.8\swig.exe" ..
+	
+##### Compilation:
+
+- Navigate to [source code directory]/build
+- Run "C:\Program Files\CMake\bin\cmake.exe" --build . --config Release --target install
+
+Note: Only the Release configuration builds.
 
 
 
