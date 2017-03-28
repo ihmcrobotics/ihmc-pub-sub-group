@@ -16,6 +16,7 @@ ENDIF(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
 
 
 find_package(JNI REQUIRED)
+INCLUDE_DIRECTORIES(${JNI_INCLUDE_DIRS})
 
 include(ExternalProject)
 SET(FAST_RTPS_INSTALL_PREFIX "${PROJECT_BINARY_DIR}/thirdparty/Fast-RTPS-install")
@@ -36,7 +37,11 @@ ExternalProject_Add(FastRTPS
 )
 link_directories("${FAST_RTPS_INSTALL_PREFIX}/lib")
 INCLUDE_DIRECTORIES("${FAST_RTPS_INSTALL_PREFIX}/include")
-
+IF(WIN32)
+	set(FastRTPS_LIBRARIES libfastcdr-1.0 libfastrtps-1.3 Iphlpapi Shlwapi)
+ELSE()
+	set(FastRTPS_LIBRARIES fastcdr fastrtps)
+ENDIF()
 
 
 add_subdirectory(cppsrc/FastRTPS)
