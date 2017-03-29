@@ -24,6 +24,8 @@ ExternalProject_Add(FastRTPS
     SOURCE_DIR "${PROJECT_SOURCE_DIR}/thirdparty/Fast-RTPS"
     BINARY_DIR "${PROJECT_BINARY_DIR}/thirdparty/Fast-RTPS-build"
     STAMP_DIR "${PROJECT_BINARY_DIR}/thirdparty/Fast-RTPS-stamp"
+	DOWNLOAD_COMMAND ""
+	UPDATE_COMMAND "${CMAKE_COMMAND}" -E chdir "${PROJECT_SOURCE_DIR}" git submodule update --recursive --init "thirdparty/Fast-RTPS"
     INSTALL_DIR "${FAST_RTPS_INSTALL_PREFIX}"
     TMP_DIR "${PROJECT_BINARY_DIR}/thirdparty/Fast-RTPS-tmp"
     CMAKE_GENERATOR "${CMAKE_GENERATOR}"
