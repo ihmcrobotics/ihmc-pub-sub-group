@@ -3,7 +3,7 @@ project(IHMCPubSub)
 
 set(HEADER_FILES commonfunctions.h fastrtpsexception.h sampleinfomarshaller.h)
 add_library(FastRTPSNativeImpl nativeparticipantimpl nativepublisherimpl publisherhistory nativesubscriberimpl loglevel ${HEADER_FILES})
-target_link_libraries(FastRTPSNativeImpl fastcdr fastrtps)
+target_link_libraries(FastRTPSNativeImpl ${FastRTPS_LIBRARIES})
 
 add_dependencies(FastRTPSNativeImpl FastRTPS)
 
