@@ -23,6 +23,7 @@
 #define _IDLElementTest_H_
 
 // TODO Poner en el contexto.
+#include "NestedElement.h"
 
 #include <stdint.h>
 #include <array>
@@ -63,164 +64,6 @@ namespace eprosima
 
 namespace IDLElement
 {
-    /*!
-     * @brief This class represents the structure NestedElement defined by the user in the IDL file.
-     * @ingroup IDLELEMENTTEST
-     */
-    class NestedElement
-    {
-    public:
-
-        /*!
-         * @brief Default constructor.
-         */
-        eProsima_user_DllExport NestedElement();
-        
-        /*!
-         * @brief Default destructor.
-         */
-        eProsima_user_DllExport ~NestedElement();
-        
-        /*!
-         * @brief Copy constructor.
-         * @param x Reference to the object IDLElement::NestedElement that will be copied.
-         */
-        eProsima_user_DllExport NestedElement(const NestedElement &x);
-        
-        /*!
-         * @brief Move constructor.
-         * @param x Reference to the object IDLElement::NestedElement that will be copied.
-         */
-        eProsima_user_DllExport NestedElement(NestedElement &&x);
-        
-        /*!
-         * @brief Copy assignment.
-         * @param x Reference to the object IDLElement::NestedElement that will be copied.
-         */
-        eProsima_user_DllExport NestedElement& operator=(const NestedElement &x);
-        
-        /*!
-         * @brief Move assignment.
-         * @param x Reference to the object IDLElement::NestedElement that will be copied.
-         */
-        eProsima_user_DllExport NestedElement& operator=(NestedElement &&x);
-        
-        /*!
-         * @brief This function copies the value in member stringTest
-         * @param _stringTest New value to be copied in member stringTest
-         */
-        inline eProsima_user_DllExport void stringTest(const std::string &_stringTest)
-        {
-            m_stringTest = _stringTest;
-        }
-
-        /*!
-         * @brief This function moves the value in member stringTest
-         * @param _stringTest New value to be moved in member stringTest
-         */
-        inline eProsima_user_DllExport void stringTest(std::string &&_stringTest)
-        {
-            m_stringTest = std::move(_stringTest);
-        }
-
-        /*!
-         * @brief This function returns a constant reference to member stringTest
-         * @return Constant reference to member stringTest
-         */
-        inline eProsima_user_DllExport const std::string& stringTest() const
-        {
-            return m_stringTest;
-        }
-
-        /*!
-         * @brief This function returns a reference to member stringTest
-         * @return Reference to member stringTest
-         */
-        inline eProsima_user_DllExport std::string& stringTest()
-        {
-            return m_stringTest;
-        }
-        /*!
-         * @brief This function sets a value in member longTest
-         * @param _longTest New value for member longTest
-         */
-        inline eProsima_user_DllExport void longTest(int32_t _longTest)
-        {
-            m_longTest = _longTest;
-        }
-
-        /*!
-         * @brief This function returns the value of member longTest
-         * @return Value of member longTest
-         */
-        inline eProsima_user_DllExport int32_t longTest() const
-        {
-            return m_longTest;
-        }
-
-        /*!
-         * @brief This function returns a reference to member longTest
-         * @return Reference to member longTest
-         */
-        inline eProsima_user_DllExport int32_t& longTest()
-        {
-            return m_longTest;
-        }
-        
-        /*!
-         * @brief This function returns the maximum serialized size of an object
-         * depending on the buffer alignment.
-         * @param current_alignment Buffer alignment.
-         * @return Maximum serialized size.
-         */
-        eProsima_user_DllExport static size_t getMaxCdrSerializedSize(size_t current_alignment = 0);
-
-        /*!
-         * @brief This function returns the serialized size of a data depending on the buffer alignment.
-         * @param data Data which is calculated its serialized size.
-         * @param current_alignment Buffer alignment.
-         * @return Serialized size.
-         */
-        eProsima_user_DllExport static size_t getCdrSerializedSize(const IDLElement::NestedElement& data, size_t current_alignment = 0);
-
-
-        /*!
-         * @brief This function serializes an object using CDR serialization.
-         * @param cdr CDR serialization object.
-         */
-        eProsima_user_DllExport void serialize(eprosima::fastcdr::Cdr &cdr) const;
-
-        /*!
-         * @brief This function deserializes an object using CDR serialization.
-         * @param cdr CDR serialization object.
-         */
-        eProsima_user_DllExport void deserialize(eprosima::fastcdr::Cdr &cdr);
-
-
-
-        /*!
-         * @brief This function returns the maximum serialized size of the Key of an object
-         * depending on the buffer alignment.
-         * @param current_alignment Buffer alignment.
-         * @return Maximum serialized size.
-         */
-        eProsima_user_DllExport static size_t getKeyMaxCdrSerializedSize(size_t current_alignment = 0);
-
-        /*!
-         * @brief This function tells you if the Key has been defined for this type
-         */
-        eProsima_user_DllExport static bool isKeyDefined();
-
-        /*!
-         * @brief This function serializes the key members of an object using CDR serialization.
-         * @param cdr CDR serialization object.
-         */
-        eProsima_user_DllExport void serializeKey(eprosima::fastcdr::Cdr &cdr) const;
-        
-    private:
-        std::string m_stringTest;
-        int32_t m_longTest;
-    };
     /*!
      * @brief This class represents the enumeration Color defined by the user in the IDL file.
      * @ingroup IDLELEMENTTEST
@@ -615,7 +458,7 @@ namespace IDLElement
          * @brief This function copies the value in member nestedElementTest
          * @param _nestedElementTest New value to be copied in member nestedElementTest
          */
-        inline eProsima_user_DllExport void nestedElementTest(const IDLElement::NestedElement &_nestedElementTest)
+        inline eProsima_user_DllExport void nestedElementTest(const IDLNestedElement::NestedElement &_nestedElementTest)
         {
             m_nestedElementTest = _nestedElementTest;
         }
@@ -624,7 +467,7 @@ namespace IDLElement
          * @brief This function moves the value in member nestedElementTest
          * @param _nestedElementTest New value to be moved in member nestedElementTest
          */
-        inline eProsima_user_DllExport void nestedElementTest(IDLElement::NestedElement &&_nestedElementTest)
+        inline eProsima_user_DllExport void nestedElementTest(IDLNestedElement::NestedElement &&_nestedElementTest)
         {
             m_nestedElementTest = std::move(_nestedElementTest);
         }
@@ -633,7 +476,7 @@ namespace IDLElement
          * @brief This function returns a constant reference to member nestedElementTest
          * @return Constant reference to member nestedElementTest
          */
-        inline eProsima_user_DllExport const IDLElement::NestedElement& nestedElementTest() const
+        inline eProsima_user_DllExport const IDLNestedElement::NestedElement& nestedElementTest() const
         {
             return m_nestedElementTest;
         }
@@ -642,7 +485,7 @@ namespace IDLElement
          * @brief This function returns a reference to member nestedElementTest
          * @return Reference to member nestedElementTest
          */
-        inline eProsima_user_DllExport IDLElement::NestedElement& nestedElementTest()
+        inline eProsima_user_DllExport IDLNestedElement::NestedElement& nestedElementTest()
         {
             return m_nestedElementTest;
         }
@@ -720,7 +563,7 @@ namespace IDLElement
          * @brief This function copies the value in member nestedArray
          * @param _nestedArray New value to be copied in member nestedArray
          */
-        inline eProsima_user_DllExport void nestedArray(const std::array<std::array<IDLElement::NestedElement, 3>, 5> &_nestedArray)
+        inline eProsima_user_DllExport void nestedArray(const std::array<std::array<IDLNestedElement::NestedElement, 3>, 5> &_nestedArray)
         {
             m_nestedArray = _nestedArray;
         }
@@ -729,7 +572,7 @@ namespace IDLElement
          * @brief This function moves the value in member nestedArray
          * @param _nestedArray New value to be moved in member nestedArray
          */
-        inline eProsima_user_DllExport void nestedArray(std::array<std::array<IDLElement::NestedElement, 3>, 5> &&_nestedArray)
+        inline eProsima_user_DllExport void nestedArray(std::array<std::array<IDLNestedElement::NestedElement, 3>, 5> &&_nestedArray)
         {
             m_nestedArray = std::move(_nestedArray);
         }
@@ -738,7 +581,7 @@ namespace IDLElement
          * @brief This function returns a constant reference to member nestedArray
          * @return Constant reference to member nestedArray
          */
-        inline eProsima_user_DllExport const std::array<std::array<IDLElement::NestedElement, 3>, 5>& nestedArray() const
+        inline eProsima_user_DllExport const std::array<std::array<IDLNestedElement::NestedElement, 3>, 5>& nestedArray() const
         {
             return m_nestedArray;
         }
@@ -747,7 +590,7 @@ namespace IDLElement
          * @brief This function returns a reference to member nestedArray
          * @return Reference to member nestedArray
          */
-        inline eProsima_user_DllExport std::array<std::array<IDLElement::NestedElement, 3>, 5>& nestedArray()
+        inline eProsima_user_DllExport std::array<std::array<IDLNestedElement::NestedElement, 3>, 5>& nestedArray()
         {
             return m_nestedArray;
         }
@@ -1210,7 +1053,7 @@ namespace IDLElement
          * @brief This function copies the value in member nestedSeqTest
          * @param _nestedSeqTest New value to be copied in member nestedSeqTest
          */
-        inline eProsima_user_DllExport void nestedSeqTest(const std::vector<IDLElement::NestedElement> &_nestedSeqTest)
+        inline eProsima_user_DllExport void nestedSeqTest(const std::vector<IDLNestedElement::NestedElement> &_nestedSeqTest)
         {
             m_nestedSeqTest = _nestedSeqTest;
         }
@@ -1219,7 +1062,7 @@ namespace IDLElement
          * @brief This function moves the value in member nestedSeqTest
          * @param _nestedSeqTest New value to be moved in member nestedSeqTest
          */
-        inline eProsima_user_DllExport void nestedSeqTest(std::vector<IDLElement::NestedElement> &&_nestedSeqTest)
+        inline eProsima_user_DllExport void nestedSeqTest(std::vector<IDLNestedElement::NestedElement> &&_nestedSeqTest)
         {
             m_nestedSeqTest = std::move(_nestedSeqTest);
         }
@@ -1228,7 +1071,7 @@ namespace IDLElement
          * @brief This function returns a constant reference to member nestedSeqTest
          * @return Constant reference to member nestedSeqTest
          */
-        inline eProsima_user_DllExport const std::vector<IDLElement::NestedElement>& nestedSeqTest() const
+        inline eProsima_user_DllExport const std::vector<IDLNestedElement::NestedElement>& nestedSeqTest() const
         {
             return m_nestedSeqTest;
         }
@@ -1237,7 +1080,7 @@ namespace IDLElement
          * @brief This function returns a reference to member nestedSeqTest
          * @return Reference to member nestedSeqTest
          */
-        inline eProsima_user_DllExport std::vector<IDLElement::NestedElement>& nestedSeqTest()
+        inline eProsima_user_DllExport std::vector<IDLNestedElement::NestedElement>& nestedSeqTest()
         {
             return m_nestedSeqTest;
         }
@@ -1341,10 +1184,10 @@ namespace IDLElement
         double m_doubleTest;
         bool m_booleanTest;
         IDLElement::Color m_colorTest;
-        IDLElement::NestedElement m_nestedElementTest;
+        IDLNestedElement::NestedElement m_nestedElementTest;
         std::string m_stringTest;
         std::array<int32_t, 10> m_longArray;
-        std::array<std::array<IDLElement::NestedElement, 3>, 5> m_nestedArray;
+        std::array<std::array<IDLNestedElement::NestedElement, 3>, 5> m_nestedArray;
         std::array<std::string, 4> m_stringArray;
         std::vector<char> m_charSeqTest;
         std::vector<wchar_t> m_wcharSeqTest;
@@ -1358,7 +1201,7 @@ namespace IDLElement
         std::vector<float> m_floatSeqTest;
         std::vector<double> m_doubleSeqTest;
         std::vector<bool> m_booleanSeqTest;
-        std::vector<IDLElement::NestedElement> m_nestedSeqTest;
+        std::vector<IDLNestedElement::NestedElement> m_nestedSeqTest;
         std::vector<std::string> m_stringSeqTest;
     };
 }

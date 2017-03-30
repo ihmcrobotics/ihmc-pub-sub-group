@@ -31,104 +31,8 @@ namespace { char dummy; }
 #include <fastcdr/exceptions/BadParamException.h>
 using namespace eprosima::fastcdr::exception;
 
-IDLElement::NestedElement::NestedElement()
-{
+#include <utility>
 
-    m_longTest = 0;
-}
-
-IDLElement::NestedElement::~NestedElement()
-{
-}
-
-IDLElement::NestedElement::NestedElement(const NestedElement &x)
-{
-    m_stringTest = x.m_stringTest;
-    m_longTest = x.m_longTest;
-}
-
-IDLElement::NestedElement::NestedElement(NestedElement &&x)
-{
-    m_stringTest = std::move(x.m_stringTest);
-    m_longTest = x.m_longTest;
-}
-
-IDLElement::NestedElement& IDLElement::NestedElement::operator=(const NestedElement &x)
-{
-    m_stringTest = x.m_stringTest;
-    m_longTest = x.m_longTest;
-    
-    return *this;
-}
-
-IDLElement::NestedElement& IDLElement::NestedElement::operator=(NestedElement &&x)
-{
-    m_stringTest = std::move(x.m_stringTest);
-    m_longTest = x.m_longTest;
-    
-    return *this;
-}
-
-size_t IDLElement::NestedElement::getMaxCdrSerializedSize(size_t current_alignment)
-{
-    size_t initial_alignment = current_alignment;
-            
-    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4) + 255 + 1;
-
-    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
-
-
-    return current_alignment - initial_alignment;
-}
-
-size_t IDLElement::NestedElement::getCdrSerializedSize(const IDLElement::NestedElement& data, size_t current_alignment)
-{
-    size_t initial_alignment = current_alignment;
-            
-    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4) + data.stringTest().size() + 1;
-
-    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
-
-
-    return current_alignment - initial_alignment;
-}
-
-void IDLElement::NestedElement::serialize(eprosima::fastcdr::Cdr &scdr) const
-{
-    if(m_stringTest.length() <= 255)
-    scdr << m_stringTest;
-    else
-        throw eprosima::fastcdr::exception::BadParamException("stringTest field exceeds the maximum length");
-    scdr << m_longTest;
-
-}
-
-void IDLElement::NestedElement::deserialize(eprosima::fastcdr::Cdr &dcdr)
-{
-    dcdr >> m_stringTest;
-    dcdr >> m_longTest;
-}
-
-size_t IDLElement::NestedElement::getKeyMaxCdrSerializedSize(size_t current_alignment)
-{
-	size_t current_align = current_alignment;
-            
-
-
-
-    return current_align;
-}
-
-bool IDLElement::NestedElement::isKeyDefined()
-{
-    return false;
-}
-
-void IDLElement::NestedElement::serializeKey(eprosima::fastcdr::Cdr &scdr) const
-{
-	 
-	 
-}
 
 IDLElement::IDLElementTest::IDLElementTest()
 {
@@ -348,14 +252,14 @@ size_t IDLElement::IDLElementTest::getMaxCdrSerializedSize(size_t current_alignm
 
     current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
 
-    current_alignment += IDLElement::NestedElement::getMaxCdrSerializedSize(current_alignment);
+    current_alignment += IDLNestedElement::NestedElement::getMaxCdrSerializedSize(current_alignment);
     current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4) + 255 + 1;
 
     current_alignment += ((10) * 4) + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
 
     for(size_t a = 0; a < (5 * 3); ++a)
     {
-        current_alignment += IDLElement::NestedElement::getMaxCdrSerializedSize(current_alignment);}
+        current_alignment += IDLNestedElement::NestedElement::getMaxCdrSerializedSize(current_alignment);}
     for(size_t a = 0; a < (4); ++a)
     {
         current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4) + 255 + 1;
@@ -411,7 +315,7 @@ size_t IDLElement::IDLElementTest::getMaxCdrSerializedSize(size_t current_alignm
     current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
     for(size_t a = 0; a < 25; ++a)
     {
-        current_alignment += IDLElement::NestedElement::getMaxCdrSerializedSize(current_alignment);}
+        current_alignment += IDLNestedElement::NestedElement::getMaxCdrSerializedSize(current_alignment);}
 
     current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
     for(size_t a = 0; a < 25; ++a)
@@ -452,7 +356,7 @@ size_t IDLElement::IDLElementTest::getCdrSerializedSize(const IDLElement::IDLEle
 
     current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
 
-    current_alignment += IDLElement::NestedElement::getCdrSerializedSize(data.nestedElementTest(), current_alignment);
+    current_alignment += IDLNestedElement::NestedElement::getCdrSerializedSize(data.nestedElementTest(), current_alignment);
     current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4) + data.stringTest().size() + 1;
 
     current_alignment += ((10) * 4) + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
@@ -460,7 +364,7 @@ size_t IDLElement::IDLElementTest::getCdrSerializedSize(const IDLElement::IDLEle
     {
         for(size_t b = 0; b < data.nestedArray().at(a).size(); ++b)
         {
-                current_alignment += IDLElement::NestedElement::getCdrSerializedSize(data.nestedArray().at(a).at(b), current_alignment);
+                current_alignment += IDLNestedElement::NestedElement::getCdrSerializedSize(data.nestedArray().at(a).at(b), current_alignment);
         }
     }
     for(size_t a = 0; a < data.stringArray().size(); ++a)
@@ -519,7 +423,7 @@ size_t IDLElement::IDLElementTest::getCdrSerializedSize(const IDLElement::IDLEle
     current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
     for(size_t a = 0; a < data.nestedSeqTest().size(); ++a)
     {
-        current_alignment += IDLElement::NestedElement::getCdrSerializedSize(data.nestedSeqTest().at(a), current_alignment);}
+        current_alignment += IDLNestedElement::NestedElement::getCdrSerializedSize(data.nestedSeqTest().at(a), current_alignment);}
 
     current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
     for(size_t a = 0; a < data.stringSeqTest().size(); ++a)

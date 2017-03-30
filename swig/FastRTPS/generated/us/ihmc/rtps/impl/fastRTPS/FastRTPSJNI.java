@@ -158,6 +158,8 @@ public class FastRTPSJNI {
   public final static native String RTPSParticipantAttributes_getName(long jarg1, RTPSParticipantAttributes jarg1_);
   public final static native void RTPSParticipantAttributes_useBuiltinTransports_set(long jarg1, RTPSParticipantAttributes jarg1_, boolean jarg2);
   public final static native boolean RTPSParticipantAttributes_useBuiltinTransports_get(long jarg1, RTPSParticipantAttributes jarg1_);
+  public final static native void RTPSParticipantAttributes_properties_set(long jarg1, RTPSParticipantAttributes jarg1_, long jarg2);
+  public final static native long RTPSParticipantAttributes_properties_get(long jarg1, RTPSParticipantAttributes jarg1_);
   public final static native void ThroughputControllerDescriptor_bytesPerPeriod_set(long jarg1, ThroughputControllerDescriptor jarg1_, long jarg2);
   public final static native long ThroughputControllerDescriptor_bytesPerPeriod_get(long jarg1, ThroughputControllerDescriptor jarg1_);
   public final static native void ThroughputControllerDescriptor_periodMillisecs_set(long jarg1, ThroughputControllerDescriptor jarg1_, long jarg2);
@@ -409,6 +411,8 @@ public class FastRTPSJNI {
   public final static native long EndpointAttributes_multicastLocatorList_get(long jarg1, EndpointAttributes jarg1_);
   public final static native void EndpointAttributes_outLocatorList_set(long jarg1, EndpointAttributes jarg1_, long jarg2, LocatorList_t jarg2_);
   public final static native long EndpointAttributes_outLocatorList_get(long jarg1, EndpointAttributes jarg1_);
+  public final static native void EndpointAttributes_properties_set(long jarg1, EndpointAttributes jarg1_, long jarg2);
+  public final static native long EndpointAttributes_properties_get(long jarg1, EndpointAttributes jarg1_);
   public final static native short EndpointAttributes_getUserDefinedID(long jarg1, EndpointAttributes jarg1_);
   public final static native short EndpointAttributes_getEntityID(long jarg1, EndpointAttributes jarg1_);
   public final static native void EndpointAttributes_setUserDefinedID(long jarg1, EndpointAttributes jarg1_, short jarg2);
@@ -457,6 +461,8 @@ public class FastRTPSJNI {
   public final static native long PublisherAttributes_throughputController_get(long jarg1, PublisherAttributes jarg1_);
   public final static native void PublisherAttributes_historyMemoryPolicy_set(long jarg1, PublisherAttributes jarg1_, int jarg2);
   public final static native int PublisherAttributes_historyMemoryPolicy_get(long jarg1, PublisherAttributes jarg1_);
+  public final static native void PublisherAttributes_properties_set(long jarg1, PublisherAttributes jarg1_, long jarg2);
+  public final static native long PublisherAttributes_properties_get(long jarg1, PublisherAttributes jarg1_);
   public final static native short PublisherAttributes_getUserDefinedID(long jarg1, PublisherAttributes jarg1_);
   public final static native short PublisherAttributes_getEntityID(long jarg1, PublisherAttributes jarg1_);
   public final static native void PublisherAttributes_setUserDefinedID(long jarg1, PublisherAttributes jarg1_, short jarg2);
@@ -501,6 +507,8 @@ public class FastRTPSJNI {
   public final static native boolean SubscriberAttributes_expectsInlineQos_get(long jarg1, SubscriberAttributes jarg1_);
   public final static native void SubscriberAttributes_historyMemoryPolicy_set(long jarg1, SubscriberAttributes jarg1_, int jarg2);
   public final static native int SubscriberAttributes_historyMemoryPolicy_get(long jarg1, SubscriberAttributes jarg1_);
+  public final static native void SubscriberAttributes_properties_set(long jarg1, SubscriberAttributes jarg1_, long jarg2);
+  public final static native long SubscriberAttributes_properties_get(long jarg1, SubscriberAttributes jarg1_);
   public final static native short SubscriberAttributes_getUserDefinedID(long jarg1, SubscriberAttributes jarg1_);
   public final static native short SubscriberAttributes_getEntityID(long jarg1, SubscriberAttributes jarg1_);
   public final static native void SubscriberAttributes_setUserDefinedID(long jarg1, SubscriberAttributes jarg1_, short jarg2);

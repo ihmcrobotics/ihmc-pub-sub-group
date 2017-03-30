@@ -1,5 +1,6 @@
 #include "IDLElementTest.h"
 #include "IDLElementTestPubSubTypes.h"
+#include "NestedElement.h"
 #include <iomanip>
 
 int main()
@@ -65,7 +66,7 @@ int main()
                msg.ulonglongSeqTest().push_back(241l + i * 100421410l);
                msg.floatSeqTest().push_back(325.25f * i);
                msg.doubleSeqTest().push_back(15095.921 * i);
-               IDLElement::NestedElement nested;
+               IDLNestedElement::NestedElement nested;
                nested.longTest(i * 541);
                nested.stringTest("dim:" + std::to_string(s) + std::to_string(w));
                msg.nestedSeqTest().push_back(nested);

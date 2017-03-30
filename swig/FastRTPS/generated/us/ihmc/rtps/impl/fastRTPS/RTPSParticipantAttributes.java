@@ -157,4 +157,12 @@ public class RTPSParticipantAttributes {
     return FastRTPSJNI.RTPSParticipantAttributes_useBuiltinTransports_get(swigCPtr, this);
   }
 
+  public void setProperties(SWIGTYPE_p_PropertyPolicy value) {
+    FastRTPSJNI.RTPSParticipantAttributes_properties_set(swigCPtr, this, SWIGTYPE_p_PropertyPolicy.getCPtr(value));
+  }
+
+  public SWIGTYPE_p_PropertyPolicy getProperties() {
+    return new SWIGTYPE_p_PropertyPolicy(FastRTPSJNI.RTPSParticipantAttributes_properties_get(swigCPtr, this), true);
+  }
+
 }

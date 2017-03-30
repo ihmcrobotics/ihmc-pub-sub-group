@@ -46,7 +46,7 @@ public class ChatMessagePubSubType implements TopicDataType<ChatMessage>
    @Override
    public int getTypeSize()
    {
-      return ChatMessage.getMaxCdrSerializedSize();
+      return ChatMessage.getMaxCdrSerializedSize() + 4;
    }
 
    @Override
@@ -59,5 +59,11 @@ public class ChatMessagePubSubType implements TopicDataType<ChatMessage>
    public ChatMessage createData()
    {
       return new ChatMessage();
+   }
+   
+   @Override
+   public ChatMessagePubSubType newInstance()
+   {
+   	  return new ChatMessagePubSubType();
    }
 }

@@ -3491,6 +3491,40 @@ SWIGEXPORT jboolean JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_RTPSPart
 }
 
 
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_RTPSParticipantAttributes_1properties_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2) {
+  eprosima::fastrtps::rtps::RTPSParticipantAttributes *arg1 = (eprosima::fastrtps::rtps::RTPSParticipantAttributes *) 0 ;
+  PropertyPolicy arg2 ;
+  PropertyPolicy *argp2 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::rtps::RTPSParticipantAttributes **)&jarg1; 
+  argp2 = *(PropertyPolicy **)&jarg2; 
+  if (!argp2) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "Attempt to dereference null PropertyPolicy");
+    return ;
+  }
+  arg2 = *argp2; 
+  if (arg1) (arg1)->properties = arg2;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_RTPSParticipantAttributes_1properties_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  eprosima::fastrtps::rtps::RTPSParticipantAttributes *arg1 = (eprosima::fastrtps::rtps::RTPSParticipantAttributes *) 0 ;
+  PropertyPolicy result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::rtps::RTPSParticipantAttributes **)&jarg1; 
+  result =  ((arg1)->properties);
+  *(PropertyPolicy **)&jresult = new PropertyPolicy((const PropertyPolicy &)result); 
+  return jresult;
+}
+
+
 SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_ThroughputControllerDescriptor_1bytesPerPeriod_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2) {
   eprosima::fastrtps::rtps::ThroughputControllerDescriptor *arg1 = (eprosima::fastrtps::rtps::ThroughputControllerDescriptor *) 0 ;
   uint32_t arg2 ;
@@ -7044,6 +7078,40 @@ SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_EndpointAtt
 }
 
 
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_EndpointAttributes_1properties_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2) {
+  eprosima::fastrtps::rtps::EndpointAttributes *arg1 = (eprosima::fastrtps::rtps::EndpointAttributes *) 0 ;
+  PropertyPolicy arg2 ;
+  PropertyPolicy *argp2 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::rtps::EndpointAttributes **)&jarg1; 
+  argp2 = *(PropertyPolicy **)&jarg2; 
+  if (!argp2) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "Attempt to dereference null PropertyPolicy");
+    return ;
+  }
+  arg2 = *argp2; 
+  if (arg1) (arg1)->properties = arg2;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_EndpointAttributes_1properties_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  eprosima::fastrtps::rtps::EndpointAttributes *arg1 = (eprosima::fastrtps::rtps::EndpointAttributes *) 0 ;
+  PropertyPolicy result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::rtps::EndpointAttributes **)&jarg1; 
+  result =  ((arg1)->properties);
+  *(PropertyPolicy **)&jresult = new PropertyPolicy((const PropertyPolicy &)result); 
+  return jresult;
+}
+
+
 SWIGEXPORT jshort JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_EndpointAttributes_1getUserDefinedID(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
   jshort jresult = 0 ;
   eprosima::fastrtps::rtps::EndpointAttributes *arg1 = (eprosima::fastrtps::rtps::EndpointAttributes *) 0 ;
@@ -7707,6 +7775,40 @@ SWIGEXPORT jint JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_PublisherAtt
 }
 
 
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_PublisherAttributes_1properties_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2) {
+  eprosima::fastrtps::PublisherAttributes *arg1 = (eprosima::fastrtps::PublisherAttributes *) 0 ;
+  PropertyPolicy arg2 ;
+  PropertyPolicy *argp2 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::PublisherAttributes **)&jarg1; 
+  argp2 = *(PropertyPolicy **)&jarg2; 
+  if (!argp2) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "Attempt to dereference null PropertyPolicy");
+    return ;
+  }
+  arg2 = *argp2; 
+  if (arg1) (arg1)->properties = arg2;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_PublisherAttributes_1properties_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  eprosima::fastrtps::PublisherAttributes *arg1 = (eprosima::fastrtps::PublisherAttributes *) 0 ;
+  PropertyPolicy result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::PublisherAttributes **)&jarg1; 
+  result =  ((arg1)->properties);
+  *(PropertyPolicy **)&jresult = new PropertyPolicy((const PropertyPolicy &)result); 
+  return jresult;
+}
+
+
 SWIGEXPORT jshort JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_PublisherAttributes_1getUserDefinedID(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
   jshort jresult = 0 ;
   eprosima::fastrtps::PublisherAttributes *arg1 = (eprosima::fastrtps::PublisherAttributes *) 0 ;
@@ -8307,6 +8409,40 @@ SWIGEXPORT jint JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_SubscriberAt
   arg1 = *(eprosima::fastrtps::SubscriberAttributes **)&jarg1; 
   result = (eprosima::fastrtps::rtps::MemoryManagementPolicy_t) ((arg1)->historyMemoryPolicy);
   jresult = (jint)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_SubscriberAttributes_1properties_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2) {
+  eprosima::fastrtps::SubscriberAttributes *arg1 = (eprosima::fastrtps::SubscriberAttributes *) 0 ;
+  PropertyPolicy arg2 ;
+  PropertyPolicy *argp2 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::SubscriberAttributes **)&jarg1; 
+  argp2 = *(PropertyPolicy **)&jarg2; 
+  if (!argp2) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "Attempt to dereference null PropertyPolicy");
+    return ;
+  }
+  arg2 = *argp2; 
+  if (arg1) (arg1)->properties = arg2;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_us_ihmc_rtps_impl_fastRTPS_FastRTPSJNI_SubscriberAttributes_1properties_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  eprosima::fastrtps::SubscriberAttributes *arg1 = (eprosima::fastrtps::SubscriberAttributes *) 0 ;
+  PropertyPolicy result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eprosima::fastrtps::SubscriberAttributes **)&jarg1; 
+  result =  ((arg1)->properties);
+  *(PropertyPolicy **)&jresult = new PropertyPolicy((const PropertyPolicy &)result); 
   return jresult;
 }
 

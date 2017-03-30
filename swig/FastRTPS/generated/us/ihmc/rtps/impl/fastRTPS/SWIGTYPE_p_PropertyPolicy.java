@@ -8,12 +8,19 @@
 
 package us.ihmc.rtps.impl.fastRTPS;
 
-public interface FastRTPSConstants {
-  public final static int LOCATOR_KIND_INVALID = -1;
-  public final static int LOCATOR_PORT_INVALID = 0;
-  public final static int LOCATOR_KIND_RESERVED = 0;
-  public final static int LOCATOR_KIND_UDPv4 = 1;
-  public final static int LOCATOR_KIND_UDPv6 = 2;
-  public final static int PARAMETER_KIND_LENGTH = 4;
-  public final static int PARAMETER_PRESENTATION_LENGTH = 8;
+public class SWIGTYPE_p_PropertyPolicy {
+  private transient long swigCPtr;
+
+  protected SWIGTYPE_p_PropertyPolicy(long cPtr, @SuppressWarnings("unused") boolean futureUse) {
+    swigCPtr = cPtr;
+  }
+
+  protected SWIGTYPE_p_PropertyPolicy() {
+    swigCPtr = 0;
+  }
+
+  protected static long getCPtr(SWIGTYPE_p_PropertyPolicy obj) {
+    return (obj == null) ? 0 : obj.swigCPtr;
+  }
 }
+
