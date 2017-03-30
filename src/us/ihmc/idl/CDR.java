@@ -31,25 +31,38 @@ import us.ihmc.pubsub.common.SerializedPayload;
  */
 public class CDR
 {
+   private static final int encapsulation_size = 4;
+   
    private SerializedPayload payload;
    private ByteBuffer buf;
-   
+   private short options = 0x0;
+
    public static int alignment(int current_alignment, int dataSize)
    {
-      return (dataSize - (current_alignment % dataSize)) & (dataSize-1);
+      return (dataSize - (current_alignment % dataSize)) & (dataSize - 1);
    }
-   
-   
+
    public void serialize(SerializedPayload payload)
    {
       buf = payload.getData();
       this.payload = payload;
+
+      //Write encapsulation
+      buf.put((byte) 0x0);
+      buf.put((byte) payload.getEncapsulation());
+      buf.putShort(options);
+
    }
-   
+
    public void deserialize(SerializedPayload payload)
    {
       buf = payload.getData();
       this.payload = payload;
+      /* int dummy = */ buf.get();
+      short encapsulation = buf.get();
+      this.payload.setEncapsulation(encapsulation);
+      this.options = buf.getShort();
+
    }
 
    public void finishSerialize()
@@ -57,11 +70,11 @@ public class CDR
       buf.flip();
       payload.setLength(buf.limit());
    }
-   
+
    public void finishDeserialize()
    {
    }
-   
+
    /**
     * Signed short
     */
@@ -70,13 +83,13 @@ public class CDR
       align(2);
       return buf.getShort();
    }
-   
+
    public void write_type_1(short val)
    {
       align(2);
       buf.putShort(val);
    }
-   
+
    /**
     * Signed int
     */
@@ -85,13 +98,13 @@ public class CDR
       align(4);
       return buf.getInt();
    }
-   
+
    public void write_type_2(int val)
    {
       align(4);
       buf.putInt(val);
    }
-   
+
    /**
     * Unsigned short
     */
@@ -99,12 +112,12 @@ public class CDR
    {
       return read_type_1() & 0xFFFF;
    }
-   
+
    public void write_type_3(int val)
    {
       write_type_1((short) val);
    }
-   
+
    /**
     * Unsigned int
     */
@@ -112,27 +125,27 @@ public class CDR
    {
       return read_type_2() & 0xFFFFFFFF;
    }
-   
+
    public void write_type_4(long val)
    {
       write_type_2((int) val);
    }
-   
+
    /**
     * Float
     */
-   public float read_type_5() 
+   public float read_type_5()
    {
       align(4);
       return buf.getFloat();
    }
-   
+
    public void write_type_5(float val)
    {
       align(4);
       buf.putFloat(val);
    }
-   
+
    /**
     * Double
     */
@@ -141,40 +154,40 @@ public class CDR
       align(8);
       return buf.getDouble();
    }
-   
+
    public void write_type_6(double val)
    {
       align(8);
       buf.putDouble(val);
    }
-   
+
    /**
     * Boolean
     */
    public boolean read_type_7()
    {
       int val = read_type_9();
-      return val != (byte)0;
+      return val != (byte) 0;
    }
-   
+
    public void write_type_7(boolean val)
    {
-      write_type_9(val?(byte)1:(byte)0);
+      write_type_9(val ? (byte) 1 : (byte) 0);
    }
-   
+
    /**
     * Char
     */
    public char read_type_8()
    {
-      return (char)(buf.get() & 0xFF);
+      return (char) (buf.get() & 0xFF);
    }
-   
+
    public void write_type_8(char val)
    {
-      buf.put((byte)val);
+      buf.put((byte) val);
    }
-   
+
    /**
     * Octet
     */
@@ -182,12 +195,12 @@ public class CDR
    {
       return buf.get();
    }
-   
+
    public void write_type_9(byte val)
    {
       buf.put(val);
    }
-   
+
    /**
     * Struct
     */
@@ -195,12 +208,12 @@ public class CDR
    {
       type.deserialize(this);
    }
-   
+
    public void write_type_a(IDLStruct<?> type)
    {
       type.serialize(this);
    }
-   
+
    /**
     * Union
     */
@@ -208,26 +221,26 @@ public class CDR
    {
       throw new NotImplementedException("Union types are not implemented yet");
    }
-   
+
    public void write_type_b(Object object)
    {
       throw new NotImplementedException("Union types are not implemented yet");
    }
-   
+
    /**
     * Enum
     */
-   
+
    public int read_type_c()
    {
       return read_type_2();
    }
-   
+
    public void write_type_c(int val)
    {
       write_type_2(val);
    }
-   
+
    /**
     * String
     */
@@ -235,23 +248,23 @@ public class CDR
    {
       int length = read_type_2() - 1;
       res.setLength(length);
-      for(int i = 0; i < length; i++)
+      for (int i = 0; i < length; i++)
       {
-         res.setCharAt(i, (char)buf.get());
+         res.setCharAt(i, (char) buf.get());
       }
-      buf.get(); 
+      buf.get();
    }
-   
+
    public void write_type_d(StringBuilder str)
    {
       write_type_2(str.length() + 1);
-      for(int i = 0; i < str.length(); i++)
+      for (int i = 0; i < str.length(); i++)
       {
-         buf.put((byte)str.charAt(i));
+         buf.put((byte) str.charAt(i));
       }
-      buf.put((byte)0);
+      buf.put((byte) 0);
    }
-   
+
    /**
     * Sequence
     */
@@ -259,31 +272,30 @@ public class CDR
    {
       int length = read_type_2();
       seq.resetQuick();
-      for(int i = 0; i < length; i++)
+      for (int i = 0; i < length; i++)
       {
          seq.readElement(i, this);
       }
    }
-   
+
    public void write_type_e(IDLSequence seq)
    {
       int length = seq.size();
       write_type_2(length);
-      for(int i = 0; i < length; i++)
+      for (int i = 0; i < length; i++)
       {
          seq.writeElement(i, this);
       }
    }
-   
+
    /** 
     * Array
     */
    public void read_type_f()
    {
-      
+
    }
-   
-   
+
    /**
     * Signed long, 64 bit
     */
@@ -292,13 +304,13 @@ public class CDR
       align(8);
       return buf.getLong();
    }
-   
+
    public void write_type_11(long val)
    {
       align(8);
       buf.putLong(val);
    }
-   
+
    /**
     * Unsigned long, 64bit
     */
@@ -306,12 +318,12 @@ public class CDR
    {
       return read_type_11();
    }
-   
+
    public void write_type_12(long val)
    {
       write_type_11(val);
    }
-   
+
    /**
     * Long doubles (16 bytes, unsupported)
     */
@@ -319,12 +331,12 @@ public class CDR
    {
       throw new NotImplementedException("Java does not support 16 byte Double values");
    }
-   
+
    public void write_type_13(double val)
    {
       throw new NotImplementedException("Java does not support 16 byte Double values");
    }
-   
+
    /**
     * Wide char (32 bits)
     */
@@ -332,7 +344,7 @@ public class CDR
    {
       return (char) read_type_2();
    }
-   
+
    public void write_type_14(char val)
    {
       write_type_2((int) val);
@@ -345,33 +357,32 @@ public class CDR
    {
       int length = read_type_2();
       res.setLength(length);
-      for(int i = 0; i < length; i++)
+      for (int i = 0; i < length; i++)
       {
          res.setCharAt(i, buf.getChar());
       }
    }
-   
+
    public void write_type_15(StringBuilder str)
    {
       write_type_2(str.length());
-      for(int i = 0; i < str.length(); i++)
+      for (int i = 0; i < str.length(); i++)
       {
          buf.putChar(str.charAt(i));
       }
-   }   
+   }
 
-   
-   
-   public int align(int byteBoundary) {
-      int position = buf.position();
+   public int align(int byteBoundary)
+   {
+      int position = buf.position() - encapsulation_size;
       int adv = (position % byteBoundary);
 
-      if (adv != 0) {
-         buf.position(position + (byteBoundary - adv));
+      if (adv != 0)
+      {
+         buf.position(position + encapsulation_size + (byteBoundary - adv));
       }
-      
+
       return adv;
-  }
-   
-   
+   }
+
 }

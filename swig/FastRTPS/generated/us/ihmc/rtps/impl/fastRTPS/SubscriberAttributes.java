@@ -109,6 +109,14 @@ public class SubscriberAttributes {
     return MemoryManagementPolicy_t.swigToEnum(FastRTPSJNI.SubscriberAttributes_historyMemoryPolicy_get(swigCPtr, this));
   }
 
+  public void setProperties(SWIGTYPE_p_PropertyPolicy value) {
+    FastRTPSJNI.SubscriberAttributes_properties_set(swigCPtr, this, SWIGTYPE_p_PropertyPolicy.getCPtr(value));
+  }
+
+  public SWIGTYPE_p_PropertyPolicy getProperties() {
+    return new SWIGTYPE_p_PropertyPolicy(FastRTPSJNI.SubscriberAttributes_properties_get(swigCPtr, this), true);
+  }
+
   public short getUserDefinedID() {
     return FastRTPSJNI.SubscriberAttributes_getUserDefinedID(swigCPtr, this);
   }

@@ -27,135 +27,80 @@
 
 namespace IDLElement
 {
-    NestedElementPubSubType::NestedElementPubSubType() {
-    	setName("IDLElement::NestedElement");
-    	m_typeSize = (uint32_t)NestedElement::getMaxCdrSerializedSize();
-    	m_isGetKeyDefined = NestedElement::isKeyDefined();
-    	m_keyBuffer = (unsigned char*)malloc(NestedElement::getKeyMaxCdrSerializedSize()>16 ? NestedElement::getKeyMaxCdrSerializedSize() : 16);
-    }
-
-    NestedElementPubSubType::~NestedElementPubSubType() {
-    	if(m_keyBuffer!=nullptr)
-    		free(m_keyBuffer);
-    }
-
-    bool NestedElementPubSubType::serialize(void *data, SerializedPayload_t *payload) {
-    	NestedElement *p_type = (NestedElement*) data;
-    	eprosima::fastcdr::FastBuffer fastbuffer((char*) payload->data, payload->max_size); // Object that manages the raw buffer.
-    	eprosima::fastcdr::Cdr ser(fastbuffer); 	// Object that serializes the data.
-        payload->encapsulation = ser.endianness() == eprosima::fastcdr::Cdr::BIG_ENDIANNESS ? CDR_BE : CDR_LE;
-    	p_type->serialize(ser); 	// Serialize the object:
-        payload->length = (uint32_t)ser.getSerializedDataLength(); 	//Get the serialized length
-    	return true;
-    }
-
-    bool NestedElementPubSubType::deserialize(SerializedPayload_t* payload, void* data) {
-    	NestedElement* p_type = (NestedElement*) data; 	//Convert DATA to pointer of your type
-    	eprosima::fastcdr::FastBuffer fastbuffer((char*)payload->data, payload->length); 	// Object that manages the raw buffer.
-    	eprosima::fastcdr::Cdr deser(fastbuffer, payload->encapsulation == CDR_BE ? eprosima::fastcdr::Cdr::BIG_ENDIANNESS : eprosima::fastcdr::Cdr::LITTLE_ENDIANNESS); 	// Object that deserializes the data.
-    	p_type->deserialize(deser);	//Deserialize the object:
-    	return true;
-    }
-
-    std::function<uint32_t()> NestedElementPubSubType::getSerializedSizeProvider(void* data) {
-        return [data]() -> uint32_t { return (uint32_t)type::getCdrSerializedSize(*static_cast<NestedElement*>(data)); };
-    }
-
-    void* NestedElementPubSubType::createData() {
-    	return (void*)new NestedElement();
-    }
-
-    void NestedElementPubSubType::deleteData(void* data) {
-    	delete((NestedElement*)data);
-    }
-
-    bool NestedElementPubSubType::getKey(void *data, InstanceHandle_t* handle) {
-    	if(!m_isGetKeyDefined)
-    		return false;
-    	NestedElement* p_type = (NestedElement*) data;
-    	eprosima::fastcdr::FastBuffer fastbuffer((char*)m_keyBuffer,NestedElement::getKeyMaxCdrSerializedSize()); 	// Object that manages the raw buffer.
-    	eprosima::fastcdr::Cdr ser(fastbuffer, eprosima::fastcdr::Cdr::BIG_ENDIANNESS); 	// Object that serializes the data.
-    	p_type->serializeKey(ser);
-    	if(NestedElement::getKeyMaxCdrSerializedSize()>16)	{
-    		m_md5.init();
-    		m_md5.update(m_keyBuffer,(unsigned int)ser.getSerializedDataLength());
-    		m_md5.finalize();
-    		for(uint8_t i = 0;i<16;++i)    	{
-            	handle->value[i] = m_md5.digest[i];
-        	}
-        }
-        else    {
-        	for(uint8_t i = 0;i<16;++i)    	{
-            	handle->value[i] = m_keyBuffer[i];
-        	}
-        }
-    	return true;
-    }
-
 
     IDLElementTestPubSubType::IDLElementTestPubSubType() {
-    	setName("IDLElement::IDLElementTest");
-    	m_typeSize = (uint32_t)IDLElementTest::getMaxCdrSerializedSize();
-    	m_isGetKeyDefined = IDLElementTest::isKeyDefined();
-    	m_keyBuffer = (unsigned char*)malloc(IDLElementTest::getKeyMaxCdrSerializedSize()>16 ? IDLElementTest::getKeyMaxCdrSerializedSize() : 16);
+        setName("IDLElement::IDLElementTest");
+        m_typeSize = (uint32_t)IDLElementTest::getMaxCdrSerializedSize() + 4 /*encapsulation*/;
+        m_isGetKeyDefined = IDLElementTest::isKeyDefined();
+        m_keyBuffer = (unsigned char*)malloc(IDLElementTest::getKeyMaxCdrSerializedSize()>16 ? IDLElementTest::getKeyMaxCdrSerializedSize() : 16);
     }
 
     IDLElementTestPubSubType::~IDLElementTestPubSubType() {
-    	if(m_keyBuffer!=nullptr)
-    		free(m_keyBuffer);
+        if(m_keyBuffer!=nullptr)
+            free(m_keyBuffer);
     }
 
     bool IDLElementTestPubSubType::serialize(void *data, SerializedPayload_t *payload) {
-    	IDLElementTest *p_type = (IDLElementTest*) data;
-    	eprosima::fastcdr::FastBuffer fastbuffer((char*) payload->data, payload->max_size); // Object that manages the raw buffer.
-    	eprosima::fastcdr::Cdr ser(fastbuffer); 	// Object that serializes the data.
+        IDLElementTest *p_type = (IDLElementTest*) data;
+        eprosima::fastcdr::FastBuffer fastbuffer((char*) payload->data, payload->max_size); // Object that manages the raw buffer.
+        eprosima::fastcdr::Cdr ser(fastbuffer, eprosima::fastcdr::Cdr::DEFAULT_ENDIAN,
+                eprosima::fastcdr::Cdr::DDS_CDR); // Object that serializes the data.
         payload->encapsulation = ser.endianness() == eprosima::fastcdr::Cdr::BIG_ENDIANNESS ? CDR_BE : CDR_LE;
-    	p_type->serialize(ser); 	// Serialize the object:
-        payload->length = (uint32_t)ser.getSerializedDataLength(); 	//Get the serialized length
-    	return true;
+        // Serialize encapsulation
+        ser.serialize_encapsulation();
+        p_type->serialize(ser); // Serialize the object:
+        payload->length = (uint32_t)ser.getSerializedDataLength(); //Get the serialized length
+        return true;
     }
 
     bool IDLElementTestPubSubType::deserialize(SerializedPayload_t* payload, void* data) {
-    	IDLElementTest* p_type = (IDLElementTest*) data; 	//Convert DATA to pointer of your type
-    	eprosima::fastcdr::FastBuffer fastbuffer((char*)payload->data, payload->length); 	// Object that manages the raw buffer.
-    	eprosima::fastcdr::Cdr deser(fastbuffer, payload->encapsulation == CDR_BE ? eprosima::fastcdr::Cdr::BIG_ENDIANNESS : eprosima::fastcdr::Cdr::LITTLE_ENDIANNESS); 	// Object that deserializes the data.
-    	p_type->deserialize(deser);	//Deserialize the object:
-    	return true;
+        IDLElementTest* p_type = (IDLElementTest*) data; 	//Convert DATA to pointer of your type
+        eprosima::fastcdr::FastBuffer fastbuffer((char*)payload->data, payload->length); // Object that manages the raw buffer.
+        eprosima::fastcdr::Cdr deser(fastbuffer, eprosima::fastcdr::Cdr::DEFAULT_ENDIAN,
+                eprosima::fastcdr::Cdr::DDS_CDR); // Object that deserializes the data.
+        // Deserialize encapsulation.
+        deser.read_encapsulation();
+        payload->encapsulation = deser.endianness() == eprosima::fastcdr::Cdr::BIG_ENDIANNESS ? CDR_BE : CDR_LE;
+        p_type->deserialize(deser); //Deserialize the object:
+        return true;
     }
 
     std::function<uint32_t()> IDLElementTestPubSubType::getSerializedSizeProvider(void* data) {
-        return [data]() -> uint32_t { return (uint32_t)type::getCdrSerializedSize(*static_cast<IDLElementTest*>(data)); };
+        return [data]() -> uint32_t
+        {
+            return (uint32_t)type::getCdrSerializedSize(*static_cast<IDLElementTest*>(data)) + 4 /*encapsulation*/;
+        };
     }
 
     void* IDLElementTestPubSubType::createData() {
-    	return (void*)new IDLElementTest();
+        return (void*)new IDLElementTest();
     }
 
     void IDLElementTestPubSubType::deleteData(void* data) {
-    	delete((IDLElementTest*)data);
+        delete((IDLElementTest*)data);
     }
 
     bool IDLElementTestPubSubType::getKey(void *data, InstanceHandle_t* handle) {
-    	if(!m_isGetKeyDefined)
-    		return false;
-    	IDLElementTest* p_type = (IDLElementTest*) data;
-    	eprosima::fastcdr::FastBuffer fastbuffer((char*)m_keyBuffer,IDLElementTest::getKeyMaxCdrSerializedSize()); 	// Object that manages the raw buffer.
-    	eprosima::fastcdr::Cdr ser(fastbuffer, eprosima::fastcdr::Cdr::BIG_ENDIANNESS); 	// Object that serializes the data.
-    	p_type->serializeKey(ser);
-    	if(IDLElementTest::getKeyMaxCdrSerializedSize()>16)	{
-    		m_md5.init();
-    		m_md5.update(m_keyBuffer,(unsigned int)ser.getSerializedDataLength());
-    		m_md5.finalize();
-    		for(uint8_t i = 0;i<16;++i)    	{
-            	handle->value[i] = m_md5.digest[i];
-        	}
+        if(!m_isGetKeyDefined)
+            return false;
+        IDLElementTest* p_type = (IDLElementTest*) data;
+        eprosima::fastcdr::FastBuffer fastbuffer((char*)m_keyBuffer,IDLElementTest::getKeyMaxCdrSerializedSize()); 	// Object that manages the raw buffer.
+        eprosima::fastcdr::Cdr ser(fastbuffer, eprosima::fastcdr::Cdr::BIG_ENDIANNESS); 	// Object that serializes the data.
+        p_type->serializeKey(ser);
+        if(IDLElementTest::getKeyMaxCdrSerializedSize()>16)	{
+            m_md5.init();
+            m_md5.update(m_keyBuffer,(unsigned int)ser.getSerializedDataLength());
+            m_md5.finalize();
+            for(uint8_t i = 0;i<16;++i)    	{
+                handle->value[i] = m_md5.digest[i];
+            }
         }
         else    {
-        	for(uint8_t i = 0;i<16;++i)    	{
-            	handle->value[i] = m_keyBuffer[i];
-        	}
+            for(uint8_t i = 0;i<16;++i)    	{
+                handle->value[i] = m_keyBuffer[i];
+            }
         }
-    	return true;
+        return true;
     }
 
 

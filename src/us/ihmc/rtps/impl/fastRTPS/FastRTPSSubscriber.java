@@ -138,7 +138,7 @@ public class FastRTPSSubscriber implements Subscriber
    }
 
    @SuppressWarnings("unchecked")
-   FastRTPSSubscriber(TopicDataType<?> topicDataType, FastRTPSSubscriberAttributes attributes, SubscriberListener listener,
+   FastRTPSSubscriber(TopicDataType<?> topicDataTypeIn, FastRTPSSubscriberAttributes attributes, SubscriberListener listener,
                       NativeParticipantImpl participantImpl)
          throws IOException
    {
@@ -168,7 +168,7 @@ public class FastRTPSSubscriber implements Subscriber
 
       ReaderQos qos = attributes.getQos().getReaderQos();
       this.attributes = attributes;
-      this.topicDataType = (TopicDataType<Object>) topicDataType;
+      this.topicDataType = (TopicDataType<Object>) topicDataTypeIn.newInstance();
       this.topicData = topicDataType.createData();
       this.listener = listener;
       this.payload = new SerializedPayload(topicDataType.getTypeSize());
