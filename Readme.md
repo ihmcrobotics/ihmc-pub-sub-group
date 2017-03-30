@@ -128,7 +128,10 @@ The eProsima Fast RTPS documentation can be useful as a reference guide on more 
 
 ## Supported platforms
 
-The library is supported on Linux (Ubuntu 16.04). Compiled versions of the Mac OS X and Windows native code will be available soon. 
+The library is supported on the following Operating Systems
+- Linux (Compiled and tested on Ubuntu 16.04)
+- Windows 10 (Should Windows 8 not work, please file a bug report.)
+- Mac OS (Compiled and tested on Sierra)
 
 
 ## Compilation
