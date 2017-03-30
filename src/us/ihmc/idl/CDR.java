@@ -74,6 +74,11 @@ public class CDR
    public void finishDeserialize()
    {
    }
+   
+   public static int getTypeSize(int elementTypeSize)
+   {
+      return elementTypeSize + encapsulation_size;
+   }
 
    /**
     * Signed short
