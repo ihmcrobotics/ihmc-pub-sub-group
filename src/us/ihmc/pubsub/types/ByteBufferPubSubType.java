@@ -39,8 +39,12 @@ import us.ihmc.pubsub.common.SerializedPayload;
 public class ByteBufferPubSubType implements TopicDataType<ByteBuffer>
 {
    private final String name;
+   
    private final int maxSize;
 
+   private final String userName;
+   private final int userMaxSize;
+   
    private static int align(int size)
    {
       int adv = (size % 4);
@@ -61,7 +65,8 @@ public class ByteBufferPubSubType implements TopicDataType<ByteBuffer>
     */
    public ByteBufferPubSubType(String name, int maxSize)
    {
-
+      this.userName = name;
+      this.userMaxSize = maxSize;
       this.maxSize = align(maxSize) + 4; // add integer wiht actual data size to the data 
       this.name = name + "::" + this.maxSize;
    }
@@ -115,6 +120,12 @@ public class ByteBufferPubSubType implements TopicDataType<ByteBuffer>
    public ByteBuffer createData()
    {
       return ByteBuffer.allocateDirect(maxSize);
+   }
+
+   @Override
+   public TopicDataType<ByteBuffer> newInstance()
+   {
+      return new ByteBufferPubSubType(userName, userMaxSize);
    }
 
 }

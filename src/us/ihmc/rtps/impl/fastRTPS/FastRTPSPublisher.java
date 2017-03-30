@@ -67,7 +67,7 @@ public class FastRTPSPublisher implements Publisher
    }
 
    @SuppressWarnings("unchecked")
-   public FastRTPSPublisher(TopicDataType<?> topicDataType, FastRTPSPublisherAttributes attributes, PublisherListener listener,
+   public FastRTPSPublisher(TopicDataType<?> topicDataTypeIn, FastRTPSPublisherAttributes attributes, PublisherListener listener,
                             NativeParticipantImpl participant)
          throws IOException, IllegalArgumentException
    {
@@ -95,7 +95,7 @@ public class FastRTPSPublisher implements Publisher
       }
 
       this.attributes = attributes;
-      this.topicDataType = (TopicDataType<Object>) topicDataType;
+      this.topicDataType = (TopicDataType<Object>) topicDataTypeIn.newInstance();
       this.listener = listener;
       this.payload = new SerializedPayload(topicDataType.getTypeSize());
 

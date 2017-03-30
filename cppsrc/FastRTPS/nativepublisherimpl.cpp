@@ -156,12 +156,18 @@ void NativePublisherImpl::create_new_change(ChangeKind_t changeKind, unsigned ch
 
         if(high_mark_for_frag_ == 0)
         {
-            high_mark_for_frag_ = rtpsParticipant->getMaxMessageSize() > throughputController->bytesPerPeriod ? throughputController->bytesPerPeriod :
-                rtpsParticipant->getMaxMessageSize();
-            if(high_mark_for_frag_ > rtpsParticipant->getRTPSParticipantAttributes().throughputController.bytesPerPeriod)
-                high_mark_for_frag_ = rtpsParticipant->getRTPSParticipantAttributes().throughputController.bytesPerPeriod;
-            if(high_mark_for_frag_ > RTPSMESSAGE_COMMON_RTPS_PAYLOAD_SIZE)
-                high_mark_for_frag_ -= RTPSMESSAGE_COMMON_RTPS_PAYLOAD_SIZE;
+            uint32_t max_data_size = mp_writer->getMaxDataSize();
+            uint32_t writer_throughput_controller_bytes =
+                mp_writer->calculateMaxDataSize(throughputController->bytesPerPeriod);
+            uint32_t participant_throughput_controller_bytes =
+                mp_writer->calculateMaxDataSize(rtpsParticipant->getRTPSParticipantAttributes().throughputController.bytesPerPeriod);
+
+            high_mark_for_frag_ =
+                max_data_size > writer_throughput_controller_bytes ?
+                writer_throughput_controller_bytes :
+                (max_data_size > participant_throughput_controller_bytes ?
+                 participant_throughput_controller_bytes :
+                 max_data_size);
         }
 
         if(ch->serializedPayload.length > high_mark_for_frag_)

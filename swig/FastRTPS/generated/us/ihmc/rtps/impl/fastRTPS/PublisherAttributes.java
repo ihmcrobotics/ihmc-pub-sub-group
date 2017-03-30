@@ -110,6 +110,14 @@ public class PublisherAttributes {
     return MemoryManagementPolicy_t.swigToEnum(FastRTPSJNI.PublisherAttributes_historyMemoryPolicy_get(swigCPtr, this));
   }
 
+  public void setProperties(SWIGTYPE_p_PropertyPolicy value) {
+    FastRTPSJNI.PublisherAttributes_properties_set(swigCPtr, this, SWIGTYPE_p_PropertyPolicy.getCPtr(value));
+  }
+
+  public SWIGTYPE_p_PropertyPolicy getProperties() {
+    return new SWIGTYPE_p_PropertyPolicy(FastRTPSJNI.PublisherAttributes_properties_get(swigCPtr, this), true);
+  }
+
   public short getUserDefinedID() {
     return FastRTPSJNI.PublisherAttributes_getUserDefinedID(swigCPtr, this);
   }

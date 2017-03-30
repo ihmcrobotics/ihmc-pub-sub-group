@@ -70,6 +70,15 @@ public interface TopicDataType<T>
     * @return an instance of the data type
     */
    public T createData();
+   
+   /**
+    * Create a new instance of this class.
+    * 
+    * This is used to avoid threading issues when re-using pub-sub types when constructing topics
+    * 
+    * @return a copy of this pub sub type. 
+    */
+   public TopicDataType<T> newInstance();
 
    /**
     * Get the key associated with the data. 

@@ -1,3 +1,17 @@
+buildscript {
+	repositories {
+        maven {
+        	mavenLocal()
+            url  "http://dl.bintray.com/ihmcrobotics/maven-release"
+
+        }
+    }
+	
+	dependencies {
+		classpath group: 'us.ihmc', name: 'IHMCPubSubGenerator', version: '0.2.4'
+	}
+}
+
 plugins {
    id 'us.ihmc.gradle.ihmc-build' version '0.0.9'
    id "com.github.hierynomus.license" version "0.13.1"
@@ -8,7 +22,7 @@ apply plugin: 'maven-publish'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
-version = '0.2.3'
+version = '0.2.4'
 buildDir = 'build-java'
 
 project.ext.fullVersion = version
@@ -35,6 +49,12 @@ sourceSets {
 }
 
 
+task generateChatMessage(type: us.ihmc.idl.generator.IDLGeneratorTask) {
+	idlFiles = fileTree(dir: 'idl')
+	includeDirs = files(".", "idl")
+	targetDirectory = file("generated")
+	packagePrefix = "us.ihmc.idl.generated"
+}
 
 license {
     header rootProject.file('license-header.txt')

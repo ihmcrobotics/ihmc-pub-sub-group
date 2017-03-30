@@ -98,6 +98,14 @@ public class EndpointAttributes {
     return (cPtr == 0) ? null : new LocatorList_t(cPtr, false);
   }
 
+  public void setProperties(SWIGTYPE_p_PropertyPolicy value) {
+    FastRTPSJNI.EndpointAttributes_properties_set(swigCPtr, this, SWIGTYPE_p_PropertyPolicy.getCPtr(value));
+  }
+
+  public SWIGTYPE_p_PropertyPolicy getProperties() {
+    return new SWIGTYPE_p_PropertyPolicy(FastRTPSJNI.EndpointAttributes_properties_get(swigCPtr, this), true);
+  }
+
   public short getUserDefinedID() {
     return FastRTPSJNI.EndpointAttributes_getUserDefinedID(swigCPtr, this);
   }
