@@ -18,6 +18,7 @@ package us.ihmc.pubsub.types;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 
+import us.ihmc.idl.CDR;
 import us.ihmc.pubsub.TopicDataType;
 import us.ihmc.pubsub.common.SerializedPayload;
 
@@ -67,30 +68,30 @@ public class ByteBufferPubSubType implements TopicDataType<ByteBuffer>
    {
       this.userName = name;
       this.userMaxSize = maxSize;
-      this.maxSize = align(maxSize) + 4; // add integer wiht actual data size to the data 
+      this.maxSize = CDR.getTypeSize(align(maxSize)) + 4; // add integer with actual data size to the data 
       this.name = name + "::" + this.maxSize;
    }
 
    @Override
    public void serialize(ByteBuffer data, SerializedPayload serializedPayload) throws IOException
    {
-      if (data.remaining() + 4 > maxSize)
+      if (CDR.getTypeSize(data.remaining() + 4) > maxSize)
       {
          throw new IOException("Data size is larger than the maximum size");
       }
+      CDR.writeEncapsulation(serializedPayload);
 
       ByteBuffer target = serializedPayload.getData();
-      target.clear();
       target.putInt(data.remaining());
       target.put(data);
-      target.flip();
-      serializedPayload.setLength(align(target.limit()));
+      serializedPayload.setLength(align(target.position()));
    }
 
    @Override
    public void deserialize(SerializedPayload serializedPayload, ByteBuffer data) throws IOException
    {
-
+      CDR.readEncapsulation(serializedPayload);
+      
       ByteBuffer src = serializedPayload.getData();
 
       int length = src.getInt();
