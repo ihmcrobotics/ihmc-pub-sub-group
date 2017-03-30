@@ -35,7 +35,7 @@ public class CDR
    
    private SerializedPayload payload;
    private ByteBuffer buf;
-   private short options = 0x0;
+   private static short options = 0x0;
 
    public static int alignment(int current_alignment, int dataSize)
    {
@@ -44,25 +44,36 @@ public class CDR
 
    public void serialize(SerializedPayload payload)
    {
+      writeEncapsulation(payload);
+
       buf = payload.getData();
       this.payload = payload;
 
+   }
+
+   public static void writeEncapsulation(SerializedPayload payload)
+   {
+      ByteBuffer buf = payload.getData();
       //Write encapsulation
       buf.put((byte) 0x0);
       buf.put((byte) payload.getEncapsulation());
       buf.putShort(options);
-
    }
 
    public void deserialize(SerializedPayload payload)
    {
+      readEncapsulation(payload);
       buf = payload.getData();
       this.payload = payload;
+   }
+   
+   public static void readEncapsulation(SerializedPayload payload)
+   {
+      ByteBuffer buf = payload.getData();
       /* int dummy = */ buf.get();
       short encapsulation = buf.get();
-      this.payload.setEncapsulation(encapsulation);
-      this.options = buf.getShort();
-
+      payload.setEncapsulation(encapsulation);
+      /* this.options = */ buf.getShort();
    }
 
    public void finishSerialize()
