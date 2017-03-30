@@ -29,8 +29,9 @@ import us.ihmc.pubsub.publisher.PublisherListener;
 
 public class FastRTPSPublisher implements Publisher
 {
+   private final Object destructorLock = new Object(); 
 
-   private final NativePublisherImpl impl;
+   private NativePublisherImpl impl;
    private final FastRTPSPublisherAttributes attributes;
    private final TopicDataType<Object> topicDataType;
    private final PublisherListener listener;
@@ -133,15 +134,22 @@ public class FastRTPSPublisher implements Publisher
 
    private void createNewChange(Object data, ChangeKind_t change) throws IOException
    {
-      if (attributes.getTopic().getTopicKind() == TopicKind.WITH_KEY)
+      synchronized(destructorLock)
       {
-         keyBuffer.clear();
-         topicDataType.getKey(data, keyBuffer);
+         if(impl == null)
+         {
+            throw new IOException("This publisher has been removed from the domain");
+         }
+         if (attributes.getTopic().getTopicKind() == TopicKind.WITH_KEY)
+         {
+            keyBuffer.clear();
+            topicDataType.getKey(data, keyBuffer);
+         }
+   
+         payload.getData().clear();
+         topicDataType.serialize(data, payload);
+         impl.create_new_change(change, payload.getData(), payload.getLength(), payload.getEncapsulation(), keyBuffer);
       }
-
-      payload.getData().clear();
-      topicDataType.serialize(data, payload);
-      impl.create_new_change(change, payload.getData(), payload.getLength(), payload.getEncapsulation(), keyBuffer);
    }
 
    @Override
@@ -158,10 +166,14 @@ public class FastRTPSPublisher implements Publisher
 
    void delete()
    {
-      fastRTPSAttributes.delete();
-      throughputController.delete();
-      impl.delete();
-      nativeListenerImpl.delete();
+      synchronized(destructorLock)
+      {
+         impl.delete();
+         nativeListenerImpl.delete();
+         fastRTPSAttributes.delete();
+         throughputController.delete();
+         impl = null;
+      }
    }
 
    @Override
@@ -191,14 +203,22 @@ public class FastRTPSPublisher implements Publisher
    @Override
    public int removeAllChange() throws IOException
    {
-      int removed = impl.removeAllChange();
-      if (removed >= 0)
+      synchronized(destructorLock)
       {
-         return removed;
-      }
-      else
-      {
-         throw new IOException("Cannot remove all changes");
+         if(impl == null)
+         {
+            throw new IOException("This publisher has been removed from the domain");
+         }
+         
+         int removed = impl.removeAllChange();
+         if (removed >= 0)
+         {
+            return removed;
+         }
+         else
+         {
+            throw new IOException("Cannot remove all changes");
+         }
       }
    }
 
