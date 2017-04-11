@@ -18,6 +18,7 @@ package us.ihmc.rtps.impl.fastRTPS;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 
+import us.ihmc.idl.CDR;
 import us.ihmc.pubsub.TopicDataType;
 import us.ihmc.pubsub.attributes.SubscriberAttributes;
 import us.ihmc.pubsub.common.ChangeKind;
@@ -134,7 +135,14 @@ public class FastRTPSSubscriber implements Subscriber
    {
       payload.getData().clear();
       payload.setEncapsulation(encapsulation);
-      payload.setLength(dataLength);
+      
+      // Compatibility for older versions of FastRTPS that do not include encapsulation in the payload size
+      if(CDR.getTypeSize(dataLength) <= payload.getMax_size())
+      {
+         dataLength = CDR.getTypeSize(dataLength);
+      }
+      
+      payload.setLength(dataLength);         
       payload.getData().limit(dataLength);
 
    }
