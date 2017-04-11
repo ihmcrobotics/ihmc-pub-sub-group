@@ -44,6 +44,7 @@ public class SerializedPayload
     */
    public SerializedPayload(int maxSize)
    {
+      this.max_size = maxSize;
       this.data = ByteBuffer.allocateDirect(maxSize);
       setEncapsulation(CDR_LE);
    }
@@ -95,12 +96,6 @@ public class SerializedPayload
    {
       return max_size;
    }
-
-   public void setMax_size(int max_size)
-   {
-      this.max_size = max_size;
-   }
-
    /**
     * 
     * @return Position when reading.
