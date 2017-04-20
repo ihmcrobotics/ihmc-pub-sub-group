@@ -18,6 +18,7 @@ package us.ihmc.pubsub;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 
+import us.ihmc.idl.CDR;
 import us.ihmc.pubsub.common.SerializedPayload;
 
 /**
@@ -36,7 +37,6 @@ public interface TopicDataType<T>
     * @param data
     * @param serializedPayload
     * 
-    * @return true if serialized correctly
     */
    public void serialize(T data, SerializedPayload serializedPayload) throws IOException;
 
@@ -46,10 +46,36 @@ public interface TopicDataType<T>
     * @param serializedPayload
     * @param data
     * 
-    * @return true if deserialized correctly
     */
    public void deserialize(SerializedPayload serializedPayload, T data) throws IOException;
 
+   
+   /**
+    * Nested element serialize method, it should be implemented by the user
+    * 
+    * @param data
+    * @param cdr
+    * 
+    */
+   public void serialize(T data, CDR cdr);
+
+   /**
+    * Nested element deserialize method, it should be implemented by the user
+    * 
+    * @param data
+    * @param cdr
+    * 
+    */
+   public void deserialize(T data, CDR cdr);
+
+   /**
+    * Set dest to the contents in src
+    * 
+    * @param src
+    * @param dest
+    */
+   public void copy(T src, T dest);
+   
    /**
     * Maximum serialized size of the type in bytes.
     * 
