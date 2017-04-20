@@ -129,4 +129,25 @@ public class ByteBufferPubSubType implements TopicDataType<ByteBuffer>
       return new ByteBufferPubSubType(userName, userMaxSize);
    }
 
+   @Override
+   public void serialize(ByteBuffer data, CDR cdr)
+   {
+      // TODO Auto-generated method stub
+      
+   }
+
+   @Override
+   public void deserialize(ByteBuffer data, CDR cdr)
+   {
+      // TODO Auto-generated method stub
+      
+   }
+
+   @Override
+   public void copy(ByteBuffer src, ByteBuffer dest)
+   {
+      // TODO Auto-generated method stub
+      
+   }
+
 }
