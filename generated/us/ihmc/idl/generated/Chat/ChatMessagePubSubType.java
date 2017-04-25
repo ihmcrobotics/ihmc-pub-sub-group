@@ -66,4 +66,25 @@ public class ChatMessagePubSubType implements TopicDataType<ChatMessage>
    {
    	  return new ChatMessagePubSubType();
    }
+
+   @Override
+   public void serialize(ChatMessage data, CDR cdr)
+   {
+      // TODO Auto-generated method stub
+      
+   }
+
+   @Override
+   public void deserialize(ChatMessage data, CDR cdr)
+   {
+      // TODO Auto-generated method stub
+      
+   }
+
+   @Override
+   public void copy(ChatMessage src, ChatMessage dest)
+   {
+      // TODO Auto-generated method stub
+      
+   }
 }

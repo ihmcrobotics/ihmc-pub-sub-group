@@ -763,8 +763,9 @@ public interface IDLSequence
     * @param <T> Element type
     */
    @SuppressWarnings("rawtypes")
-   public static class Object<T extends IDLStruct> extends PreallocatedList<T> implements IDLSequence
+   public static class Object<T> extends PreallocatedList<T> implements IDLSequence
    {
+      private final TopicDataType<T> topicDataType;
      
       /**
        * 
@@ -775,12 +776,14 @@ public interface IDLSequence
       public Object(int maxSize, Class<T> clazz, TopicDataType<T> topicDataType)
       {
          super(clazz, () -> topicDataType.createData() , maxSize);
+         this.topicDataType = topicDataType;
          
       }
 
       public Object(int maxSize, Class<T> clazz, Enum[] constants)
       {
          super(clazz, constants, maxSize);
+         this.topicDataType = null;
       }
 
       
@@ -796,7 +799,7 @@ public interface IDLSequence
          else
          {
             T val = add();
-            cdr.read_type_a(val);            
+            topicDataType.deserialize(val, cdr);          
          }
       }
 
@@ -809,13 +812,12 @@ public interface IDLSequence
          }
          else
          {
-            cdr.write_type_a(get(i));
+            topicDataType.serialize(get(i), cdr);
          }
       }
 
 
 
-      @SuppressWarnings("unchecked")
       public void set(Object<T> other)
       {
          if(isEnum())
@@ -832,7 +834,7 @@ public interface IDLSequence
             for(int i = 0; i < other.size(); i++)
             {
                T val = add();
-               val.set(other.get(i));
+               topicDataType.copy(other.get(i), val);
             }
          }
       }
