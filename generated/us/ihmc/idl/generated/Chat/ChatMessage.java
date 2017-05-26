@@ -1,7 +1,5 @@
 package us.ihmc.idl.generated.Chat;
 import us.ihmc.idl.IDLSequence;
-import us.ihmc.idl.CDR;
-import us.ihmc.idl.InterchangeSerializer;
 import java.util.Arrays;
 
 /**
