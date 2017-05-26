@@ -101,16 +101,23 @@ public class ChatMessagePubSubType implements TopicDataType<us.ihmc.idl.generate
 	    	cdr.read_type_d(data.getMsg());	
    }
    
-   public static void serialize(String fieldName, us.ihmc.idl.generated.Chat.ChatMessage data, InterchangeSerializer ser)
-   {
-   		ser.write_type_a(fieldName, new ChatMessagePubSubType(), data);
-   }
-
-   public static void deserialize(String fieldName, us.ihmc.idl.generated.Chat.ChatMessage data, InterchangeSerializer ser)
-   {
-        ser.read_type_a(fieldName, new ChatMessagePubSubType(), data);
-   }
-
+	@Override
+	public final void serialize(us.ihmc.idl.generated.Chat.ChatMessage data, InterchangeSerializer ser)
+	{
+			    ser.write_type_d("sender", data.getSender());
+			    
+			    ser.write_type_d("msg", data.getMsg());
+			    
+	}
+	
+	@Override
+	public final void deserialize(InterchangeSerializer ser, us.ihmc.idl.generated.Chat.ChatMessage data)
+	{
+	    			ser.read_type_d("sender", data.getSender());	
+	    	    
+	    			ser.read_type_d("msg", data.getMsg());	
+	    	    
+	}
 
    public static void staticCopy(us.ihmc.idl.generated.Chat.ChatMessage src, us.ihmc.idl.generated.Chat.ChatMessage dest)
    {
@@ -157,17 +164,5 @@ public class ChatMessagePubSubType implements TopicDataType<us.ihmc.idl.generate
    public ChatMessagePubSubType newInstance()
    {
    	  return new ChatMessagePubSubType();
-   }
-   @Override
-   public void serialize(ChatMessage data, InterchangeSerializer serializer)
-   {
-      // TODO Auto-generated method stub
-      
-   }
-   @Override
-   public void deserialize(InterchangeSerializer serializer, ChatMessage data)
-   {
-      // TODO Auto-generated method stub
-      
    }
 }
