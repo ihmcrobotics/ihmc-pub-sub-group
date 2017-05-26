@@ -17,6 +17,8 @@ package us.ihmc.idl;
 
 import org.apache.commons.lang3.NotImplementedException;
 
+import us.ihmc.pubsub.TopicDataType;
+
 public interface InterchangeSerializer
 {
    /**
@@ -97,9 +99,9 @@ public interface InterchangeSerializer
    /**
     * Struct
     */
-   public void read_type_a(String name, IDLStruct<?> type);
+   public <T> void read_type_a(String name, TopicDataType<T> type, T data);
    
-   public void write_type_a(String name, IDLStruct<?> type);
+   public <T> void write_type_a(String name, TopicDataType<T> type, T data);
    
    /**
     * Union
@@ -139,6 +141,8 @@ public interface InterchangeSerializer
    /** 
     * Array
     */
+   public <T> void read_type_f(String name, TopicDataType<T> dataType, Object[] arr);
+   public <T> void write_type_f(String name, TopicDataType<T> dataType, Object[] arr);
    public <T> void read_type_f(String name, T[] arr);
    public <T> void write_type_f(String name, T[] arr);
    public void read_type_f(String name, boolean[] arr);

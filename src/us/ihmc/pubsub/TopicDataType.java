@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 
 import us.ihmc.idl.CDR;
+import us.ihmc.idl.InterchangeSerializer;
 import us.ihmc.pubsub.common.SerializedPayload;
 
 /**
@@ -49,6 +50,26 @@ public interface TopicDataType<T>
     */
    public void deserialize(SerializedPayload serializedPayload, T data) throws IOException;
 
+   
+   /**
+    * Interchange Serialize method, it should be implemented by the user.
+    *
+    * 
+    * @param data
+    * @param serializedPayload
+    * 
+    */
+   public void serialize(T data, InterchangeSerializer serializer);
+   
+   /**
+    * Interchange deserialize method, it should be implemented by the user
+    * 
+    * @param serializedPayload
+    * @param data
+    * 
+    */
+   public void deserialize(InterchangeSerializer serializer, T data);
+   
    
    /**
     * Nested element serialize method, it should be implemented by the user
