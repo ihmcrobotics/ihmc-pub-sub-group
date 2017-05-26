@@ -18,7 +18,10 @@ package us.ihmc.pubsub.types;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 
+import org.apache.commons.lang3.NotImplementedException;
+
 import us.ihmc.idl.CDR;
+import us.ihmc.idl.InterchangeSerializer;
 import us.ihmc.pubsub.TopicDataType;
 import us.ihmc.pubsub.common.SerializedPayload;
 
@@ -132,21 +135,31 @@ public class ByteBufferPubSubType implements TopicDataType<ByteBuffer>
    @Override
    public void serialize(ByteBuffer data, CDR cdr)
    {
-      // TODO Auto-generated method stub
-      
+      throw new NotImplementedException("Nested serializer is not implemented for bytebuffer pub/sub type");
    }
 
    @Override
    public void deserialize(ByteBuffer data, CDR cdr)
    {
-      // TODO Auto-generated method stub
-      
+      throw new NotImplementedException("Nested serializer is not implemented for bytebuffer pub/sub type");
    }
 
    @Override
    public void copy(ByteBuffer src, ByteBuffer dest)
    {
-      // TODO Auto-generated method stub
+      throw new NotImplementedException("Copy is not implemented for bytebuffer pub/sub type");
+   }
+
+   @Override
+   public void serialize(ByteBuffer data, InterchangeSerializer serializer)
+   {
+      throw new NotImplementedException("Interchange serializer is not implemented for bytebuffer pub/sub type");
+   }
+
+   @Override
+   public void deserialize(InterchangeSerializer serializer, ByteBuffer data)
+   {
+      throw new NotImplementedException("Interchange serializer is not implemented for bytebuffer pub/sub type");
       
    }
 
