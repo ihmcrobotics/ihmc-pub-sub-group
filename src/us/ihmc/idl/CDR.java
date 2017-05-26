@@ -218,19 +218,6 @@ public class CDR
    }
 
    /**
-    * Struct
-    */
-   public void read_type_a(IDLStruct<?> type)
-   {
-      type.deserialize(this);
-   }
-
-   public void write_type_a(IDLStruct<?> type)
-   {
-      type.serialize(this);
-   }
-
-   /**
     * Union
     */
    public Object read_type_b()

@@ -856,6 +856,10 @@ public interface IDLSequence
          return builder.toString();
       }
 
+      public TopicDataType<T> getTopicDataType()
+      {
+         return topicDataType;
+      }
    }
 
    /**

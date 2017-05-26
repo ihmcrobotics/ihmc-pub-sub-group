@@ -1,8 +1,5 @@
 package us.ihmc.idl.generated.Chat;
 import us.ihmc.idl.IDLSequence;
-import us.ihmc.idl.CDR;
-import us.ihmc.idl.InterchangeSerializer;
-import us.ihmc.idl.IDLStruct;
 import java.util.Arrays;
 
 /**
@@ -13,7 +10,7 @@ import java.util.Arrays;
 * Do not update this file directly, edit ChatMessage.idl instead.
 *
 */
-public class ChatMessage implements IDLStruct<ChatMessage>
+public class ChatMessage
 {
     public ChatMessage()
     {
@@ -22,7 +19,7 @@ public class ChatMessage implements IDLStruct<ChatMessage>
         
         
     }
-    @Override
+
     public void set(ChatMessage other)
     {
         	sender_.setLength(0);
@@ -67,81 +64,7 @@ public class ChatMessage implements IDLStruct<ChatMessage>
         
 
 
-	public static int getMaxCdrSerializedSize()
-	{
-		return getMaxCdrSerializedSize(0);
-	}
 
-	public static int getMaxCdrSerializedSize(int current_alignment)
-	{
-	    int initial_alignment = current_alignment;
-	            
-	    current_alignment += 4 + CDR.alignment(current_alignment, 4) + 255 + 1;
-
-	    current_alignment += 4 + CDR.alignment(current_alignment, 4) + 255 + 1;
-
-	
-	    return current_alignment - initial_alignment;
-	}
-
-
-	public final static int getCdrSerializedSize(ChatMessage data)
-	{
-		return getCdrSerializedSize(data, 0);
-	}
-
-	public final static int getCdrSerializedSize(ChatMessage data, int current_alignment)
-	{
-	    int initial_alignment = current_alignment;
-	            
-	    current_alignment += 4 + CDR.alignment(current_alignment, 4) + data.getSender().length() + 1;
-
-	    current_alignment += 4 + CDR.alignment(current_alignment, 4) + data.getMsg().length() + 1;
-
-	
-	    return current_alignment - initial_alignment;
-	}
-	
-	@Override
-	public final void serialize(CDR cdr)
-	{
-
-
-	    if(sender_.length() <= 255)
-	    cdr.write_type_d(sender_);else
-	        throw new RuntimeException("sender field exceeds the maximum length");
-
-	    if(msg_.length() <= 255)
-	    cdr.write_type_d(msg_);else
-	        throw new RuntimeException("msg field exceeds the maximum length");
-	}
-	
-	@Override
-	public final void deserialize(CDR cdr)
-	{
-
-	    	cdr.read_type_d(sender_);	
-
-	    	cdr.read_type_d(msg_);	
-	}
-	
-	@Override
-	public final void serialize(InterchangeSerializer ser)
-	{
-			    ser.write_type_d("sender", sender_);
-			    
-			    ser.write_type_d("msg", msg_);
-			    
-	}
-	
-	@Override
-	public final void deserialize(InterchangeSerializer ser)
-	{
-	    			ser.read_type_d("sender", sender_);	
-	    	    
-	    			ser.read_type_d("msg", msg_);	
-	    	    
-	}
 
     @Override
     public boolean equals(Object other)
