@@ -129,12 +129,12 @@ void NativeParticipantSubscriberEDPListener::MyRTPSReaderListener::onNewCacheCha
         memcpy(tempMsg.buffer,change->serializedPayload.data,tempMsg.length);
         if(proxyData.readFromCDRMessage(&tempMsg)){
             GuidUnion guid;
-            CommonFunctions::guidcpy(proxyData.m_guid, &guid);
+            CommonFunctions::guidcpy(proxyData.guid(), &guid);
             GuidUnion participantGuid;
-            CommonFunctions::guidcpy(proxyData.m_RTPSParticipantKey, &participantGuid);
+            CommonFunctions::guidcpy(proxyData.RTPSParticipantKey(), &participantGuid);
 
-            mp_listener->subscriberTopicChange(proxyData.m_isAlive, guid.primitive.high, guid.primitive.low, proxyData.m_expectsInlineQos, &proxyData.m_unicastLocatorList, &proxyData.m_multicastLocatorList, participantGuid.primitive.high, participantGuid.primitive.low,
-                                               proxyData.m_typeName, proxyData.m_topicName, proxyData.m_userDefinedId, proxyData.m_topicKind, &proxyData.m_qos);
+            mp_listener->subscriberTopicChange(proxyData.isAlive(), guid.primitive.high, guid.primitive.low, proxyData.m_expectsInlineQos, &proxyData.unicastLocatorList(), &proxyData.multicastLocatorList(), participantGuid.primitive.high, participantGuid.primitive.low,
+                                               proxyData.typeName(), proxyData.topicName(), proxyData.userDefinedId(), proxyData.topicKind(), &proxyData.m_qos);
         }
     }
 }
