@@ -437,6 +437,8 @@ public class FastRTPSJNI {
   public final static native int WriterAttributes_mode_get(long jarg1, WriterAttributes jarg1_);
   public final static native void WriterAttributes_throughputController_set(long jarg1, WriterAttributes jarg1_, long jarg2, ThroughputControllerDescriptor jarg2_);
   public final static native long WriterAttributes_throughputController_get(long jarg1, WriterAttributes jarg1_);
+  public final static native void WriterAttributes_disableHeartbeatPiggyback_set(long jarg1, WriterAttributes jarg1_, boolean jarg2);
+  public final static native boolean WriterAttributes_disableHeartbeatPiggyback_get(long jarg1, WriterAttributes jarg1_);
   public final static native long new_RemoteReaderAttributes();
   public final static native void delete_RemoteReaderAttributes(long jarg1);
   public final static native void RemoteReaderAttributes_endpoint_set(long jarg1, RemoteReaderAttributes jarg1_, long jarg2, EndpointAttributes jarg2_);
