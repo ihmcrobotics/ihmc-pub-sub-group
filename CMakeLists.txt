@@ -41,7 +41,7 @@ ExternalProject_Add(FastRTPS
 link_directories("${FAST_RTPS_INSTALL_PREFIX}/lib")
 INCLUDE_DIRECTORIES("${FAST_RTPS_INSTALL_PREFIX}/include")
 IF(WIN32)
-	set(FastRTPS_LIBRARIES libfastcdr-1.0 libfastrtps-1.4 Iphlpapi Shlwapi)
+	set(FastRTPS_LIBRARIES libfastcdr-1.0 libfastrtps-1.5 Iphlpapi Shlwapi)
 ELSE()
 	set(FastRTPS_LIBRARIES fastcdr fastrtps)
 ENDIF()
