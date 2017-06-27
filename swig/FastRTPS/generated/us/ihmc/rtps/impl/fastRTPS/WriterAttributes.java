@@ -74,4 +74,12 @@ public class WriterAttributes {
     return (cPtr == 0) ? null : new ThroughputControllerDescriptor(cPtr, false);
   }
 
+  public void setDisableHeartbeatPiggyback(boolean value) {
+    FastRTPSJNI.WriterAttributes_disableHeartbeatPiggyback_set(swigCPtr, this, value);
+  }
+
+  public boolean getDisableHeartbeatPiggyback() {
+    return FastRTPSJNI.WriterAttributes_disableHeartbeatPiggyback_get(swigCPtr, this);
+  }
+
 }
