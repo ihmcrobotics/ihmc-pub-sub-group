@@ -84,7 +84,6 @@ namespace fastrtps{
 #include <fastrtps/rtps/common/Locator.h>
 #include <fastrtps/rtps/common/Time_t.h>
 #include <fastrtps/rtps/flowcontrol/ThroughputControllerDescriptor.h>
-#include <fastrtps/rtps/flowcontrol/ThroughputController.h>
 #include <fastrtps/rtps/attributes/RTPSParticipantAttributes.h>
 
 
@@ -180,7 +179,7 @@ namespace rtps{
 
 
 }}}
-%include <fastrtps/rtps/flowcontrol/FlowController.h>
+
 %include <fastrtps/rtps/flowcontrol/ThroughputControllerDescriptor.h>
 %include <fastrtps/qos/QosPolicies.h>
 %include <fastrtps/qos/WriterQos.h>
