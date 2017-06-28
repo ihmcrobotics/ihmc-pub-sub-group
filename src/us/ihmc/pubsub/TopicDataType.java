@@ -92,27 +92,39 @@ public interface TopicDataType<T>
    /**
     * Set dest to the contents in src
     * 
+    * This function is considered thread safe, no side effects are allowed in the implementation of this method.
+    * 
     * @param src
     * @param dest
     */
    public void copy(T src, T dest);
    
    /**
-    * Maximum serialized size of the type in bytes.
+    * Maximum serialized size of the type in bytes. 
     * 
     * If the type has unbounded fields, and therefore cannot have a maximum size, use 0.
+    * 
+    * This size includes the header bytes for the encapsulation format.
+    * 
+    * This function is considered thread safe, no side effects are allowed in the implementation of this method.
     *
     * @return maximum size in bytes
     */
    public int getTypeSize();
 
    /**
+    * Return the topic data type name
+    * 
+    * This function is considered thread safe, no side effects are allowed in the implementation of this method.
     * 
     * @return Topic data type name
     */
    public String getName();
    
    /**
+    * Return a new instance of the underlying data type.
+    * 
+    * This function is considered thread safe, no side effects are allowed in the implementation of this method.
     * 
     * @return an instance of the data type
     */
@@ -122,6 +134,8 @@ public interface TopicDataType<T>
     * Create a new instance of this class.
     * 
     * This is used to avoid threading issues when re-using pub-sub types when constructing topics
+    * 
+    * This function is considered thread safe, no side effects are allowed in the implementation of this method.
     * 
     * @return a copy of this pub sub type. 
     */
