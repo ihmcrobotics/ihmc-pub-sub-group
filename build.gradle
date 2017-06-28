@@ -8,7 +8,7 @@ buildscript {
     }
 	
 	dependencies {
-		classpath group: 'us.ihmc', name: 'IHMCPubSubGenerator', version: '0.3'
+		classpath group: 'us.ihmc', name: 'IHMCPubSubGenerator', version: '0.3.1'
 	}
 }
 
