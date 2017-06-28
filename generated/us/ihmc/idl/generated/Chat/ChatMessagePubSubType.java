@@ -135,7 +135,7 @@ public class ChatMessagePubSubType implements TopicDataType<us.ihmc.idl.generate
    @Override
    public int getTypeSize()
    {
-      return getMaxCdrSerializedSize();
+      return CDR.getTypeSize(getMaxCdrSerializedSize());
    }
 
    @Override
