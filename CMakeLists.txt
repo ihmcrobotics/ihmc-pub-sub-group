@@ -25,13 +25,14 @@ ExternalProject_Add(FastRTPS
     BINARY_DIR "${PROJECT_BINARY_DIR}/thirdparty/Fast-RTPS-build"
     STAMP_DIR "${PROJECT_BINARY_DIR}/thirdparty/Fast-RTPS-stamp"
 	DOWNLOAD_COMMAND ""
-	UPDATE_COMMAND "${CMAKE_COMMAND}" -E chdir "${PROJECT_SOURCE_DIR}" git submodule update --recursive --init "thirdparty/Fast-RTPS"
+	#UPDATE_COMMAND "${CMAKE_COMMAND}" -E chdir "${PROJECT_SOURCE_DIR}" git submodule update --recursive --init "thirdparty/Fast-RTPS"
+	UPDATE_COMMAND ""
     INSTALL_DIR "${FAST_RTPS_INSTALL_PREFIX}"
     TMP_DIR "${PROJECT_BINARY_DIR}/thirdparty/Fast-RTPS-tmp"
     CMAKE_GENERATOR "${CMAKE_GENERATOR}"
     CMAKE_ARGS
         "-DEPROSIMA_BUILD=ON"
-        "-DCMAKE_BUILD_TYPE=Release"
+	"-DCMAKE_BUILD_TYPE=RelWithDebInfo"
         "-DCOMPILE_EXAMPLES=OFF"
         "-DBUILD_SHARED_LIBS=OFF"
         "-DCMAKE_INSTALL_PREFIX=${FAST_RTPS_INSTALL_PREFIX}"
@@ -40,7 +41,7 @@ ExternalProject_Add(FastRTPS
 link_directories("${FAST_RTPS_INSTALL_PREFIX}/lib")
 INCLUDE_DIRECTORIES("${FAST_RTPS_INSTALL_PREFIX}/include")
 IF(WIN32)
-	set(FastRTPS_LIBRARIES libfastcdr-1.0 libfastrtps-1.4 Iphlpapi Shlwapi)
+	set(FastRTPS_LIBRARIES libfastcdr-1.0 libfastrtps-1.5 Iphlpapi Shlwapi)
 ELSE()
 	set(FastRTPS_LIBRARIES fastcdr fastrtps)
 ENDIF()
