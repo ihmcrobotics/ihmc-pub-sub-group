@@ -94,13 +94,14 @@ public class SubscriberExample
       ParticipantAttributes attributes = domain.createParticipantAttributes();
       attributes.setDomainId(1);
       attributes.setLeaseDuration(Time.Infinite);
-      attributes.setName("SubscriberExample");      
+      attributes.setName("SubscriberExample");    
+      attributes.bindToLocalhost();
       Participant participant = domain.createParticipant(attributes, new ParticipantListenerImpl());
 
       ChatMessagePubSubType dataType = new ChatMessagePubSubType();
       domain.registerType(participant, dataType);
 
-      SubscriberAttributes subscriberAttributes = domain.createSubscriberAttributes(participant, dataType, "ChatBox", ReliabilityKind.RELIABLE, "us/ihmc");      
+      SubscriberAttributes subscriberAttributes = domain.createSubscriberAttributes(participant, dataType, "ChatBox", ReliabilityKind.RELIABLE);      
       subscriberAttributes.getQos().setDurabilityKind(DurabilityKind.TRANSIENT_LOCAL_DURABILITY_QOS);
       subscriberAttributes.getTopic().getHistoryQos().setKind(HistoryQosPolicyKind.KEEP_ALL_HISTORY_QOS);
 

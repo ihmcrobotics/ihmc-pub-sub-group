@@ -75,6 +75,7 @@ public class PublisherExample
       attributes.setDomainId(1);
       attributes.setLeaseDuration(Time.Infinite);
       attributes.setName("PublisherExample");
+      attributes.bindToLocalhost();
       
       
       Participant participant = domain.createParticipant(attributes, new ParticipantListenerImpl());

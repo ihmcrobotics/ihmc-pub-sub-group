@@ -160,6 +160,15 @@ public class Guid
       conversionBuffer.get(entity.value, 0, Guid.Entity.size);
    }
 
+   public void fromBytes(byte[] bytes)
+   {
+      conversionBuffer.clear();
+      conversionBuffer.put(bytes);
+      conversionBuffer.flip();
+      conversionBuffer.get(guidPrefix.value, 0, Guid.GuidPrefix.size);
+      conversionBuffer.get(entity.value, 0, Guid.Entity.size);
+   }
+
    @Override
    public String toString()
    {

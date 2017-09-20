@@ -16,20 +16,33 @@
 package us.ihmc.pubsub;
 
 import us.ihmc.rtps.impl.fastRTPS.FastRTPSDomain;
+import us.ihmc.rtps.impl.jrtps.JRTPSDomain;
 
 public class DomainFactory
 {
    public enum PubSubImplementation
    {
-      FAST_RTPS;
+      FAST_RTPS,
+      JRTPS;
    }
    
    private static Domain domain = null;
    public static synchronized Domain getDomain(PubSubImplementation impl)
    {
-      if(domain == null)
+      switch(impl)
       {
-         domain = new FastRTPSDomain();
+      case FAST_RTPS:
+         if(domain == null)
+         {
+            domain = new FastRTPSDomain();
+         }
+         break;
+      case JRTPS:
+         if(domain == null)
+         {
+            domain = new JRTPSDomain();
+         }
+         break;
       }
       
       return domain;

@@ -81,7 +81,8 @@ dependencies {
 	testCompile group: 'junit', name: 'junit', version: '4.11'
     compile group: 'us.ihmc', name: 'IHMCNativeLibraryLoader', version: '1.0'
 	compile group: 'net.sf.trove4j', name: 'trove4j', version: '3.0.3'
-
+	compile group: 'net.sf.jrtps', name: 'jrtps', version: '1.4.0'
+	compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.12'
 }
 
 
