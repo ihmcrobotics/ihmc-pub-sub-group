@@ -45,7 +45,7 @@ public class JRTPSParticipant implements Participant
    {
       this.attr = attr;
 
-      participantImpl = new net.sf.jrtps.udds.Participant((int) attr.getDomain());
+      participantImpl = new net.sf.jrtps.udds.Participant((int) attr.getDomain(), 1);
 
       guid = new Guid();
       guid.fromBytes(participantImpl.getGuid().getBytes());
