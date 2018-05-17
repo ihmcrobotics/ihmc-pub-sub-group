@@ -40,8 +40,14 @@ public class BigMessagePubSubType implements us.ihmc.pubsub.TopicDataType<us.ihm
    {
       int initial_alignment = current_alignment;
 
+<<<<<<< Updated upstream
       current_alignment += 4 + us.ihmc.idl.CDR.alignment(current_alignment, 4);current_alignment += (100000 * 8) + us.ihmc.idl.CDR.alignment(current_alignment, 8);
 
+=======
+      current_alignment += 4 + us.ihmc.idl.CDR.alignment(current_alignment, 4);for(int i0 = 0; i0 < 100000; ++i0)
+      {
+          current_alignment += us.ihmc.idl.generated.test.IDLSubmessagePubSubType.getMaxCdrSerializedSize(current_alignment);}
+>>>>>>> Stashed changes
       return current_alignment - initial_alignment;
    }
 
@@ -63,9 +69,16 @@ public class BigMessagePubSubType implements us.ihmc.pubsub.TopicDataType<us.ihm
 
    public static void write(us.ihmc.idl.generated.test.BigMessage data, us.ihmc.idl.CDR cdr)
    {
+<<<<<<< Updated upstream
       if(data.getLargeSequence().size() <= 100000)
       cdr.write_type_e(data.getLargeSequence());else
           throw new RuntimeException("largeSequence field exceeds the maximum length");
+=======
+//      if(data.getLargeSequence().size() <= 100000)
+      cdr.write_type_e(data.getLargeSequence());
+//      else
+//          throw new RuntimeException("largeSequence field exceeds the maximum length");
+>>>>>>> Stashed changes
 
    }
 

@@ -834,6 +834,7 @@ public interface IDLSequence
    public static class Object<T> extends RecyclingArrayListPubSub<T> implements IDLSequence
    {
       private final TopicDataType<T> topicDataType;
+      private final int capacity;
      
       /**
        * 
@@ -845,7 +846,7 @@ public interface IDLSequence
       {
          super(clazz, topicDataType::createData, maxSize);
          this.topicDataType = topicDataType;
-         
+         this.capacity = maxSize;
       }
 
       @Override
@@ -857,7 +858,7 @@ public interface IDLSequence
       @Override
       public int capacity()
       {
-         return java.lang.Integer.MAX_VALUE;
+         return capacity;
       }
 
       @SuppressWarnings("unchecked")
@@ -879,8 +880,7 @@ public interface IDLSequence
          clear();
          for (int i = 0; i < other.size(); i++)
          {
-            T val = add();
-            topicDataType.copy(other.get(i), val);
+            topicDataType.copy(other.get(i), add());
          }
       }
       

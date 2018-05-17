@@ -2,6 +2,10 @@ module test
 {
 	struct BigMessage
 	{
+<<<<<<< Updated upstream
 		sequence<double, 100000> largeSequence;
+=======
+		sequence<test::IDLSubmessage, 100000> largeSequence;
+>>>>>>> Stashed changes
 	};
 };

@@ -37,7 +37,7 @@ import us.ihmc.pubsub.subscriber.SubscriberListener;
 class IntraProcessDomainImpl
 {
 
-   private final Executor threadPool = Executors.newCachedThreadPool();
+   private final Executor threadPool = Executors.newCachedThreadPool(); // give threads a name
 
    private final ReentrantLock domainLock = new ReentrantLock();
 

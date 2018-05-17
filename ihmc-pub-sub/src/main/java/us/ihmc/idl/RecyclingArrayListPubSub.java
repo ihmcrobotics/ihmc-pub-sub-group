@@ -11,6 +11,7 @@ import java.util.function.Supplier;
 public class RecyclingArrayListPubSub<T> implements List<T>
 {
    private final Class<T> clazz;
+   private final int maxSize;
    private T[] values;
    private int size = 0;
    private Supplier<T> allocator;
@@ -23,12 +24,15 @@ public class RecyclingArrayListPubSub<T> implements List<T>
    {
       clazz = null;
       values = null;
+      maxSize = Integer.MAX_VALUE - 8;
    }
 
    @SuppressWarnings("unchecked")
-   public RecyclingArrayListPubSub(Class<T> clazz, Supplier<T> allocator, int initialSize)
+   public RecyclingArrayListPubSub(Class<T> clazz, Supplier<T> allocator, int capacity)
    {
       this.clazz = clazz;
+      this.maxSize = capacity;
+      int initialSize = (int) Math.ceil(capacity * 0.20);
       values = (T[]) new Object[initialSize];
       size = initialSize;
       this.allocator = allocator;
@@ -54,6 +58,26 @@ public class RecyclingArrayListPubSub<T> implements List<T>
    public int size()
    {
       return size;
+   }
+
+   /**
+    * Returns the size at which reallocation will occur.
+    *
+    * @return current internal array capacity
+    */
+   public int capacity()
+   {
+      return values.length;
+   }
+
+   /**
+    * The maximum size of the list.
+    *
+    * @return max list size
+    */
+   public int getMaxSize()
+   {
+      return maxSize;
    }
 
    /**
@@ -203,7 +227,7 @@ public class RecyclingArrayListPubSub<T> implements List<T>
 
    /**
     * Removes the element at the specified position in this list.
-    * This method is faster than {@link us.ihmc.idl.RecyclingArrayListPubSub#remove(int)} but the ith element is swapped with the last element changing the ordering of the list.
+    * This method is faster than {@link RecyclingArrayListPubSub#remove(int)} but the ith element is swapped with the last element changing the ordering of the list.
     *
     * @param index the index of the element to be removed
     */
@@ -301,19 +325,20 @@ public class RecyclingArrayListPubSub<T> implements List<T>
       }
    }
 
-   private static final int MAX_ARRAY_SIZE = Integer.MAX_VALUE - 8;
-
    protected void ensureCapacity(int minCapacity)
    {
       if (minCapacity <= values.length)
          return;
 
+      if (minCapacity > maxSize) // max size exceeded
+         throw new RuntimeException("Requested capacity (" + minCapacity + ") is greater than max size (" + maxSize + ")!");
+
       int previousArraySize = values.length;
-      int newArraySize = previousArraySize + (previousArraySize >> 1);
-      if (newArraySize - minCapacity < 0)
+      int newArraySize = previousArraySize + (previousArraySize >> 1); // Add 50%
+      if (newArraySize - maxSize > 0) // if +50% is more than max, set at max
+         newArraySize = maxSize;
+      if (newArraySize - minCapacity < 0) // if requested more than 50%, raise it the rest
          newArraySize = minCapacity;
-      if (newArraySize - MAX_ARRAY_SIZE > 0)
-         newArraySize = checkWithMaxCapacity(minCapacity);
 
       values = Arrays.copyOf(values, newArraySize);
 
@@ -321,13 +346,6 @@ public class RecyclingArrayListPubSub<T> implements List<T>
       {
          values[i] = allocator.get();
       }
-   }
-
-   private static int checkWithMaxCapacity(int minCapacity)
-   {
-      if (minCapacity < 0) // overflow
-         throw new OutOfMemoryError();
-      return (minCapacity > MAX_ARRAY_SIZE) ? Integer.MAX_VALUE : MAX_ARRAY_SIZE;
    }
 
    private void fillElementDataIfNeeded()

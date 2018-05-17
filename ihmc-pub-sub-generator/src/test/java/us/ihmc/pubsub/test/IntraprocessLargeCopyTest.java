@@ -21,15 +21,20 @@ import us.ihmc.pubsub.subscriber.Subscriber;
 import us.ihmc.pubsub.subscriber.SubscriberListener;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Random;
 
 public class IntraprocessLargeCopyTest
 {
+
+   public static final PubSubImplementation IMPL = PubSubImplementation.INTRAPROCESS;
+
    @Test(timeout = 300000)
    public void testRepeatedLargeCopiesInIntraprocessCallbacks() throws IOException, InterruptedException
    {
       Random random = new Random(981239012380L);
+
+
+//      createSubscriber();
 
       Thread subscriberThread = new Thread(() -> {
          try
@@ -43,40 +48,46 @@ public class IntraprocessLargeCopyTest
       }, "SubscriberThread");
       subscriberThread.start();
 
-      ArrayList<Thread> threads = new ArrayList<>();
-      for (int i = 0; i < 5; i++)
-      {
-         Thread publisherThread = new Thread(() -> {
-            try
-            {
-               Publisher publisher = createPublisher();
-               publishABunch(publisher, random);
-            }
-            catch (IOException e)
-            {
-               e.printStackTrace();
-            }
-         }, "PublisherThread");
-         publisherThread.start();
-         threads.add(publisherThread);
-      }
-      threads.stream().forEach(thread -> {
-         try
-         {
-            thread.join();
-         }
-         catch (InterruptedException e)
-         {
-            e.printStackTrace();
-         }
-      });
+
+      Publisher publisher = createPublisher();
+      publishABunch(publisher, random);
 
       subscriberThread.join();
+//
+//      ArrayList<Thread> threads = new ArrayList<>();
+//      for (int i = 0; i < 5; i++)
+//      {
+//         Thread publisherThread = new Thread(() -> {
+//            try
+//            {
+//               Publisher publisher = createPublisher();
+//               publishABunch(publisher, random);
+//            }
+//            catch (IOException e)
+//            {
+//               e.printStackTrace();
+//            }
+//         }, "PublisherThread");
+//         publisherThread.start();
+//         threads.add(publisherThread);
+//      }
+//      threads.stream().forEach(thread -> {
+//         try
+//         {
+//            thread.join();
+//         }
+//         catch (InterruptedException e)
+//         {
+//            e.printStackTrace();
+//         }
+//      });
+//
+//      subscriberThread.join();
    }
 
    private Publisher createPublisher() throws IOException
    {
-      Domain domain = DomainFactory.getDomain(PubSubImplementation.INTRAPROCESS);
+      Domain domain = DomainFactory.getDomain(IMPL);
 
       domain.setLogLevel(LogLevel.ERROR);
 
@@ -91,7 +102,10 @@ public class IntraprocessLargeCopyTest
       domain.registerType(participant, dataType);
 
       PublisherAttributes publisherAttributes = domain.createPublisherAttributes(participant, dataType, "Status", ReliabilityKind.RELIABLE, "us/ihmc");
+      if (IMPL == PubSubImplementation.INTRAPROCESS)
       publisherAttributes.getQos().setDurabilityKind(DurabilityKind.VOLATILE_DURABILITY_QOS);
+      else
+      publisherAttributes.getQos().setDurabilityKind(DurabilityKind.TRANSIENT_LOCAL_DURABILITY_QOS);
       publisherAttributes.getTopic().getHistoryQos().setKind(HistoryQosPolicyKind.KEEP_LAST_HISTORY_QOS);
       publisherAttributes.getTopic().getHistoryQos().setDepth(10);
       publisherAttributes.getQos().setPublishMode(PublishModeKind.ASYNCHRONOUS_PUBLISH_MODE);
@@ -101,7 +115,7 @@ public class IntraprocessLargeCopyTest
 
    private Subscriber createSubscriber() throws IOException
    {
-      Domain domain = DomainFactory.getDomain(PubSubImplementation.INTRAPROCESS);
+      Domain domain = DomainFactory.getDomain(IMPL);
 
       domain.setLogLevel(LogLevel.ERROR);
 
@@ -114,12 +128,6 @@ public class IntraprocessLargeCopyTest
 
       BigMessagePubSubType dataType = new BigMessagePubSubType();
       domain.registerType(participant, dataType);
-
-      PublisherAttributes publisherAttributes = domain.createPublisherAttributes(participant, dataType, "Status", ReliabilityKind.RELIABLE, "us/ihmc");
-      publisherAttributes.getQos().setDurabilityKind(DurabilityKind.VOLATILE_DURABILITY_QOS);
-      publisherAttributes.getTopic().getHistoryQos().setKind(HistoryQosPolicyKind.KEEP_LAST_HISTORY_QOS);
-      publisherAttributes.getTopic().getHistoryQos().setDepth(10);
-      publisherAttributes.getQos().setPublishMode(PublishModeKind.ASYNCHRONOUS_PUBLISH_MODE);
 
       BigMessagePubSubType dataType2 = new BigMessagePubSubType();
 
@@ -133,7 +141,11 @@ public class IntraprocessLargeCopyTest
    private void publishABunch(Publisher publisher, Random random) throws IOException
    {
       int i = 0;
+<<<<<<< Updated upstream
       for (; i < 100; i++)
+=======
+      for (; i < 1000; i++)
+>>>>>>> Stashed changes
       {
          BigMessage msg = new BigMessage();
          int i1 = random.nextInt(msg.getLargeSequence().capacity());
@@ -142,15 +154,16 @@ public class IntraprocessLargeCopyTest
          {
             msg.getLargeSequence().add(j);
          }
-         //         try
-         {
-            publisher.write(msg);
+         publisher.write(msg);
 
-//            System.out.println("Publishing: " + i);
-            //            Thread.sleep(1000);
-         }
-         //         catch (InterruptedException e)
+         System.out.println("Publishing: " + i);
+         try
          {
+            Thread.sleep(10);
+         }
+         catch (InterruptedException e)
+         {
+            e.printStackTrace();
          }
       }
    }
