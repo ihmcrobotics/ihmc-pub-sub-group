@@ -628,7 +628,7 @@ public interface IDLSequence
       @Override
       public int capacity()
       {
-         return java.lang.Integer.MAX_VALUE;
+         return getMaxSize();
       }
 
       @Override
@@ -857,7 +857,7 @@ public interface IDLSequence
       @Override
       public int capacity()
       {
-         return java.lang.Integer.MAX_VALUE;
+         return getMaxSize();
       }
 
       @SuppressWarnings("unchecked")
