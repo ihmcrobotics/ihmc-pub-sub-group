@@ -30,7 +30,7 @@ public abstract class PublisherAttributes
 
    private int userDefinedID = -1;
    private int entityID = -1;
-   protected final MemoryManagementPolicy historyMemoryPolicy = MemoryManagementPolicy.PREALLOCATED_MEMORY_MODE;
+   protected final MemoryManagementPolicy historyMemoryPolicy = MemoryManagementPolicy.PREALLOCATED_WITH_REALLOC_MEMORY_MODE;
 
    protected final TopicAttributes topic = new TopicAttributes();
    protected final ArrayList<Locator> unicastLocatorList = new ArrayList<>();

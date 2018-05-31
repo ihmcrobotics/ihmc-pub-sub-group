@@ -37,7 +37,7 @@ public abstract class SubscriberAttributes
    private int userDefinedID = -1;
    private int entityID = -1;
    private boolean expectsInlineQos;
-   private MemoryManagementPolicy historyMemoryPolicy = MemoryManagementPolicy.PREALLOCATED_MEMORY_MODE;
+   private MemoryManagementPolicy historyMemoryPolicy = MemoryManagementPolicy.PREALLOCATED_WITH_REALLOC_MEMORY_MODE;
 
    public SubscriberAttributes()
    {
