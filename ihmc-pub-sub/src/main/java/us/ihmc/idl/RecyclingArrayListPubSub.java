@@ -33,6 +33,8 @@ public class RecyclingArrayListPubSub<T> implements List<T>
       this.clazz = clazz;
       this.maxSize = capacity;
       int initialSize = (int) Math.ceil(capacity * 0.20);
+      if (initialSize < 10)
+         initialSize = capacity;
       values = (T[]) new Object[initialSize];
       this.allocator = allocator;
       size = 0;
