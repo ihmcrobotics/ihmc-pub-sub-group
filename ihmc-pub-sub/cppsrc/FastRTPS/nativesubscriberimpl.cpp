@@ -84,10 +84,10 @@ bool NativeSubscriberImpl::isInCleanState()
     return subscriber->isInCleanState();
 }
 
-int64_t NativeSubscriberImpl::getUnreadCount()
-{
-    return subscriber->getUnreadCount();
-}
+//int64_t NativeSubscriberImpl::getUnreadCount()
+//{
+//    return subscriber->getUnreadCount();
+//}
 
 void NativeSubscriberImpl::waitForUnreadMessage()
 {

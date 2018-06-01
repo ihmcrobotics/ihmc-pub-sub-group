@@ -80,7 +80,7 @@ namespace fastRTPS{
         bool takeNextData(int32_t maxDataLength, unsigned char* data, SampleInfoMarshaller* marshaller, TopicKind_t topicKind, OwnershipQosPolicyKind ownerShipQosKind);
 
         bool isInCleanState();
-        int64_t getUnreadCount();
+        //int64_t getUnreadCount();
 
 
         virtual ~NativeSubscriberImpl();
