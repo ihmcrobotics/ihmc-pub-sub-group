@@ -877,7 +877,8 @@ public interface IDLSequence
       public void set(Object<T> other)
       {
          clear();
-         for (int i = 0; i < other.size(); i++)
+         int size = other.size();
+         for (int i = 0; i < size; i++)
          {
             T val = add();
             topicDataType.copy(other.get(i), val);
