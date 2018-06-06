@@ -77,4 +77,13 @@ public class NativeSubscriberImpl {
     return FastRTPSJNI.NativeSubscriberImpl_getUnreadCount(swigCPtr, this);
   }
 
+  public void setSubscriber(SWIGTYPE_p_Subscriber value) {
+    FastRTPSJNI.NativeSubscriberImpl_subscriber_set(swigCPtr, this, SWIGTYPE_p_Subscriber.getCPtr(value));
+  }
+
+  public SWIGTYPE_p_Subscriber getSubscriber() {
+    long cPtr = FastRTPSJNI.NativeSubscriberImpl_subscriber_get(swigCPtr, this);
+    return (cPtr == 0) ? null : new SWIGTYPE_p_Subscriber(cPtr, false);
+  }
+
 }

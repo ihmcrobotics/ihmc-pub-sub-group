@@ -68,6 +68,10 @@ class FastRTPSSubscriber implements Subscriber
                matchingInfo.setStatus(MatchingInfo.MatchingStatus.values[status.swigValue()]);
                listener.onSubscriptionMatched(FastRTPSSubscriber.this, matchingInfo);
             }
+            else
+            {
+               System.err.println("LISTENER IS NULL!!!!");
+            }
          }
          catch (Throwable e)
          {
@@ -306,6 +310,19 @@ class FastRTPSSubscriber implements Subscriber
       }
    }
 
+   @Override
+   public long getUnreadCount()
+   {
+      synchronized(destructorLock)
+      {
+         if(impl == null)
+         {
+            throw new RuntimeException("This subscriber has been removed from the domain");
+         }
+         return impl.getUnreadCount();
+      }
+   }
+   
    void delete()
    {
       synchronized(destructorLock)

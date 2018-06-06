@@ -197,4 +197,10 @@ class IntraProcessSubscriber<T> implements Subscriber
       }
    }
 
+   @Override
+   public long getUnreadCount()
+   {
+      return messageQueue.size();
+   }
+
 }

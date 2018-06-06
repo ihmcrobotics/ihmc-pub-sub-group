@@ -108,4 +108,13 @@ public interface Subscriber
     * @return true if this subscriber is available
     */
    public boolean isAvailable();
+
+   /**
+    * Get the number of unread messages available in the subscriber history
+    * 
+    * This method does not allocate memory
+    * 
+    * @return number of unread messages
+    */
+   long getUnreadCount();
 }

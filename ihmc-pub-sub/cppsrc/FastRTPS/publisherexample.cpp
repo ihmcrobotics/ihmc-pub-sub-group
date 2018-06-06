@@ -37,33 +37,48 @@ int main()
 
     NativeParticipantImpl participant(rtps, &participantListener);
 
-    participant.registerType("chat::ChatMessage", 64000, false);
+    participant.registerType("us::ihmc::robotDataLogger::VariableChangeRequest", 20, false);
 
     PublisherAttributes attr;
 
-    attr.topic.topicName = "ChatBox1";
-    attr.topic.topicDataType = "chat::ChatMessage";
+    attr.topic.topicName = "testTopic";
+    attr.topic.topicDataType = "us::ihmc::robotDataLogger::VariableChangeRequest";
 
 
-    attr.qos.m_reliability.kind = BEST_EFFORT_RELIABILITY_QOS;
+    attr.qos.m_reliability.kind = RELIABLE_RELIABILITY_QOS;
     attr.qos.m_partition.push_back("us/ihmc");
 
 
     ExamplePublisherListener publisherListener;
+    ExamplePublisherListener publisherListener2;
 
-    NativePublisherImpl publisher(-1, -1, 528, PREALLOCATED_MEMORY_MODE, &attr.topic, &attr.qos,
+    NativePublisherImpl publisher(-1, -1, 20, PREALLOCATED_MEMORY_MODE, &attr.topic, &attr.qos,
                                   &attr.times, &attr.unicastLocatorList, &attr.multicastLocatorList,
                                   &attr.outLocatorList, &attr.throughputController, &participant, &publisherListener);
     publisher.createPublisher();
 
+    NativePublisherImpl publisher2(-1, -1, 20, PREALLOCATED_MEMORY_MODE, &attr.topic, &attr.qos,
+                                  &attr.times, &attr.unicastLocatorList, &attr.multicastLocatorList,
+                                  &attr.outLocatorList, &attr.throughputController, &participant, &publisherListener2);
+    publisher2.createPublisher();
 
-    std::vector<unsigned char> data(64000, 'a');
 
+    char data[] = {0, 1, 0, 0, 101, 0, 0, 0, 0, 0, 0, 0, 61, 10, -41, -93, 112, -67, 42, 64};
+
+    char data2[] = {0, 1, 0, 0, 102, 0, 0, 0, 0, 0, 0, 0, 61, 10, -41, -93, 112, -67, 58, 64};
+
+   // while(true)
+    for(int i = 0; i < 4; i++)
+    {
+        std::cout << "Publishing message of length 20" << std::endl;
+        publisher.write((unsigned char*)data,20,CDR_LE, nullptr, 0);
+        publisher2.write((unsigned char*)data2,20,CDR_LE, nullptr, 0);
+        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+
+    }
     while(true)
     {
-        publisher.write(data.data(),64000,CDR_LE, nullptr, 0);
-        std::this_thread::sleep_for(std::chrono::nanoseconds(10000));
-
+        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
     }
 
 }

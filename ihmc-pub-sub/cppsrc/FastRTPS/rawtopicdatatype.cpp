@@ -29,6 +29,8 @@ bool RawTopicDataType::serialize(void *data, eprosima::fastrtps::rtps::Serialize
 
 bool RawTopicDataType::deserialize(eprosima::fastrtps::rtps::SerializedPayload_t *payload, void *data)
 {
+
+    std::cout << "C++ Deserializing payload of length " << payload->length << std::endl;
     RawDataWrapper* dataWrapper = static_cast<RawDataWrapper*>(data);
     dataWrapper->encapsulation = payload->encapsulation; // Don't trust the encapsulation value here
     dataWrapper->length = payload->length;

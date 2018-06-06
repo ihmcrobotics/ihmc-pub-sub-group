@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.1)
 project(IHMCPubSub)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/")
-set(CMAKE_BUILD_TYPE RelWithDebInfo)
+set(CMAKE_BUILD_TYPE Debug)
 
 
 set(CMAKE_CXX_STANDARD 11)
@@ -31,7 +31,7 @@ ExternalProject_Add(FastRTPS
     TMP_DIR "${PROJECT_BINARY_DIR}/thirdparty/Fast-RTPS-tmp"
     CMAKE_GENERATOR "${CMAKE_GENERATOR}"
     CMAKE_ARGS
-        "-DEPROSIMA_BUILD=OFF"
+        "-DEPROSIMA_BUILD=ON"
 	"-DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}"
         "-DCOMPILE_EXAMPLES=OFF"
 	"-DINTERNAL_DEBUG=ON"

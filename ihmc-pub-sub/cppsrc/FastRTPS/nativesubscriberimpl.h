@@ -82,6 +82,7 @@ namespace fastRTPS{
         bool isInCleanState();
         int64_t getUnreadCount();
 
+        Subscriber* subscriber;
 
         virtual ~NativeSubscriberImpl();
     private:
@@ -100,7 +101,6 @@ namespace fastRTPS{
         NativeSubscriberListener* listener;
         std::string topicName;
 
-        Subscriber* subscriber;
 
         GUID_t guid;
         GuidUnion guidUnion;

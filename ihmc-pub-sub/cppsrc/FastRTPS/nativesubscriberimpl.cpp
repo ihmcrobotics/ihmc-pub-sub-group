@@ -17,6 +17,7 @@
 
 #include <fastrtps/Domain.h>
 #include <fastrtps/subscriber/SampleInfo.h>
+#include <fastrtps/xmlparser/XMLProfileManager.h>
 
 using namespace eprosima::fastrtps;
 using namespace eprosima::fastrtps::rtps;
@@ -43,6 +44,22 @@ NativeSubscriberImpl::NativeSubscriberImpl(int32_t entityId,
     topicName(topic->getTopicName())
 {
 
+    std::cout << entityId << std::endl;
+    std::cout << userDefinedID << std::endl;
+    std::cout << maximumPayloadSize << std::endl;
+    std::cout << memoryManagementPolicy << std::endl;
+    std::cout << *unicastLocatorList << std::endl;
+    std::cout << *multicastLocatorList << std::endl;
+    std::cout << *outLocatorList << std::endl;
+
+
+    std::cout << topic->historyQos.depth << std::endl;
+    std::cout << topic->historyQos.kind << std::endl;
+    std::cout << topic->resourceLimitsQos.max_samples << std::endl;
+    std::cout << topic->resourceLimitsQos.max_samples_per_instance << std::endl;
+    std::cout << topic->resourceLimitsQos.max_instances << std::endl;
+
+
     attr.historyMemoryPolicy = memoryManagementPolicy;
     attr.qos = *qos;
     attr.multicastLocatorList = *multicastLocatorList;
@@ -55,6 +72,10 @@ NativeSubscriberImpl::NativeSubscriberImpl(int32_t entityId,
     if(userDefinedID>0)
         attr.setUserDefinedID((uint8_t)userDefinedID);
     attr.times = *times;
+
+
+
+
 }
 
 bool NativeSubscriberImpl::createSubscriber()
@@ -130,7 +151,7 @@ void NativeSubscriberImpl::updateMarshaller(SampleInfoMarshaller* marshaller, Sa
 
 bool NativeSubscriberImpl::readnextData(int32_t maxDataLength, unsigned char* data, SampleInfoMarshaller* marshaller, TopicKind_t topicKind, OwnershipQosPolicyKind ownerShipQosKind)
 {
-
+    std::cout << "WARN: READING NEXT DATA" << std::endl;
     RawDataWrapper dataWrapper(data, maxDataLength);
     SampleInfo_t sampleInfo;
     if(subscriber->readNextData(&dataWrapper, &sampleInfo))
@@ -179,13 +200,17 @@ NativeSubscriberImpl::~NativeSubscriberImpl()
 void NativeSubscriberImpl::SubscriberReaderListener::onSubscriptionMatched(Subscriber* reader,MatchingInfo& info)
 {
     logInfo(PUBLISHER, "Remote writer Guid: " << info.remoteEndpointGuid);
+    std::cout << "C++ SUBSCRIPTION MATCHED" << std::endl;
     GuidUnion retGuid;
     CommonFunctions::guidcpy(info.remoteEndpointGuid, &retGuid);
     subscriberImpl->listener->onSubscriptionMatched(info.status, retGuid.primitive.high, retGuid.primitive.low);
+    std::cout << "C++ SUBSCRIPTION MATCHED RETURNED" << std::endl;
 }
 
 void NativeSubscriberImpl::SubscriberReaderListener::onNewDataMessage(Subscriber * reader)
 {
+    std::cout << "C++ Calling subscriber callback for reader" << std::endl;
     subscriberImpl->listener->onNewDataMessage();
+    std::cout << "C++ Calling subscriber callback returned" << std::endl;
 }
 

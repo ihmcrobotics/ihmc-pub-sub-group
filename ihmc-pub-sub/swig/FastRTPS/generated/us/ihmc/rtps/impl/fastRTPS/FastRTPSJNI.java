@@ -613,6 +613,8 @@ public class FastRTPSJNI {
   public final static native boolean NativeSubscriberImpl_takeNextData(long jarg1, NativeSubscriberImpl jarg1_, int jarg2, java.nio.ByteBuffer jarg3, long jarg4, SampleInfoMarshaller jarg4_, int jarg5, int jarg6);
   public final static native boolean NativeSubscriberImpl_isInCleanState(long jarg1, NativeSubscriberImpl jarg1_);
   public final static native long NativeSubscriberImpl_getUnreadCount(long jarg1, NativeSubscriberImpl jarg1_);
+  public final static native void NativeSubscriberImpl_subscriber_set(long jarg1, NativeSubscriberImpl jarg1_, long jarg2);
+  public final static native long NativeSubscriberImpl_subscriber_get(long jarg1, NativeSubscriberImpl jarg1_);
   public final static native void delete_NativeSubscriberImpl(long jarg1);
   public final static native void LogLevel_setLogLevel(int jarg1);
   public final static native long new_LogLevel();
