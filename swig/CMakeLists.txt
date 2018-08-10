@@ -6,9 +6,10 @@ FIND_PACKAGE(SWIG REQUIRED)
 INCLUDE(${SWIG_USE_FILE})
 SET(CMAKE_SWIG_OUTDIR "${CMAKE_CURRENT_SOURCE_DIR}/src/main/generated-java/us/ihmc/rtps/impl/fastRTPS")
 
-# find_package(pub-sub-cpp-extension)
+find_package(pub-sub-cpp-extension REQUIRED)
+INCLUDE_DIRECTORIES(${pub-sub-cpp-extension_INCLUDE_DIRS})
 
-INCLUDE_DIRECTORIES("${CMAKE_CURRENT_SOURCE_DIR}/../cpp-extension")
+# INCLUDE_DIRECTORIES("${CMAKE_CURRENT_SOURCE_DIR}/../cpp-extension")
 
 
 SET_SOURCE_FILES_PROPERTIES(FastRTPS.i PROPERTIES CPLUSPLUS ON)
