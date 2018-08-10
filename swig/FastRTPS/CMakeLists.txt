@@ -1,12 +1,16 @@
 cmake_minimum_required(VERSION 3.1)
-project(ihmc-pub-sub)
+project(ihmc-pub-sub-swig)
 
-FIND_PACKAGE(SWIG REQUIRED)
+find_package(SWIG REQUIRED)
 
 INCLUDE(${SWIG_USE_FILE})
 SET(CMAKE_SWIG_OUTDIR "${CMAKE_CURRENT_SOURCE_DIR}/generated/us/ihmc/rtps/impl/fastRTPS")
 
-INCLUDE_DIRECTORIES("${CMAKE_CURRENT_SOURCE_DIR}/../../cppsrc/FastRTPS")
+find_package(ihmc-pub-sub-cpp REQUIRED)
+INCLUDE_DIRECTORIES(${fastrtps_INCLUDE_DIRS})
+
+
+#INCLUDE_DIRECTORIES("${CMAKE_CURRENT_SOURCE_DIR}/../../cppsrc/FastRTPS")
 
 SET_SOURCE_FILES_PROPERTIES(FastRTPS.i PROPERTIES CPLUSPLUS ON)
 SET_PROPERTY(SOURCE FastRTPS.i PROPERTY SWIG_FLAGS "-package" "us.ihmc.rtps.impl.fastRTPS")

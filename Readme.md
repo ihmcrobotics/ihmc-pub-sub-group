@@ -308,3 +308,13 @@ set JAVA_HOME=C:\Program Files\Java\[your java version]\
 cmake -DSWIG_EXECUTABLE=[PATH TO swig.exe] ..
 cmake --build . --target install --config RelWithDebInfo
 ```
+
+### Building with Colcon
+
+```
+mkdir -p pubsub/src
+cd pubsub
+curl -skL https://stash.ihmc.us/projects/LIBS/repos/ihmc-pub-sub-group/raw/pubsub.repos?at=refs%2Fheads%2Fdevelop -o pubsub.repos
+vcs import src < pubsub.repos
+
+```
