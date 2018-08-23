@@ -139,7 +139,7 @@ public class CDR
     */
    public long read_type_4()
    {
-      return read_type_2() & 0xFFFFFFFF;
+      return read_type_2() & 0xFFFFFFFFL;
    }
 
    public void write_type_4(long val)
