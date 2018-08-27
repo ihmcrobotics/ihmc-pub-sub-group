@@ -62,7 +62,7 @@ repositories {
 }
 	
 dependencies {
-   classpath "us.ihmc:ros2-msg-to-pubsub-generator:0.8.3"
+   compile group: "us.ihmc" name: "ihmc-pub-sub" version: "0.8.4"
 }
 ```
 
@@ -274,9 +274,9 @@ git submodule update --init --recursive
 
 ```
 
-cd ihmc-pub-sub/ihmc-pub-sub
-mkdir build
-cd build
+cd ihmc-pub-sub
+mkdir buildc
+cd buildc
 cmake -DCMAKE_BUILD_TYPE=Release ..
 make
 make install/strip
@@ -302,9 +302,20 @@ cd to your source directory
 
 ```
 git submodule update --init --recursive
-mkdir build
-cd build
-set JAVA_HOME=C:\Program Files\Java\[your java version]\
-cmake -DSWIG_EXECUTABLE=[PATH TO swig.exe] ..
-cmake --build . --target install --config RelWithDebInfo
+md buildc
+cd buildc
+cmake ..
+cmake --build . --target install --config Release
 ```
+
+## Developing with Eclipse
+
+```
+# clone ihmc-pub-sub-group
+cd ..
+mkdir ebuild
+cd ebuild
+cmake -G"Eclipse CDT4 - Unix Makefiles" -D CMAKE_BUILD_TYPE=Debug -D CMAKE_ECLIPSE_VERSION="4.8 (Photon)" ../ihmc-pub-sub-group/ihmc-pub-sub
+# Import "existing projects into Eclipse"
+```
+See more: https://gitlab.kitware.com/cmake/community/wikis/doc/editors/Eclipse-CDT4-Generator

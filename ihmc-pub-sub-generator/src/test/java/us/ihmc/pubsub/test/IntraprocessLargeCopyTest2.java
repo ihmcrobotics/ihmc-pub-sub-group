@@ -34,6 +34,11 @@ import us.ihmc.pubsub.publisher.PublisherListener;
 import us.ihmc.pubsub.subscriber.Subscriber;
 import us.ihmc.pubsub.subscriber.SubscriberListener;
 
+/**
+ *  Create a publisher and subscriber in this thread and send 20 messages with up to 100,000 longs.
+ *
+ *  Assert to not get any IndexOutOfBoundsExceptions and also to receive at least 9 messages.
+ */
 public class IntraprocessLargeCopyTest2
 {
    @Test(timeout = 10000)
@@ -64,9 +69,11 @@ public class IntraprocessLargeCopyTest2
 
       System.setErr(new PrintStream(byteArrayOutputStream));
 
+      // create one subscriber
       MutableInt messagesReceived = new MutableInt(0);
       Subscriber subscriber = createSubscriber(impl, messagesReceived);
 
+      // create one publisher
       Publisher publisher = createPublisher(impl);
       publishABunch(publisher, random);
 
@@ -76,8 +83,11 @@ public class IntraprocessLargeCopyTest2
       
       System.err.println(byteArrayOutputStream.toString());
 
+      // capture all the output for analysis
       assertFalse("Standard error contains java.lang.IndexOutOfBoundsException", byteArrayOutputStream.toString().contains("IndexOutOfBoundsException"));
-      
+
+
+      // make sure to receive at least 9 of 20 messages
       while (messagesReceived.toInteger() < 9)
       {
          Thread.yield();
@@ -91,7 +101,7 @@ public class IntraprocessLargeCopyTest2
       domain.setLogLevel(LogLevel.INFO);
 
       ParticipantAttributes attributes = domain.createParticipantAttributes();
-      attributes.setDomainId(1);
+      attributes.setDomainId(215);
       attributes.setLeaseDuration(Time.Infinite);
       attributes.setName("StatusTest");
 
@@ -118,7 +128,7 @@ public class IntraprocessLargeCopyTest2
       domain.setLogLevel(LogLevel.INFO);
 
       ParticipantAttributes attributes = domain.createParticipantAttributes();
-      attributes.setDomainId(1);
+      attributes.setDomainId(215);
       attributes.setLeaseDuration(Time.Infinite);
       attributes.setName("StatusTest");
 

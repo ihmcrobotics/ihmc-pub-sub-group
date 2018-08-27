@@ -37,6 +37,10 @@ import us.ihmc.pubsub.subscriber.SubscriberListener;
 /**
  * This test makes sure intraprocess doesn't have threading issues.
  *
+ * Create a publisher and subscriber in this thread and send 80 messages with up to 100,000 longs.
+ *
+ * This one sends and expects to receive 80 messages while asserting no IndexOutOfBounds exceptions.
+ *
  * i.e. asserts single thread executor
  *
  * @author Duncan Calvert
@@ -87,7 +91,7 @@ public class IntraprocessLargeCopyTest3
 
       assertFalse("Standard error contains java.lang.IndexOutOfBoundsException", byteArrayOutputStream.toString().contains("IndexOutOfBoundsException"));
       
-      while (messagesReceived.toInteger() < NUMBER_OF_MESSAGES_TO_SEND)
+      while (messagesReceived.toInteger() < NUMBER_OF_MESSAGES_TO_SEND - 5)
       {
          Thread.yield();
       }
@@ -100,7 +104,7 @@ public class IntraprocessLargeCopyTest3
       domain.setLogLevel(LogLevel.INFO);
 
       ParticipantAttributes attributes = domain.createParticipantAttributes();
-      attributes.setDomainId(1);
+      attributes.setDomainId(215);
       attributes.setLeaseDuration(Time.Infinite);
       attributes.setName("StatusTest");
 
@@ -127,7 +131,7 @@ public class IntraprocessLargeCopyTest3
       domain.setLogLevel(LogLevel.INFO);
 
       ParticipantAttributes attributes = domain.createParticipantAttributes();
-      attributes.setDomainId(1);
+      attributes.setDomainId(215);
       attributes.setLeaseDuration(Time.Infinite);
       attributes.setName("StatusTest");
 
