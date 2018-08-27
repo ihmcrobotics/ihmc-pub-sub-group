@@ -22,7 +22,7 @@ import us.ihmc.pubsub.subscriber.SubscriberListener;
 
 import java.io.IOException;
 
-public class PublishSubscribeUInt32Test
+public class PublishSubscribeUInt64Test
 {
    @Test(timeout = 30000)
    public void testPublishSubscribeUInt32() throws IOException
@@ -32,7 +32,7 @@ public class PublishSubscribeUInt32Test
       domain.setLogLevel(LogLevel.INFO);
 
       ParticipantAttributes attributes = domain.createParticipantAttributes();
-      attributes.setDomainId(1);
+      attributes.setDomainId(215);
       attributes.setLeaseDuration(Time.Infinite);
       attributes.setName("StatusTest");
 
