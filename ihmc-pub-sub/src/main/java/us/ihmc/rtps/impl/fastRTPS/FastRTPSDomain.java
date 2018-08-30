@@ -100,7 +100,7 @@ public class FastRTPSDomain implements Domain
          throw new IllegalArgumentException("Participant is not part of this domain.");
       }
 
-      ThreadTools.sleep(20);
+      ThreadTools.sleep(1);
 
       return publisher;
    }
