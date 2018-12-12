@@ -1,19 +1,8 @@
-buildscript {
-   repositories {
-      mavenCentral()
-      maven { url "http://dl.bintray.com/ihmcrobotics/maven-release" }
-      maven { url "http://dl.bintray.com/ihmcrobotics/maven-vendor" }
-      maven { url "https://plugins.gradle.org/m2/" }
-      mavenLocal()
-      jcenter()
-   }
-   dependencies {
-      classpath "us.ihmc:ihmc-build:0.15.1"
-      classpath "me.champeau.gradle:antlr4-gradle-plugin:0.1"
-   }
+plugins {
+   id("us.ihmc.ihmc-build") version "0.15.5"
+   id("us.ihmc.ihmc-ci") version "2.4"
+   id("me.champeau.gradle.antlr4") version "0.1"
 }
-apply plugin: "us.ihmc.ihmc-build"
-apply plugin: "me.champeau.gradle.antlr4"
 
 ihmc {
    loadProductProperties("../group.gradle.properties")
@@ -27,7 +16,7 @@ ihmc {
 mainDependencies {
    compile group: "org.antlr", name: "antlr4", version: "4.2.2"
    compile group: "org.antlr", name: "stringtemplate", version: "3.2"
-   compile group: "us.ihmc", name: "ihmc-commons", version: "0.24.0"
+   compile group: "us.ihmc", name: "ihmc-commons", version: "0.25.0"
 }
 
 antlr4.source = project.file("src/main/antlr4/omg")
