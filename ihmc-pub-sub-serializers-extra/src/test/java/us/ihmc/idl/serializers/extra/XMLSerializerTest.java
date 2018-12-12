@@ -15,11 +15,12 @@
  */
 package us.ihmc.idl.serializers.extra;
 
-import static org.junit.Assert.*;
+import static us.ihmc.robotics.Assert.*;
 
 import java.io.IOException;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import us.ihmc.idl.generated.chat.ChatMessage;
 import us.ihmc.idl.generated.chat.ChatMessagePubSubType;
@@ -28,19 +29,19 @@ import us.ihmc.idl.generated.test.IDLElementTestPubSubType;
 
 public class XMLSerializerTest
 {
-   @Test(expected=IOException.class)
+   @Test// expected=IOException.class
    public void testException() throws IOException
    {
-      IDLElementTestPubSubType dataType = new IDLElementTestPubSubType();
-      XMLSerializer<IDLElementTest> serializer = new XMLSerializer<>(dataType);
-      
-      IDLElementTest testElement = JSONSerializerTest.createPopulatedIDLElementTest();
-      
-      serializer.serializeToString(testElement);
-      
-      
+      Assertions.assertThrows(IOException.class, () -> {
+         IDLElementTestPubSubType dataType = new IDLElementTestPubSubType();
+         XMLSerializer<IDLElementTest> serializer = new XMLSerializer<>(dataType);
+
+         IDLElementTest testElement = JSONSerializerTest.createPopulatedIDLElementTest();
+
+         serializer.serializeToString(testElement);
+      });
    }
-   @Test(timeout = 30000)
+   @Test// timeout = 30000
    public void test() throws IOException
    {
       ChatMessagePubSubType dataType = new ChatMessagePubSubType();
