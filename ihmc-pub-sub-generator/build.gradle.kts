@@ -1,16 +1,11 @@
 plugins {
    id("us.ihmc.ihmc-build") version "0.19.5"
    id("us.ihmc.ihmc-ci") version "5.0"
-   id("us.ihmc.ihmc-cd") version "0.2"
-   id("com.github.hierynomus.license") version "0.14.0"
+   id("us.ihmc.ihmc-cd") version "1.7"
 }
 
-apply plugin: "application"
-
-mainClassName = "us.ihmc.idl.generator.IDLGenerator"
-
-ihmc.sourceSetProject("test").apply plugin: "application"
-ihmc.sourceSetProject("test").mainClassName = "us.ihmc.pubsub.examples.PublisherExample"
+app.entrypoint("idl-generator", "us.ihmc.idl.generator.IDLGenerator")
+app.entrypoint("publisher-example", "us.ihmc.pubsub.examples.PublisherExample")
 
 ihmc {
    loadProductProperties("../group.gradle.properties")
@@ -23,25 +18,17 @@ ihmc {
 }
 
 dependencies {
-   compile gradleApi()
-   compile group: "us.ihmc", name: "eprosima-idl-parser", version: version
+   api(gradleApi())
+   api("us.ihmc:eprosima-idl-parser:source")
    api("org.anarres:jcpp:1.4.12")
    api("us.ihmc:euclid:0.12.1")
 }
 
 testDependencies {
-   compile group: "us.ihmc", name: "ihmc-pub-sub-test", version: version
+   api("us.ihmc:ihmc-pub-sub-test:source")
    api("us.ihmc:ihmc-commons-testing:0.26.6")
 }
 
-license {
-   header rootProject.file("license-header.txt")
-   ext.year = Calendar.getInstance().get(Calendar.YEAR)
-   strictCheck true
-
-   sourceSets = project.container(SourceSet)
-   sourceSets.add(ihmc.sourceSet("main"))
-}
 //
 //task generateIDLElementTest(type: us.ihmc.idl.generator.IDLGeneratorTask) {
 //   idlFiles = fileTree(dir: "src/test/idl")
