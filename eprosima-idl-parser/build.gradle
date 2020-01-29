@@ -1,7 +1,7 @@
 plugins {
-   id("us.ihmc.ihmc-build") version "0.15.7"
-   id("us.ihmc.ihmc-ci") version "4.25"
-   id("us.ihmc.ihmc-cd") version "0.1"
+   id("us.ihmc.ihmc-build") version "0.20.1"
+   id("us.ihmc.ihmc-ci") version "5.3"
+   id("us.ihmc.ihmc-cd") version "1.8"
    id("me.champeau.gradle.antlr4") version "0.1"
 }
 
@@ -15,9 +15,9 @@ ihmc {
 }
 
 mainDependencies {
-   compile group: "org.antlr", name: "antlr4", version: "4.2.2"
-   compile group: "org.antlr", name: "stringtemplate", version: "3.2"
-   compile group: "us.ihmc", name: "ihmc-commons", version: "0.26.3"
+   api("org.antlr:antlr4:4.2.2")
+   api("org.antlr:stringtemplate:3.2")
+   api("us.ihmc:ihmc-commons:0.26.6")
 }
 
 antlr4.source = project.file("src/main/antlr4/omg")
