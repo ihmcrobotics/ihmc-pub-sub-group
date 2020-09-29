@@ -62,7 +62,7 @@ public class SequenceTypeCode extends ContainerTypeCode
     public String getMaxsize()
     {
         if(m_maxsize == null)
-            return "100";
+            return "10000000";
 
         return m_maxsize;
     }
