@@ -50,7 +50,7 @@ public class IDLFeatureMessagePubSubType implements us.ihmc.pubsub.TopicDataType
 
       current_alignment += us.ihmc.idl.generated.test.IDLSubmessagePubSubType.getMaxCdrSerializedSize(current_alignment);
 
-      current_alignment += 4 + us.ihmc.idl.CDR.alignment(current_alignment, 4);for(int i0 = 0; i0 < 100; ++i0)
+      current_alignment += 4 + us.ihmc.idl.CDR.alignment(current_alignment, 4);for(int i0 = 0; i0 < 10000000; ++i0)
       {
           current_alignment += us.ihmc.idl.generated.test.IDLSubmessagePubSubType.getMaxCdrSerializedSize(current_alignment);}
       for(int i0 = 0; i0 < (3); ++i0)
@@ -65,7 +65,7 @@ public class IDLFeatureMessagePubSubType implements us.ihmc.pubsub.TopicDataType
       {
         current_alignment += 4 + us.ihmc.idl.CDR.alignment(current_alignment, 4) + 255 + 1;
       }
-      current_alignment += 4 + us.ihmc.idl.CDR.alignment(current_alignment, 4);for(int i0 = 0; i0 < 100; ++i0)
+      current_alignment += 4 + us.ihmc.idl.CDR.alignment(current_alignment, 4);for(int i0 = 0; i0 < 10000000; ++i0)
       {
         current_alignment += 4 + us.ihmc.idl.CDR.alignment(current_alignment, 4) + 10 + 1;
       }
@@ -148,7 +148,7 @@ public class IDLFeatureMessagePubSubType implements us.ihmc.pubsub.TopicDataType
       cdr.write_type_2(data.getHello());
 
       us.ihmc.idl.generated.test.IDLSubmessagePubSubType.write(data.getNum1(), cdr);
-      if(data.getNum2().size() <= 100)
+      if(data.getNum2().size() <= 10000000)
       cdr.write_type_e(data.getNum2());else
           throw new RuntimeException("num2 field exceeds the maximum length");
 
@@ -173,7 +173,7 @@ public class IDLFeatureMessagePubSubType implements us.ihmc.pubsub.TopicDataType
       cdr.write_type_e(data.getStr3());else
           throw new RuntimeException("str3 field exceeds the maximum length");
 
-      if(data.getStr4().size() <= 100)
+      if(data.getStr4().size() <= 10000000)
       cdr.write_type_e(data.getStr4());else
           throw new RuntimeException("str4 field exceeds the maximum length");
 

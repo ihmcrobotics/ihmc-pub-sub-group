@@ -53,7 +53,7 @@ public class IDLFeatureMessage extends Packet<IDLFeatureMessage> implements Sett
    public IDLFeatureMessage()
    {
       num1_ = new us.ihmc.idl.generated.test.IDLSubmessage();
-      num2_ = new us.ihmc.idl.IDLSequence.Object<us.ihmc.idl.generated.test.IDLSubmessage> (100, new us.ihmc.idl.generated.test.IDLSubmessagePubSubType());
+      num2_ = new us.ihmc.idl.IDLSequence.Object<us.ihmc.idl.generated.test.IDLSubmessage> (10000000, new us.ihmc.idl.generated.test.IDLSubmessagePubSubType());
       num3_ = new us.ihmc.idl.generated.test.IDLSubmessage[3];
 
       for(int i1 = 0; i1 < num3_.length; ++i1)
@@ -64,7 +64,7 @@ public class IDLFeatureMessage extends Packet<IDLFeatureMessage> implements Sett
       str1_ = new java.lang.StringBuilder(255);
       str2_ = new java.lang.StringBuilder(10);
       str3_ = new us.ihmc.idl.IDLSequence.StringBuilderHolder (5, "type_d");
-      str4_ = new us.ihmc.idl.IDLSequence.StringBuilderHolder (100, "type_d");
+      str4_ = new us.ihmc.idl.IDLSequence.StringBuilderHolder (10000000, "type_d");
       str5_ = new us.ihmc.idl.IDLSequence.StringBuilderHolder (5, "type_d");
 
    }

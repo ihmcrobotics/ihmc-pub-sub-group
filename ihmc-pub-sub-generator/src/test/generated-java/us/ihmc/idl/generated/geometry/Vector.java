@@ -19,7 +19,7 @@ public class Vector extends Packet<Vector> implements Settable<Vector>, EpsilonC
    public Vector()
    {
       frame_ = new java.lang.StringBuilder(128);
-      bla_ = new us.ihmc.idl.IDLSequence.Double (100, "type_6");
+      bla_ = new us.ihmc.idl.IDLSequence.Double (10000000, "type_6");
 
       waa_ = new double[3];
 

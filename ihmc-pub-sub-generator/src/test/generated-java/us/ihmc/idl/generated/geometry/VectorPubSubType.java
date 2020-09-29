@@ -47,7 +47,7 @@ public class VectorPubSubType implements us.ihmc.pubsub.TopicDataType<us.ihmc.id
 
       current_alignment += 8 + us.ihmc.idl.CDR.alignment(current_alignment, 8);
 
-      current_alignment += 4 + us.ihmc.idl.CDR.alignment(current_alignment, 4);current_alignment += (100 * 8) + us.ihmc.idl.CDR.alignment(current_alignment, 8);
+      current_alignment += 4 + us.ihmc.idl.CDR.alignment(current_alignment, 4);current_alignment += (10000000 * 8) + us.ihmc.idl.CDR.alignment(current_alignment, 8);
 
       current_alignment += ((3) * 8) + us.ihmc.idl.CDR.alignment(current_alignment, 8);
 
@@ -96,7 +96,7 @@ public class VectorPubSubType implements us.ihmc.pubsub.TopicDataType<us.ihmc.id
 
       cdr.write_type_6(data.getZ());
 
-      if(data.getBla().size() <= 100)
+      if(data.getBla().size() <= 10000000)
       cdr.write_type_e(data.getBla());else
           throw new RuntimeException("bla field exceeds the maximum length");
 
