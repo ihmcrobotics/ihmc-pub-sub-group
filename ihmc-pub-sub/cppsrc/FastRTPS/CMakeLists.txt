@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.10)
 project(ihmc-pub-sub)
 
 set(HEADER_FILES commonfunctions.h fastrtpsexception.h sampleinfomarshaller.h)
