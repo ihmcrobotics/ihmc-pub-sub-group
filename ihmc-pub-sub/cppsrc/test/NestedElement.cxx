@@ -35,7 +35,6 @@ using namespace eprosima::fastcdr::exception;
 
 nested::NestedElement::NestedElement()
 {
-
     m_longTest = 0;
 }
 
@@ -86,12 +85,8 @@ size_t nested::NestedElement::getMaxCdrSerializedSize(size_t current_alignment)
 size_t nested::NestedElement::getCdrSerializedSize(const nested::NestedElement& data, size_t current_alignment)
 {
     size_t initial_alignment = current_alignment;
-            
     current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4) + data.stringTest().size() + 1;
-
     current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
-
-
     return current_alignment - initial_alignment;
 }
 
@@ -110,10 +105,6 @@ void nested::NestedElement::deserialize(eprosima::fastcdr::Cdr &dcdr)
 size_t nested::NestedElement::getKeyMaxCdrSerializedSize(size_t current_alignment)
 {
 	size_t current_align = current_alignment;
-            
-
-
-
     return current_align;
 }
 
@@ -124,6 +115,5 @@ bool nested::NestedElement::isKeyDefined()
 
 void nested::NestedElement::serializeKey(eprosima::fastcdr::Cdr &scdr) const
 {
-	 
-	 
+
 }

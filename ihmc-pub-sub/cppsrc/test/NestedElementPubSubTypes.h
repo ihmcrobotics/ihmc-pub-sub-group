@@ -26,6 +26,7 @@
 #include <fastrtps/TopicDataType.h>
 
 using namespace eprosima::fastrtps;
+using namespace eprosima::fastrtps::rtps;
 
 #include "NestedElement.h"
 

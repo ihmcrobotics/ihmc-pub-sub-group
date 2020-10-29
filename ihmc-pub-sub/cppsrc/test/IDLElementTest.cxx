@@ -25,14 +25,12 @@ namespace { char dummy; }
 #endif
 
 #include "IDLElementTest.h"
-
 #include <fastcdr/Cdr.h>
-
 #include <fastcdr/exceptions/BadParamException.h>
+
 using namespace eprosima::fastcdr::exception;
 
 #include <utility>
-
 
 test::IDLElementTest::IDLElementTest()
 {
@@ -49,27 +47,6 @@ test::IDLElementTest::IDLElementTest()
     m_doubleTest = 0.0;
     m_booleanTest = false;
     m_colorTest = test::red;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
 
 test::IDLElementTest::~IDLElementTest()

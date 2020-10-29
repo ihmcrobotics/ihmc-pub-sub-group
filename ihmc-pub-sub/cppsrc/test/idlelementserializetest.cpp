@@ -5,7 +5,6 @@
 
 int main()
 {
-
     test::IDLElementTest msg;
     msg.charTest('3');
     msg.wcharTest(L'Ω');
@@ -76,7 +75,7 @@ int main()
          }
       }
 
-    test::IDLElementTestPubSubType type;
+    test::IDLElementTestPubSubType type();
     SerializedPayload_t payload(test::IDLElementTest::getMaxCdrSerializedSize());
     type.serialize(&msg,&payload);
 
