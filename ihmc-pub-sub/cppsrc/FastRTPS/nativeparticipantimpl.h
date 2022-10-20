@@ -49,7 +49,7 @@ namespace fastDDS {
     class NativeParticipantImpl
     {
     public:
-        NativeParticipantImpl(std::string participantProfile, const char* XMLConfigData, size_t XMLdataLength, NativeParticipantListener* listener) throw(FastDDSException);
+        NativeParticipantImpl(std::string participantProfile, const char *XMLConfigData, size_t XMLdataLength, NativeParticipantListener *listener) throw(FastDDSException);
         int64_t getGuidLow();
         int64_t getGuidHigh();
         DomainParticipant* getParticipant();
@@ -65,10 +65,10 @@ namespace fastDDS {
         class MyParticipantListener : public DomainParticipantListener
         {
             public:
-                MyParticipantListener(NativeParticipantImpl* impl): mp_participantimpl(impl){}
+                MyParticipantListener(NativeParticipantImpl *impl): mp_participantimpl(impl){}
                 virtual ~MyParticipantListener(){}
 
-                void on_participant_discovery(DomainParticipant* participant, eprosima::fastrtps::rtps::ParticipantDiscoveryInfo&& info) override;
+                void on_participant_discovery(DomainParticipant *participant, eprosima::fastrtps::rtps::ParticipantDiscoveryInfo&& info) override;
 
                 NativeParticipantImpl* mp_participantimpl;
         } m_rtps_listener;

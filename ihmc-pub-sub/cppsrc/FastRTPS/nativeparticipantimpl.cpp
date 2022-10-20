@@ -80,7 +80,7 @@ void NativeParticipantImpl::MyParticipantListener::on_participant_discovery(Doma
 {
     if (this->mp_participantimpl->listener != nullptr)
     {
-        const eprosima::fastrtps::rtps::ParticipantProxyData& proxy_data = info.info;
+        const eprosima::fastrtps::rtps::ParticipantProxyData &proxy_data = info.info;
 
         logInfo(PARTICIPANT,"Remote participant Guid: " << rtpsinfo.m_guid);
         GuidUnion retGuid;

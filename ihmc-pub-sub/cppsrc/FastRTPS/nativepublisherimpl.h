@@ -23,6 +23,7 @@
 
 #include <fastdds/dds/publisher/Publisher.hpp>
 #include <fastdds/dds/publisher/PublisherListener.hpp>
+#include <fastdds/dds/publisher/DataWriter.hpp>
 #include <fastdds/dds/publisher/qos/PublisherQos.hpp>
 #include <fastdds/rtps/common/Time_t.h>
 
@@ -44,8 +45,8 @@ namespace fastDDS {
     public:
 
         NativePublisherImpl(
-                NativeParticipantImpl* participant,
-                NativePublisherListener* listener) throw(FastDDSException);
+                NativeParticipantImpl *participant,
+                NativePublisherListener *listener) throw(FastDDSException);
 
         virtual ~NativePublisherImpl();
 
@@ -63,22 +64,23 @@ namespace fastDDS {
         int64_t getGuidHigh();
 
     private:
-        DataWriter* writer;
-        Publisher* publisher;
-        DomainParticipant* participant;
+        DomainParticipant *participant;
+
+        NativePublisherListener *listener;
+
+        Publisher *publisher;
+        DataWriter *writer;
 
         class PublisherWriterListener: public PublisherListener
         {
             public:
-                PublisherWriterListener(NativePublisherImpl* p):publisherImpl(p){}
+                PublisherWriterListener(NativePublisherImpl *p):publisherImpl(p){}
                 virtual ~PublisherWriterListener(){}
-                void onPublicationMatched(Publisher* publisher,MatchingInfo& info);
-                NativePublisherImpl* publisherImpl;
+                void onPublicationMatched(Publisher *publisher,MatchingInfo& info);
+                NativePublisherImpl *publisherImpl;
         }publisherListener;
 
-
         bool isXMLPofile;
-        NativePublisherListener* listener;
         PublisherQos attr;
         GuidUnion guid;
     };

@@ -41,7 +41,7 @@ namespace fastDDS {
     class CommonFunctions
     {
     public:
-        static void guidcpy(const eprosima::fastrtps::rtps::GUID_t& src, GuidUnion *dest)
+        static void guidcpy(const eprosima::fastrtps::rtps::GUID_t &src, GuidUnion *dest)
         {
             for(int g_c = 0; g_c < eprosima::fastrtps::rtps::GuidPrefix_t::size; g_c++)
             {
@@ -54,7 +54,7 @@ namespace fastDDS {
             }
         }
 
-        static void guidcpy(const InstanceHandle_t& src, GuidUnion *dest)
+        static void guidcpy(const InstanceHandle_t &src, GuidUnion *dest)
         {
             for(int g_c = 0; g_c < eprosima::fastrtps::rtps::GuidPrefix_t::size + eprosima::fastrtps::rtps::EntityId_t::size; g_c++)
             {

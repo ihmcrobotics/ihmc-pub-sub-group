@@ -86,7 +86,7 @@ void NativePublisherImpl::write(unsigned char *data, int32_t dataLength, int16_t
 {
     RawDataWrapper dataWrapper(data, dataLength, (uint16_t)encapsulation, key, keyLength);
 
-    if (!publisher->write(&dataWrapper))
+    if (writer->write(&dataWrapper) != ReturnCode_t::RETCODE_OK)
     {
         std::cerr << "[nativepublisherimpl.cpp] In function write(): Cannot write data" << std::endl;
     }
@@ -95,7 +95,8 @@ void NativePublisherImpl::write(unsigned char *data, int32_t dataLength, int16_t
 void NativePublisherImpl::dispose(unsigned char *data, int32_t dataLength, int16_t encapsulation, unsigned char* key, int32_t keyLength)
 {
     RawDataWrapper dataWrapper(data, dataLength, (uint16_t)encapsulation, key, keyLength);
-    if (!publisher->dispose(&dataWrapper, c_InstanceHandle_Unknown))
+
+    if (writer->dispose(&dataWrapper, c_InstanceHandle_Unknown) != ReturnCode_t::RETCODE_OK)
     {
         std::cerr << "[nativepublisherimpl.cpp] In function dispose(): Cannot dispose data" << std::endl;
     }
@@ -104,30 +105,24 @@ void NativePublisherImpl::dispose(unsigned char *data, int32_t dataLength, int16
 void NativePublisherImpl::unregister(unsigned char *data, int32_t dataLength, int16_t encapsulation, unsigned char *key, int32_t keyLength)
 {
     RawDataWrapper dataWrapper(data, dataLength, (uint16_t)encapsulation, key, keyLength);
-    if (!publisher->unregister_instance(&dataWrapper, c_InstanceHandle_Unknown))
+
+    if (writer->unregister_instance(&dataWrapper, c_InstanceHandle_Unknown) != ReturnCode_t::RETCODE_OK)
     {
         std::cerr << "[nativepublisherimpl.cpp] In function unregister(): Cannot unregister data" << std::endl;
-
     }
 }
 
 void NativePublisherImpl::dispose_and_unregister(unsigned char *data, int32_t dataLength, int16_t encapsulation, unsigned char *key, int32_t keyLength)
 {
-    RawDataWrapper dataWrapper(data, dataLength, (uint16_t)encapsulation, key, keyLength);
-    if (!publisher->unregister_instance(&dataWrapper, c_InstanceHandle_Unknown))
-    {
-        std::cerr << "[nativepublisherimpl.cpp] In function dispose_and_unregister(): Cannot unregister_instace data" << std::endl;
-    }
-    if (!publisher->dispose(&dataWrapper, c_InstanceHandle_Unknown))
-    {
-        std::cerr << "[nativepublisherimpl.cpp] In function dispose_and_unregister(): Cannot dispose data" << std::endl;
-    }
+    unregister(data, dataLength, encapsulation, key, keyLength);
+    dispose(data, dataLength, encapsulation, key, keyLength);
 }
 
 int32_t NativePublisherImpl::removeAllChange()
 {
     size_t retVal;
-    if (publisher->removeAllChange(&retVal))
+
+    if (writer->clear_history(&retVal) == ReturnCode_t::RETCODE_OK)
     {
         return retVal;
     }
@@ -137,11 +132,9 @@ int32_t NativePublisherImpl::removeAllChange()
     }
 }
 
-bool NativePublisherImpl::wait_for_all_acked(const eprosima::fastrtps::Time_t &max_wait)
+bool NativePublisherImpl::wait_for_all_acked(const eprosima::fastrtps::Duration_t &max_wait)
 {
-    if (publisher->wait_for_acknowledgments(nullptr))
-
-    return publisher->wait_for_acknowledgments(max_wait);
+    return publisher->wait_for_acknowledgments(max_wait) != ReturnCode_t::RETCODE_OK;
 }
 
 int64_t NativePublisherImpl::getGuidLow()
@@ -156,7 +149,7 @@ int64_t NativePublisherImpl::getGuidHigh()
 
 const GUID_t& NativePublisherImpl::getGuid()
 {
-    return publisher->getGuid();
+    return participant->guid();
 }
 
 void NativePublisherImpl::PublisherWriterListener::onPublicationMatched(Publisher *publisher, MatchingInfo &info)

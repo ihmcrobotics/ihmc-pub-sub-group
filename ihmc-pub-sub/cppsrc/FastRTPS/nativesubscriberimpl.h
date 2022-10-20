@@ -19,6 +19,7 @@
 #include <fastdds/rtps/attributes/ReaderAttributes.h>
 #include <fastdds/dds/subscriber/Subscriber.hpp>
 #include <fastdds/dds/subscriber/SubscriberListener.hpp>
+#include <fastdds/dds/subscriber/DataReader.hpp>
 #include <fastdds/dds/subscriber/SampleInfo.hpp>
 #include <fastdds/rtps/common/Guid.h>
 #include <fastdds/rtps/common/MatchingInfo.h>
@@ -47,8 +48,8 @@ namespace fastDDS {
     public:
 
         NativeSubscriberImpl(
-                NativeParticipantImpl* participant,
-                NativeSubscriberListener* listener) throw(FastDDSException);
+                NativeParticipantImpl *participant,
+                NativeSubscriberListener *listener) throw(FastDDSException);
 
 
         bool createSubscriber();
@@ -66,8 +67,8 @@ namespace fastDDS {
 
         void waitForUnreadMessage();
 
-        bool readnextData(int32_t maxDataLength, unsigned char* data, SampleInfoMarshaller* marshaller);
-        bool takeNextData(int32_t maxDataLength, unsigned char* data, SampleInfoMarshaller* marshaller);
+        bool readnextData(int32_t maxDataLength, unsigned char *data, SampleInfoMarshaller *marshaller);
+        bool takeNextData(int32_t maxDataLength, unsigned char *data, SampleInfoMarshaller *marshaller);
 
         bool isInCleanState();
         int64_t getUnreadCount();
@@ -77,11 +78,11 @@ namespace fastDDS {
         class SubscriberReaderListener : public SubscriberListener
         {
         public:
-            SubscriberReaderListener(NativeSubscriberImpl* s): subscriberImpl(s) {}
+            SubscriberReaderListener(NativeSubscriberImpl *s): subscriberImpl(s) {}
             virtual ~SubscriberReaderListener() {}
-            void onSubscriptionMatched(Subscriber* subscriber, eprosima::fastrtps::rtps::MatchingInfo& info);
-            void onNewDataMessage(Subscriber* subscriber);
-            NativeSubscriberImpl* subscriberImpl;
+            void onSubscriptionMatched(Subscriber *subscriber, eprosima::fastrtps::rtps::MatchingInfo &info);
+            void onNewDataMessage(Subscriber *subscriber);
+            NativeSubscriberImpl *subscriberImpl;
         }readerListener;
 
         DomainParticipant* participant;
@@ -90,6 +91,7 @@ namespace fastDDS {
         std::string topicName;
 
         Subscriber* subscriber;
+        DataReader* reader;
 
         eprosima::fastrtps::rtps::GUID_t guid;
         GuidUnion guidUnion;
@@ -97,7 +99,7 @@ namespace fastDDS {
         SubscriberQos qos;
         // SubscriberAttributes attr;
 
-        void updateMarshaller(SampleInfoMarshaller* marshaller, SampleInfo& sampleInfo);
+        void updateMarshaller(SampleInfoMarshaller *marshaller, SampleInfo &sampleInfo);
     };
 }}}}}
 #endif // NATIVESUBSCRIBERIMPL_H

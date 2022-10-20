@@ -58,7 +58,7 @@ bool NativeSubscriberImpl::createSubscriber(std::string subscriberProfile,
 
     factory->load_XML_profiles_string(XMLConfigData, XMLdataLength);
 
-
+    
 
     try
     {
@@ -95,7 +95,7 @@ void NativeSubscriberImpl::waitForUnreadMessage()
     subscriber->waitForUnreadMessage();
 }
 
-void NativeSubscriberImpl::updateMarshaller(SampleInfoMarshaller* marshaller, SampleInfo_t& sampleInfo)
+void NativeSubscriberImpl::updateMarshaller(SampleInfoMarshaller *marshaller, SampleInfo &sampleInfo)
 {
     GuidUnion guid;
     CommonFunctions::guidcpy(sampleInfo.sample_identity.writer_guid(), &guid);
@@ -126,56 +126,59 @@ void NativeSubscriberImpl::updateMarshaller(SampleInfoMarshaller* marshaller, Sa
     marshaller->relatedSampleIdentity_sequenceNumberLow = relatedSequenceNumber.low;
 }
 
-bool NativeSubscriberImpl::readnextData(int32_t maxDataLength, unsigned char* data, SampleInfoMarshaller* marshaller)
+bool NativeSubscriberImpl::readnextData(int32_t maxDataLength, unsigned char *data, SampleInfoMarshaller *marshaller)
 {
     RawDataWrapper dataWrapper(data, maxDataLength);
-    SampleInfo_t sampleInfo;
-    if (subscriber->readNextData(&dataWrapper, &sampleInfo))
+    SampleInfo sampleInfo;
+
+    if (reader->read_next_sample(&dataWrapper, &sampleInfo) == ReturnCode_t::RETCODE_OK)
     {
         marshaller->changeKind = sampleInfo.sampleKind;
-
         marshaller->encapsulation = dataWrapper.encapsulation;
         marshaller->dataLength = dataWrapper.length;
 
         updateMarshaller(marshaller, sampleInfo);
+
         return true;
     }
+
     std::cerr << "[nativesubscriberimpl.cpp] In function readnextData: Cannot read next data from subscriber" << std::endl;
     return false;
 }
 
-bool NativeSubscriberImpl::takeNextData(int32_t maxDataLength, unsigned char* data, SampleInfoMarshaller* marshaller)
+bool NativeSubscriberImpl::takeNextData(int32_t maxDataLength, unsigned char *data, SampleInfoMarshaller *marshaller)
 {
     RawDataWrapper dataWrapper(data, maxDataLength);
-    SampleInfo_t sampleInfo;
-    if (subscriber->takeNextData(&dataWrapper, &sampleInfo))
+    SampleInfo sampleInfo;
+
+    if (reader->take_next_sample(&data, &sampleInfo) == ReturnCode_t::RETCODE_OK)
     {
         marshaller->changeKind = sampleInfo.sampleKind;
-
         marshaller->encapsulation = dataWrapper.encapsulation;
         marshaller->dataLength = dataWrapper.length;
 
         updateMarshaller(marshaller, sampleInfo);
+
         return true;
     }
+
     std::cerr << "[nativesubscriberimpl.cpp] In function takeNextData: Cannot read next data from subscriber" << std::endl;
     return false;
 }
 
 NativeSubscriberImpl::~NativeSubscriberImpl()
 {
-    Domain::removeSubscriber(subscriber);
+    participant->delete_subscriber(subscriber);
 }
 
-void NativeSubscriberImpl::SubscriberReaderListener::onSubscriptionMatched(Subscriber* reader,MatchingInfo& info)
-{
+void NativeSubscriberImpl::SubscriberReaderListener::onSubscriptionMatched(Subscriber *subscriber, eprosima::fastrtps::rtps::MatchingInfo &info) {
     logInfo(PUBLISHER, "Remote writer Guid: " << info.remoteEndpointGuid);
     GuidUnion retGuid;
     CommonFunctions::guidcpy(info.remoteEndpointGuid, &retGuid);
     subscriberImpl->listener->onSubscriptionMatched(info.status, retGuid.primitive.high, retGuid.primitive.low);
 }
 
-void NativeSubscriberImpl::SubscriberReaderListener::onNewDataMessage(Subscriber * reader)
+void NativeSubscriberImpl::SubscriberReaderListener::onNewDataMessage(Subscriber *reader)
 {
     subscriberImpl->listener->onNewDataMessage();
 }

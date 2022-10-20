@@ -12,7 +12,7 @@ namespace fastDDS {
 
 struct RawDataWrapper
 {
-    RawDataWrapper(unsigned char* data, int32_t size, uint16_t encapsulation, unsigned char* key, uint32_t key_length) :
+    RawDataWrapper(unsigned char *data, int32_t size, uint16_t encapsulation, unsigned char *key, uint32_t key_length) :
         data(data), length(size), encapsulation(encapsulation), key(key), key_length(key_length), managed(false)
     {
 
@@ -45,11 +45,11 @@ struct RawDataWrapper
     }
 
     // Use a std::vector here to avoid having to do manual memory management
-    unsigned char* data;
+    unsigned char *data;
     uint32_t length;
     uint16_t encapsulation;
 
-    unsigned char* key;
+    unsigned char *key;
     uint32_t key_length;
 
     bool managed;
@@ -68,7 +68,7 @@ public:
      * @param[out] payload Pointer to the payload
      * @return True if correct.
      */
-    virtual bool serialize(void* data, eprosima::fastrtps::rtps::SerializedPayload_t* payload);
+    virtual bool serialize(void* data, eprosima::fastrtps::rtps::SerializedPayload_t *payload);
 
     /**
      * Deserialize method, it should be implemented by the user, since it is abstract.
@@ -76,9 +76,9 @@ public:
      * @param[out] data Pointer to the data
      * @return True if correct.
      */
-    virtual bool deserialize(eprosima::fastrtps::rtps::SerializedPayload_t* payload, void* data);
+    virtual bool deserialize(eprosima::fastrtps::rtps::SerializedPayload_t* payload, void *data);
 
-    virtual std::function<uint32_t()> getSerializedSizeProvider(void* data);
+    virtual std::function<uint32_t()> getSerializedSizeProvider(void *data);
 
     /**
      * Create a Data Type.
@@ -97,7 +97,7 @@ public:
      * @param[out] ihandle Pointer to the Handle.
      * @return True if correct.
      */
-    virtual bool getKey(void* data, eprosima::fastrtps::rtps::InstanceHandle_t* ihandle, bool force_md5);
+    virtual bool getKey(void* data, eprosima::fastrtps::rtps::InstanceHandle_t *ihandle, bool force_md5);
 
 private:
 };
