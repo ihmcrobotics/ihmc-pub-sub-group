@@ -15,22 +15,23 @@
  */
 #include "loglevel.h"
 
-#include <fastrtps/log/Log.h>
+#include <fastdds/dds/log/Log.hpp>
 
-using namespace eprosima::fastrtps;
-using namespace us::ihmc::rtps::impl::fastRTPS;
+using namespace eprosima::fastdds::dds;
+using namespace us::ihmc::rtps::impl::fastDDS;
+
 void LogLevel::setLogLevel(int level)
 {
     switch(level)
     {
     case 0:
-        eprosima::fastrtps::Log::SetVerbosity(Log::Error);
+        Log::SetVerbosity(Log::Error);
         break;
     case 1:
-        eprosima::fastrtps::Log::SetVerbosity(Log::Warning);
+        Log::SetVerbosity(Log::Warning);
         break;
     case 2:
-        eprosima::fastrtps::Log::SetVerbosity(Log::Info);
+        Log::SetVerbosity(Log::Info);
         break;
     }
 }

@@ -15,17 +15,16 @@
 
 #include "nativesubscriberimpl.h"
 
-#include <fastrtps/Domain.h>
-#include <fastrtps/subscriber/SampleInfo.h>
+#include <fastdds/dds/subscriber/SampleInfo.hpp>
+#include <fastdds/dds/domain/DomainParticipantFactory.hpp>
 
-using namespace eprosima::fastrtps;
-using namespace eprosima::fastrtps::rtps;
+using namespace eprosima::fastdds::dds;
 
-using namespace us::ihmc::rtps::impl::fastRTPS;
+using namespace us::ihmc::rtps::impl::fastDDS;
 
 NativeSubscriberImpl::NativeSubscriberImpl(NativeParticipantImpl *participant,
-                                           NativeSubscriberListener *listener) throw(FastRTPSException) :
-        fastrtpsParticipant(participant->getParticipant()),
+                                           NativeSubscriberListener *listener) throw(FastDDSException) :
+        participant(participant->getParticipant()),
         readerListener(this),
         listener(listener)
 {}
@@ -34,20 +33,19 @@ bool NativeSubscriberImpl::createSubscriber()
 {
     try
     {
-        subscriber = Domain::createSubscriber(fastrtpsParticipant, attr, &readerListener);
-
+        subscriber = participant->create_subscriber(qos, &readerListener);
     }
-    catch(const std::exception &e)
+    catch (const std::exception &e)
     {
         return false;
     }
 
-    if(subscriber == nullptr)
+    if (subscriber == nullptr)
     {
         return false;
     }
 
-    CommonFunctions::guidcpy(subscriber->getGuid(), &guidUnion);
+    CommonFunctions::guidcpy(subscriber->get_participant()->guid(), &guidUnion);
     logInfo(SUBSCRIBER, "Guid: " << mp_writer->getGuid());
     return true;
 }
@@ -56,21 +54,26 @@ bool NativeSubscriberImpl::createSubscriber(std::string subscriberProfile,
                                             const char *XMLConfigData,
                                             size_t XMLdataLength)
 {
+    auto factory = DomainParticipantFactory::get_instance();
+
+    factory->load_XML_profiles_string(XMLConfigData, XMLdataLength);
+
+
+
     try
     {
         Domain::loadXMLProfilesString(XMLConfigData, XMLdataLength);
-        subscriber = Domain::createSubscriber(fastrtpsParticipant, subscriberProfile, &readerListener);
+        subscriber = Domain::createSubscriber(participant, subscriberProfile, &readerListener);
     }
-    catch(const std::exception &e)
+    catch (const std::exception &e)
     {
         return false;
     }
 
-    if(subscriber == nullptr)
+    if (subscriber == nullptr)
     {
         return false;
     }
-
 
     CommonFunctions::guidcpy(subscriber->getGuid(), &guidUnion);
     logInfo(SUBSCRIBER, "Guid: " << mp_writer->getGuid());
@@ -92,7 +95,6 @@ void NativeSubscriberImpl::waitForUnreadMessage()
     subscriber->waitForUnreadMessage();
 }
 
-
 void NativeSubscriberImpl::updateMarshaller(SampleInfoMarshaller* marshaller, SampleInfo_t& sampleInfo)
 {
     GuidUnion guid;
@@ -104,8 +106,7 @@ void NativeSubscriberImpl::updateMarshaller(SampleInfoMarshaller* marshaller, Sa
     marshaller->time_seconds = sampleInfo.sourceTimestamp.seconds();
     marshaller->time_nsec = sampleInfo.sourceTimestamp.nanosec();
 
-
-    if(subscriber->getAttributes().qos.m_ownership.kind == EXCLUSIVE_OWNERSHIP_QOS)
+    if (subscriber->getAttributes().qos.m_ownership.kind == EXCLUSIVE_OWNERSHIP_QOS)
     {
         marshaller->ownershipStrength = sampleInfo.ownershipStrength;
     }
@@ -113,7 +114,6 @@ void NativeSubscriberImpl::updateMarshaller(SampleInfoMarshaller* marshaller, Sa
     {
         marshaller->ownershipStrength = -1;
     }
-
 
     memcpy(marshaller->instanceHandle_value, sampleInfo.iHandle.value, 16);
 
@@ -128,20 +128,17 @@ void NativeSubscriberImpl::updateMarshaller(SampleInfoMarshaller* marshaller, Sa
 
 bool NativeSubscriberImpl::readnextData(int32_t maxDataLength, unsigned char* data, SampleInfoMarshaller* marshaller)
 {
-
     RawDataWrapper dataWrapper(data, maxDataLength);
     SampleInfo_t sampleInfo;
-    if(subscriber->readNextData(&dataWrapper, &sampleInfo))
+    if (subscriber->readNextData(&dataWrapper, &sampleInfo))
     {
         marshaller->changeKind = sampleInfo.sampleKind;
 
         marshaller->encapsulation = dataWrapper.encapsulation;
         marshaller->dataLength = dataWrapper.length;
 
-
         updateMarshaller(marshaller, sampleInfo);
         return true;
-
     }
     std::cerr << "[nativesubscriberimpl.cpp] In function readnextData: Cannot read next data from subscriber" << std::endl;
     return false;
@@ -151,23 +148,19 @@ bool NativeSubscriberImpl::takeNextData(int32_t maxDataLength, unsigned char* da
 {
     RawDataWrapper dataWrapper(data, maxDataLength);
     SampleInfo_t sampleInfo;
-    if(subscriber->takeNextData(&dataWrapper, &sampleInfo))
+    if (subscriber->takeNextData(&dataWrapper, &sampleInfo))
     {
         marshaller->changeKind = sampleInfo.sampleKind;
 
         marshaller->encapsulation = dataWrapper.encapsulation;
         marshaller->dataLength = dataWrapper.length;
 
-
         updateMarshaller(marshaller, sampleInfo);
         return true;
-
     }
     std::cerr << "[nativesubscriberimpl.cpp] In function takeNextData: Cannot read next data from subscriber" << std::endl;
     return false;
-
 }
-
 
 NativeSubscriberImpl::~NativeSubscriberImpl()
 {
@@ -186,4 +179,3 @@ void NativeSubscriberImpl::SubscriberReaderListener::onNewDataMessage(Subscriber
 {
     subscriberImpl->listener->onNewDataMessage();
 }
-

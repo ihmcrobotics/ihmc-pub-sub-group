@@ -61,9 +61,9 @@ class FastRtpsNativeLibrary implements NativeLibraryDescription
       switch (os)
       {
          case WIN64:
-            return NativeLibraryWithDependencies.fromFilename("FastRTPSWrapper.dll", "fastcdr-1.0.dll", "fastrtps-2.6.dll");
+            return NativeLibraryWithDependencies.fromFilename("FastRTPSWrapper.dll", "fastcdr-1.0.dll", "fastrtps-2.8.dll");
          case LINUX64:
-            return NativeLibraryWithDependencies.fromFilename("libFastRTPSWrapper.so", "libfastrtps.so.2.6", "libfastcdr.so.1");
+            return NativeLibraryWithDependencies.fromFilename("libFastRTPSWrapper.so", "libfastrtps.so.2.8", "libfastcdr.so.1");
          default:
             break;
       }

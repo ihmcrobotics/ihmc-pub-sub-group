@@ -16,22 +16,23 @@
 #ifndef NATIVESUBSCRIBERIMPL_H
 #define NATIVESUBSCRIBERIMPL_H
 
-#include <fastrtps/attributes/SubscriberAttributes.h>
-#include <fastrtps/subscriber/Subscriber.h>
-#include <fastrtps/subscriber/SubscriberListener.h>
+#include <fastdds/rtps/attributes/ReaderAttributes.h>
+#include <fastdds/dds/subscriber/Subscriber.hpp>
+#include <fastdds/dds/subscriber/SubscriberListener.hpp>
+#include <fastdds/dds/subscriber/SampleInfo.hpp>
+#include <fastdds/rtps/common/Guid.h>
+#include <fastdds/rtps/common/MatchingInfo.h>
 
-#include "fastrtpsexception.h"
+#include "fastddsexception.h"
 #include "nativeparticipantimpl.h"
 #include "commonfunctions.h"
 #include "sampleinfomarshaller.h"
 
-
-
-namespace us{
-namespace ihmc{
-namespace rtps{
-namespace impl{
-namespace fastRTPS{
+namespace us {
+namespace ihmc {
+namespace rtps {
+namespace impl {
+namespace fastDDS {
 
     class NativeSubscriberListener
     {
@@ -41,14 +42,13 @@ namespace fastRTPS{
         virtual ~NativeSubscriberListener() {}
     };
 
-
     class NativeSubscriberImpl
     {
     public:
 
         NativeSubscriberImpl(
                 NativeParticipantImpl* participant,
-                NativeSubscriberListener* listener) throw(FastRTPSException);
+                NativeSubscriberListener* listener) throw(FastDDSException);
 
 
         bool createSubscriber();
@@ -64,7 +64,6 @@ namespace fastRTPS{
             return guidUnion.primitive.high;
         }
 
-
         void waitForUnreadMessage();
 
         bool readnextData(int32_t maxDataLength, unsigned char* data, SampleInfoMarshaller* marshaller);
@@ -78,27 +77,27 @@ namespace fastRTPS{
         class SubscriberReaderListener : public SubscriberListener
         {
         public:
-            SubscriberReaderListener(NativeSubscriberImpl* s): subscriberImpl(s){}
-            virtual ~SubscriberReaderListener(){}
-            void onSubscriptionMatched(Subscriber* subscriber,MatchingInfo& info);
+            SubscriberReaderListener(NativeSubscriberImpl* s): subscriberImpl(s) {}
+            virtual ~SubscriberReaderListener() {}
+            void onSubscriptionMatched(Subscriber* subscriber, eprosima::fastrtps::rtps::MatchingInfo& info);
             void onNewDataMessage(Subscriber* subscriber);
             NativeSubscriberImpl* subscriberImpl;
         }readerListener;
 
-        Participant* fastrtpsParticipant;
+        DomainParticipant* participant;
 
         NativeSubscriberListener* listener;
         std::string topicName;
 
         Subscriber* subscriber;
 
-        GUID_t guid;
+        eprosima::fastrtps::rtps::GUID_t guid;
         GuidUnion guidUnion;
-        SubscriberAttributes attr;
 
+        SubscriberQos qos;
+        // SubscriberAttributes attr;
 
-        void updateMarshaller(SampleInfoMarshaller* marshaller, SampleInfo_t& sampleInfo);
-
+        void updateMarshaller(SampleInfoMarshaller* marshaller, SampleInfo& sampleInfo);
     };
 }}}}}
 #endif // NATIVESUBSCRIBERIMPL_H

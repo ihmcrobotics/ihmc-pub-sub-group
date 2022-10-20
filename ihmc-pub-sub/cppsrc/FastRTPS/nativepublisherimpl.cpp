@@ -17,43 +17,43 @@
 #include "rawtopicdatatype.h"
 
 using namespace eprosima::fastrtps::rtps;
-using namespace us::ihmc::rtps::impl::fastRTPS;
+using namespace us::ihmc::rtps::impl::fastDDS;
 
 NativePublisherImpl::NativePublisherImpl(
         NativeParticipantImpl *participant,
-        NativePublisherListener *listener) throw(FastRTPSException) :
-        fastrtpsParticipant(participant->getParticipant()),
+        NativePublisherListener *listener) throw(FastDDSException) :
+        participant(participant->getParticipant()),
         publisherListener(this),
         listener(listener)
 {}
 
-
-
 NativePublisherImpl::~NativePublisherImpl()
 {
-    Domain::removePublisher(publisher);
+    participant->delete_publisher(publisher);
 }
 
 bool NativePublisherImpl::createPublisher()
 {
-    if(!isXMLPofile){
+    if (!isXMLPofile) {
         try
         {
-            publisher = Domain::createPublisher(fastrtpsParticipant, attr, &publisherListener);
+            publisher = participant->create_publisher(attr, &publisherListener);
+            writer = publisher->create_datawriter(attr)
+            // publisher = Domain::createPublisher(fastrtpsParticipant, attr, &publisherListener);
         }
-        catch(const std::exception &e)
+        catch (const std::exception &e)
         {
             return false;
         }
     }
-    if(publisher == nullptr)
+    if (publisher == nullptr)
     {
         return false;
     }
 
-    CommonFunctions::guidcpy(publisher->getGuid(), &guid);
+    CommonFunctions::guidcpy(publisher->get_participant()->guid(), &guid);
 
-    logInfo(PUBLISHER, "Guid: " << publisher->getGuid());
+    logInfo(PUBLISHER, "Guid: " << publisher->get_participant()->guid());
     return true;
 }
 
@@ -63,28 +63,30 @@ bool NativePublisherImpl::createPublisher(std::string publisherProfile,
 {
     try
     {
-        Domain::loadXMLProfilesString(XMLConfigData, XMLdataLength);
-        publisher = Domain::createPublisher(fastrtpsParticipant, publisherProfile, &publisherListener);
+        // TODO: is this needed?
+        // Domain::loadXMLProfilesString(XMLConfigData, XMLdataLength);
+        participant->create_publisher_with_profile(publisherProfile, &publisherListener);
     }
-    catch(const std::exception &e)
+    catch (const std::exception &e)
     {
         return false;
     }
-    if(publisher == nullptr)
+    if (publisher == nullptr)
     {
         return false;
     }
 
-    CommonFunctions::guidcpy(publisher->getGuid(), &guid);
+    CommonFunctions::guidcpy(publisher->get_participant()->guid(), &guid);
 
-    logInfo(PUBLISHER, "Guid: " << publisher->getGuid());
+    logInfo(PUBLISHER, "Guid: " << publisher->get_participant()->guid());
     return true;
 }
 
 void NativePublisherImpl::write(unsigned char *data, int32_t dataLength, int16_t encapsulation, unsigned char* key, int32_t keyLength)
 {
     RawDataWrapper dataWrapper(data, dataLength, (uint16_t)encapsulation, key, keyLength);
-    if(!publisher->write(&dataWrapper))
+
+    if (!publisher->write(&dataWrapper))
     {
         std::cerr << "[nativepublisherimpl.cpp] In function write(): Cannot write data" << std::endl;
     }
@@ -93,17 +95,16 @@ void NativePublisherImpl::write(unsigned char *data, int32_t dataLength, int16_t
 void NativePublisherImpl::dispose(unsigned char *data, int32_t dataLength, int16_t encapsulation, unsigned char* key, int32_t keyLength)
 {
     RawDataWrapper dataWrapper(data, dataLength, (uint16_t)encapsulation, key, keyLength);
-    if(!publisher->dispose(&dataWrapper, c_InstanceHandle_Unknown))
+    if (!publisher->dispose(&dataWrapper, c_InstanceHandle_Unknown))
     {
         std::cerr << "[nativepublisherimpl.cpp] In function dispose(): Cannot dispose data" << std::endl;
     }
-
 }
 
 void NativePublisherImpl::unregister(unsigned char *data, int32_t dataLength, int16_t encapsulation, unsigned char *key, int32_t keyLength)
 {
     RawDataWrapper dataWrapper(data, dataLength, (uint16_t)encapsulation, key, keyLength);
-    if(!publisher->unregister_instance(&dataWrapper, c_InstanceHandle_Unknown))
+    if (!publisher->unregister_instance(&dataWrapper, c_InstanceHandle_Unknown))
     {
         std::cerr << "[nativepublisherimpl.cpp] In function unregister(): Cannot unregister data" << std::endl;
 
@@ -113,11 +114,11 @@ void NativePublisherImpl::unregister(unsigned char *data, int32_t dataLength, in
 void NativePublisherImpl::dispose_and_unregister(unsigned char *data, int32_t dataLength, int16_t encapsulation, unsigned char *key, int32_t keyLength)
 {
     RawDataWrapper dataWrapper(data, dataLength, (uint16_t)encapsulation, key, keyLength);
-    if(!publisher->unregister_instance(&dataWrapper, c_InstanceHandle_Unknown))
+    if (!publisher->unregister_instance(&dataWrapper, c_InstanceHandle_Unknown))
     {
         std::cerr << "[nativepublisherimpl.cpp] In function dispose_and_unregister(): Cannot unregister_instace data" << std::endl;
     }
-    if(!publisher->dispose(&dataWrapper, c_InstanceHandle_Unknown))
+    if (!publisher->dispose(&dataWrapper, c_InstanceHandle_Unknown))
     {
         std::cerr << "[nativepublisherimpl.cpp] In function dispose_and_unregister(): Cannot dispose data" << std::endl;
     }
@@ -126,7 +127,7 @@ void NativePublisherImpl::dispose_and_unregister(unsigned char *data, int32_t da
 int32_t NativePublisherImpl::removeAllChange()
 {
     size_t retVal;
-    if(publisher->removeAllChange(&retVal))
+    if (publisher->removeAllChange(&retVal))
     {
         return retVal;
     }
@@ -138,7 +139,9 @@ int32_t NativePublisherImpl::removeAllChange()
 
 bool NativePublisherImpl::wait_for_all_acked(const eprosima::fastrtps::Time_t &max_wait)
 {
-    return publisher->wait_for_all_acked(max_wait);
+    if (publisher->wait_for_acknowledgments(nullptr))
+
+    return publisher->wait_for_acknowledgments(max_wait);
 }
 
 int64_t NativePublisherImpl::getGuidLow()

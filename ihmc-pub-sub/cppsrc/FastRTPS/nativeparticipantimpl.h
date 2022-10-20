@@ -19,31 +19,23 @@
 #include <memory>
 #include <vector>
 
-
-#include <fastrtps/attributes/ParticipantAttributes.h>
-
-#include <fastrtps/participant/Participant.h>
-#include <fastrtps/participant/ParticipantListener.h>
-#include <fastrtps/qos/WriterQos.h>
-#include <fastrtps/qos/ReaderQos.h>
-
-#include <fastrtps/rtps/reader/ReaderListener.h>
-
-
 #include "rawtopicdatatype.h"
-
-#include "fastrtpsexception.h"
+#include "fastddsexception.h"
 #include "commonfunctions.h"
 
+#include <fastdds/dds/domain/DomainParticipant.hpp>
+#include <fastdds/dds/domain/DomainParticipantListener.hpp>
+#include <fastdds/dds/publisher/qos/WriterQos.hpp>
+#include <fastdds/dds/subscriber/qos/ReaderQos.hpp>
+#include <fastdds/rtps/reader/ReaderListener.h>
 
-using namespace eprosima::fastrtps;
-using namespace eprosima::fastrtps::rtps;
+using namespace eprosima::fastdds::dds;
 
-namespace us{
-namespace ihmc{
-namespace rtps{
-namespace impl{
-namespace fastRTPS{
+namespace us {
+namespace ihmc {
+namespace rtps {
+namespace impl {
+namespace fastDDS {
 
     class NativeParticipantListener
     {
@@ -54,36 +46,32 @@ namespace fastRTPS{
         virtual ~NativeParticipantListener() {}
     };
 
-
     class NativeParticipantImpl
     {
     public:
-        NativeParticipantImpl(std::string participantProfile, const char* XMLConfigData, size_t XMLdataLength, NativeParticipantListener* listener) throw(FastRTPSException);
+        NativeParticipantImpl(std::string participantProfile, const char* XMLConfigData, size_t XMLdataLength, NativeParticipantListener* listener) throw(FastDDSException);
         int64_t getGuidLow();
         int64_t getGuidHigh();
-        Participant* getParticipant();
+        DomainParticipant* getParticipant();
         void registerType(std::string name, int32_t maximumDataSize, bool hasKey);
         virtual ~NativeParticipantImpl();
 
     private:
-        Participant* part;
+        DomainParticipant* participant;
         NativeParticipantListener* listener;
         GuidUnion guid;
         std::vector<std::shared_ptr<RawTopicDataType>> registeredTypes;
 
-        class MyParticipantListener : public eprosima::fastrtps::ParticipantListener
+        class MyParticipantListener : public DomainParticipantListener
         {
             public:
                 MyParticipantListener(NativeParticipantImpl* impl): mp_participantimpl(impl){}
                 virtual ~MyParticipantListener(){}
 
-                void onParticipantDiscovery(Participant* participant, eprosima::fastrtps::rtps::ParticipantDiscoveryInfo&& info) override;
+                void on_participant_discovery(DomainParticipant* participant, eprosima::fastrtps::rtps::ParticipantDiscoveryInfo&& info) override;
 
                 NativeParticipantImpl* mp_participantimpl;
         } m_rtps_listener;
-
-
-
     };
 
 }}}}}

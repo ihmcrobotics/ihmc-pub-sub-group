@@ -16,15 +16,14 @@
 #ifndef SAMPLEINFOMARSHALLER_H
 #define SAMPLEINFOMARSHALLER_H
 
-#include <fastrtps/rtps/common/Types.h>
+#include <fastdds/rtps/common/Types.h>
 #include <cstring>
 
-
-namespace us{
-namespace ihmc{
-namespace rtps{
-namespace impl{
-namespace fastRTPS{
+namespace us {
+namespace ihmc {
+namespace rtps {
+namespace impl {
+namespace fastDDS {
     class SampleInfoMarshaller
     {
     public:

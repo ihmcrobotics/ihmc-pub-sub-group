@@ -16,27 +16,21 @@
 #ifndef NATIVEPUBLISHERIMPL_H
 #define NATIVEPUBLISHERIMPL_H
 
-#include <fastrtps/attributes/PublisherAttributes.h>
-
 #include "rawtopicdatatype.h"
-#include "fastrtpsexception.h"
+#include "fastddsexception.h"
 #include "nativeparticipantimpl.h"
 #include "commonfunctions.h"
 
-#include <fastrtps/Domain.h>
-#include <fastrtps/publisher/Publisher.h>
-#include <fastrtps/publisher/PublisherListener.h>
-#include <fastrtps/rtps/common/Time_t.h>
+#include <fastdds/dds/publisher/Publisher.hpp>
+#include <fastdds/dds/publisher/PublisherListener.hpp>
+#include <fastdds/dds/publisher/qos/PublisherQos.hpp>
+#include <fastdds/rtps/common/Time_t.h>
 
-using namespace eprosima::fastrtps;
-using namespace eprosima::fastrtps::rtps;
-
-
-namespace us{
-namespace ihmc{
-namespace rtps{
-namespace impl{
-namespace fastRTPS{
+namespace us {
+namespace ihmc {
+namespace rtps {
+namespace impl {
+namespace fastDDS {
 
     class NativePublisherListener
     {
@@ -51,10 +45,9 @@ namespace fastRTPS{
 
         NativePublisherImpl(
                 NativeParticipantImpl* participant,
-                NativePublisherListener* listener) throw(FastRTPSException);
+                NativePublisherListener* listener) throw(FastDDSException);
 
         virtual ~NativePublisherImpl();
-
 
         bool createPublisher();
         bool createPublisher(std::string publisherProfile,const char *XMLConfigData, size_t XMLdataLength);
@@ -70,8 +63,9 @@ namespace fastRTPS{
         int64_t getGuidHigh();
 
     private:
+        DataWriter* writer;
         Publisher* publisher;
-        Participant* fastrtpsParticipant;
+        DomainParticipant* participant;
 
         class PublisherWriterListener: public PublisherListener
         {
@@ -85,7 +79,7 @@ namespace fastRTPS{
 
         bool isXMLPofile;
         NativePublisherListener* listener;
-        PublisherAttributes attr;
+        PublisherQos attr;
         GuidUnion guid;
     };
 }}}}}

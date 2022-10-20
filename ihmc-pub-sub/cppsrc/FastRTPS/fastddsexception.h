@@ -13,20 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#ifndef FASTRTPSEXCEPTION_H
-#define FASTRTPSEXCEPTION_H
+#ifndef FASTDDSEXCEPTION_H
+#define FASTDDSEXCEPTION_H
 #include <exception>
 #include <string>
 
-namespace us{
-namespace ihmc{
-namespace rtps{
-namespace impl{
-namespace fastRTPS{
-    class FastRTPSException : std::exception
+namespace us {
+namespace ihmc {
+namespace rtps {
+namespace impl {
+namespace fastDDS {
+    class FastDDSException : std::exception
     {
     public:
-        FastRTPSException(std::string e) : error(e) {}
+        FastDDSException(std::string e) : error(e) {}
 
 
         const char * what() const throw()
@@ -38,4 +38,4 @@ namespace fastRTPS{
     };
 }}}}}
 
-#endif // FASTRTPSEXCEPTION_H
+#endif // FASTDDSEXCEPTION_H

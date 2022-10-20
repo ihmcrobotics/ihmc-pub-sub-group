@@ -14,54 +14,43 @@
  * limitations under the License.
  */
 #include "nativeparticipantimpl.h"
-#include <fastrtps/log/Log.h>
 
-#include <fastrtps/Domain.h>
-#include <fastrtps/attributes/ParticipantAttributes.h>
+#include <fastdds/dds/domain/DomainParticipantFactory.hpp>
+#include <fastdds/rtps/builtin/data/ParticipantProxyData.h>
 
-#include <fastrtps/rtps/builtin/data/WriterProxyData.h>
-#include <fastrtps/rtps/builtin/data/ReaderProxyData.h>
-#include <fastrtps/rtps/reader/StatefulReader.h>
+using namespace eprosima::fastdds::dds;
+using namespace us::ihmc::rtps::impl::fastDDS;
 
-
-using namespace us::ihmc::rtps::impl::fastRTPS;
-
-NativeParticipantImpl::NativeParticipantImpl(std::string participantProfile, const char *XMLConfigData, size_t XMLdataLength, NativeParticipantListener *listener) throw(FastRTPSException) :
+NativeParticipantImpl::NativeParticipantImpl(std::string participantProfile, const char *XMLConfigData, size_t XMLdataLength, NativeParticipantListener *listener) throw(FastDDSException) :
     listener(listener),
     m_rtps_listener(this)
 {
-
-
-    ParticipantAttributes attributes;
-
     try
     {
-        Domain::loadXMLProfilesString(XMLConfigData, XMLdataLength);
-        part = Domain::createParticipant(participantProfile, &m_rtps_listener);
-        attributes = part->getAttributes();
-
+        auto factory = DomainParticipantFactory::get_instance();
+        factory->load_XML_profiles_string(XMLConfigData, XMLdataLength);
+        participant = factory->create_participant_with_profile(participantProfile, &m_rtps_listener);
     }
-    catch(const std::exception &e)
+    catch (const std::exception &e)
     {
         std::cerr << "[ERROR]" << e.what() << std::endl;
-        throw FastRTPSException("Problem creating RTPSParticipant");
+        throw FastDDSException("Problem creating participant");
         return;
     }
 
-    if(part == nullptr)
+    if (participant == nullptr)
     {
-        throw FastRTPSException("Problem creating RTPSParticipant");
+        throw FastDDSException("Problem creating participant");
         return;
     }
 
-    logInfo(PARTICIPANT,"Guid: " << part->getGuid());
-    CommonFunctions::guidcpy(part->getGuid(), &guid);
+    logInfo(PARTICIPANT,"Guid: " << participant->guid());
+    CommonFunctions::guidcpy(participant->guid(), &guid);
 }
 
 NativeParticipantImpl::~NativeParticipantImpl()
 {
-
-    Domain::removeParticipant(part);
+    DomainParticipantFactory::get_instance()->delete_participant(participant);
 }
 
 int64_t NativeParticipantImpl::getGuidLow()
@@ -74,24 +63,24 @@ int64_t NativeParticipantImpl::getGuidHigh()
     return guid.primitive.high;
 }
 
-Participant* NativeParticipantImpl::getParticipant()
+DomainParticipant* NativeParticipantImpl::getParticipant()
 {
-    return part;
+    return participant;
 }
 
 void NativeParticipantImpl::registerType(std::string name, int32_t maximumDataSize, bool hasKey)
 {
     // This functions adds registered types to a vector of shared ptrs, so they get destroyed when this class gets destructed
-    std::shared_ptr<RawTopicDataType> topicDataType = std::make_shared<RawTopicDataType>(name, maximumDataSize, hasKey);
-    Domain::registerType(part, topicDataType.get());
-    registeredTypes.push_back(topicDataType);
+    RawTopicDataType topicDataType(name, maximumDataSize, hasKey);
+    participant->register_type(TypeSupport(&topicDataType));
+    registeredTypes.push_back(std::make_shared<RawTopicDataType>(topicDataType));
 }
 
-void NativeParticipantImpl::MyParticipantListener::onParticipantDiscovery(Participant *participant, ParticipantDiscoveryInfo &&info)
+void NativeParticipantImpl::MyParticipantListener::on_participant_discovery(DomainParticipant *participant, eprosima::fastrtps::rtps::ParticipantDiscoveryInfo&& info)
 {
-    if(this->mp_participantimpl->listener!=nullptr)
+    if (this->mp_participantimpl->listener != nullptr)
     {
-        const ParticipantProxyData& proxy_data = info.info;
+        const eprosima::fastrtps::rtps::ParticipantProxyData& proxy_data = info.info;
 
         logInfo(PARTICIPANT,"Remote participant Guid: " << rtpsinfo.m_guid);
         GuidUnion retGuid;
@@ -101,8 +90,7 @@ void NativeParticipantImpl::MyParticipantListener::onParticipantDiscovery(Partic
     }
 }
 
-
 std::string NativeParticipantListener::getName(int64_t infoPtr)
 {
-    return ((ParticipantProxyData*) infoPtr)->m_participantName.to_string();
+    return ((eprosima::fastrtps::rtps::ParticipantProxyData*) infoPtr)->m_participantName.to_string();
 }

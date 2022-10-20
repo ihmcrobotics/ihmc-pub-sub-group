@@ -2,13 +2,13 @@
 #define RAWTOPICDATATYPE_H
 
 #include <vector>
-#include <fastrtps/TopicDataType.h>
+#include <fastdds/dds/topic/TopicDataType.hpp>
 
-namespace us{
-namespace ihmc{
-namespace rtps{
-namespace impl{
-namespace fastRTPS{
+namespace us {
+namespace ihmc {
+namespace rtps {
+namespace impl {
+namespace fastDDS {
 
 struct RawDataWrapper
 {
@@ -17,7 +17,6 @@ struct RawDataWrapper
     {
 
     }
-
 
     RawDataWrapper(unsigned char *data, int32_t size) :
         data(data),
@@ -57,7 +56,7 @@ struct RawDataWrapper
 };
 
 
-class RawTopicDataType : public eprosima::fastrtps::TopicDataType
+class RawTopicDataType : public eprosima::fastdds::dds::TopicDataType
 {
 public:
     RawTopicDataType(std::string name, int32_t maximumDataSize, bool hasKey);
@@ -99,8 +98,6 @@ public:
      * @return True if correct.
      */
     virtual bool getKey(void* data, eprosima::fastrtps::rtps::InstanceHandle_t* ihandle, bool force_md5);
-
-
 
 private:
 };

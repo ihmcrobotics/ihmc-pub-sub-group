@@ -122,10 +122,10 @@ if(STANDALONE_PLUGIN)
         
         
         # Annoying rename for the install here, because of the version suffix
-        INSTALL(FILES "${FAST_RTPS_INSTALL_PREFIX}/lib/libfastrtps.so.2.6.0"
-              DESTINATION ${LIBRARY_RESOURCES_DIRECTORY} RENAME "libfastrtps.so.2.6")
+        INSTALL(FILES "${FAST_RTPS_INSTALL_PREFIX}/lib/libfastrtps.so.2.8.0"
+              DESTINATION ${LIBRARY_RESOURCES_DIRECTORY} RENAME "libfastrtps.so.2.8")
             
-        INSTALL(FILES "${FAST_RTPS_INSTALL_PREFIX}/lib/libfastcdr.so.1.0.24"
+        INSTALL(FILES "${FAST_RTPS_INSTALL_PREFIX}/lib/libfastcdr.so.1.0.25"
               DESTINATION ${LIBRARY_RESOURCES_DIRECTORY} RENAME "libfastcdr.so.1")
     endif()
     

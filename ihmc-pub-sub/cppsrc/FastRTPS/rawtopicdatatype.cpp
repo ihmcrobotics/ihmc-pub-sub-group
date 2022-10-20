@@ -1,7 +1,7 @@
 #include "rawtopicdatatype.h"
-#include "fastrtpsexception.h"
+#include "fastddsexception.h"
 
-using namespace us::ihmc::rtps::impl::fastRTPS;
+using namespace us::ihmc::rtps::impl::fastDDS;
 
 RawTopicDataType::RawTopicDataType(std::string name, int32_t maximumDataSize, bool hasKey)
 {
@@ -81,5 +81,3 @@ bool RawTopicDataType::getKey(void *data, eprosima::fastrtps::rtps::InstanceHand
 
     return true;
 }
-
-

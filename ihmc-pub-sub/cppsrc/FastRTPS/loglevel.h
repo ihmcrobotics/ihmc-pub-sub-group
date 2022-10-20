@@ -16,13 +16,12 @@
 #ifndef LOGLEVEL_H
 #define LOGLEVEL_H
 
-namespace us{
-namespace ihmc{
-namespace rtps{
-namespace impl{
-namespace fastRTPS{
-
-
+namespace us {
+namespace ihmc {
+namespace rtps {
+namespace impl {
+namespace fastDDS {
+    
     class LogLevel
     {
     public:
