@@ -70,7 +70,7 @@ public class BigDataPublisherTest
       domain.setLogLevel(LogLevel.INFO);
 
       ParticipantAttributes attributes2 = ParticipantAttributes.create()
-                                                               .domainId(1)
+                                                               .domainId(112)
                                                                .name("BigDataPublisher")
                                                                .discoveryLeaseDuration(Time.Infinite);
 
@@ -88,25 +88,32 @@ public class BigDataPublisherTest
 
       Publisher publisher = domain.createPublisher(participant, attrs, new PublisherListenerImpl());
 
-//      char[] testData = new char[] {1, 2, 3, 4, 'a', 'b', 'c'};
-
-      // 50000 * sizeof(char) = 100kb
       Random random = new Random();
-      char[] bigTestData = new char[10_000_000];
-      for (int i = 0; i < bigTestData.length; i++) {
-         bigTestData[i] = (char)(random.nextInt(26) + 'a');
-      }
 
-      IDLSequence.Char charSeq = new IDLSequence.Char(1000000, "type_8");
-      charSeq.add(bigTestData);
-
-      RawCharMessage rawCharMessage = new RawCharMessage();
-      rawCharMessage.data_ = charSeq;
+      long lastTestDataSizeIncrease = System.currentTimeMillis();
+      int bigTestDataSize = 1;
 
       while (true)
       {
+         char[] bigTestData = new char[bigTestDataSize];
+         for (int i = 0; i < bigTestData.length; i++) {
+            bigTestData[i] = (char)(random.nextInt(26) + 'a');
+         }
+
+         IDLSequence.Char charSeq = new IDLSequence.Char(1000000, "type_8");
+         charSeq.add(bigTestData);
+
+         RawCharMessage rawCharMessage = new RawCharMessage();
+         rawCharMessage.data_ = charSeq;
+
          publisher.write(rawCharMessage);
-         System.out.println("Publishing " + (totalMessagesPublished++));
+         System.out.println("Data size:  " + bigTestDataSize + " Message no.:" + (totalMessagesPublished++));
+
+         if (System.currentTimeMillis() - lastTestDataSizeIncrease >= 1000) {
+            bigTestDataSize = bigTestDataSize * 2;
+            lastTestDataSizeIncrease = System.currentTimeMillis();
+         }
+
          Thread.sleep(10);
       }
    }

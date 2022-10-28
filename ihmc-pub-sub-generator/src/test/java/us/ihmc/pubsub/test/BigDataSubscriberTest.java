@@ -81,7 +81,7 @@ public class BigDataSubscriberTest
       domain.setLogLevel(LogLevel.INFO);
 
       ParticipantAttributes attributes2 = ParticipantAttributes.create()
-                                                               .domainId(1)
+                                                               .domainId(112)
                                                                .name("BigDataSubscriber")
                                                                .discoveryLeaseDuration(Time.Infinite);
 
