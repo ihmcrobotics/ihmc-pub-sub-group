@@ -1,0 +1,7 @@
+module test
+{
+	struct RawCharMessage
+	{
+		sequence<char, 10000000> data;
+	};
+};
