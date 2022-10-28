@@ -85,6 +85,10 @@ public class BigDataSubscriberTest
                                                                .name("BigDataSubscriber")
                                                                .discoveryLeaseDuration(Time.Infinite);
 
+      // https://fast-dds.docs.eprosima.com/en/latest/fastdds/use_cases/large_data/large_data.html#increasing-socket-buffers-size
+      attributes2.getProfile().getRtps().setSendSocketBufferSize(1048576L);
+      attributes2.getProfile().getRtps().setListenSocketBufferSize(4194304L);
+
       Participant participant = domain.createParticipant(attributes2, new ParticipantListenerImpl());
 
       RawCharMessagePubSubType dataType = new RawCharMessagePubSubType();

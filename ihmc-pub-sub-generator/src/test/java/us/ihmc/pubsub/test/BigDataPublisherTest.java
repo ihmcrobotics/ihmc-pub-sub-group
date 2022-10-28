@@ -15,6 +15,7 @@
  */
 package us.ihmc.pubsub.test;
 
+import com.eprosima.xmlschemas.fastrtps_profiles.RtpsParticipantAttributesType;
 import us.ihmc.idl.IDLSequence;
 import us.ihmc.idl.generated.test.RawCharMessage;
 import us.ihmc.idl.generated.test.RawCharMessagePubSubType;
@@ -73,6 +74,10 @@ public class BigDataPublisherTest
                                                                .domainId(112)
                                                                .name("BigDataPublisher")
                                                                .discoveryLeaseDuration(Time.Infinite);
+
+      // https://fast-dds.docs.eprosima.com/en/latest/fastdds/use_cases/large_data/large_data.html#increasing-socket-buffers-size
+      attributes2.getProfile().getRtps().setSendSocketBufferSize(1048576L);
+      attributes2.getProfile().getRtps().setListenSocketBufferSize(4194304L);
 
       System.out.println(attributes2.marshall("test"));
 
