@@ -143,7 +143,8 @@ public interface IDLSequence
       
       public void set(Byte other)
       {
-         System.arraycopy(other.buffer.array(), 0, buffer.array(), 0, buffer.capacity());
+         buffer.position(other.buffer.position());
+         System.arraycopy(other.buffer.array(), 0, buffer.array(), 0, other.size());
       }
       
       @Override
@@ -208,7 +209,7 @@ public interface IDLSequence
       @Override
       public void resetQuick()
       {
-         buffer.clear();
+         buffer.position(0);
       }
 
       @Override
