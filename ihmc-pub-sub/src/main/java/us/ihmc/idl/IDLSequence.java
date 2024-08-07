@@ -126,7 +126,7 @@ public interface IDLSequence
          {
             throw new NotImplementedException(typeCode + " is not implemented for Sequence");
          }
-         this.buffer = ByteBuffer.allocate(maxSize);
+         buffer = ByteBuffer.allocate(maxSize);
       }
 
       @Override
