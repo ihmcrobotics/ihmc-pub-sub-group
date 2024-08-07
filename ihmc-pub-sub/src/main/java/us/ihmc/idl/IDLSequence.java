@@ -118,7 +118,7 @@ public interface IDLSequence
 
    public static class Byte implements IDLSequence
    {
-      private final ByteBuffer byteBuffer;
+      private final ByteBuffer buffer;
 
       public Byte(int maxSize, String typeCode)
       {
@@ -126,24 +126,24 @@ public interface IDLSequence
          {
             throw new NotImplementedException(typeCode + " is not implemented for Sequence");
          }
-         this.byteBuffer = ByteBuffer.allocate(maxSize);
+         this.buffer = ByteBuffer.allocate(maxSize);
       }
 
       @Override
       public void readElement(int i, CDR cdr)
       {
-         byteBuffer.put(cdr.read_type_9());
+         buffer.put(cdr.read_type_9());
       }
 
       @Override
       public void writeElement(int i, CDR cdr)
       {
-         cdr.write_type_9(byteBuffer.get(i));
+         cdr.write_type_9(buffer.get(i));
       }
       
       public void set(Byte other)
       {
-         System.arraycopy(other.byteBuffer.array(), 0, byteBuffer.array(), 0, byteBuffer.capacity());
+         System.arraycopy(other.buffer.array(), 0, buffer.array(), 0, buffer.capacity());
       }
       
       @Override
@@ -157,39 +157,75 @@ public interface IDLSequence
             {
                builder.append(", ");
             }
-            builder.append(byteBuffer.get(i));
+            builder.append(buffer.get(i));
          }
          builder.append("]");
          return builder.toString();
       }
 
-      public byte get(int i)
+      public void add(byte value)
       {
-         return byteBuffer.get(i);
+         buffer.put(value);
       }
 
-
-      public ByteBuffer getByteBuffer()
+      public void add(byte[] values)
       {
-         return byteBuffer;
+         buffer.put(values);
+      }
+
+      public void add(byte[] src, int offset, int length)
+      {
+         buffer.put(src, offset, length);
+      }
+
+      public void set(int index, byte value)
+      {
+         buffer.put(index, value);
+      }
+
+      public byte get(int i)
+      {
+         return buffer.get(i);
+      }
+
+      public ByteBuffer getBuffer()
+      {
+         return buffer;
+      }
+
+      public byte[] copyArray()
+      {
+         byte[] copy = new byte[buffer.limit()];
+         System.arraycopy(buffer.array(), 0, copy, 0, copy.length);
+         return copy;
+      }
+
+      public ByteBuffer copyByteBuffer()
+      {
+         return ByteBuffer.wrap(copyArray());
       }
 
       @Override
       public void resetQuick()
       {
-         byteBuffer.clear();
+         buffer.clear();
       }
 
       @Override
       public int size()
       {
-         return byteBuffer.limit();
+         return buffer.limit();
       }
 
       @Override
       public int capacity()
       {
-         return byteBuffer.capacity();
+         return buffer.capacity();
+      }
+
+      public boolean isEmpty()
+      {
+         return size() == 0;
       }
    }
 
@@ -862,7 +898,7 @@ public interface IDLSequence
       private final TopicDataType<T> topicDataType;
 
       /**
-       * @deprecated Use {@link #IDLSequence(int, TopicDataType)} instead.
+       * @deprecated Use {@link IDLSequence(int, TopicDataType)} instead.
        * 
        * @param maxSize Maximum size of this sequence
        * @param clazz Class to store
