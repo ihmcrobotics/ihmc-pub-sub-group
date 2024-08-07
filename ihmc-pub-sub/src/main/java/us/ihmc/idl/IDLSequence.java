@@ -188,16 +188,6 @@ public interface IDLSequence
          return buffer.get(i);
       }
 
-      /**
-       * The buffer must be flipped when done adding data so the
-       * underlying ByteBuffer's limit reflects the size of the
-       * valid data and the {@link #size()} method is useful.
-       */
-      public void flip()
-      {
-         buffer.flip();
-      }
-
       public ByteBuffer getBuffer()
       {
          return buffer;
@@ -224,7 +214,7 @@ public interface IDLSequence
       @Override
       public int size()
       {
-         return buffer.limit();
+         return buffer.position();
       }
 
       @Override
@@ -236,6 +226,33 @@ public interface IDLSequence
       public boolean isEmpty()
       {
          return size() == 0;
+      }
+
+      @Override
+      public boolean equals(java.lang.Object other)
+      {
+         if (other == this)
+         {
+            return true;
+         }
+         else if (other instanceof IDLSequence.Byte otherSequence)
+         {
+            if (otherSequence.size() != this.size())
+               return false;
+            else
+            {
+               for (int i = size(); i-- > 0; )
+               {
+                  if (buffer.get(i) != otherSequence.buffer.get(i))
+                  {
+                     return false;
+                  }
+               }
+               return true;
+            }
+         }
+         else
+            return false;
       }
    }
 

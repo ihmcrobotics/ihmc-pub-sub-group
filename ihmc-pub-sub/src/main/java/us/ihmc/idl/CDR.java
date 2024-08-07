@@ -291,16 +291,10 @@ public class CDR
       {
          seq.readElement(i, this);
       }
-
-      if (seq instanceof IDLSequence.Byte byteSeq)
-         byteSeq.flip();
    }
 
    public void write_type_e(IDLSequence seq)
    {
-      if (seq instanceof IDLSequence.Byte byteSeq)
-         byteSeq.flip();
-
       int length = seq.size();
       write_type_2(length);
       for (int i = 0; i < length; i++)
