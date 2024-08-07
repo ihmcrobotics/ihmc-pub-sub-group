@@ -28,6 +28,8 @@ import us.ihmc.commons.lists.PreallocatedEnumList;
 import us.ihmc.commons.lists.RecyclingArrayList;
 import us.ihmc.pubsub.TopicDataType;
 
+import java.nio.ByteBuffer;
+
 /**
  * Represents an IDL sequence.
  * 
@@ -114,38 +116,34 @@ public interface IDLSequence
       }
    }
 
-   public static class Byte extends TByteArrayList implements IDLSequence
+   public static class Byte implements IDLSequence
    {
-      private final int maxSize;
+      private final ByteBuffer byteBuffer;
+
       public Byte(int maxSize, String typeCode)
       {
-         super(maxSize);
          if (!typeCode.equals("type_9"))
          {
             throw new NotImplementedException(typeCode + " is not implemented for Sequence");
          }
-         this.maxSize = maxSize;
+         this.byteBuffer = ByteBuffer.allocate(maxSize);
       }
 
       @Override
       public void readElement(int i, CDR cdr)
       {
-         add(cdr.read_type_9());
+         byteBuffer.put(cdr.read_type_9());
       }
 
       @Override
       public void writeElement(int i, CDR cdr)
       {
-         cdr.write_type_9(get(i));
+         cdr.write_type_9(byteBuffer.get(i));
       }
       
       public void set(Byte other)
       {
-         resetQuick();
-         for(int i = 0; i < other.size(); i++)
-         {
-            add(other.get(i));
-         }
+         System.arraycopy(other.byteBuffer.array(), 0, byteBuffer.array(), 0, byteBuffer.capacity());
       }
       
       @Override
@@ -159,16 +157,39 @@ public interface IDLSequence
             {
                builder.append(", ");
             }
-            builder.append(get(i));           
+            builder.append(byteBuffer.get(i));
          }
          builder.append("]");
          return builder.toString();
       }
 
+      public byte get(int i)
+      {
+         return byteBuffer.get(i);
+      }
+
+
+      public ByteBuffer getByteBuffer()
+      {
+         return byteBuffer;
+      }
+
+      @Override
+      public void resetQuick()
+      {
+         byteBuffer.clear();
+      }
+
+      @Override
+      public int size()
+      {
+         return byteBuffer.limit();
+      }
+
       @Override
       public int capacity()
       {
-         return maxSize;
+         return byteBuffer.capacity();
       }
    }
 
