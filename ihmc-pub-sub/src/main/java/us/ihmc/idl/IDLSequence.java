@@ -206,7 +206,7 @@ public interface IDLSequence
 
       public byte[] copyArray()
       {
-         byte[] copy = new byte[buffer.limit()];
+         byte[] copy = new byte[size()];
          System.arraycopy(buffer.array(), 0, copy, 0, copy.length);
          return copy;
       }
