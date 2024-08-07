@@ -121,7 +121,7 @@ public interface IDLSequence
       /**
        * The backing buffer as a heap array.
        * We only use the position and capacity. We do not use the limit or mark.
-       * The position is used as the size and capcacity is the max message size
+       * The position is used as the size and capacity is the max message size
        * and is final after construction.
        */
       private final ByteBuffer buffer;
