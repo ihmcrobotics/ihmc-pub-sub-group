@@ -118,6 +118,12 @@ public interface IDLSequence
 
    public static class Byte implements IDLSequence
    {
+      /**
+       * The backing buffer as a heap array.
+       * We only use the position and capacity. We do not use the limit or mark.
+       * The position is used as the size and capcacity is the max message size
+       * and is final after construction.
+       */
       private final ByteBuffer buffer;
 
       public Byte(int maxSize, String typeCode)
@@ -189,6 +195,10 @@ public interface IDLSequence
          return buffer.get(i);
       }
 
+      /**
+       * For accessing the putDouble, getDouble, etc. fancy methods.
+       * Only use put and get methods. Do not mess with the mark or limit.
+       */
       public ByteBuffer getBuffer()
       {
          return buffer;
