@@ -156,6 +156,8 @@ public class IDLTools
 
    public static boolean epsilonEqualsByteSequence(IDLSequence.Byte a, IDLSequence.Byte b, double epsilon)
    {
+      a.flip();
+      b.flip();
       return epsilonEqualsPrimitiveSequence(a::get, b::get, a, b, epsilon);
    }
 

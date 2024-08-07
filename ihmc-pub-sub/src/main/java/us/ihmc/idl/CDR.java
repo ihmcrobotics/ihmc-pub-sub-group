@@ -293,13 +293,13 @@ public class CDR
       }
 
       if (seq instanceof IDLSequence.Byte byteSeq)
-         byteSeq.getBuffer().flip();
+         byteSeq.flip();
    }
 
    public void write_type_e(IDLSequence seq)
    {
       if (seq instanceof IDLSequence.Byte byteSeq)
-         byteSeq.getBuffer().flip();
+         byteSeq.flip();
 
       int length = seq.size();
       write_type_2(length);

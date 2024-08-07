@@ -188,6 +188,16 @@ public interface IDLSequence
          return buffer.get(i);
       }
 
+      /**
+       * The buffer must be flipped when done adding data so the
+       * underlying ByteBuffer's limit reflects the size of the
+       * valid data and the {@link #size()} method is useful.
+       */
+      public void flip()
+      {
+         buffer.flip();
+      }
+
       public ByteBuffer getBuffer()
       {
          return buffer;
