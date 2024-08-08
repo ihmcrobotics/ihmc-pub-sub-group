@@ -1,10 +1,21 @@
 package us.ihmc.pubsub.attributes;
 
-import com.eprosima.xmlschemas.fastrtps_profiles.*;
+import java.io.IOException;
+
+import jakarta.xml.bind.JAXBElement;
+import javax.xml.namespace.QName;
+
+import com.eprosima.xmlschemas.fastrtps_profiles.LifespanQosPolicyType;
+import com.eprosima.xmlschemas.fastrtps_profiles.PartitionQosPolicyType;
+import com.eprosima.xmlschemas.fastrtps_profiles.ProfilesType;
+import com.eprosima.xmlschemas.fastrtps_profiles.PublishModeQosKindType;
+import com.eprosima.xmlschemas.fastrtps_profiles.PublishModeQosPolicyType;
+import com.eprosima.xmlschemas.fastrtps_profiles.PublisherProfileType;
+import com.eprosima.xmlschemas.fastrtps_profiles.WriterQosPoliciesType;
+import com.eprosima.xmlschemas.fastrtps_profiles.WriterTimesType;
+
 import us.ihmc.pubsub.common.Time;
 import us.ihmc.pubsub.impl.fastRTPS.FastRTPSDomain;
-
-import java.io.IOException;
 
 public class PublisherAttributes extends CommonAttributes<PublisherAttributes>
 {
@@ -12,12 +23,12 @@ public class PublisherAttributes extends CommonAttributes<PublisherAttributes>
 
    public PublisherAttributes()
    {
-      DataWriterQosPoliciesType dataWriterQosPoliciesType = new DataWriterQosPoliciesType();
-      dataWriterQosPoliciesType.setDurability(durabilityQosPolicyType);
-      dataWriterQosPoliciesType.setReliability(reliabilityQosPolicyType);
-      publisherProfile.setQos(dataWriterQosPoliciesType);
+      publisherProfile.setTopic(topicAttributesType);
 
-      publisherProfile.setTopic(topicElementType);
+      WriterQosPoliciesType writerQosPoliciesType = new WriterQosPoliciesType();
+      writerQosPoliciesType.setDurability(durabilityQosPolicyType);
+      writerQosPoliciesType.setReliability(reliabilityQosPolicyType);
+      publisherProfile.setQos(writerQosPoliciesType);
    }
 
    public static PublisherAttributes create()
@@ -35,7 +46,7 @@ public class PublisherAttributes extends CommonAttributes<PublisherAttributes>
       return publisherProfile;
    }
 
-   public PublisherAttributes publishModeKind(PublishModeQosKindPolicyType kind)
+   public PublisherAttributes publishModeKind(PublishModeQosKindType kind)
    {
       PublishModeQosPolicyType publishModeQosPolicyType = new PublishModeQosPolicyType();
       publishModeQosPolicyType.setKind(kind);
@@ -70,10 +81,12 @@ public class PublisherAttributes extends CommonAttributes<PublisherAttributes>
 
    public String marshall(String profileName) throws IOException
    {
-      publisherProfile.setProfileName(profileName);
-
       ProfilesType profilesType = new ProfilesType();
-      profilesType.getDomainparticipantFactoryOrParticipantOrDataWriter().add(publisherProfile);
+      profilesType.getLibrarySettingsOrTransportDescriptorsOrParticipant()
+                  .add(new JAXBElement<>(new QName(FastRTPSDomain.FAST_DDS_XML_NAMESPACE, FastRTPSDomain.FAST_DDS_PUBLISHER),
+                                         PublisherProfileType.class,
+                                         publisherProfile));
+      publisherProfile.setProfileName(profileName);
 
       return FastRTPSDomain.marshalProfile(profilesType);
    }

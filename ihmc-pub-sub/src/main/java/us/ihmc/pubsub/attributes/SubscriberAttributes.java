@@ -1,9 +1,17 @@
 package us.ihmc.pubsub.attributes;
 
-import com.eprosima.xmlschemas.fastrtps_profiles.*;
-import us.ihmc.pubsub.impl.fastRTPS.FastRTPSDomain;
-
 import java.io.IOException;
+
+import jakarta.xml.bind.JAXBElement;
+import javax.xml.namespace.QName;
+
+import com.eprosima.xmlschemas.fastrtps_profiles.LifespanQosPolicyType;
+import com.eprosima.xmlschemas.fastrtps_profiles.PartitionQosPolicyType;
+import com.eprosima.xmlschemas.fastrtps_profiles.ProfilesType;
+import com.eprosima.xmlschemas.fastrtps_profiles.ReaderQosPoliciesType;
+import com.eprosima.xmlschemas.fastrtps_profiles.SubscriberProfileType;
+
+import us.ihmc.pubsub.impl.fastRTPS.FastRTPSDomain;
 
 public class SubscriberAttributes extends CommonAttributes<SubscriberAttributes>
 {
@@ -11,12 +19,12 @@ public class SubscriberAttributes extends CommonAttributes<SubscriberAttributes>
 
    public SubscriberAttributes()
    {
-      DataReaderQosPoliciesType dataReaderQosPoliciesType = new DataReaderQosPoliciesType();
-      dataReaderQosPoliciesType.setDurability(durabilityQosPolicyType);
-      dataReaderQosPoliciesType.setReliability(reliabilityQosPolicyType);
-      subscriberProfile.setQos(dataReaderQosPoliciesType);
+      subscriberProfile.setTopic(topicAttributesType);
 
-      subscriberProfile.setTopic(topicElementType);
+      ReaderQosPoliciesType readerQosPoliciesType = new ReaderQosPoliciesType();
+      readerQosPoliciesType.setDurability(durabilityQosPolicyType);
+      readerQosPoliciesType.setReliability(reliabilityQosPolicyType);
+      subscriberProfile.setQos(readerQosPoliciesType);
    }
 
    public static SubscriberAttributes create()
@@ -37,10 +45,12 @@ public class SubscriberAttributes extends CommonAttributes<SubscriberAttributes>
 
    public String marshall(String profileName) throws IOException
    {
-      subscriberProfile.setProfileName(profileName);
-
       ProfilesType profilesType = new ProfilesType();
-      profilesType.getDomainparticipantFactoryOrParticipantOrDataWriter().add(subscriberProfile);
+      profilesType.getLibrarySettingsOrTransportDescriptorsOrParticipant()
+                  .add(new JAXBElement<>(new QName(FastRTPSDomain.FAST_DDS_XML_NAMESPACE, FastRTPSDomain.FAST_DDS_SUBSCRIBER),
+                                         SubscriberProfileType.class,
+                                         subscriberProfile));
+      subscriberProfile.setProfileName(profileName);
 
       return FastRTPSDomain.marshalProfile(profilesType);
    }

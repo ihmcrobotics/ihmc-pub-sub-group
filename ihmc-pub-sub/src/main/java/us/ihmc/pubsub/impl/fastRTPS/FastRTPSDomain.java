@@ -1,5 +1,5 @@
 /**
- * Copyright 2024 Florida Institute for Human and Machine Cognition (IHMC) Licensed under the Apache
+ * Copyright 2017 Florida Institute for Human and Machine Cognition (IHMC) Licensed under the Apache
  * License, Version 2.0 (the "License"); you may not use this file except in compliance with the
  * License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
  * Unless required by applicable law or agreed to in writing, software distributed under the License
@@ -9,13 +9,24 @@
  */
 package us.ihmc.pubsub.impl.fastRTPS;
 
+import java.io.IOException;
+import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.List;
+
+import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.JAXBException;
+import jakarta.xml.bind.Marshaller;
+
+import org.apache.commons.lang3.SystemUtils;
+
 import com.eprosima.xmlschemas.fastrtps_profiles.Dds;
 import com.eprosima.xmlschemas.fastrtps_profiles.ProfilesType;
-import org.apache.commons.lang3.SystemUtils;
+
 import us.ihmc.commons.thread.ThreadTools;
 import us.ihmc.pubsub.Domain;
 import us.ihmc.pubsub.TopicDataType;
-import us.ihmc.pubsub.attributes.ParticipantProfile;
+import us.ihmc.pubsub.attributes.ParticipantAttributes;
 import us.ihmc.pubsub.attributes.PublisherAttributes;
 import us.ihmc.pubsub.attributes.SubscriberAttributes;
 import us.ihmc.pubsub.common.LogLevel;
@@ -27,14 +38,6 @@ import us.ihmc.pubsub.subscriber.Subscriber;
 import us.ihmc.pubsub.subscriber.SubscriberListener;
 import us.ihmc.rtps.impl.fastRTPS.FastRTPSJNI;
 import us.ihmc.tools.nativelibraries.NativeLibraryLoader;
-
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import java.io.IOException;
-import java.io.StringWriter;
-import java.util.ArrayList;
-import java.util.List;
 
 public class FastRTPSDomain implements Domain
 {
@@ -95,7 +98,7 @@ public class FastRTPSDomain implements Domain
          }
          else
          {
-            NativeLibraryLoader.loadLibrary(new FastRTPSNativeLibrary());
+            NativeLibraryLoader.loadLibrary(new FastRtpsNativeLibrary());
 
             // Force initialization of the FastRTPS class by setting the log level. This allows early bailout if there are linking errors.
             FastRTPSJNI.LogLevel_setLogLevel(0);
@@ -116,7 +119,7 @@ public class FastRTPSDomain implements Domain
    }
 
    @Override
-   public synchronized Participant createParticipant(ParticipantProfile att, ParticipantListener participantListener) throws IOException
+   public synchronized Participant createParticipant(ParticipantAttributes att, ParticipantListener participantListener) throws IOException
    {
       FastRTPSParticipant participant = new FastRTPSParticipant(att, participantListener);
       participants.add(participant);
@@ -290,7 +293,7 @@ public class FastRTPSDomain implements Domain
       StringWriter writer = new StringWriter();
       
       Dds dds = new Dds();
-      dds.setProfiles(profile);
+      dds.getProfiles().add(profile);
 
       try
       {
@@ -301,8 +304,7 @@ public class FastRTPSDomain implements Domain
       }
       catch (JAXBException e)
       {
-         e.printStackTrace();
-         throw new IOException("Could not marshal XML", e);
+         throw new IOException("Colud not marshal XML", e);
       }
 
       return writer.toString();
