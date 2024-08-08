@@ -24,6 +24,7 @@ mainDependencies {
    api("us.ihmc:euclid:0.21.0")
    api("us.ihmc:ihmc-commons:0.32.0")
    api("us.ihmc:log-tools:0.6.3")
+   api("com.sun.xml.bind:jaxb-ri:4.0.5")
 }
 
 testDependencies {
