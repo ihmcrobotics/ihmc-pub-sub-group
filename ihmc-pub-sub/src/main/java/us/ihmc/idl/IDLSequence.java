@@ -138,13 +138,13 @@ public interface IDLSequence
       @Override
       public void readElement(int i, CDR cdr)
       {
-         buffer.put(cdr.read_type_9());
+         // unused for faster copy method
       }
 
       @Override
       public void writeElement(int i, CDR cdr)
       {
-         cdr.write_type_9(buffer.get(i));
+         // unused for faster copy method
       }
       
       public void set(Byte other)
