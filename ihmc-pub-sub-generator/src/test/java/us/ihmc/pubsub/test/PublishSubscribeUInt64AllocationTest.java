@@ -40,7 +40,6 @@ public class PublishSubscribeUInt64AllocationTest
 {
    public static final int NUMBER_OF_MESSAGES_TO_SEND = 30;
 
-   @Disabled // TODO: Fix allocation tests
    @Tag("allocation")
    @Test// timeout = 30000
    public void testPublishSubscribeUInt32AllocationsFastRTPS() throws IOException

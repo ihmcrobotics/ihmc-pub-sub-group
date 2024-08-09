@@ -4,7 +4,6 @@ import com.eprosima.xmlschemas.fastrtps_profiles.DurabilityQosKindPolicyType;
 import com.eprosima.xmlschemas.fastrtps_profiles.HistoryQosKindPolicyType;
 import com.eprosima.xmlschemas.fastrtps_profiles.ReliabilityQosKindPolicyType;
 import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import us.ihmc.commons.PrintTools;
 import us.ihmc.commons.allocations.AllocationProfiler;
@@ -57,8 +56,7 @@ public class HandshakeTest
 
    public int sendIndex = 0;
 
-   @Disabled // TODO: Fix allocation profiler
-   @Tag("allocation")
+   // TODO: Fix allocation profiler
    @Test // timeout = 30000
    public void testPublishSubscribeFooHandshake() throws IOException
    {
