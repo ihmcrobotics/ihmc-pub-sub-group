@@ -3,7 +3,6 @@ package us.ihmc.pubsub.test;
 import com.eprosima.xmlschemas.fastrtps_profiles.DurabilityQosKindPolicyType;
 import com.eprosima.xmlschemas.fastrtps_profiles.HistoryQosKindPolicyType;
 import com.eprosima.xmlschemas.fastrtps_profiles.ReliabilityQosKindPolicyType;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Timeout;
 import us.ihmc.idl.generated.test.BigMessage;
@@ -48,7 +47,6 @@ public class IntraprocessLargeCopyTest2
 {
    private static final int NUMBER_OF_MESSAGES_TO_SEND = 80;
 
-   @Disabled
    @Test
    @Timeout(30) // timeout = 10000
    public void testRepeatedLargeCopiesInFastRTPSCallbacks() throws IOException, InterruptedException
@@ -60,7 +58,6 @@ public class IntraprocessLargeCopyTest2
       performCopyTest(random, impl);
    }
 
-   @Disabled
    @Test // timeout = 10000
    @Timeout(10)
    public void testRepeatedLargeCopiesInIntraprocessCallbacks() throws IOException, InterruptedException

@@ -70,7 +70,6 @@ public class IntraProcessDomainTest
       assertEquals(expectedGuidPrefix, info.getGuid().getGuidPrefix());
    }
 
-   @Disabled
    @Test// timeout = 30000
    public void testMessagePassing() throws IOException, InterruptedException
    {
@@ -212,7 +211,6 @@ public class IntraProcessDomainTest
       }
    }
 
-   @Disabled
    @Test// timeout = 30000
    public void testConnectionLogic() throws IOException, InterruptedException
    {
