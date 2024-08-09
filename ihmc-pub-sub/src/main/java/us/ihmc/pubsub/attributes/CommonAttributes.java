@@ -27,8 +27,6 @@ public abstract class CommonAttributes<T extends CommonAttributes<T>>
       historyQosPolicyKind(HistoryQosKindPolicyType.KEEP_LAST);
       durabilityKind(DurabilityQosKindPolicyType.VOLATILE);
       reliabilityKind(ReliabilityQosKindPolicyType.RELIABLE);
-      // TODO UPGRADE
-//      topicKind(TopicKindType.NO_KEY);
 
       topicElementType.setHistoryQos(historyQosPolicyType);
    }
@@ -50,19 +48,6 @@ public abstract class CommonAttributes<T extends CommonAttributes<T>>
    {
       return topicDataType;
    }
-
-   // TODO UPGRADE
-//   public T topicKind(TopicKindType kind)
-//   {
-//      topicAttributesType.setKind(kind);
-//      return self();
-//   }
-
-   // TODO UPGRADE
-//   public TopicKindType getTopicKind()
-//   {
-//      return topicAttributesType.getKind();
-//   }
 
    public T topicName(String name)
    {
