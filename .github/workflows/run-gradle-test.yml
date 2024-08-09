@@ -31,7 +31,7 @@ jobs:
       - name: Run tests
         run: |
           patch ihmc-pub-sub/thirdparty/Fast-RTPS/resources/xsd/fastRTPS_profiles.xsd ihmc-pub-sub/patches/fastRTPS_profiles.patch
-          gradle compositeTask -PtaskName=test
+          gradle compositeTask --stacktrace --info -PtaskName=test
   test-windows:
     runs-on: [windows-2019]
     steps:
@@ -55,7 +55,7 @@ jobs:
       - name: Run tests
         run: |
           patch ihmc-pub-sub/thirdparty/Fast-RTPS/resources/xsd/fastRTPS_profiles.xsd ihmc-pub-sub/patches/fastRTPS_profiles.patch
-          gradle compositeTask -PtaskName=test
+          gradle compositeTask --stacktrace --info -PtaskName=test
   test-macos-intel:
     runs-on: [macos-12] # macos-12 is exclusively x86_64 intel
     steps:
@@ -79,7 +79,7 @@ jobs:
       - name: Run tests
         run: |
           patch ihmc-pub-sub/thirdparty/Fast-RTPS/resources/xsd/fastRTPS_profiles.xsd ihmc-pub-sub/patches/fastRTPS_profiles.patch
-          gradle compositeTask -PtaskName=test
+          gradle compositeTask --stacktrace --info -PtaskName=test
   test-macos-arm:
     runs-on: [macos-14] # macos-14 runner is exclusively arm64
     steps:
@@ -103,4 +103,4 @@ jobs:
       - name: Run tests
         run: |
           patch ihmc-pub-sub/thirdparty/Fast-RTPS/resources/xsd/fastRTPS_profiles.xsd ihmc-pub-sub/patches/fastRTPS_profiles.patch
-          gradle compositeTask -PtaskName=test
+          gradle compositeTask --stacktrace --info -PtaskName=test
