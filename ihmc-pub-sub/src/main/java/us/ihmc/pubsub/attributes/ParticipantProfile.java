@@ -1,48 +1,32 @@
 package us.ihmc.pubsub.attributes;
 
+import com.eprosima.xmlschemas.fastrtps_profiles.*;
+import com.eprosima.xmlschemas.fastrtps_profiles.LocatorListType.Locator;
+import com.eprosima.xmlschemas.fastrtps_profiles.ParticipantProfileType.Rtps;
+import com.eprosima.xmlschemas.fastrtps_profiles.TransportDescriptorType.InterfaceWhiteList;
+import us.ihmc.pubsub.common.Time;
+import us.ihmc.pubsub.impl.fastRTPS.FastRTPSDomain;
+
+import jakarta.xml.bind.JAXBElement;
+import javax.xml.namespace.QName;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.util.List;
 import java.util.UUID;
-import java.util.regex.Pattern;
 
-import jakarta.xml.bind.JAXBElement;
-import javax.xml.namespace.QName;
-
-import com.eprosima.xmlschemas.fastrtps_profiles.AddressListType;
-import com.eprosima.xmlschemas.fastrtps_profiles.BuiltinAttributesType;
-import com.eprosima.xmlschemas.fastrtps_profiles.DiscoveryProtocol;
-import com.eprosima.xmlschemas.fastrtps_profiles.DiscoveryServerList;
-import com.eprosima.xmlschemas.fastrtps_profiles.DiscoverySettingsType;
-import com.eprosima.xmlschemas.fastrtps_profiles.EDPType;
-import com.eprosima.xmlschemas.fastrtps_profiles.LocatorListType;
-import com.eprosima.xmlschemas.fastrtps_profiles.LocatorType;
-import com.eprosima.xmlschemas.fastrtps_profiles.ParticipantProfileType;
-import com.eprosima.xmlschemas.fastrtps_profiles.ProfilesType;
-import com.eprosima.xmlschemas.fastrtps_profiles.RemoteServerAttributes;
-import com.eprosima.xmlschemas.fastrtps_profiles.RtpsParticipantAttributesType;
-import com.eprosima.xmlschemas.fastrtps_profiles.RtpsTransportDescriptorType;
-import com.eprosima.xmlschemas.fastrtps_profiles.StringListType;
-import com.eprosima.xmlschemas.fastrtps_profiles.TransportDescriptorListType;
-import com.eprosima.xmlschemas.fastrtps_profiles.Udpv4LocatorType;
-
-import us.ihmc.pubsub.common.Time;
-import us.ihmc.pubsub.impl.fastRTPS.FastRTPSDomain;
-
-public class ParticipantAttributes
+public class ParticipantProfile
 {
-   private final ParticipantProfileType participantProfile = new ParticipantProfileType();
+   private final ParticipantProfileType profileType = new ParticipantProfileType();
    private final TransportDescriptorListType transportDescriptors = new TransportDescriptorListType();
 
-   public ParticipantAttributes()
+   public ParticipantProfile()
    {
       // Create default elements for participant profile
-      RtpsParticipantAttributesType rtps = new RtpsParticipantAttributesType();
       BuiltinAttributesType builtin = new BuiltinAttributesType();
       DiscoverySettingsType discoverySettingsType = new DiscoverySettingsType();
 
-      participantProfile.setRtps(rtps);
-      rtps.setBuiltin(builtin);
+      profileType.setRtps(new Rtps());
+      profileType.getRtps().setBuiltin(builtin);
       builtin.setDiscoveryConfig(discoverySettingsType);
 
       // Set default discovery duration
@@ -54,9 +38,9 @@ public class ParticipantAttributes
     * 
     * @return new intance of ParticipantAttributes
     */
-   public static ParticipantAttributes create()
+   public static ParticipantProfile create()
    {
-      return new ParticipantAttributes();
+      return new ParticipantProfile();
    }
    
    /**
@@ -66,44 +50,43 @@ public class ParticipantAttributes
     */
    public ParticipantProfileType getProfile()
    {
-      return participantProfile;
+      return profileType;
    }
 
-   public ParticipantAttributes domainId(int id)
+   public ParticipantProfile domainId(int id)
    {
-      participantProfile.setDomainId((long) id);
+      profileType.setDomainId(id);
       return this;
    }
 
    public int getDomainId()
    {
-      return participantProfile.getDomainId().intValue();
+      return getProfile().getDomainId();
    }
 
-   public ParticipantAttributes name(String name)
+   public ParticipantProfile name(String name)
    {
-      participantProfile.getRtps().setName(name);
+      profileType.getRtps().setName(name);
       return this;
    }
 
    public String getName()
    {
-      return participantProfile.getRtps().getName();
+      return profileType.getRtps().getName();
    }
 
-   public ParticipantAttributes discoveryLeaseDuration(Time discoveryLeaseDuration)
+   public ParticipantProfile discoveryLeaseDuration(Time discoveryLeaseDuration)
    {
-
-      participantProfile.getRtps().getBuiltin().getDiscoveryConfig().setLeaseDuration(DDSConversionTools.timeToDurationType(discoveryLeaseDuration));
+      profileType.getRtps().getBuiltin().getDiscoveryConfig().setLeaseDuration(DDSConversionTools.timeToDurationType(discoveryLeaseDuration));
       return this;
    }
    
-   public ParticipantAttributes discoveryServer(String discoveryServerAddress, int discoveryServerId)
+   public ParticipantProfile discoveryServer(String discoveryServerAddress, int discoveryServerId)
    {
       return discoveryServer(discoveryServerAddress, discoveryServerId, FastRTPSDomain.DEFAULT_DISCOVERY_SERVER_PORT);
    }
 
-   public ParticipantAttributes discoveryServer(String discoveryServerAddress, int discoveryServerId, int discoveryServerPort)
+   public ParticipantProfile discoveryServer(String discoveryServerAddress, int discoveryServerId, int discoveryServerPort)
    {
       if (discoveryServerId < 0 || discoveryServerId > 255)
       {
@@ -115,26 +98,27 @@ public class ParticipantAttributes
          throw new RuntimeException("Invalid discovery server port");
       }
       
-      DiscoverySettingsType discoverySettingsType = participantProfile.getRtps().getBuiltin().getDiscoveryConfig();
-      DiscoveryServerList discoveryServerList = new DiscoveryServerList();
-      discoverySettingsType.setDiscoveryProtocol(DiscoveryProtocol.CLIENT);
+      DiscoverySettingsType discoverySettingsType = profileType.getRtps().getBuiltin().getDiscoveryConfig();
+      discoverySettingsType.setDiscoveryProtocol(DiscoveryProtocolType.CLIENT);
 
-      RemoteServerAttributes remoteServerAttributes = new RemoteServerAttributes();
       LocatorListType locatorListType = new LocatorListType();
-      LocatorType locatorType = new LocatorType();
+      LocatorListType.Locator locatorType = new Locator();
       Udpv4LocatorType udpv4LocatorType = new Udpv4LocatorType();
       udpv4LocatorType.setAddress(discoveryServerAddress);
-      udpv4LocatorType.setPort((long) discoveryServerPort);
-      locatorType.setUdpv4(udpv4LocatorType);
+      udpv4LocatorType.setPort(discoveryServerPort);
+      locatorType.getUdpv4().add(udpv4LocatorType);
       locatorListType.getLocator().add(locatorType);
 
+      RemoteServerAttributesType remoteServerAttributes = new RemoteServerAttributesType();
       remoteServerAttributes.getContent()
                             .add(new JAXBElement<>(new QName(FastRTPSDomain.FAST_DDS_XML_NAMESPACE, FastRTPSDomain.FAST_DDS_METATRAFFIC_UNICAST_LOCATOR_LIST),
                                                    LocatorListType.class,
                                                    locatorListType));
-
       remoteServerAttributes.setPrefix(String.format(FastRTPSDomain.FAST_DDS_DISCOVERY_CONFIGURABLE_PREFIX, discoveryServerId));
+
+      DiscoveryServersListType discoveryServerList = profileType.getRtps().getBuiltin().getDiscoveryConfig().getDiscoveryServersList();
       discoveryServerList.getRemoteServer().add(remoteServerAttributes);
+
       discoverySettingsType.setDiscoveryServersList(discoveryServerList);
 
       return this;
@@ -150,7 +134,7 @@ public class ParticipantAttributes
     * @param bindToAddressRestrictions Limit the scope of this participant to the list of hosts. If null or empty, the participant will not be able to communicate.
     * @return
     */
-   public ParticipantAttributes bindToAddressRestrictions(boolean addSharedMemoryTransport, List<InetAddress> bindToAddressRestrictions)
+   public ParticipantProfile bindToAddressRestrictions(boolean addSharedMemoryTransport, List<InetAddress> bindToAddressRestrictions)
    {
       useBuiltinTransports(false);
 
@@ -163,15 +147,16 @@ public class ParticipantAttributes
       {
          // Create a new UDP transport,
          String transportName = UUID.randomUUID().toString();
-         RtpsTransportDescriptorType transportDescriptor = new RtpsTransportDescriptorType();
+         TransportDescriptorType transportDescriptor = new TransportDescriptorType();
          transportDescriptor.setTransportId(transportName);
          transportDescriptor.setType("UDPv4");
 
-         AddressListType addressWhitelist = new AddressListType();
+         TransportDescriptorType.InterfaceWhiteList addressWhitelist = new InterfaceWhiteList();
 
          for (InetAddress addr : bindToAddressRestrictions)
          {
-            addressWhitelist.getAddress().add(addr.getHostAddress());
+            JAXBElement<String> addressElement = new JAXBElement<>(new QName(FastRTPSDomain.FAST_DDS_XML_NAMESPACE, "address"), String.class, addr.getHostAddress());
+            addressWhitelist.getAddressOrInterface().add(addressElement);
          }
          
          transportDescriptor.setInterfaceWhiteList(addressWhitelist);
@@ -187,15 +172,15 @@ public class ParticipantAttributes
     * @param transport
     * @return
     */
-   public ParticipantAttributes addTransport(RtpsTransportDescriptorType transport)
+   public ParticipantProfile addTransport(TransportDescriptorType transport)
    {
       transportDescriptors.getTransportDescriptor().add(transport);
       
-      if(participantProfile.getRtps().getUserTransports() == null)
+      if(profileType.getRtps().getUserTransports() == null)
       {
-         participantProfile.getRtps().setUserTransports(new StringListType());
+         profileType.getRtps().setUserTransports(new ParticipantProfileType.Rtps.UserTransports());
       }
-      participantProfile.getRtps().getUserTransports().getId().add(transport.getTransportId());
+      profileType.getRtps().getUserTransports().getTransportId().add(transport.getTransportId());
       
       return this;
    }
@@ -207,10 +192,10 @@ public class ParticipantAttributes
     *  
     * @return
     */
-   public ParticipantAttributes addSharedMemoryTransport()
+   public ParticipantProfile addSharedMemoryTransport()
    {
       String transportName = UUID.randomUUID().toString();
-      RtpsTransportDescriptorType transportDescriptor = new RtpsTransportDescriptorType();
+      TransportDescriptorType transportDescriptor = new TransportDescriptorType();
       transportDescriptor.setTransportId(transportName);
       transportDescriptor.setType("SHM");
       
@@ -219,22 +204,22 @@ public class ParticipantAttributes
       return this;
    }
    
-   public ParticipantAttributes useBuiltinTransports(boolean useBuiltinTransports)
+   public ParticipantProfile useBuiltinTransports(boolean useBuiltinTransports)
    {
-      participantProfile.getRtps().setUseBuiltinTransports(useBuiltinTransports);
+      profileType.getRtps().setUseBuiltinTransports(useBuiltinTransports);
       return this;
    }
    
    public boolean isUseBuiltinTransports()
    {
-      return participantProfile.getRtps().isUseBuiltinTransports();
+      return profileType.getRtps().isUseBuiltinTransports();
    }
    
    /**
     * Helper function to disable all transports and use only the shared memory transport
     * @return
     */
-   public ParticipantAttributes useOnlySharedMemoryTransport()
+   public ParticipantProfile useOnlySharedMemoryTransport()
    {
       useBuiltinTransports(false);
       addSharedMemoryTransport();
@@ -243,12 +228,12 @@ public class ParticipantAttributes
 
    public boolean isUseStaticDiscovery()
    {
-      return participantProfile.getRtps().getBuiltin().getDiscoveryConfig().getEDP() == EDPType.STATIC;
+      return profileType.getRtps().getBuiltin().getDiscoveryConfig().getEDP() == EDPType.STATIC;
    }
    
-   public ParticipantAttributes useStaticDiscovery(boolean useStaticDiscovery)
+   public ParticipantProfile useStaticDiscovery(boolean useStaticDiscovery)
    {
-      participantProfile.getRtps().getBuiltin().getDiscoveryConfig().setEDP(useStaticDiscovery ? EDPType.STATIC : EDPType.SIMPLE);
+      profileType.getRtps().getBuiltin().getDiscoveryConfig().setEDP(useStaticDiscovery ? EDPType.STATIC : EDPType.SIMPLE);
       return this;
    }
 
@@ -261,28 +246,14 @@ public class ParticipantAttributes
     */
    public String marshall(String profileName) throws IOException
    {
+      profileType.setProfileName(profileName);
+
       ProfilesType profilesType = new ProfilesType();
-      
+      profilesType.getDomainparticipantFactoryOrParticipantOrDataWriter().add(transportDescriptors);
+      profilesType.getDomainparticipantFactoryOrParticipantOrDataWriter().add(profileType);
 
-      profilesType.getLibrarySettingsOrTransportDescriptorsOrParticipant()
-      .add(new JAXBElement<>(new QName(FastRTPSDomain.FAST_DDS_XML_NAMESPACE, FastRTPSDomain.FAST_DDS_TRANSPORT),
-                             TransportDescriptorListType.class,
-                             transportDescriptors));
-      
-      profilesType.getLibrarySettingsOrTransportDescriptorsOrParticipant()
-                  .add(new JAXBElement<>(new QName(FastRTPSDomain.FAST_DDS_XML_NAMESPACE, FastRTPSDomain.FAST_DDS_PARTICIPANT),
-                                         ParticipantProfileType.class,
-                                         participantProfile));
-
-      participantProfile.setProfileName(profileName);
-      
-      
-      /*
-       * There is a bug in the generation of teh xsd, and inside userTranports, the list spits out <id> tags instead of <transport_id> tags. 
-       * This uses a horrible regex to fix that. Hopefully there are no "other" <id> tags
-       */
-      String profileXML =FastRTPSDomain.marshalProfile(profilesType); 
-      profileXML = Pattern.compile("<id>(.*)<\\/id>").matcher(profileXML).replaceAll("<transport_id>$1<\\/transport_id>");
+      String profileXML =FastRTPSDomain.marshalProfile(profilesType);
+//      profileXML = Pattern.compile("<id>(.*)<\\/id>").matcher(profileXML).replaceAll("<transport_id>$1<\\/transport_id>");
 
       return profileXML;
    }
