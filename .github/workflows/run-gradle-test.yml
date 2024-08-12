@@ -21,10 +21,9 @@ jobs:
           git lfs fetch
           git lfs pull
           git lfs ls-files -l
-      - name: Install dependencies
+      - name: Debug
         run: |
-          sudo apt update
-          sudo apt install build-essential g++
+          strings /usr/lib/x86_64-linux-gnu/libstdc++.so.6 | grep GLIBCXX
       - uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
