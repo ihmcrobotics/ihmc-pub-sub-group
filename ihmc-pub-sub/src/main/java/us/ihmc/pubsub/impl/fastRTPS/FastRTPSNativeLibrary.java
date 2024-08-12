@@ -28,6 +28,10 @@ class FastRTPSNativeLibrary implements NativeLibraryDescription
                   archPackage = "Linux.x86_64";
                   break;
 
+               case MACOSX64:
+                  archPackage = "Darwin.x86_64";
+                  break;
+
                default:
                   archPackage = "unknown";
                   break;
