@@ -69,7 +69,7 @@ class FastRTPSNativeLibrary implements NativeLibraryDescription
          case LINUX64:
             return NativeLibraryWithDependencies.fromFilename("libFastRTPSWrapper.so", "libfastrtps.so.2.14", "libfastcdr.so.2");
          case MACOSX64:
-            return NativeLibraryWithDependencies.fromFilename("libFastRTPSWrapper.jnilib", "libfastrtps.2.14.dylib", "libfastcdr.2.dylib");
+            return NativeLibraryWithDependencies.fromFilename("libFastRTPSWrapper.jnilib", "libfastcdr.2.dylib", "libfastrtps.2.14.dylib");
          default:
             break;
       }

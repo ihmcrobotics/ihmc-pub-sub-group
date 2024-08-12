@@ -21,6 +21,10 @@ jobs:
           git lfs fetch
           git lfs pull
           git lfs ls-files -l
+      - name: Install dependencies
+        run: |
+          sudo apt update
+          sudo apt install build-essential g++
       - uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
