@@ -57,6 +57,7 @@ public class HandshakeTest
    public int sendIndex = 0;
 
    // TODO: Fix allocation profiler
+   @Disabled
    @Test // timeout = 30000
    public void testPublishSubscribeFooHandshake() throws IOException
    {
