@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package us.ihmc.pubsub.impl.fastRTPS;
+package us.ihmc.pubsub.fastdds;
 
 import us.ihmc.idl.CDR;
 import us.ihmc.pubsub.TopicDataType;
@@ -30,7 +30,7 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.UUID;
 
-class FastRTPSSubscriber<T> implements Subscriber<T>
+class FastDDSSubscriber<T> implements Subscriber<T>
 {
    private final Object destructorLock = new Object(); 
   
@@ -67,7 +67,7 @@ class FastRTPSSubscriber<T> implements Subscriber<T>
             {
                matchingInfo.getGuid().fromPrimitives(guidHigh, guidLow);
                matchingInfo.setStatus(MatchingInfo.MatchingStatus.values[matchingStatus]);
-               listener.onSubscriptionMatched(FastRTPSSubscriber.this, matchingInfo);
+               listener.onSubscriptionMatched(FastDDSSubscriber.this, matchingInfo);
                hasMatched = true;
             }
          }
@@ -84,7 +84,7 @@ class FastRTPSSubscriber<T> implements Subscriber<T>
          {
             if (listener != null)
             {
-               listener.onNewDataMessage(FastRTPSSubscriber.this);
+               listener.onNewDataMessage(FastDDSSubscriber.this);
             }
 
             ++numberOfReceivedMessages;
@@ -111,7 +111,7 @@ class FastRTPSSubscriber<T> implements Subscriber<T>
       payload.getData().limit(dataLength);
    }
 
-   FastRTPSSubscriber(TopicDataType<T> topicDataTypeIn, SubscriberAttributes attrs, SubscriberListener<T> listener, NativeParticipantImpl participantImpl)
+   FastDDSSubscriber(TopicDataType<T> topicDataTypeIn, SubscriberAttributes attrs, SubscriberListener<T> listener, NativeParticipantImpl participantImpl)
          throws IOException
    {
       synchronized (destructorLock)

@@ -2,7 +2,7 @@ package us.ihmc.pubsub.attributes;
 
 import com.eprosima.xmlschemas.fastrtps_profiles.*;
 import us.ihmc.pubsub.common.Time;
-import us.ihmc.pubsub.impl.fastRTPS.FastRTPSDomain;
+import us.ihmc.pubsub.fastdds.FastDDSDomain;
 
 import java.io.IOException;
 
@@ -75,7 +75,7 @@ public class PublisherAttributes extends CommonAttributes<PublisherAttributes>
       ProfilesType profilesType = new ProfilesType();
       profilesType.getDomainparticipantFactoryOrParticipantOrDataWriter().add(publisherProfile);
 
-      return FastRTPSDomain.marshalProfile(profilesType);
+      return FastDDSDomain.marshalProfile(profilesType);
    }
 
    @Override

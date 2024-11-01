@@ -13,18 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package us.ihmc.pubsub.impl.fastRTPS;
+package us.ihmc.pubsub.fastdds;
 
 import us.ihmc.pubsub.common.DiscoveryStatus;
 import us.ihmc.pubsub.participant.ParticipantDiscoveryInfo;
 import us.ihmc.rtps.impl.fastRTPS.NativeParticipantListener;
 
-public class FastRTPSParticipantDiscoveryInfo extends ParticipantDiscoveryInfo
+public class FastDDSParticipantDiscoveryInfo extends ParticipantDiscoveryInfo
 {
    private NativeParticipantListener participant;
    private long infoPtr;
 
-   FastRTPSParticipantDiscoveryInfo()
+   FastDDSParticipantDiscoveryInfo()
    {
 
    }

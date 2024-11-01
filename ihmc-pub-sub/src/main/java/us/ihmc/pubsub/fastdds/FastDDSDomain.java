@@ -7,10 +7,13 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package us.ihmc.pubsub.impl.fastRTPS;
+package us.ihmc.pubsub.fastdds;
 
 import com.eprosima.xmlschemas.fastrtps_profiles.Dds;
 import com.eprosima.xmlschemas.fastrtps_profiles.ProfilesType;
+import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.JAXBException;
+import jakarta.xml.bind.Marshaller;
 import org.apache.commons.lang3.SystemUtils;
 import us.ihmc.commons.thread.ThreadTools;
 import us.ihmc.pubsub.Domain;
@@ -28,15 +31,12 @@ import us.ihmc.pubsub.subscriber.SubscriberListener;
 import us.ihmc.rtps.impl.fastRTPS.FastRTPSJNI;
 import us.ihmc.tools.nativelibraries.NativeLibraryLoader;
 
-import jakarta.xml.bind.JAXBContext;
-import jakarta.xml.bind.JAXBException;
-import jakarta.xml.bind.Marshaller;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FastRTPSDomain implements Domain
+public class FastDDSDomain implements Domain
 {
    public static final String FAST_DDS_DISCOVERY_CONFIGURABLE_PREFIX = "44.53.%02X.5f.45.50.52.4f.53.49.4d.41";
    public static final String FAST_DDS_XML_NAMESPACE = "http://www.eprosima.com/XMLSchemas/fastRTPS_Profiles";
@@ -49,31 +49,17 @@ public class FastRTPSDomain implements Domain
    public static final String FAST_DDS_SEC = "sec";
    public static final int DEFAULT_DISCOVERY_SERVER_PORT = 11811;
 
-   private final ArrayList<FastRTPSParticipant> participants = new ArrayList<>();
+   private final ArrayList<FastDDSParticipant> participants = new ArrayList<>();
    private final ArrayList<Participant> allParticipantsForStatistics = new ArrayList<>();
 
-   private static boolean useSystemFastRTPS = false;
-   private static FastRTPSDomain instance = null;
+   private static FastDDSDomain instance = null;
 
    /** This method will create the instance if it does not exist. */
-   public static synchronized FastRTPSDomain getInstance(boolean useSystemFastRTPS)
+   public static synchronized FastDDSDomain getInstance()
    {
       if (instance == null)
       {
-         FastRTPSDomain.useSystemFastRTPS = useSystemFastRTPS;
-         instance = new FastRTPSDomain(useSystemFastRTPS);
-      }
-
-      if (FastRTPSDomain.useSystemFastRTPS != useSystemFastRTPS)
-      {
-         if (useSystemFastRTPS)
-         {
-            throw new RuntimeException("Loading FastRTPS using the system FastRTPS library, but the builtin FastRTPS library is already loaded.");
-         }
-         else
-         {
-            throw new RuntimeException("Loading FastRTPS using the builtin FastRTPS library, but the system FastRTPS library is already loaded.");
-         }
+         instance = new FastDDSDomain();
       }
 
       return instance;
@@ -85,23 +71,16 @@ public class FastRTPSDomain implements Domain
       return instance;
    }
 
-   private FastRTPSDomain(boolean useSystemFastRTPS)
+   private FastDDSDomain()
    {
       try
       {
-         if (useSystemFastRTPS)
-         {
-            System.loadLibrary("FastRTPSWrapper");
-         }
-         else
-         {
-            NativeLibraryLoader.loadLibrary(new FastRTPSNativeLibrary());
+         NativeLibraryLoader.loadLibrary(new FastDDSNativeLibrary());
 
-            // Force initialization of the FastRTPS class by setting the log level. This allows early bailout if there are linking errors.
-            FastRTPSJNI.LogLevel_setLogLevel(0);
-         }
+         // Force initialization of the FastRTPS class by setting the log level. This allows early bailout if there are linking errors.
+         FastRTPSJNI.LogLevel_setLogLevel(0);
       }
-      catch (UnsatisfiedLinkError e)
+      catch (Error e)
       {
          if (SystemUtils.IS_OS_WINDOWS)
          {
@@ -118,7 +97,7 @@ public class FastRTPSDomain implements Domain
    @Override
    public synchronized Participant createParticipant(ParticipantProfile att, ParticipantListener participantListener) throws IOException
    {
-      FastRTPSParticipant participant = new FastRTPSParticipant(att, participantListener);
+      FastDDSParticipant participant = new FastDDSParticipant(att, participantListener);
       participants.add(participant);
       synchronized (allParticipantsForStatistics)
       {
@@ -133,11 +112,11 @@ public class FastRTPSDomain implements Domain
    {
       Publisher publisher = null;
 
-      for (FastRTPSParticipant fastRTPSParticipant : participants)
+      for (FastDDSParticipant fastDDSParticipant : participants)
       {
-         if (fastRTPSParticipant == participant)
+         if (fastDDSParticipant == participant)
          {
-            publisher = fastRTPSParticipant.createPublisher(att, listener);
+            publisher = fastDDSParticipant.createPublisher(att, listener);
             break;
          }
       }
@@ -159,11 +138,11 @@ public class FastRTPSDomain implements Domain
 
       Subscriber subscriber = null;
 
-      for (FastRTPSParticipant fastRTPSParticipant : participants)
+      for (FastDDSParticipant fastDDSParticipant : participants)
       {
-         if (fastRTPSParticipant == participant)
+         if (fastDDSParticipant == participant)
          {
-            subscriber = fastRTPSParticipant.createSubscriber(attrs, listener);
+            subscriber = fastDDSParticipant.createSubscriber(attrs, listener);
             break;
          }
       }

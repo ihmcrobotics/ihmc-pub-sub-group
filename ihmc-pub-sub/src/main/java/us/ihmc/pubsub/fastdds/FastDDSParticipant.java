@@ -7,7 +7,7 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package us.ihmc.pubsub.impl.fastRTPS;
+package us.ihmc.pubsub.fastdds;
 
 import us.ihmc.pubsub.TopicDataType;
 import us.ihmc.pubsub.attributes.ParticipantProfile;
@@ -29,13 +29,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.UUID;
 
-class FastRTPSParticipant implements Participant
+class FastDDSParticipant implements Participant
 {
    private final NativeParticipantImpl impl;
 
    private final ArrayList<TopicDataType<?>> types = new ArrayList<>();
-   private final ArrayList<FastRTPSPublisher> publishers = new ArrayList<>();
-   private final ArrayList<FastRTPSSubscriber> subscribers = new ArrayList<>();
+   private final ArrayList<FastDDSPublisher> publishers = new ArrayList<>();
+   private final ArrayList<FastDDSSubscriber> subscribers = new ArrayList<>();
    private final ArrayList<Publisher> allPublishersForStatistics = new ArrayList<>();
    private final ArrayList<Subscriber<?>> allSubscribersForStatistics = new ArrayList<>();
 
@@ -53,7 +53,7 @@ class FastRTPSParticipant implements Participant
 
    private class NativeParticipantListenerImpl extends NativeParticipantListener
    {
-      private final FastRTPSParticipantDiscoveryInfo discoveryInfo = new FastRTPSParticipantDiscoveryInfo();
+      private final FastDDSParticipantDiscoveryInfo discoveryInfo = new FastDDSParticipantDiscoveryInfo();
 
       @Override
       public void onParticipantDiscovery(long infoPtr, long guidHigh, long guidLow, int discoveryStatus)
@@ -64,7 +64,7 @@ class FastRTPSParticipant implements Participant
             {
                System.out.println("infoPtr = " + infoPtr + ", guidHigh = " + guidHigh + ", guidLow = " + guidLow + ", status = " + discoveryStatus);
                discoveryInfo.updateInfo(discoveryStatus, this, infoPtr, guidHigh, guidLow);
-               participantListener.onParticipantDiscovery(FastRTPSParticipant.this, discoveryInfo);
+               participantListener.onParticipantDiscovery(FastDDSParticipant.this, discoveryInfo);
             }
          }
          catch (Throwable e)
@@ -74,7 +74,7 @@ class FastRTPSParticipant implements Participant
       }
    }
 
-   FastRTPSParticipant(ParticipantProfile attrs, ParticipantListener participantListener) throws IOException, IllegalArgumentException
+   FastDDSParticipant(ParticipantProfile attrs, ParticipantListener participantListener) throws IOException, IllegalArgumentException
    {
       String profileName = UUID.randomUUID().toString();
       String profileXML = attrs.marshall(profileName);
@@ -186,7 +186,7 @@ class FastRTPSParticipant implements Participant
       return null;
    }
 
-   synchronized FastRTPSPublisher createPublisher(PublisherAttributes attrs, PublisherListener listener)
+   synchronized FastDDSPublisher createPublisher(PublisherAttributes attrs, PublisherListener listener)
          throws IOException, IllegalArgumentException
    {
       TopicDataType<?> topicDataType = getRegisteredType(attrs.getTopicDataType().getName());
@@ -204,7 +204,7 @@ class FastRTPSParticipant implements Participant
       }
 
 
-      FastRTPSPublisher publisher = new FastRTPSPublisher(topicDataType, attrs, listener, impl);
+      FastDDSPublisher publisher = new FastDDSPublisher(topicDataType, attrs, listener, impl);
       publishers.add(publisher);
       synchronized (allPublishersForStatistics)
       {
@@ -229,7 +229,7 @@ class FastRTPSParticipant implements Participant
          }
       }
 
-      FastRTPSSubscriber subscriber = new FastRTPSSubscriber(topicDataType, attrs, listener, impl);
+      FastDDSSubscriber subscriber = new FastDDSSubscriber(topicDataType, attrs, listener, impl);
       subscribers.add(subscriber);
       synchronized (allSubscribersForStatistics)
       {

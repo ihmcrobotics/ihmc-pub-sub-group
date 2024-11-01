@@ -5,7 +5,7 @@ import com.eprosima.xmlschemas.fastrtps_profiles.LocatorListType.Locator;
 import com.eprosima.xmlschemas.fastrtps_profiles.ParticipantProfileType.Rtps;
 import com.eprosima.xmlschemas.fastrtps_profiles.TransportDescriptorType.InterfaceWhiteList;
 import us.ihmc.pubsub.common.Time;
-import us.ihmc.pubsub.impl.fastRTPS.FastRTPSDomain;
+import us.ihmc.pubsub.fastdds.FastDDSDomain;
 
 import jakarta.xml.bind.JAXBElement;
 import javax.xml.namespace.QName;
@@ -83,7 +83,7 @@ public class ParticipantProfile
    
    public ParticipantProfile discoveryServer(String discoveryServerAddress, int discoveryServerId)
    {
-      return discoveryServer(discoveryServerAddress, discoveryServerId, FastRTPSDomain.DEFAULT_DISCOVERY_SERVER_PORT);
+      return discoveryServer(discoveryServerAddress, discoveryServerId, FastDDSDomain.DEFAULT_DISCOVERY_SERVER_PORT);
    }
 
    public ParticipantProfile discoveryServer(String discoveryServerAddress, int discoveryServerId, int discoveryServerPort)
@@ -111,10 +111,10 @@ public class ParticipantProfile
 
       RemoteServerAttributesType remoteServerAttributes = new RemoteServerAttributesType();
       remoteServerAttributes.getContent()
-                            .add(new JAXBElement<>(new QName(FastRTPSDomain.FAST_DDS_XML_NAMESPACE, FastRTPSDomain.FAST_DDS_METATRAFFIC_UNICAST_LOCATOR_LIST),
+                            .add(new JAXBElement<>(new QName(FastDDSDomain.FAST_DDS_XML_NAMESPACE, FastDDSDomain.FAST_DDS_METATRAFFIC_UNICAST_LOCATOR_LIST),
                                                    LocatorListType.class,
                                                    locatorListType));
-      remoteServerAttributes.setPrefix(String.format(FastRTPSDomain.FAST_DDS_DISCOVERY_CONFIGURABLE_PREFIX, discoveryServerId));
+      remoteServerAttributes.setPrefix(String.format(FastDDSDomain.FAST_DDS_DISCOVERY_CONFIGURABLE_PREFIX, discoveryServerId));
 
       DiscoveryServersListType discoveryServerList = profileType.getRtps().getBuiltin().getDiscoveryConfig().getDiscoveryServersList();
       discoveryServerList.getRemoteServer().add(remoteServerAttributes);
@@ -155,7 +155,7 @@ public class ParticipantProfile
 
          for (InetAddress addr : bindToAddressRestrictions)
          {
-            JAXBElement<String> addressElement = new JAXBElement<>(new QName(FastRTPSDomain.FAST_DDS_XML_NAMESPACE, "address"), String.class, addr.getHostAddress());
+            JAXBElement<String> addressElement = new JAXBElement<>(new QName(FastDDSDomain.FAST_DDS_XML_NAMESPACE, "address"), String.class, addr.getHostAddress());
             addressWhitelist.getAddressOrInterface().add(addressElement);
          }
          
@@ -252,7 +252,7 @@ public class ParticipantProfile
       profilesType.getDomainparticipantFactoryOrParticipantOrDataWriter().add(transportDescriptors);
       profilesType.getDomainparticipantFactoryOrParticipantOrDataWriter().add(profileType);
 
-      String profileXML =FastRTPSDomain.marshalProfile(profilesType);
+      String profileXML = FastDDSDomain.marshalProfile(profilesType);
 //      profileXML = Pattern.compile("<id>(.*)<\\/id>").matcher(profileXML).replaceAll("<transport_id>$1<\\/transport_id>");
 
       return profileXML;

@@ -1,9 +1,9 @@
-package us.ihmc.pubsub.impl.fastRTPS;
+package us.ihmc.pubsub.fastdds;
 
 import us.ihmc.tools.nativelibraries.NativeLibraryDescription;
 import us.ihmc.tools.nativelibraries.NativeLibraryWithDependencies;
 
-class FastRTPSNativeLibrary implements NativeLibraryDescription
+class FastDDSNativeLibrary implements NativeLibraryDescription
 {
    /**
     * Get the package name for the library

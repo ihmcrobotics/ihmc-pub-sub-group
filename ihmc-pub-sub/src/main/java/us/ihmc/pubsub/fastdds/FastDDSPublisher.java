@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package us.ihmc.pubsub.impl.fastRTPS;
+package us.ihmc.pubsub.fastdds;
 
 import us.ihmc.pubsub.TopicDataType;
 import us.ihmc.pubsub.attributes.PublisherAttributes;
@@ -30,7 +30,7 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.UUID;
 
-class FastRTPSPublisher implements Publisher
+class FastDDSPublisher implements Publisher
 {
    private final Object destructorLock = new Object(); 
 
@@ -63,7 +63,7 @@ class FastRTPSPublisher implements Publisher
             {
                matchingInfo.getGuid().fromPrimitives(guidHigh, guidLow);
                matchingInfo.setStatus(MatchingInfo.MatchingStatus.values[matchingStatus]);
-               listener.onPublicationMatched(FastRTPSPublisher.this, matchingInfo);
+               listener.onPublicationMatched(FastDDSPublisher.this, matchingInfo);
             }
          }
          catch (Throwable e)
@@ -74,8 +74,8 @@ class FastRTPSPublisher implements Publisher
    }
 
    @SuppressWarnings("unchecked")
-   FastRTPSPublisher(TopicDataType<?> topicDataTypeIn, PublisherAttributes attributes, PublisherListener listener,
-                     NativeParticipantImpl participant)
+   FastDDSPublisher(TopicDataType<?> topicDataTypeIn, PublisherAttributes attributes, PublisherListener listener,
+                    NativeParticipantImpl participant)
          throws IOException, IllegalArgumentException
    {
       synchronized (destructorLock)

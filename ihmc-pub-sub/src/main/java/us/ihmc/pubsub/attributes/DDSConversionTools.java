@@ -2,7 +2,7 @@ package us.ihmc.pubsub.attributes;
 
 import com.eprosima.xmlschemas.fastrtps_profiles.DurationType;
 import us.ihmc.pubsub.common.Time;
-import us.ihmc.pubsub.impl.fastRTPS.FastRTPSDomain;
+import us.ihmc.pubsub.fastdds.FastDDSDomain;
 
 import jakarta.xml.bind.JAXBElement;
 import javax.xml.namespace.QName;
@@ -24,8 +24,8 @@ public class DDSConversionTools
    public static DurationType timeToDurationType(Time time)
    {
       DurationType dt = new DurationType();
-      JAXBElement<String> nanosec = new JAXBElement<>(new QName(FastRTPSDomain.FAST_DDS_XML_NAMESPACE, FastRTPSDomain.FAST_DDS_NANOSEC), String.class, Long.toString(time.getNanoseconds()));
-      JAXBElement<String> sec = new JAXBElement<>(new QName(FastRTPSDomain.FAST_DDS_XML_NAMESPACE, FastRTPSDomain.FAST_DDS_SEC), String.class, Integer.toString(time.getSeconds()));
+      JAXBElement<String> nanosec = new JAXBElement<>(new QName(FastDDSDomain.FAST_DDS_XML_NAMESPACE, FastDDSDomain.FAST_DDS_NANOSEC), String.class, Long.toString(time.getNanoseconds()));
+      JAXBElement<String> sec = new JAXBElement<>(new QName(FastDDSDomain.FAST_DDS_XML_NAMESPACE, FastDDSDomain.FAST_DDS_SEC), String.class, Integer.toString(time.getSeconds()));
       dt.getSecOrNanosec().add(nanosec);
       dt.getSecOrNanosec().add(sec);
       return dt;
@@ -48,8 +48,8 @@ public class DDSConversionTools
       {
          switch (e.getName().getLocalPart())
          {
-            case FastRTPSDomain.FAST_DDS_NANOSEC -> time.setNanoseconds(Long.parseLong(e.getValue().toString()));
-            case FastRTPSDomain.FAST_DDS_SEC -> time.setSeconds(Integer.parseInt(e.getValue().toString()));
+            case FastDDSDomain.FAST_DDS_NANOSEC -> time.setNanoseconds(Long.parseLong(e.getValue().toString()));
+            case FastDDSDomain.FAST_DDS_SEC -> time.setSeconds(Integer.parseInt(e.getValue().toString()));
          }
       }
       return time;
