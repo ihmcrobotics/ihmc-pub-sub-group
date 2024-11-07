@@ -1,4 +1,5 @@
 # IHMC Pub Sub
+# Now combined with [ihmc-java-ros2-communication](https://github.com/ihmcrobotics/ihmc-java-ros2-communication)
 ![buildstatus](https://github.com/ihmcrobotics/ihmc-pub-sub-group/actions/workflows/build-natives.yml/badge.svg)
 ![buildstatus](https://github.com/ihmcrobotics/ihmc-pub-sub-group/actions/workflows/run-gradle-test-all-platforms.yml/badge.svg)
 ![buildstatus](https://github.com/ihmcrobotics/ihmc-pub-sub-group/actions/workflows/run-gradle-test-linux-self-hosted.yml/badge.svg)
